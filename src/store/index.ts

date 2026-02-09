@@ -1,0 +1,589 @@
+import { create } from 'zustand';
+import { persist, devtools } from 'zustand/middleware';
+import type {
+  User,
+  UserPreferences,
+  UserStats,
+  LearningProgress,
+  Streak,
+  PrayerTimes,
+  IslamicDate,
+  Notification,
+  Achievement,
+  Course,
+  Adhkar,
+  Dua,
+} from '@/types';
+
+// ==================== USER STORE ====================
+
+interface UserState {
+  user: User | null;
+  isAuthenticated: boolean;
+  isLoading: boolean;
+  error: string | null;
+  
+  setUser: (user: User | null) => void;
+  setLoading: (loading: boolean) => void;
+  setError: (error: string | null) => void;
+  logout: () => void;
+  updatePreferences: (preferences: Partial<UserPreferences>) => void;
+  updateStats: (stats: Partial<UserStats>) => void;
+  addPoints: (points: number) => void;
+}
+
+export const useUserStore = create<UserState>()(
+  devtools(
+    persist(
+      (set) => ({
+        user: null,
+        isAuthenticated: false,
+        isLoading: false,
+        error: null,
+        
+        setUser: (user) => set({ user, isAuthenticated: !!user }),
+        setLoading: (isLoading) => set({ isLoading }),
+        setError: (error) => set({ error }),
+        logout: () => set({ user: null, isAuthenticated: false }),
+        updatePreferences: (preferences) =>
+          set((state) => ({
+            user: state.user
+              ? { ...state.user, preferences: { ...state.user.preferences, ...preferences } }
+              : null,
+          })),
+        updateStats: (stats) =>
+          set((state) => ({
+            user: state.user
+              ? { ...state.user, stats: { ...state.user.stats, ...stats } }
+              : null,
+          })),
+        addPoints: (points) =>
+          set((state) => ({
+            user: state.user
+              ? {
+                  ...state.user,
+                  stats: { ...state.user.stats, totalPoints: state.user.stats.totalPoints + points },
+                }
+              : null,
+          })),
+      }),
+      { name: 'islamly-user' }
+    )
+  )
+);
+
+// ==================== LEARNING STORE ====================
+
+interface LearningState {
+  currentCourse: Course | null;
+  currentLesson: string | null;
+  learningProgress: Record<string, LearningProgress>;
+  completedLessons: string[];
+  favoriteSurahs: number[];
+  memorizationProgress: Record<string, number>;
+  lastStudyTime: Date | null;
+  
+  setCurrentCourse: (course: Course | null) => void;
+  setCurrentLesson: (lessonId: string | null) => void;
+  updateProgress: (courseId: string, progress: Partial<LearningProgress>) => void;
+  completeLesson: (courseId: string, lessonId: string) => void;
+  toggleFavoriteSurah: (surahNumber: number) => void;
+  updateMemorizationProgress: (surahNumber: number, ayahNumber: number) => void;
+  setLastStudyTime: (time: Date) => void;
+  resetProgress: (courseId: string) => void;
+}
+
+export const useLearningStore = create<LearningState>()(
+  devtools((set) => ({
+    currentCourse: null,
+    currentLesson: null,
+    learningProgress: {},
+    completedLessons: [],
+    favoriteSurahs: [],
+    memorizationProgress: {},
+    lastStudyTime: null,
+    
+    setCurrentCourse: (course) => set({ currentCourse: course }),
+    setCurrentLesson: (lessonId) => set({ currentLesson: lessonId }),
+    updateProgress: (courseId, progress) =>
+      set((state) => ({
+        learningProgress: {
+          ...state.learningProgress,
+          [courseId]: { ...state.learningProgress[courseId], ...progress } as LearningProgress,
+        },
+      })),
+    completeLesson: (courseId, lessonId) =>
+      set((state) => ({
+        completedLessons: [...new Set([...state.completedLessons, lessonId])],
+        learningProgress: {
+          ...state.learningProgress,
+          [courseId]: {
+            ...state.learningProgress[courseId],
+            completedLessons: [...(state.learningProgress[courseId]?.completedLessons || []), lessonId],
+            lastActivityAt: new Date(),
+          } as LearningProgress,
+        },
+      })),
+    toggleFavoriteSurah: (surahNumber) =>
+      set((state) => ({
+        favoriteSurahs: state.favoriteSurahs.includes(surahNumber)
+          ? state.favoriteSurahs.filter((n) => n !== surahNumber)
+          : [...state.favoriteSurahs, surahNumber],
+      })),
+    updateMemorizationProgress: (surahNumber, ayahNumber) =>
+      set((state) => ({
+        memorizationProgress: { ...state.memorizationProgress, [`${surahNumber}-${ayahNumber}`]: Date.now() },
+      })),
+    setLastStudyTime: (time) => set({ lastStudyTime: time }),
+    resetProgress: (courseId) =>
+      set((state) => ({
+        learningProgress: { ...state.learningProgress, [courseId]: undefined },
+        completedLessons: state.completedLessons.filter(
+          (id) => !state.learningProgress[courseId]?.completedLessons.includes(id)
+        ),
+      })),
+  }))
+);
+
+// ==================== STREAK STORE ====================
+
+interface StreakState {
+  streak: Streak | null;
+  dailyGoal: number;
+  todayProgress: number;
+  
+  setStreak: (streak: Streak) => void;
+  incrementStreak: () => void;
+  resetStreak: () => void;
+  setDailyGoal: (goal: number) => void;
+  updateTodayProgress: (progress: number) => void;
+  addMilestone: (days: number, reward?: string) => void;
+}
+
+export const useStreakStore = create<StreakState>()(
+  devtools(
+    persist(
+      (set) => ({
+        streak: null,
+        dailyGoal: 30,
+        todayProgress: 0,
+        
+        setStreak: (streak) => set({ streak }),
+        incrementStreak: () =>
+          set((state) => ({
+            streak: state.streak
+              ? {
+                  ...state.streak,
+                  currentStreak: state.streak.currentStreak + 1,
+                  longestStreak: Math.max(state.streak.longestStreak, state.streak.currentStreak + 1),
+                  lastActivityDate: new Date(),
+                }
+              : {
+                  id: 'default', userId: 'default', currentStreak: 1, longestStreak: 1,
+                  totalDays: 1, lastActivityDate: new Date(), milestones: [],
+                },
+          })),
+        resetStreak: () => set((state) => ({
+          streak: state.streak ? { ...state.streak, currentStreak: 0 } : null,
+        })),
+        setDailyGoal: (goal) => set({ dailyGoal: goal }),
+        updateTodayProgress: (progress) =>
+          set((state) => ({ todayProgress: Math.min(progress, state.dailyGoal) })),
+        addMilestone: (days, reward) =>
+          set((state) => ({
+            streak: state.streak
+              ? { ...state.streak, milestones: [...state.streak.milestones, { days, achievedAt: new Date(), reward }] }
+              : null,
+          })),
+      }),
+      { name: 'islamly-streak' }
+    )
+  )
+);
+
+// ==================== PRAYER TIMES STORE ====================
+
+interface PrayerState {
+  prayerTimes: PrayerTimes | null;
+  nextPrayer: { name: string; time: string; countdown: string } | null;
+  currentPrayer: string | null;
+  notifications: boolean;
+  adhanSound: boolean;
+  location: { lat: number; lng: number; city?: string } | null;
+  
+  setPrayerTimes: (times: PrayerTimes) => void;
+  setNextPrayer: (prayer: { name: string; time: string; countdown: string } | null) => void;
+  setCurrentPrayer: (prayer: string | null) => void;
+  toggleNotifications: () => void;
+  toggleAdhan: () => void;
+  setLocation: (location: { lat: number; lng: number; city?: string } | null) => void;
+}
+
+export const usePrayerStore = create<PrayerState>()(
+  devtools(
+    persist(
+      (set) => ({
+        prayerTimes: null,
+        nextPrayer: null,
+        currentPrayer: null,
+        notifications: true,
+        adhanSound: true,
+        location: null,
+        
+        setPrayerTimes: (times) => set({ prayerTimes: times }),
+        setNextPrayer: (prayer) => set({ nextPrayer: prayer }),
+        setCurrentPrayer: (prayer) => set({ currentPrayer: prayer }),
+        toggleNotifications: () => set((state) => ({ notifications: !state.notifications })),
+        toggleAdhan: () => set((state) => ({ adhanSound: !state.adhanSound })),
+        setLocation: (location) => set({ location }),
+      }),
+      { name: 'islamly-prayer' }
+    )
+  )
+);
+
+// ==================== ISLAMIC DATE STORE ====================
+
+interface IslamicDateState {
+  currentDate: IslamicDate | null;
+  hijriMonth: number;
+  hijriYear: number;
+  ramadanActive: boolean;
+  events: IslamicDate['events'];
+  
+  setCurrentDate: (date: IslamicDate) => void;
+  setRamadanActive: (active: boolean) => void;
+  setEvents: (events: IslamicDate['events']) => void;
+  navigateMonth: (direction: 'prev' | 'next') => void;
+}
+
+export const useIslamicDateStore = create<IslamicDateState>()(
+  devtools(
+    persist(
+      (set) => ({
+        currentDate: null,
+        hijriMonth: 0,
+        hijriYear: 0,
+        ramadanActive: false,
+        events: [],
+        
+        setCurrentDate: (date) => set({
+          currentDate: date,
+          hijriMonth: date.month,
+          hijriYear: date.year,
+          ramadanActive: date.isRamadan,
+        }),
+        setRamadanActive: (active) => set({ ramadanActive: active }),
+        setEvents: (events) => set({ events }),
+        navigateMonth: (direction) =>
+          set((state) => ({
+            hijriMonth: direction === 'next'
+              ? (state.hijriMonth % 12) + 1
+              : state.hijriMonth === 1 ? 12 : state.hijriMonth - 1,
+            hijriYear: direction === 'next' && state.hijriMonth === 12
+              ? state.hijriYear + 1
+              : direction === 'prev' && state.hijriMonth === 1
+              ? state.hijriYear - 1
+              : state.hijriYear,
+          })),
+      }),
+      { name: 'islamly-islamic-date' }
+    )
+  )
+);
+
+// ==================== NOTIFICATIONS STORE ====================
+
+interface NotificationState {
+  notifications: Notification[];
+  unreadCount: number;
+  isDrawerOpen: boolean;
+  
+  setNotifications: (notifications: Notification[]) => void;
+  addNotification: (notification: Notification) => void;
+  markAsRead: (id: string) => void;
+  markAllAsRead: () => void;
+  removeNotification: (id: string) => void;
+  clearAll: () => void;
+  toggleDrawer: () => void;
+}
+
+export const useNotificationStore = create<NotificationState>()(
+  devtools((set) => ({
+    notifications: [],
+    unreadCount: 0,
+    isDrawerOpen: false,
+    
+    setNotifications: (notifications) => set({
+      notifications,
+      unreadCount: notifications.filter((n) => !n.isRead).length,
+    }),
+    addNotification: (notification) => set((state) => ({
+      notifications: [notification, ...state.notifications],
+      unreadCount: state.unreadCount + (notification.isRead ? 0 : 1),
+    })),
+    markAsRead: (id) => set((state) => ({
+      notifications: state.notifications.map((n) =>
+        n.id === id ? { ...n, isRead: true, readAt: new Date() } : n
+      ),
+      unreadCount: Math.max(0, state.unreadCount - 1),
+    })),
+    markAllAsRead: () => set((state) => ({
+      notifications: state.notifications.map((n) => ({ ...n, isRead: true, readAt: new Date() })),
+      unreadCount: 0,
+    })),
+    removeNotification: (id) => set((state) => {
+      const notification = state.notifications.find((n) => n.id === id);
+      return {
+        notifications: state.notifications.filter((n) => n.id !== id),
+        unreadCount: notification?.isRead ? state.unreadCount : Math.max(0, state.unreadCount - 1),
+      };
+    }),
+    clearAll: () => set({ notifications: [], unreadCount: 0 }),
+    toggleDrawer: () => set((state) => ({ isDrawerOpen: !state.isDrawerOpen })),
+  }))
+);
+
+// ==================== ADHKAR STORE ====================
+
+interface AdhkarState {
+  dailyAdhkars: Adhkar[];
+  completedAdhkars: string[];
+  customAdhkars: Adhkar[];
+  reminderEnabled: boolean;
+  reminderTime: string;
+  
+  setDailyAdhkars: (adhkars: Adhkar[]) => void;
+  markAdhkarComplete: (id: string) => void;
+  unmarkAdhkarComplete: (id: string) => void;
+  addCustomAdhkar: (adhkar: Adhkar) => void;
+  removeCustomAdhkar: (id: string) => void;
+  toggleReminder: () => void;
+  setReminderTime: (time: string) => void;
+  resetDailyProgress: () => void;
+}
+
+export const useAdhkarStore = create<AdhkarState>()(
+  devtools(
+    persist(
+      (set) => ({
+        dailyAdhkars: [],
+        completedAdhkars: [],
+        customAdhkars: [],
+        reminderEnabled: true,
+        reminderTime: '08:00',
+        
+        setDailyAdhkars: (adhkars) => set({ dailyAdhkars: adhkars }),
+        markAdhkarComplete: (id) =>
+          set((state) => ({
+            completedAdhkars: [...new Set([...state.completedAdhkars, id])],
+          })),
+        unmarkAdhkarComplete: (id) =>
+          set((state) => ({
+            completedAdhkars: state.completedAdhkars.filter((i) => i !== id),
+          })),
+        addCustomAdhkar: (adhkar) =>
+          set((state) => ({
+            customAdhkars: [...state.customAdhkars, adhkar],
+          })),
+        removeCustomAdhkar: (id) =>
+          set((state) => ({
+            customAdhkars: state.customAdhkars.filter((a) => a.id !== id),
+          })),
+        toggleReminder: () =>
+          set((state) => ({ reminderEnabled: !state.reminderEnabled })),
+        setReminderTime: (time) => set({ reminderTime: time }),
+        resetDailyProgress: () => set({ completedAdhkars: [] }),
+      }),
+      { name: 'islamly-adhkar' }
+    )
+  )
+);
+
+// ==================== DUA STORE ====================
+
+interface DuaState {
+  favoriteDuas: Dua[];
+  recentDuas: Dua[];
+  duasByCategory: Record<string, Dua[]>;
+  
+  addFavoriteDua: (dua: Dua) => void;
+  removeFavoriteDua: (id: string) => void;
+  addRecentDua: (dua: Dua) => void;
+  setDuasByCategory: (category: string, duas: Dua[]) => void;
+}
+
+export const useDuaStore = create<DuaState>()(
+  devtools(
+    persist(
+      (set) => ({
+        favoriteDuas: [],
+        recentDuas: [],
+        duasByCategory: {},
+        
+        addFavoriteDua: (dua) =>
+          set((state) => ({
+            favoriteDuas: [...state.favoriteDuas, dua],
+          })),
+        removeFavoriteDua: (id) =>
+          set((state) => ({
+            favoriteDuas: state.favoriteDuas.filter((d) => d.id !== id),
+          })),
+        addRecentDua: (dua) =>
+          set((state) => ({
+            recentDuas: [dua, ...state.recentDuas]
+              .filter((d, i, arr) => arr.findIndex((a) => a.id === d.id) === i)
+              .slice(0, 10),
+          })),
+        setDuasByCategory: (category, duas) =>
+          set((state) => ({
+            duasByCategory: { ...state.duasByCategory, [category]: duas },
+          })),
+      }),
+      { name: 'islamly-dua' }
+    )
+  )
+);
+
+// ==================== UI STORE ====================
+
+interface UIState {
+  theme: 'light' | 'dark' | 'system';
+  sidebarOpen: boolean;
+  sidebarCollapsed: boolean;
+  rtlMode: boolean;
+  fontSize: 'small' | 'medium' | 'large';
+  showTranslations: boolean;
+  showTafsir: boolean;
+  tajweedEnabled: boolean;
+  
+  setTheme: (theme: 'light' | 'dark' | 'system') => void;
+  toggleSidebar: () => void;
+  setSidebarCollapsed: (collapsed: boolean) => void;
+  toggleRtl: () => void;
+  setFontSize: (size: 'small' | 'medium' | 'large') => void;
+  toggleTranslations: () => void;
+  toggleTafsir: () => void;
+  toggleTajweed: () => void;
+}
+
+export const useUIStore = create<UIState>()(
+  devtools(
+    persist(
+      (set) => ({
+        theme: 'system',
+        sidebarOpen: true,
+        sidebarCollapsed: false,
+        rtlMode: true,
+        fontSize: 'medium',
+        showTranslations: true,
+        showTafsir: false,
+        tajweedEnabled: true,
+        
+        setTheme: (theme) => set({ theme }),
+        toggleSidebar: () => set((state) => ({ sidebarOpen: !state.sidebarOpen })),
+        setSidebarCollapsed: (collapsed) => set({ sidebarCollapsed: collapsed }),
+        toggleRtl: () => set((state) => ({ rtlMode: !state.rtlMode })),
+        setFontSize: (size) => set({ fontSize: size }),
+        toggleTranslations: () =>
+          set((state) => ({ showTranslations: !state.showTranslations })),
+        toggleTafsir: () => set((state) => ({ showTafsir: !state.showTafsir })),
+        toggleTajweed: () => set((state) => ({ tajweedEnabled: !state.tajweedEnabled })),
+      }),
+      { name: 'islamly-ui' }
+    )
+  )
+);
+
+// ==================== SEARCH STORE ====================
+
+interface SearchState {
+  query: string;
+  results: any[];
+  recentSearches: string[];
+  isSearching: boolean;
+  filters: { type?: string[]; category?: string; language?: string };
+  
+  setQuery: (query: string) => void;
+  setResults: (results: any[]) => void;
+  addRecentSearch: (search: string) => void;
+  clearRecentSearches: () => void;
+  setSearching: (searching: boolean) => void;
+  setFilters: (filters: Partial<SearchState['filters']>) => void;
+  clearSearch: () => void;
+}
+
+export const useSearchStore = create<SearchState>()(
+  devtools(
+    persist(
+      (set) => ({
+        query: '',
+        results: [],
+        recentSearches: [],
+        isSearching: false,
+        filters: {},
+        
+        setQuery: (query) => set({ query }),
+        setResults: (results) => set({ results }),
+        addRecentSearch: (search) =>
+          set((state) => ({
+            recentSearches: [search, ...state.recentSearches]
+              .filter((s, i, arr) => arr.indexOf(s) === i)
+              .slice(0, 10),
+          })),
+        clearRecentSearches: () => set({ recentSearches: [] }),
+        setSearching: (isSearching) => set({ isSearching }),
+        setFilters: (filters) =>
+          set((state) => ({ filters: { ...state.filters, ...filters } })),
+        clearSearch: () => set({ query: '', results: [], filters: {} }),
+      }),
+      { name: 'islamly-search' }
+    )
+  )
+);
+
+// ==================== AUDIO STORE ====================
+
+interface AudioState {
+  currentReciter: string;
+  playbackSpeed: number;
+  isPlaying: boolean;
+  currentAyah: { surah: number; ayah: number } | null;
+  repeatMode: 'none' | 'ayah' | 'surah' | 'range';
+  repeatCount: number;
+  volume: number;
+  
+  setReciter: (reciter: string) => void;
+  setPlaybackSpeed: (speed: number) => void;
+  setPlaying: (playing: boolean) => void;
+  setCurrentAyah: (ayah: { surah: number; ayah: number } | null) => void;
+  setRepeatMode: (mode: 'none' | 'ayah' | 'surah' | 'range') => void;
+  setRepeatCount: (count: number) => void;
+  setVolume: (volume: number) => void;
+}
+
+export const useAudioStore = create<AudioState>()(
+  devtools(
+    persist(
+      (set) => ({
+        currentReciter: 'al-sudais',
+        playbackSpeed: 1,
+        isPlaying: false,
+        currentAyah: null,
+        repeatMode: 'none',
+        repeatCount: 0,
+        volume: 80,
+        
+        setReciter: (reciter) => set({ currentReciter: reciter }),
+        setPlaybackSpeed: (speed) => set({ playbackSpeed: speed }),
+        setPlaying: (isPlaying) => set({ isPlaying }),
+        setCurrentAyah: (ayah) => set({ currentAyah: ayah }),
+        setRepeatMode: (mode) => set({ repeatMode: mode }),
+        setRepeatCount: (count) => set({ repeatCount: count }),
+        setVolume: (volume) => set({ volume: Math.min(100, Math.max(0, volume)) }),
+      }),
+      { name: 'islamly-audio' }
+    )
+  )
+);
+

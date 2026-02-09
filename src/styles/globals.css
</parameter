@@ -1,0 +1,540 @@
+ter name="content">@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* Islamic Gold Theme */
+    --background: 45 100% 98%;
+    --foreground: 30 20% 15%;
+    
+    /* Primary - Islamic Green */
+    --primary: 142 76% 36%;
+    --primary-foreground: 0 0% 100%;
+    
+    /* Secondary - Sacred Gold */
+    --secondary: 45 93% 47%;
+    --secondary-foreground: 30 20% 15%;
+    
+    /* Accent */
+    --accent: 199 89% 48%;
+    --accent-foreground: 0 0% 100%;
+    
+    /* Muted */
+    --muted: 30 20% 90%;
+    --muted-foreground: 30 10% 40%;
+    
+    /* Card */
+    --card: 0 0% 100%;
+    --card-foreground: 30 20% 15%;
+    
+    /* Destructive */
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 100%;
+    
+    /* Success */
+    --success: 142 76% 36%;
+    --success-foreground: 0 0% 100%;
+    
+    /* Warning */
+    --warning: 45 100% 50%;
+    --warning-foreground: 30 20% 15%;
+    
+    /* Border */
+    --border: 30 20% 85%;
+    --input: 30 20% 85%;
+    --ring: 142 76% 36%;
+    
+    /* Radius */
+    --radius: 0.75rem;
+    
+    /* Font Family */
+    --font-amiri: 'Amiri', 'Traditional Arabic', serif;
+    --font-cairo: 'Cairo', sans-serif;
+    --font-inter: 'Inter', sans-serif;
+    --font-quran: 'Quran', serif;
+  }
+
+  .dark {
+    --background: 30 30% 10%;
+    --foreground: 45 100% 98%;
+    
+    --primary: 142 76% 45%;
+    --primary-foreground: 0 0% 100%;
+    
+    --secondary: 45 93% 50%;
+    --secondary-foreground: 30 20% 15%;
+    
+    --accent: 199 89% 55%;
+    --accent-foreground: 0 0% 100%;
+    
+    --muted: 30 20% 20%;
+    --muted-foreground: 45 20% 70%;
+    
+    --card: 30 30% 15%;
+    --card-foreground: 45 100% 98%;
+    
+    --destructive: 0 62% 50%;
+    --destructive-foreground: 0 0% 100%;
+    
+    --success: 142 76% 45%;
+    --success-foreground: 0 0% 100%;
+    
+    --warning: 45 100% 50%;
+    --warning-foreground: 30 20% 15%;
+    
+    --border: 30 20% 25%;
+    --input: 30 20% 25%;
+    --ring: 142 76% 45%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  
+  body {
+    @apply bg-background text-foreground;
+    font-family: var(--font-inter), system-ui, sans-serif;
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-cairo), system-ui, sans-serif;
+  }
+  
+  .arabic-text {
+    font-family: var(--font-amiri), 'Traditional Arabic', 'Times New Roman', serif;
+    font-size: 1.25rem;
+    line-height: 2;
+  }
+  
+  .quran-text {
+    font-family: var(--font-quran), 'Uthmani', 'Amiri', serif;
+    font-size: 1.5rem;
+    line-height: 2.5;
+    letter-spacing: 0.05em;
+  }
+}
+
+@layer components {
+  /* Islamic Pattern Backgrounds */
+  .islamic-pattern {
+    background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23D4AF37' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+  }
+  
+  .islamic-gradient {
+    @apply bg-gradient-to-br from-islamic-gold via-islamic-green to-islamic-sacred;
+  }
+  
+  /* Bismillah */
+  .bismillah {
+    font-family: var(--font-amiri), serif;
+    font-size: 1.5rem;
+    color: var(--primary);
+    text-align: center;
+    margin: 1rem 0;
+  }
+  
+  /* Prayer Times Card */
+  .prayer-card {
+    @apply bg-card rounded-xl p-4 shadow-islamic border border-border;
+    @apply hover:shadow-islamic-lg transition-shadow duration-300;
+  }
+  
+  /* Surah Card */
+  .surah-card {
+    @apply bg-card rounded-xl p-4 border border-border;
+    @apply hover:border-primary hover:shadow-islamic transition-all duration-300;
+  }
+  
+  /* Hadith Card */
+  .hadith-card {
+    @apply bg-secondary/5 rounded-xl p-6 border-l-4 border-secondary;
+    @apply hover:shadow-islamic transition-shadow duration-300;
+  }
+  
+  /* Achievement Badge */
+  .achievement-badge {
+    @apply inline-flex items-center justify-center w-12 h-12 rounded-full bg-gradient-to-br from-islamic-gold to-yellow-600;
+    @apply shadow-islamic text-white;
+  }
+  
+  /* Progress Ring */
+  .progress-ring {
+    @apply relative inline-flex items-center justify-center;
+  }
+  
+  .progress-ring svg {
+    @apply transform -rotate-90;
+  }
+  
+  /* Islamic Button */
+  .btn-islamic {
+    @apply inline-flex items-center justify-center px-6 py-3 rounded-xl;
+    @apply bg-gradient-to-r from-islamic-gold to-yellow-500;
+    @apply text-islamic-black font-semibold;
+    @apply hover:from-yellow-500 hover:to-islamic-gold;
+    @apply focus:outline-none focus:ring-2 focus:ring-islamic-gold focus:ring-offset-2;
+    @apply transition-all duration-300;
+    @apply shadow-islamic hover:shadow-islamic-lg;
+  }
+  
+  .btn-islamic-outline {
+    @apply inline-flex items-center justify-center px-6 py-3 rounded-xl;
+    @apply border-2 border-islamic-gold text-islamic-gold;
+    @apply font-semibold hover:bg-islamic-gold hover:text-islamic-black;
+    @apply focus:outline-none focus:ring-2 focus:ring-islamic-gold focus:ring-offset-2;
+    @apply transition-all duration-300;
+  }
+  
+  .btn-islamic-ghost {
+    @apply inline-flex items-center justify-center px-6 py-3 rounded-xl;
+    @apply text-foreground hover:bg-secondary/10;
+    @apply font-semibold;
+    @apply focus:outline-none focus:ring-2 focus:ring-secondary;
+    @apply transition-all duration-300;
+  }
+  
+  /* Input Fields */
+  .input-islamic {
+    @apply w-full px-4 py-3 rounded-xl border border-border;
+    @apply bg-background text-foreground;
+    @apply placeholder:text-muted-foreground;
+    @apply focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent;
+    @apply transition-all duration-200;
+  }
+  
+  /* Card Styles */
+  .card-islamic {
+    @apply bg-card rounded-2xl border border-border;
+    @apply shadow-islamic hover:shadow-islamic-lg;
+    @apply transition-all duration-300;
+  }
+  
+  .card-islamic-header {
+    @apply p-6 border-b border-border;
+  }
+  
+  .card-islamic-body {
+    @apply p-6;
+  }
+  
+  .card-islamic-footer {
+    @apply p-6 border-t border-border;
+  }
+  
+  /* Navigation */
+  .nav-link {
+    @apply flex items-center gap-3 px-4 py-3 rounded-xl;
+    @apply text-muted-foreground hover:text-foreground hover:bg-secondary/10;
+    @apply transition-all duration-200;
+  }
+  
+  .nav-link-active {
+    @apply bg-primary/10 text-primary font-semibold;
+    @apply border-l-4 border-primary;
+  }
+  
+  /* Section Headers */
+  .section-header {
+    @apply flex items-center justify-between mb-6;
+  }
+  
+  .section-title {
+    @apply text-2xl font-bold font-cairo;
+  }
+  
+  .section-subtitle {
+    @apply text-muted-foreground;
+  }
+  
+  /* Tajweed Colors */
+  .tajweed-ikhfa {
+    color: #e74c3c;
+  }
+  
+  .tajweed-idgham {
+    color: #3498db;
+  }
+  
+  .tajweed-iqlab {
+    color: #9b59b6;
+  }
+  
+  .tajweed-madd {
+    color: #2ecc71;
+  }
+  
+  .tajweed-ghunnah {
+    color: #f39c12;
+  }
+  
+  /* Grading Badges */
+  .grade-sahih {
+    @apply bg-green-100 text-green-700 px-3 py-1 rounded-full text-sm font-semibold;
+  }
+  
+  .grade-hasan {
+    @apply bg-blue-100 text-blue-700 px-3 py-1 rounded-full text-sm font-semibold;
+  }
+  
+  .grade-daif {
+    @apply bg-yellow-100 text-yellow-700 px-3 py-1 rounded-full text-sm font-semibold;
+  }
+  
+  .grade-mawdu {
+    @apply bg-red-100 text-red-700 px-3 py-1 rounded-full text-sm font-semibold;
+  }
+  
+  /* Loading Spinner */
+  .spinner-islamic {
+    @apply w-8 h-8 border-4 border-primary/30 border-t-primary rounded-full animate-spin;
+  }
+  
+  /* Skeleton Loading */
+  .skeleton-islamic {
+    @apply animate-pulse bg-muted rounded;
+  }
+  
+  /* Tooltip */
+  .tooltip-islamic {
+    @apply absolute z-50 px-3 py-2 text-sm bg-popover text-popover-foreground rounded-lg shadow-lg;
+    @apply opacity-0 invisible group-hover:opacity-100 group-hover:visible;
+    @apply transition-all duration-200;
+  }
+}
+
+@layer utilities {
+  /* Text Utilities */
+  .text-gradient {
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-islamic-gold to-islamic-green;
+  }
+  
+  .text-islamic-gold {
+    color: #D4AF37;
+  }
+  
+  .text-islamic-green {
+    color: #228B22;
+  }
+  
+  /* Background Utilities */
+  .bg-islamic-gold {
+    background-color: #D4AF37;
+  }
+  
+  .bg-islamic-green {
+    background-color: #228B22;
+  }
+  
+  .bg-islamic-cream {
+    background-color: #FFFDD0;
+  }
+  
+  /* Border Utilities */
+  .border-islamic-gold {
+    border-color: #D4AF37;
+  }
+  
+  .border-islamic-green {
+    border-color: #228B22;
+  }
+  
+  /* Hide Scrollbar */
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+  
+  /* Arabic Text Direction */
+  .rtl-text {
+    direction: rtl;
+    text-align: right;
+  }
+  
+  .ltr-text {
+    direction: ltr;
+    text-align: left;
+  }
+  
+  /* Verse Highlighting */
+  .verse-highlight {
+    @apply bg-secondary/20 border-l-4 border-secondary;
+    @apply transition-colors duration-200;
+  }
+  
+  /* Responsive Grid */
+  .quran-grid {
+    @apply grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4;
+  }
+  
+  .hadith-grid {
+    @apply grid grid-cols-1 lg:grid-cols-2 gap-4;
+  }
+  
+  .course-grid {
+    @apply grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6;
+  }
+}
+
+/* Print Styles */
+@media print {
+  .no-print {
+    display: none !important;
+  }
+  
+  .print-only {
+    display: block !important;
+  }
+  
+  body {
+    font-size: 12pt;
+    line-height: 1.5;
+  }
+  
+  h1, h2, h3 {
+    page-break-after: avoid;
+  }
+  
+  .quran-text {
+    font-size: 14pt;
+    line-height: 2;
+  }
+}
+
+/* Animation Keyframes */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes bounceIn {
+  0% {
+    opacity: 0;
+    transform: scale(0.3);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.05);
+  }
+  70% {
+    transform: scale(0.9);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes pulseGlow {
+  0%, 100% {
+    box-shadow: 0 0 5px rgb(212 175 55 / 0.4);
+  }
+  50% {
+    box-shadow: 0 0 20px rgb(212 175 55 / 0.8);
+  }
+}
+
+/* Custom Animation Classes */
+.animate-fade-in-up {
+  animation: fadeInUp 0.5s ease-out;
+}
+
+.animate-slide-in-left {
+  animation: slideInLeft 0.5s ease-out;
+}
+
+.animate-slide-in-right {
+  animation: slideInRight 0.5s ease-out;
+}
+
+.animate-scale-in {
+  animation: scaleIn 0.3s ease-out;
+}
+
+.animate-bounce-in {
+  animation: bounceIn 0.6s ease-out;
+}
+
+.animate-pulse-glow {
+  animation: pulseGlow 2s ease-in-out infinite;
+}
+
+/* Focus Visible */
+*:focus-visible {
+  @apply outline-none ring-2 ring-primary ring-offset-2 ring-offset-background;
+}
+
+/* Selection */
+::selection {
+  @apply bg-primary/20 text-primary;
+}
+
+/* Scrollbar Styling */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  @apply bg-muted rounded-full;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply bg-primary/30 rounded-full hover:bg-primary/50;
+}
+
+/* Markdown Styles */
+.prose-islamic {
+  @apply prose prose-slate max-w-none;
+  @apply prose-headings:font-cairo prose-headings:text-foreground;
+  @apply prose-p:text-foreground prose-p:leading-relaxed;
+  @apply prose-a:text-primary prose-a:no-underline hover:prose-a:underline;
+  @apply prose-blockquote:border-l-primary prose-blockquote:bg-muted/10 prose-blockquote:py-2 prose-blockquote:px-4;
+  @apply prose-code:bg-muted prose-code:px-1 prose-code:py-0.5 prose-code:rounded;
+  @apply prose-pre:bg-muted prose-pre:text-foreground;
+  @apply prose-strong:text-foreground prose-strong:font-semibold;
+}

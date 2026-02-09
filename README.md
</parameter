@@ -1,0 +1,68 @@
+# Islamly - Comprehensive Islamic Learning Platform
+
+**Your Comprehensive Islamic Learning Platform - Salafi/Athari Methodology**
+
+## Overview
+
+Islamly is a comprehensive Islamic learning platform built with modern web technologies, rooted in Salafi/Athari methodology.
+
+## Features
+
+- Quran Module with translations, tafsir, and audio
+- Hadith Studies with grading and chains of narration
+- Fiqh & Rulings with evidence-based approach
+- Aqeedah based on Quran, Sunnah, and Salaf
+- AI-Powered Learning
+- Islamic Calendar with prayer times
+- Community Features
+
+## Tech Stack
+
+- Next.js 14 (App Router)
+- TypeScript 5
+- Tailwind CSS 3
+- Zustand
+- Prisma ORM
+- NextAuth.js
+
+## Getting Started
+
+```bash
+npm install
+npm run dev
+```
+
+Open http://localhost:3000
+
+## Project Structure
+
+```
+islamly/
+├── src/
+│   ├── app/           # Next.js pages
+│   ├── components/    # React components
+│   ├── lib/          # Utilities
+│   ├── store/        # Zustand stores
+│   ├── hooks/        # Custom hooks
+│   ├── types/        # TypeScript types
+│   └── services/     # API services
+├── prisma/           # Database
+└── public/           # Static assets
+```
+
+## Modules
+
+1. Quran (1-200)
+2. Tafsir (201-300)
+3. Hadith (301-500)
+4. Aqeedah (501-600)
+5. Fiqh (601-700)
+6. AI Tools (701-800)
+7. Learning Systems (801-900)
+8. Community (901-1000)
+
+## License
+
+MIT
+
+Made with love for the Ummah

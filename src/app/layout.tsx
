@@ -1,0 +1,48 @@
+import type { Metadata } from 'next';
+import { Cairo, Amiri, Inter } from 'next/font/google';
+import '@/styles/globals.css';
+import { Toaster } from 'react-hot-toast';
+
+const cairo = Cairo({
+  subsets: ['arabic', 'latin'],
+  variable: '--font-cairo',
+  display: 'swap',
+});
+
+const amiri = Amiri({
+  subsets: ['arabic'],
+  weight: ['400', '700'],
+  variable: '--font-amiri',
+  display: 'swap',
+});
+
+const inter = Inter({
+  subsets: ['latin'],
+  variable: '--font-inter',
+  display: 'swap',
+});
+
+export const metadata: Metadata = {
+  title: 'Islamly - Your Comprehensive Islamic Learning Platform',
+  description: 'Learn Quran, Hadith, Fiqh, and Aqeedah with a Salafi/Athari methodology.',
+  keywords: ['Islam', 'Quran', 'Hadith', 'Fiqh', 'Aqeedah', 'Salafi', 'Athari'],
+};
+
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+  return (
+    <html lang="ar" dir="rtl" className={`${cairo.variable} ${amiri.variable} ${inter.variable}`}>
+      <head>
+        <link rel="icon" href="/favicon.ico" />
+      </head>
+      <body className="min-h-screen bg-background font-sans antialiased">
+        {children}
+        <Toaster position="bottom-left" />
+      </body>
+    </html>
+  );
+}
+
