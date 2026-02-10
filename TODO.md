@@ -1,13 +1,25 @@
-# Islamly API Implementation - Detailed TODO List
+# Islamly - Implementation TODO
 
-## Phase 1: Type Definitions & Data Layer ✅ COMPLETED
-- [x] Create IMPLEMENTATION_PLAN.md - Comprehensive implementation plan
-- [x] Create `src/types/api.ts` - Enhanced API type definitions
+## Overview
+This TODO file tracks the remaining implementation tasks based on the comprehensive plan in `plan.md`.
+
+## Progress Summary
+- **Plan Status**: ✅ Finalized
+- **Overall Progress**: 5%
+- **Total APIs**: 60
+- **Implemented APIs**: 0
+
+---
+
+## TODO Items by Phase
+
+### Phase 1: Type Definitions & Data Layer
+- [ ] Create `src/types/api.ts` - Enhanced API type definitions
 - [ ] Create `src/data/islamic-apis.ts` - Central API registry (60 APIs)
 - [ ] Create `src/data/apis.json` - JSON export of all APIs
 - [ ] Create `src/data/apis.yaml` - YAML export of all APIs
 
-## Phase 2: Service Layer
+### Phase 2: Service Layer
 - [ ] Create `src/services/index.ts` - Service exports
 - [ ] Create `src/services/api-registry.ts` - API registry service class
 - [ ] Create `src/services/quran-api.ts` - Quran API service
@@ -19,144 +31,136 @@
 - [ ] Create `src/services/zakat-api.ts` - Zakat & finance service
 - [ ] Create `src/services/arabic-api.ts` - Arabic/Classical text service
 
-## Phase 3: Utilities & Helpers
+### Phase 3: Utilities & Helpers
 - [ ] Create `src/lib/api-utils.ts` - API utilities
 - [ ] Create `src/lib/api-validators.ts` - API validators
 - [ ] Update `src/lib/utils.ts` - Export API utilities
 
-## Phase 4: React Components
+### Phase 4: React Components
 - [ ] Create `src/components/api/index.ts` - Component exports
 - [ ] Create `src/components/api/api-card.tsx` - API card component
 - [ ] Create `src/components/api/api-categories.tsx` - Categories component
 - [ ] Create `src/components/api/api-documentation.tsx` - Documentation component
 
-## Phase 5: Integration
+### Phase 5: Integration
 - [ ] Create `src/store/api-store.ts` - Zustand API store
 - [ ] Create `src/hooks/useIslamicApis.ts` - React Query hooks
 - [ ] Create `src/app/api-docs/page.tsx` - Dedicated API docs page
+- [ ] Update `src/app/page.tsx` - Add API documentation section
 
-## Phase 6: Documentation
+### Phase 6: Documentation
 - [ ] Create `docs/ISLAMIC_APIS.md` - Complete API documentation
 - [ ] Update `README.md` - Add API section
 - [ ] Create `CHANGELOG.md` - Document changes
 
 ---
 
-## API Categories & Progress
+## API Implementation by Category
 
 ### Quran APIs (12)
-1. [ ] api.quran.com/v4
-2. [ ] alquran.cloud/api
-3. [ ] github.com/semarketir/quranjson
-4. [ ] github.com/quran/quran.com-api
-5. [ ] github.com/quran/quran.com-data
-6. [ ] github.com/quran/quran.com-images
-7. [ ] github.com/quran/quran.com-frontend
-8. [ ] github.com/TarteelAI
-9. [ ] github.com/TarteelAI/quranic-universal-library
-10. [ ] github.com/alquran-foundation/quran-api
-11. [ ] github.com/risan/quran-api
-12. [ ] github.com/GlobalQuran/api
+- [ ] api.quran.com/v4
+- [ ] alquran.cloud/api
+- [ ] github.com/semarketir/quranjson
+- [ ] github.com/quran/quran.com-api
+- [ ] github.com/quran/quran.com-data
+- [ ] github.com/quran/quran.com-images
+- [ ] github.com/quran/quran.com-frontend
+- [ ] github.com/TarteelAI
+- [ ] github.com/TarteelAI/quranic-universal-library
+- [ ] github.com/alquran-foundation/quran-api
+- [ ] github.com/risan/quran-api
+- [ ] github.com/GlobalQuran/api
 
 ### Hadith APIs (12)
-13. [ ] api.sunnah.com/v1
-14. [ ] github.com/sunnah-com/api
-15. [ ] github.com/sunnah-com/data
-16. [ ] github.com/fawazahmed0/hadith-api
-17. [ ] github.com/risan/hadith
-18. [ ] github.com/ahmedhamdi96/hadith-json
-19. [ ] github.com/sunnah-com/hadith-api
-20. [ ] github.com/sunnah-com/hadith-json
-21. [ ] github.com/sunnah-com/hadith-data
-22. [ ] github.com/abuisa/hadith-resources
-23. [ ] github.com/abdurrahman/hadith
-24. [ ] github.com/abdurrahman/hadith-encyclopedia
+- [ ] api.sunnah.com/v1
+- [ ] github.com/sunnah-com/api
+- [ ] github.com/sunnah-com/data
+- [ ] github.com/fawazahmed0/hadith-api
+- [ ] github.com/risan/hadith
+- [ ] github.com/ahmedhamdi96/hadith-json
+- [ ] github.com/sunnah-com/hadith-api
+- [ ] github.com/sunnah-com/hadith-json
+- [ ] github.com/sunnah-com/hadith-data
+- [ ] github.com/abuisa/hadith-resources
+- [ ] github.com/abdurrahman/hadith
+- [ ] github.com/abdurrahman/hadith-encyclopedia
 
 ### Athan/Prayer Times APIs (10)
-25. [ ] github.com/batoulapps/adhan-api
-26. [ ] github.com/batoulapps/adhan-js
-27. [ ] github.com/batoulapps/adhan-dart
-28. [ ] github.com/batoulapps/adhan-java
-29. [ ] github.com/batoulapps/adhan-swift
-30. [ ] aladhan.com/prayer-times-api
-31. [ ] muslimsalat.com/api
-32. [ ] github.com/itmuslim/prayer-times
-33. [ ] github.com/abodehq/prayertimes
-34. [ ] github.com/itmuslim/ITL
+- [ ] github.com/batoulapps/adhan-api
+- [ ] github.com/batoulapps/adhan-js
+- [ ] github.com/batoulapps/adhan-dart
+- [ ] github.com/batoulapps/adhan-java
+- [ ] github.com/batoulapps/adhan-swift
+- [ ] aladhan.com/prayer-times-api
+- [ ] muslimsalat.com/api
+- [ ] github.com/itmuslim/prayer-times
+- [ ] github.com/abodehq/prayertimes
+- [ ] github.com/itmuslim/ITL
 
 ### Qibla Direction APIs (4)
-35. [ ] aladhan.com/qibla
-36. [ ] muslimsalat.com/qibla
-37. [ ] github.com/itmuslim/ITL-Python (Qibla module)
-38. [ ] github.com/itmuslim/ITL-Java (Qibla module)
+- [ ] aladhan.com/qibla
+- [ ] muslimsalat.com/qibla
+- [ ] github.com/itmuslim/ITL-Python (Qibla module)
+- [ ] github.com/itmuslim/ITL-Java (Qibla module)
 
 ### Hijri Calendar APIs (6)
-39. [ ] api.aladhan.com/v1/gToH
-40. [ ] api.aladhan.com/v1/hToG
-41. [ ] github.com/kbariotis/hijri-date
-42. [ ] github.com/itmuslim/ITL (Hijri module)
-43. [ ] github.com/itmuslim/ITL-Python
-44. [ ] github.com/itmuslim/ITL-Java
+- [ ] api.aladhan.com/v1/gToH
+- [ ] api.aladhan.com/v1/hToG
+- [ ] github.com/kbariotis/hijri-date
+- [ ] github.com/itmuslim/ITL (Hijri module)
+- [ ] github.com/itmuslim/ITL-Python
+- [ ] github.com/itmuslim/ITL-Java
 
 ### Dua & Dhikr APIs (6)
-45. [ ] github.com/mnadeem/azkar
-46. [ ] github.com/abodehq/azkar-db
-47. [ ] github.com/abdurrahman/dua
-48. [ ] github.com/abuisa/adhkar-resources
-49. [ ] github.com/abdurrahman/adhkar
-50. [ ] github.com/abdurrahman/hisn-al-muslim
+- [ ] github.com/mnadeem/azkar
+- [ ] github.com/abodehq/azkar-db
+- [ ] github.com/abdurrahman/dua
+- [ ] github.com/abuisa/adhkar-resources
+- [ ] github.com/abdurrahman/adhkar
+- [ ] github.com/abdurrahman/hisn-al-muslim
 
 ### Zakat & Finance APIs (4)
-51. [ ] github.com/abodehq/zakat
-52. [ ] github.com/itmuslim/ITL (Zakat module)
-53. [ ] github.com/abuisa/fiqh-resources
-54. [ ] github.com/abdurrahman/fiqh
+- [ ] github.com/abodehq/zakat
+- [ ] github.com/itmuslim/ITL (Zakat module)
+- [ ] github.com/abuisa/fiqh-resources
+- [ ] github.com/abdurrahman/fiqh
 
 ### Arabic/Classical Text APIs (6)
-55. [ ] github.com/Barqawiz/Arabic-NLP
-56. [ ] github.com/mush42/ara-ocr
-57. [ ] github.com/linuxscout/arabic-text-tools
-58. [ ] github.com/Barqawiz/Arabic-OCR
-59. [ ] github.com/abdurrahman/arabic-books
-60. [ ] github.com/abuisa/arabic-resources
+- [ ] github.com/Barqawiz/Arabic-NLP
+- [ ] github.com/mush42/ara-ocr
+- [ ] github.com/linuxscout/arabic-text-tools
+- [ ] github.com/Barqawiz/Arabic-OCR
+- [ ] github.com/abdurrahman/arabic-books
+- [ ] github.com/abuisa/arabic-resources
 
 ---
 
-## Progress Summary
+## Quick Start
 
-| Phase | Status | Progress |
-|-------|--------|----------|
-| Phase 1: Type Definitions & Data Layer | 🔄 In Progress | 20% |
-| Phase 2: Service Layer | ⏳ Pending | 0% |
-| Phase 3: Utilities & Helpers | ⏳ Pending | 0% |
-| Phase 4: React Components | ⏳ Pending | 0% |
-| Phase 5: Integration | ⏳ Pending | 0% |
-| Phase 6: Documentation | ⏳ Pending | 0% |
-
-**Overall Progress**: 5%
-**Total APIs**: 60
-**Implemented APIs**: 0
-
----
-
-## Quick Start Commands
-
+### Run Development Server
 ```bash
-# Install dependencies (if needed)
-npm install
-
-# Run development server
 npm run dev
+```
 
-# Type check
+### Type Check
+```bash
 npm run type-check
+```
 
-# Build project
+### Build Project
+```bash
 npm run build
 ```
 
 ---
 
-**Last Updated**: 2025
-**Plan Version**: 2.0 - Implementation Started
+## Estimated Time
+- **Complete Implementation**: 2-3 hours
+- **Dependencies**: None (pure TypeScript/JavaScript)
+- **Compatibility**: Next.js 14, TypeScript 5
+
+---
+
+## Last Updated
+2025 - Plan Finalized
 
