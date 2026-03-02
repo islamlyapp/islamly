@@ -1,3 +1,4 @@
+
 "use client";
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -25,7 +26,8 @@ import {
   Newspaper,
   Trophy,
   ShieldCheck,
-  Loader2
+  Loader2,
+  History
 } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
@@ -58,9 +60,9 @@ export default function Home() {
       group: "Core Knowledge",
       items: [
         { title: "Quran", href: "/quran", icon: BookMarked, color: "text-primary" },
-        { title: "Library", href: "/library", icon: Library, color: "text-accent" },
+        { title: "Seerah", href: "/seerah", icon: History, color: "text-accent" },
         { title: "Fiqh", href: "/fiqh", icon: Scale, color: "text-primary" },
-        { title: "Hadith", href: "/library", icon: Search, color: "text-accent" },
+        { title: "Library", href: "/library", icon: Library, color: "text-accent" },
       ]
     },
     {
@@ -185,36 +187,6 @@ export default function Home() {
             )}
           </CardContent>
         </Card>
-      </section>
-
-      {/* Hero Section */}
-      <section className="relative h-[220px] rounded-2xl overflow-hidden group shadow-2xl">
-        <Image 
-          src={libraryImage?.imageUrl || "https://picsum.photos/seed/lib/800/400"} 
-          alt="Library"
-          fill
-          className="object-cover transition-transform duration-700 group-hover:scale-105"
-          data-ai-hint="library books"
-        />
-        <div className="absolute inset-0 bg-gradient-to-t from-background via-background/20 to-transparent" />
-        <div className="absolute bottom-0 left-0 p-6 space-y-1">
-          <div className="flex gap-2">
-            <Badge variant="secondary" className="bg-primary text-white">Verified Sources</Badge>
-            <Badge variant="outline" className="bg-black/20 text-white backdrop-blur-sm border-white/20">Universal Translation</Badge>
-          </div>
-          <h2 className="text-2xl font-headline font-bold">Universal Reach Support</h2>
-          <p className="text-sm text-muted-foreground max-w-md line-clamp-1">
-            Access Quranic translations and scholarly insights in 7709+ languages.
-          </p>
-          <div className="flex gap-2 mt-4">
-            <Button asChild size="sm" className="h-8">
-              <Link href="/ask">Try Global Search</Link>
-            </Button>
-            <Button asChild variant="outline" size="sm" className="h-8 glass-card">
-              <Link href="/news">Latest News</Link>
-            </Button>
-          </div>
-        </div>
       </section>
 
       {/* Feature Groups */}

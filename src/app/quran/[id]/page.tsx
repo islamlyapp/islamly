@@ -1,9 +1,10 @@
+
 "use client";
 
 import { useState, useEffect, use } from "react";
-import { fetchSurahVerses, fetchVerseTranslations } from "@/services/islamic-data-service";
+import { fetchSurahVerses, fetchVerseTranslations, fetchSurahAudio } from "@/services/islamic-data-service";
 import { Button } from "@/components/ui/button";
-import { ChevronLeft, Loader2, BookOpen, Settings2, Info, ChevronDown, Languages, Globe, Bookmark, MessageSquare, Plus } from "lucide-react";
+import { ChevronLeft, Loader2, BookOpen, Settings2, Info, ChevronDown, Languages, Globe, Bookmark, MessageSquare, Play, Pause, Volume2 } from "lucide-react";
 import Link from "next/link";
 import { Card, CardContent } from "@/components/ui/card";
 import { QIRAAT_DATA, type Qiraah } from "@/lib/qiraat-data";
@@ -22,9 +23,10 @@ import {
 } from "@/components/ui/popover";
 import { Badge } from "@/components/ui/badge";
 import { Textarea } from "@/components/ui/textarea";
-import { useUser, useFirestore, useDoc, useMemoFirebase, setDocumentNonBlocking, addDocumentNonBlocking } from "@/firebase";
+import { useUser, useFirestore, useDoc, useMemoFirebase, setDocumentNonBlocking } from "@/firebase";
 import { doc, collection, serverTimestamp } from "firebase/firestore";
 import { toast } from "@/hooks/use-toast";
+import { Progress } from "@/components/ui/progress";
 
 export default function SurahReadingPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = use(params);
@@ -43,6 +45,12 @@ export default function SurahReadingPage({ params }: { params: Promise<{ id: str
   const [loading, setLoading] = useState(true);
   const [selectedQiraah, setSelectedQiraah] = useState<Qiraah>(QIRAAT_DATA[0]);
   const [noteContent, setNoteContent] = useState("");
+  
+  // Audio State
+  const [audioUrl, setAudioUrl] = useState<string | null>(null);
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [audioProgress, setAudioProgress] = useState(0);
+  const [audioElement, setAudioElement] = useState<HTMLAudioElement | null>(null);
 
   const defaultTranslation = { id: 131, language_name: "English", name: "Clear Quran" };
   const currentLang = profile?.preferredLanguageId 
@@ -53,12 +61,14 @@ export default function SurahReadingPage({ params }: { params: Promise<{ id: str
     async function loadContent() {
       setLoading(true);
       try {
-        const [verseData, transData] = await Promise.all([
+        const [verseData, transData, audioData] = await Promise.all([
           fetchSurahVerses(parseInt(id)),
-          fetchVerseTranslations(parseInt(id), currentLang.id)
+          fetchVerseTranslations(parseInt(id), currentLang.id),
+          fetchSurahAudio(parseInt(id))
         ]);
         setVerses(verseData);
         setTranslations(transData);
+        setAudioUrl(audioData.audio_url);
       } catch (err) {
         console.error(err);
       } finally {
@@ -67,6 +77,41 @@ export default function SurahReadingPage({ params }: { params: Promise<{ id: str
     }
     loadContent();
   }, [id, currentLang.id]);
+
+  useEffect(() => {
+    if (audioUrl) {
+      const audio = new Audio(audioUrl);
+      setAudioElement(audio);
+
+      const updateProgress = () => {
+        setAudioProgress((audio.currentTime / audio.duration) * 100);
+      };
+
+      const handleEnded = () => {
+        setIsPlaying(false);
+        setAudioProgress(0);
+      };
+
+      audio.addEventListener('timeupdate', updateProgress);
+      audio.addEventListener('ended', handleEnded);
+
+      return () => {
+        audio.pause();
+        audio.removeEventListener('timeupdate', updateProgress);
+        audio.removeEventListener('ended', handleEnded);
+      };
+    }
+  }, [audioUrl]);
+
+  const toggleAudio = () => {
+    if (!audioElement) return;
+    if (isPlaying) {
+      audioElement.pause();
+    } else {
+      audioElement.play();
+    }
+    setIsPlaying(!isPlaying);
+  };
 
   const handleBookmark = (verseKey: string) => {
     if (!db || !user?.uid) return;
@@ -144,6 +189,24 @@ export default function SurahReadingPage({ params }: { params: Promise<{ id: str
           </DropdownMenu>
         </div>
       </header>
+
+      {/* Audio Controls Floating Card */}
+      {audioUrl && (
+        <Card className="sticky top-20 z-40 glass-card border-primary/20 bg-primary/5 p-3 animate-in slide-in-from-top-4 duration-300">
+          <div className="flex items-center gap-4">
+            <Button size="icon" className="rounded-full bg-primary h-10 w-10 shrink-0" onClick={toggleAudio}>
+              {isPlaying ? <Pause className="w-5 h-5" /> : <Play className="w-5 h-5 fill-white" />}
+            </Button>
+            <div className="flex-1 space-y-2">
+              <div className="flex justify-between items-center text-[10px] uppercase font-bold tracking-widest">
+                <span className="flex items-center gap-1 text-primary"><Volume2 className="w-3 h-3" /> Mishary Rashid</span>
+                <span className="text-muted-foreground">Surah {id}</span>
+              </div>
+              <Progress value={audioProgress} className="h-1 bg-primary/20" />
+            </div>
+          </div>
+        </Card>
+      )}
 
       <Card className="bg-primary/5 border-primary/20">
         <CardContent className="p-4 flex items-start gap-3">

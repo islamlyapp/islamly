@@ -1,3 +1,4 @@
+
 /**
  * @fileOverview Service for interacting with external Islamic data providers.
  */
@@ -83,6 +84,17 @@ export async function fetchAvailableTranslations() {
     return data.translations;
   } catch (error) {
     console.error("Error fetching translation list:", error);
+    throw error;
+  }
+}
+
+export async function fetchSurahAudio(surahId: number, reciterId: number = 7) {
+  try {
+    const response = await fetch(`https://api.quran.com/api/v4/chapter_recitations/${reciterId}/${surahId}`);
+    const data = await response.json();
+    return data.audio_file;
+  } catch (error) {
+    console.error("Error fetching audio:", error);
     throw error;
   }
 }
