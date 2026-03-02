@@ -6,7 +6,6 @@ import {
   Search, 
   ArrowRight, 
   Moon, 
-  MapPin, 
   Library, 
   Sparkles, 
   Scale, 
@@ -14,7 +13,8 @@ import {
   Globe, 
   Baby, 
   Video,
-  MessageCircleQuestion
+  MessageCircleQuestion,
+  ShieldAlert
 } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
@@ -44,10 +44,11 @@ export default function Home() {
       ]
     },
     {
-      group: "Live & Interactive",
+      group: "Defense & Interactive",
       items: [
-        { title: "Live Streams", href: "/live", icon: Video, color: "text-primary" },
+        { title: "Refutation", href: "/refutation", icon: ShieldAlert, color: "text-destructive" },
         { title: "Quizzes", href: "/quizzes", icon: MessageCircleQuestion, color: "text-accent" },
+        { title: "Live Streams", href: "/live", icon: Video, color: "text-primary" },
       ]
     }
   ];
