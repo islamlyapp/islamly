@@ -1,3 +1,4 @@
+
 # Islamly - Universal Scholarly Infrastructure
 
 This NextJS prototype is a comprehensive portal for authentic Islamic knowledge, built with a focus on global reach and scholarly accuracy.
@@ -37,6 +38,22 @@ This NextJS prototype is a comprehensive portal for authentic Islamic knowledge,
 - **Unified Auth**: Support for Google, Apple, Discord, GitHub, Microsoft, and Email.
 - **Platform Readiness**: PWA-ready for TV, Mobile, and Tablet (Universal Infrastructure).
 - **Firestore Profiles**: User-specific preferences (like language) saved across sessions.
+
+## Deployment Guide (When to Publish)
+
+### 1. Scholarly Review
+Ensure all AI-generated or curated content in `src/lib/knowledge-hub.ts` is reviewed by a qualified scholar.
+
+### 2. Firebase Configuration
+- Enable the desired Auth providers in the Firebase Console.
+- Deploy the Firestore Security Rules found in `firestore.rules`.
+- Set up Firebase App Hosting or Vercel for the Next.js frontend.
+
+### 3. PWA Testing
+Islamly is configured as a PWA. Test the "Install" prompt on Android and iOS to ensure it behaves as a standalone app.
+
+### 4. Production Environment
+Ensure your `.env.local` contains the production `GEMINI_API_KEY` for Genkit AI features.
 
 ## Tech Stack
 - **Framework**: Next.js 15 (App Router)

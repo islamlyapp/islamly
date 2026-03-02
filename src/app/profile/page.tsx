@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { User, LogOut, Shield, Bookmark, BookOpen, Settings, ChevronRight, Languages, Search, Globe, Loader2 } from "lucide-react";
+import { User, LogOut, Shield, Bookmark, BookOpen, Settings, ChevronRight, Languages, Search, Globe, Loader2, Rocket, CheckCircle2, AlertCircle } from "lucide-react";
 import { useUser, useAuth, useFirestore, useDoc, useMemoFirebase, setDocumentNonBlocking } from "@/firebase";
 import { signOut } from "firebase/auth";
 import { doc, serverTimestamp } from "firebase/firestore";
@@ -21,6 +21,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { fetchAvailableTranslations } from "@/services/islamic-data-service";
+import { Progress } from "@/components/ui/progress";
 
 export default function ProfilePage() {
   const { user, isUserLoading } = useUser();
@@ -91,6 +92,16 @@ export default function ProfilePage() {
     l.name.toLowerCase().includes(langSearch.toLowerCase())
   );
 
+  const launchSteps = [
+    { label: "Core Infrastructure", status: "complete" },
+    { label: "PWA Universal Support", status: "complete" },
+    { label: "Scholarly Content Hub", status: "complete" },
+    { label: "Global Translation API", status: "complete" },
+    { label: "Final Legal Review", status: "pending" },
+  ];
+
+  const completionPercentage = (launchSteps.filter(s => s.status === 'complete').length / launchSteps.length) * 100;
+
   return (
     <div className="space-y-8 animate-in fade-in duration-500 pb-20">
       <header className="flex flex-col items-center text-center gap-4">
@@ -115,10 +126,42 @@ export default function ProfilePage() {
       </header>
 
       <section className="grid gap-4">
+        {/* Launch Readiness Center */}
+        <Card className="border-accent/30 bg-accent/5 overflow-hidden">
+          <CardHeader className="pb-3">
+            <div className="flex items-center justify-between">
+              <CardTitle className="text-sm font-headline flex items-center gap-2">
+                <Rocket className="w-4 h-4 text-accent" />
+                Launch Readiness Center
+              </CardTitle>
+              <Badge variant="outline" className="text-[9px] border-accent/30 text-accent">{Math.round(completionPercentage)}%</Badge>
+            </div>
+            <CardDescription className="text-[11px]">Track your progress towards global Ummah deployment.</CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <Progress value={completionPercentage} className="h-1.5 bg-accent/10" />
+            <div className="grid gap-2">
+              {launchSteps.map((step, i) => (
+                <div key={i} className="flex items-center justify-between text-[11px]">
+                  <span className="text-muted-foreground">{step.label}</span>
+                  {step.status === 'complete' ? (
+                    <CheckCircle2 className="w-3 h-3 text-green-500" />
+                  ) : (
+                    <AlertCircle className="w-3 h-3 text-accent animate-pulse" />
+                  )}
+                </div>
+              ))}
+            </div>
+            <Button className="w-full h-9 text-xs font-headline bg-accent text-accent-foreground hover:bg-accent/80 mt-2">
+              View Deployment Roadmap
+            </Button>
+          </CardContent>
+        </Card>
+
         {/* Settings Entry */}
         <Sheet open={isSettingsOpen} onOpenChange={setIsSettingsOpen}>
           <SheetTrigger asChild>
-            <Card className="glass-card hover:bg-secondary/30 transition-all cursor-pointer group border-primary/20 bg-primary/5">
+            <Card className="glass-card hover:bg-secondary/30 transition-all cursor-pointer group">
               <CardContent className="p-4 flex items-center justify-between">
                 <div className="flex items-center gap-3">
                   <div className="p-2 bg-primary/20 rounded-lg group-hover:bg-primary/30 transition-colors">
