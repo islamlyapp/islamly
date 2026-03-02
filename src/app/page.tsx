@@ -1,7 +1,21 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { BookMarked, Search, ArrowRight, Sun, Moon, MapPin, Library, Sparkles } from "lucide-react";
+import { 
+  BookMarked, 
+  Search, 
+  ArrowRight, 
+  Moon, 
+  MapPin, 
+  Library, 
+  Sparkles, 
+  Scale, 
+  UserPlus, 
+  Globe, 
+  Baby, 
+  Video,
+  MessageCircleQuestion
+} from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
 import { PlaceHolderImages } from "@/lib/placeholder-images";
@@ -10,13 +24,32 @@ import { cn } from "@/lib/utils";
 export default function Home() {
   const libraryImage = PlaceHolderImages.find(img => img.id === 'library-books');
 
-  const mainFeatures = [
-    { title: "Quran Study", href: "/quran", icon: BookMarked, color: "text-primary" },
-    { title: "Hadith Explorer", href: "/hadith", icon: Search, color: "text-accent" },
-    { title: "Seerah Navigator", href: "/seerah", icon: BookMarked, color: "text-primary" },
-    { title: "AI Explanation", href: "/explain", icon: Sparkles, color: "text-accent" },
-    { title: "Islamic Quizzes", href: "/quizzes", icon: MessageCircleQuestionIcon, color: "text-primary" },
-    { title: "Text Library", href: "/library", icon: Library, color: "text-accent" },
+  const categories = [
+    { 
+      group: "Core Knowledge",
+      items: [
+        { title: "Quran", href: "/quran", icon: BookMarked, color: "text-primary" },
+        { title: "Hadith", href: "/library", icon: Search, color: "text-accent" },
+        { title: "Fiqh", href: "/fiqh", icon: Scale, color: "text-primary" },
+        { title: "Library", href: "/library", icon: Library, color: "text-accent" },
+      ]
+    },
+    {
+      group: "Guidance & Growth",
+      items: [
+        { title: "Reverts", href: "/reverts", icon: UserPlus, color: "text-primary" },
+        { title: "About Islam", href: "/dawah", icon: Globe, color: "text-accent" },
+        { title: "Kids Corner", href: "/kids", icon: Baby, color: "text-primary" },
+        { title: "AI Explain", href: "/explain", icon: Sparkles, color: "text-accent" },
+      ]
+    },
+    {
+      group: "Live & Interactive",
+      items: [
+        { title: "Live Streams", href: "/live", icon: Video, color: "text-primary" },
+        { title: "Quizzes", href: "/quizzes", icon: MessageCircleQuestion, color: "text-accent" },
+      ]
+    }
   ];
 
   return (
@@ -26,11 +59,11 @@ export default function Home() {
           Assalamu Alaikum
         </h1>
         <p className="text-muted-foreground text-lg italic">
-          Welcome to the Path of Authentic Knowledge.
+          Your portal to authentic Islamic knowledge.
         </p>
       </header>
 
-      {/* Quick Stats / Prayer Times Summary */}
+      {/* Quick Status Cards */}
       <section className="grid grid-cols-1 md:grid-cols-3 gap-4">
         <Card className="bg-primary/10 border-primary/20">
           <CardHeader className="flex flex-row items-center justify-between pb-2 space-y-0">
@@ -58,18 +91,20 @@ export default function Home() {
 
         <Card className="glass-card">
           <CardHeader className="flex flex-row items-center justify-between pb-2 space-y-0">
-            <CardTitle className="text-sm font-medium">Current Location</CardTitle>
-            <MapPin className="h-4 w-4 text-muted-foreground" />
+            <CardTitle className="text-sm font-medium">Live Now</CardTitle>
+            <div className="h-2 w-2 rounded-full bg-red-500 animate-pulse" />
           </CardHeader>
           <CardContent>
-            <div className="text-lg font-medium">London, UK</div>
-            <p className="text-xs text-muted-foreground">Islamic Relief Method</p>
+            <div className="text-lg font-medium">Sheikh Al-Albani Series</div>
+            <Link href="/live" className="text-xs text-primary hover:underline flex items-center gap-1 mt-1">
+              Watch Stream <ArrowRight className="w-3 h-3" />
+            </Link>
           </CardContent>
         </Card>
       </section>
 
       {/* Hero Section */}
-      <section className="relative h-[250px] rounded-2xl overflow-hidden group shadow-2xl">
+      <section className="relative h-[220px] rounded-2xl overflow-hidden group shadow-2xl">
         <Image 
           src={libraryImage?.imageUrl || "https://picsum.photos/seed/lib/800/400"} 
           alt="Library"
@@ -77,49 +112,58 @@ export default function Home() {
           className="object-cover transition-transform duration-700 group-hover:scale-105"
           data-ai-hint="library books"
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-background via-background/40 to-transparent" />
-        <div className="absolute bottom-0 left-0 p-6 space-y-2">
-          <Badge variant="secondary" className="bg-primary text-white">Classic of the Week</Badge>
-          <h2 className="text-2xl font-headline font-bold">Kitab At-Tawhid</h2>
-          <p className="text-sm text-muted-foreground max-w-md line-clamp-2">
-            The masterpiece by Sheikh-ul-Islam Muhammad ibn Abdil-Wahhab regarding the core of Islamic faith.
+        <div className="absolute inset-0 bg-gradient-to-t from-background via-background/20 to-transparent" />
+        <div className="absolute bottom-0 left-0 p-6 space-y-1">
+          <Badge variant="secondary" className="bg-primary text-white">Featured Text</Badge>
+          <h2 className="text-2xl font-headline font-bold">The Three Principles</h2>
+          <p className="text-sm text-muted-foreground max-w-md line-clamp-1">
+            Essential knowledge every Muslim must understand about their Lord.
           </p>
-          <Button asChild size="sm" className="mt-4">
-            <Link href="/library/kitab-at-tawhid">Read Now</Link>
+          <Button asChild size="sm" className="mt-4 h-8">
+            <Link href="/library/1">Read Now</Link>
           </Button>
         </div>
       </section>
 
-      {/* Main Feature Grid */}
-      <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-        {mainFeatures.map((item) => (
-          <Link key={item.title} href={item.href}>
-            <Card className="glass-card hover:border-primary/50 transition-all group h-full">
-              <CardContent className="flex flex-col items-center justify-center p-6 text-center gap-3">
-                <div className={cn("p-3 rounded-full bg-secondary/50 group-hover:bg-primary/20 transition-colors", item.color)}>
-                  <item.icon className="w-6 h-6" />
-                </div>
-                <span className="font-headline font-semibold text-sm">{item.title}</span>
-              </CardContent>
-            </Card>
-          </Link>
-        ))}
-      </div>
+      {/* Feature Groups */}
+      {categories.map((group) => (
+        <section key={group.group} className="space-y-4">
+          <h3 className="text-sm font-headline font-bold uppercase tracking-widest text-muted-foreground/80 pl-1">
+            {group.group}
+          </h3>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+            {group.items.map((item) => (
+              <Link key={item.title} href={item.href}>
+                <Card className="glass-card hover:border-primary/50 transition-all group h-full">
+                  <CardContent className="flex flex-col items-center justify-center p-5 text-center gap-3">
+                    <div className={cn("p-3 rounded-2xl bg-secondary/50 group-hover:bg-primary/20 transition-colors", item.color)}>
+                      <item.icon className="w-5 h-5" />
+                    </div>
+                    <span className="font-headline font-semibold text-xs uppercase tracking-tight">{item.title}</span>
+                  </CardContent>
+                </Card>
+              </Link>
+            ))}
+          </div>
+        </section>
+      ))}
 
       {/* Daily Verse */}
-      <section className="py-8">
-        <h3 className="text-lg font-headline font-semibold mb-4 border-l-2 border-primary pl-3">Daily Reflection</h3>
-        <Card className="bg-secondary/20 border-border/50">
-          <CardContent className="p-8 text-center space-y-4">
+      <section className="py-6">
+        <Card className="bg-secondary/20 border-border/50 overflow-hidden relative">
+          <div className="absolute top-0 right-0 p-4 opacity-10">
+            <BookMarked className="w-24 h-24 rotate-12" />
+          </div>
+          <CardContent className="p-8 text-center space-y-4 relative z-10">
             <p className="text-3xl font-serif text-literata italic" dir="rtl">
               إِيَّاكَ نَعْبُدُ وَإِيَّاكَ نَسْتَعِينُ
             </p>
-            <p className="text-muted-foreground">
+            <p className="text-muted-foreground text-sm italic">
               "It is You we worship and You we ask for help."
             </p>
-            <p className="text-xs uppercase tracking-widest text-primary font-headline font-bold">
+            <Badge variant="outline" className="text-[10px] uppercase tracking-widest text-primary font-headline">
               Surah Al-Fatiha [1:5]
-            </p>
+            </Badge>
           </CardContent>
         </Card>
       </section>
@@ -143,27 +187,6 @@ function ClockIcon({ className }: { className?: string }) {
     >
       <circle cx="12" cy="12" r="10" />
       <polyline points="12 6 12 12 16 14" />
-    </svg>
-  );
-}
-
-function MessageCircleQuestionIcon({ className }: { className?: string }) {
-  return (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      className={className}
-    >
-      <path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z" />
-      <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3" />
-      <path d="M12 17h.01" />
     </svg>
   );
 }
