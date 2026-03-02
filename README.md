@@ -17,6 +17,7 @@ This NextJS prototype is a comprehensive portal for authentic Islamic knowledge,
 - **Dynamic Prayer Schedule**: Auto-location (GPS) detection with manual city search fallback.
 - **Calculation Methods**: Supports MWL, ISNA, Umm Al-Qura, and other major scholarly standards.
 - **Masjid & Halal Locators**: Location-aware discovery tools for local community services.
+- **Ruqyah Shari'ah**: Authentic spiritual healing guide based on Quran and Sunnah.
 
 ### 4. Community & Life-Stage Portals
 - **The Muslim Household**: Family planning and marriage fiqh resources.
@@ -28,12 +29,13 @@ This NextJS prototype is a comprehensive portal for authentic Islamic knowledge,
 ### 5. Advanced Education
 - **Fiqh Navigator**: Structured jurisprudence guide across major topics.
 - **Scholarly Defense**: Evidence-based refutations of common misconceptions.
+- **Interactive Quizzes**: Knowledge assessment system with scholarly badges.
 - **Daily Adhkar**: Morning and evening remembrance tracker.
 - **Islamly Live**: Simulated 24/7 Quran radio and scholarly stream reminders.
 
 ### 6. Security & Infrastructure
 - **Unified Auth**: Support for Google, Apple, Discord, GitHub, Microsoft, and Email.
-- **Auth Guard**: Full-app locking to ensure private, personalized data remains secure.
+- **Platform Readiness**: PWA-ready for TV, Mobile, and Tablet (Universal Infrastructure).
 - **Firestore Profiles**: User-specific preferences (like language) saved across sessions.
 
 ## Tech Stack

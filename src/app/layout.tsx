@@ -5,17 +5,32 @@ import { FirebaseClientProvider } from '@/firebase/client-provider';
 import { AuthGuard } from '@/components/auth-guard';
 
 export const metadata: Metadata = {
-  title: 'Islamly - Classical Islamic Knowledge',
-  description: 'Curated collection of classical Islamic texts and scholarly works aligned with the Salafi methodology.',
+  title: 'Islamly - Universal Scholarly Infrastructure',
+  description: 'Curated collection of classical Islamic texts and scholarly works aligned with the Salafi methodology. Available on TV, Mobile, and Web.',
+  applicationName: 'Islamly',
   appleWebApp: {
     capable: true,
     statusBarStyle: 'black-translucent',
     title: 'Islamly',
   },
+  formatDetection: {
+    telephone: false,
+  },
+  openGraph: {
+    type: 'website',
+    siteName: 'Islamly',
+    title: 'Islamly - Authentic Knowledge',
+    description: 'Universal platform for authentic Islamic scholarly resources.',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Islamly',
+    description: 'Authentic Islamic Knowledge for the Global Ummah.',
+  },
 };
 
 export const viewport: Viewport = {
-  themeColor: '#1a0508',
+  themeColor: '#0a0304',
   width: 'device-width',
   initialScale: 1,
   maximumScale: 1,
@@ -34,6 +49,7 @@ export default function RootLayout({
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Literata:ital,opsz,wght@0,7..72,400;0,7..72,500;0,7..72,600;0,7..72,700;1,7..72,400&display=swap" rel="stylesheet" />
+        <meta name="mobile-web-app-capable" content="yes" />
       </head>
       <body className="font-body antialiased min-h-screen pt-safe overflow-x-hidden selection:bg-primary/30">
         <FirebaseClientProvider>
