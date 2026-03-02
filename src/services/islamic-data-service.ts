@@ -33,13 +33,39 @@ export async function fetchSurahList() {
   }
 }
 
-export async function fetchSurahVerses(surahId: number) {
+export async function fetchSurahVerses(surahId: number, translationId?: number) {
   try {
-    const response = await fetch(`https://api.quran.com/api/v4/quran/verses/uthmani?chapter_number=${surahId}`);
+    const translationParam = translationId ? `&translations=${translationId}` : '';
+    const response = await fetch(`https://api.quran.com/api/v4/quran/verses/uthmani?chapter_number=${surahId}${translationParam}`);
     const data = await response.json();
+    
+    // If we want translation text too, we need a slightly different endpoint or combine them
+    // For simplicity in this UI, we fetch the Uthmani script and if translation is needed, we'd fetch translations specifically
     return data.verses;
   } catch (error) {
     console.error("Error fetching verses:", error);
+    throw error;
+  }
+}
+
+export async function fetchVerseTranslations(surahId: number, translationId: number) {
+  try {
+    const response = await fetch(`https://api.quran.com/api/v4/quran/translations/${translationId}?chapter_number=${surahId}`);
+    const data = await response.json();
+    return data.translations;
+  } catch (error) {
+    console.error("Error fetching translations:", error);
+    throw error;
+  }
+}
+
+export async function fetchAvailableTranslations() {
+  try {
+    const response = await fetch('https://api.quran.com/api/v4/resources/translations');
+    const data = await response.json();
+    return data.translations;
+  } catch (error) {
+    console.error("Error fetching translation list:", error);
     throw error;
   }
 }

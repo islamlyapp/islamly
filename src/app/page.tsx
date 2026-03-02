@@ -16,7 +16,8 @@ import {
   MessageCircle,
   ShieldAlert,
   Clock,
-  BookOpen
+  BookOpen,
+  Languages
 } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
@@ -61,9 +62,15 @@ export default function Home() {
         <h1 className="text-4xl font-headline font-bold tracking-tight text-foreground">
           Assalamu Alaikum
         </h1>
-        <p className="text-muted-foreground text-lg italic">
-          Your portal to authentic Islamic knowledge.
-        </p>
+        <div className="flex items-center gap-2">
+          <p className="text-muted-foreground text-lg italic">
+            Your portal to authentic Islamic knowledge.
+          </p>
+          <Badge variant="outline" className="text-[10px] gap-1 py-0 border-primary/30 text-primary">
+            <Languages className="w-3 h-3" />
+            7709+ Languages
+          </Badge>
+        </div>
       </header>
 
       {/* Quick Status Cards */}
@@ -117,13 +124,16 @@ export default function Home() {
         />
         <div className="absolute inset-0 bg-gradient-to-t from-background via-background/20 to-transparent" />
         <div className="absolute bottom-0 left-0 p-6 space-y-1">
-          <Badge variant="secondary" className="bg-primary text-white">Verified Sources</Badge>
-          <h2 className="text-2xl font-headline font-bold">Knowledge Hub Integrated</h2>
+          <div className="flex gap-2">
+            <Badge variant="secondary" className="bg-primary text-white">Verified Sources</Badge>
+            <Badge variant="outline" className="bg-black/20 text-white backdrop-blur-sm border-white/20">Global Translation Active</Badge>
+          </div>
+          <h2 className="text-2xl font-headline font-bold">Universal Reach Support</h2>
           <p className="text-sm text-muted-foreground max-w-md line-clamp-1">
-            Access a vast collection of verified classical texts and rulings.
+            Access Quranic translations and scholarly insights in 7709+ languages.
           </p>
           <Button asChild size="sm" className="mt-4 h-8">
-            <Link href="/ask">Try AI Search</Link>
+            <Link href="/ask">Try Global Search</Link>
           </Button>
         </div>
       </section>
@@ -164,9 +174,15 @@ export default function Home() {
             <p className="text-muted-foreground text-sm italic">
               "It is You we worship and You we ask for help."
             </p>
-            <Badge variant="outline" className="text-[10px] uppercase tracking-widest text-primary font-headline">
-              Surah Al-Fatiha [1:5]
-            </Badge>
+            <div className="flex flex-col items-center gap-2">
+              <Badge variant="outline" className="text-[10px] uppercase tracking-widest text-primary font-headline">
+                Surah Al-Fatiha [1:5]
+              </Badge>
+              <span className="text-[9px] text-muted-foreground uppercase tracking-widest flex items-center gap-1">
+                <Globe className="w-2 h-2" />
+                Universal Message for All Humanity
+              </span>
+            </div>
           </CardContent>
         </Card>
       </section>
