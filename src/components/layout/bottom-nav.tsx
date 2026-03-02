@@ -1,10 +1,10 @@
-
 "use client";
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Home, Library, BookOpen, Clock, Sparkles, MessageCircle } from "lucide-react";
+import { Home, Library, BookOpen, Clock, MessageCircle, User } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { useUser } from "@/firebase";
 
 const navItems = [
   { href: "/", label: "Home", icon: Home },
@@ -16,6 +16,7 @@ const navItems = [
 
 export function BottomNav() {
   const pathname = usePathname();
+  const { user } = useUser();
 
   return (
     <nav className="fixed bottom-0 left-0 right-0 z-50 bg-card/80 backdrop-blur-xl border-t border-border/50 md:hidden pb-safe">
@@ -46,6 +47,26 @@ export function BottomNav() {
             </Link>
           );
         })}
+        <Link
+          href={user ? "/profile" : "/login"}
+          className={cn(
+            "flex flex-col items-center justify-center flex-1 gap-1 py-1 transition-all duration-200",
+            pathname === "/profile" || pathname === "/login" ? "text-primary scale-105" : "text-muted-foreground hover:text-foreground"
+          )}
+        >
+          <div className={cn(
+            "p-1 rounded-lg transition-colors",
+            (pathname === "/profile" || pathname === "/login") && "bg-primary/10"
+          )}>
+            <User className={cn("w-5 h-5", (pathname === "/profile" || pathname === "/login") && "text-primary")} />
+          </div>
+          <span className={cn(
+            "text-[9px] uppercase tracking-tighter font-headline font-bold",
+            pathname === "/profile" || pathname === "/login" ? "opacity-100" : "opacity-70"
+          )}>
+            {user ? "Profile" : "Login"}
+          </span>
+        </Link>
       </div>
     </nav>
   );
