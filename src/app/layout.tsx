@@ -2,6 +2,7 @@ import type {Metadata, Viewport} from 'next';
 import './globals.css';
 import { BottomNav } from '@/components/layout/bottom-nav';
 import { FirebaseClientProvider } from '@/firebase/client-provider';
+import { AuthGuard } from '@/components/auth-guard';
 
 export const metadata: Metadata = {
   title: 'Islamly - Classical Islamic Knowledge',
@@ -36,10 +37,12 @@ export default function RootLayout({
       </head>
       <body className="font-body antialiased min-h-screen pb-safe-offset-24 md:pb-0 md:pl-0 overflow-x-hidden selection:bg-primary/30">
         <FirebaseClientProvider>
-          <main className="max-w-4xl mx-auto px-4 py-8 pb-32 md:pb-8">
-            {children}
-          </main>
-          <BottomNav />
+          <AuthGuard>
+            <main className="max-w-4xl mx-auto px-4 py-8 pb-32 md:pb-8">
+              {children}
+            </main>
+            <BottomNav />
+          </AuthGuard>
         </FirebaseClientProvider>
       </body>
     </html>

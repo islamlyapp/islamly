@@ -1,4 +1,3 @@
-
 'use client';
 import {
   Auth,
@@ -47,5 +46,11 @@ export function initiateMicrosoftSignIn(authInstance: Auth): void {
 /** Initiate GitHub sign-in (non-blocking). */
 export function initiateGithubSignIn(authInstance: Auth): void {
   const provider = new GithubAuthProvider();
+  signInWithPopup(authInstance, provider);
+}
+
+/** Initiate Discord sign-in (non-blocking). */
+export function initiateDiscordSignIn(authInstance: Auth): void {
+  const provider = new OAuthProvider('discord.com');
   signInWithPopup(authInstance, provider);
 }

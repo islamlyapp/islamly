@@ -1,22 +1,20 @@
-
 "use client";
 
-import { useState, useEffect } from "react";
-import { useRouter } from "next/navigation";
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
-import { ShieldCheck, Mail, Lock, Loader2, Apple, Github } from "lucide-react";
+import { ShieldCheck, Mail, Lock, Loader2, Apple, Github, MessageSquare } from "lucide-react";
 import { 
   useAuth, 
-  useUser, 
   initiateEmailSignIn, 
   initiateEmailSignUp, 
   initiateAnonymousSignIn,
   initiateGoogleSignIn,
   initiateAppleSignIn,
   initiateMicrosoftSignIn,
-  initiateGithubSignIn
+  initiateGithubSignIn,
+  initiateDiscordSignIn
 } from "@/firebase";
 import { toast } from "@/hooks/use-toast";
 
@@ -26,14 +24,6 @@ export default function LoginPage() {
   const [isSignUp, setIsSignUp] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const auth = useAuth();
-  const { user, isUserLoading } = useUser();
-  const router = useRouter();
-
-  useEffect(() => {
-    if (user && !isUserLoading) {
-      router.push("/");
-    }
-  }, [user, isUserLoading, router]);
 
   const handleEmailAuth = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -70,21 +60,13 @@ export default function LoginPage() {
     }
   };
 
-  if (isUserLoading) {
-    return (
-      <div className="min-h-[60vh] flex items-center justify-center">
-        <Loader2 className="w-8 h-8 animate-spin text-primary" />
-      </div>
-    );
-  }
-
   return (
     <div className="max-w-md mx-auto space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500 py-10">
       <header className="text-center space-y-2">
         <div className="mx-auto w-16 h-16 bg-primary/20 rounded-2xl flex items-center justify-center mb-4">
           <ShieldCheck className="w-8 h-8 text-primary" />
         </div>
-        <h1 className="text-3xl font-headline font-bold tracking-tight">Access Knowledge</h1>
+        <h1 className="text-3xl font-headline font-bold tracking-tight text-foreground">Access Knowledge</h1>
         <p className="text-muted-foreground italic">Connect with authentic scholarly resources.</p>
       </header>
 
@@ -154,6 +136,15 @@ export default function LoginPage() {
             >
               <Apple className="w-4 h-4" />
               Apple
+            </Button>
+            <Button 
+              variant="outline" 
+              className="h-12 glass-card gap-2" 
+              onClick={() => handleSocialSignIn(() => initiateDiscordSignIn(auth))}
+              disabled={isLoading}
+            >
+              <MessageSquare className="w-4 h-4 text-[#5865F2]" />
+              Discord
             </Button>
             <Button 
               variant="outline" 
