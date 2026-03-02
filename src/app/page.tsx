@@ -1,4 +1,3 @@
-
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -15,7 +14,9 @@ import {
   Baby, 
   Video,
   MessageCircle,
-  ShieldAlert
+  ShieldAlert,
+  Clock,
+  Database
 } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
@@ -70,7 +71,7 @@ export default function Home() {
         <Card className="bg-primary/10 border-primary/20">
           <CardHeader className="flex flex-row items-center justify-between pb-2 space-y-0">
             <CardTitle className="text-sm font-medium">Next Prayer</CardTitle>
-            <ClockIcon className="h-4 w-4 text-primary" />
+            <Clock className="h-4 w-4 text-primary" />
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">Dhuhr</div>
@@ -93,13 +94,13 @@ export default function Home() {
 
         <Card className="glass-card">
           <CardHeader className="flex flex-row items-center justify-between pb-2 space-y-0">
-            <CardTitle className="text-sm font-medium">Live Now</CardTitle>
-            <div className="h-2 w-2 rounded-full bg-red-500 animate-pulse" />
+            <CardTitle className="text-sm font-medium">Universal API</CardTitle>
+            <Database className="h-4 w-4 text-primary" />
           </CardHeader>
           <CardContent>
-            <div className="text-lg font-medium">Ask an Expert</div>
+            <div className="text-lg font-medium">60 Modules Active</div>
             <Link href="/ask" className="text-xs text-primary hover:underline flex items-center gap-1 mt-1">
-              Query Assistant <ArrowRight className="w-3 h-3" />
+              Explore Data <ArrowRight className="w-3 h-3" />
             </Link>
           </CardContent>
         </Card>
@@ -116,10 +117,10 @@ export default function Home() {
         />
         <div className="absolute inset-0 bg-gradient-to-t from-background via-background/20 to-transparent" />
         <div className="absolute bottom-0 left-0 p-6 space-y-1">
-          <Badge variant="secondary" className="bg-primary text-white">New Feature</Badge>
-          <h2 className="text-2xl font-headline font-bold">Universal Knowledge API</h2>
+          <Badge variant="secondary" className="bg-primary text-white">60+ API Modules</Badge>
+          <h2 className="text-2xl font-headline font-bold">Knowledge Hub Integrated</h2>
           <p className="text-sm text-muted-foreground max-w-md line-clamp-1">
-            Search over 60 curated modules of authentic Islamic knowledge.
+            Access 60 specialized endpoints for Quran, Hadith, and Prayer.
           </p>
           <Button asChild size="sm" className="mt-4 h-8">
             <Link href="/ask">Try AI Search</Link>
@@ -151,7 +152,7 @@ export default function Home() {
       ))}
 
       {/* Daily Verse */}
-      <section className="py-6">
+      <section className="py-6 pb-20">
         <Card className="bg-secondary/20 border-border/50 overflow-hidden relative">
           <div className="absolute top-0 right-0 p-4 opacity-10">
             <BookMarked className="w-24 h-24 rotate-12" />
@@ -170,25 +171,5 @@ export default function Home() {
         </Card>
       </section>
     </div>
-  );
-}
-
-function ClockIcon({ className }: { className?: string }) {
-  return (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      className={className}
-    >
-      <circle cx="12" cy="12" r="10" />
-      <polyline points="12 6 12 12 16 14" />
-    </svg>
   );
 }

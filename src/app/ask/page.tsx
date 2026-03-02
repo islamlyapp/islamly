@@ -4,9 +4,12 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Search, Sparkles, Loader2, BookOpen, ArrowRight, MessageCircle, Database } from "lucide-react";
+import { Search, Sparkles, Loader2, BookOpen, ArrowRight, MessageCircle, Database, ChevronRight, Settings } from "lucide-react";
 import { searchKnowledgeHub, SearchKnowledgeOutput } from "@/ai/flows/search-knowledge-flow";
 import { Badge } from "@/components/ui/badge";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { KNOWLEDGE_HUB } from "@/lib/knowledge-hub";
+import { ScrollArea } from "@/components/ui/scroll-area";
 
 export default function AskPage() {
   const [query, setQuery] = useState("");
@@ -28,12 +31,7 @@ export default function AskPage() {
     }
   };
 
-  const suggestions = [
-    "Calculation Methods (AlAdhan)",
-    "Manuscript Variants (Tanzil)",
-    "Hadith Grading Principles",
-    "Inheritance (Mirath)"
-  ];
+  const categories = Array.from(new Set(KNOWLEDGE_HUB.map(m => m.category)));
 
   return (
     <div className="space-y-8 animate-in fade-in duration-500 pb-20">
@@ -41,9 +39,9 @@ export default function AskPage() {
         <div className="mx-auto w-16 h-16 bg-primary/20 rounded-full flex items-center justify-center mb-4">
           <Database className="w-8 h-8 text-primary" />
         </div>
-        <h1 className="text-4xl font-headline font-bold">Universal Knowledge Hub</h1>
+        <h1 className="text-4xl font-headline font-bold">Knowledge Hub AI</h1>
         <p className="text-muted-foreground max-w-sm mx-auto">
-          Access 60+ curated API modules covering Prayer, Quran, and Seerah.
+          Unified portal for 60+ classical API modules.
         </p>
       </header>
 
@@ -51,7 +49,7 @@ export default function AskPage() {
         <div className="relative flex-1">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground w-4 h-4" />
           <Input 
-            placeholder="Search our 60+ API modules..." 
+            placeholder="Query any of our 60 modules..." 
             className="pl-10 glass-card h-12"
             value={query}
             onChange={(e) => setQuery(e.target.value)}
@@ -62,13 +60,14 @@ export default function AskPage() {
         </Button>
       </form>
 
-      {result && (
+      {result ? (
         <Card className="glass-card animate-in slide-in-from-bottom-4 duration-500">
-          <CardHeader>
+          <CardHeader className="flex flex-row items-center justify-between">
             <CardTitle className="text-xl font-headline flex items-center gap-2">
               <Sparkles className="w-5 h-5 text-primary" />
               AI Insight
             </CardTitle>
+            <Button variant="ghost" size="sm" onClick={() => setResult(null)}>Clear</Button>
           </CardHeader>
           <CardContent className="space-y-6">
             <div className="prose prose-invert max-w-none text-literata text-lg leading-relaxed">
@@ -77,7 +76,7 @@ export default function AskPage() {
 
             {result.sourceModule && (
               <div className="pt-4 border-t border-border/50">
-                <span className="text-[10px] uppercase tracking-widest text-muted-foreground">Source Module</span>
+                <span className="text-[10px] uppercase tracking-widest text-muted-foreground">Active Module</span>
                 <p className="text-sm font-bold text-primary">{result.sourceModule}</p>
               </div>
             )}
@@ -101,30 +100,63 @@ export default function AskPage() {
             )}
           </CardContent>
         </Card>
-      )}
+      ) : (
+        <Tabs defaultValue="all" className="w-full">
+          <div className="flex items-center justify-between mb-4 px-1">
+            <h3 className="text-xs font-bold uppercase tracking-widest text-muted-foreground">API Explorer (60)</h3>
+            <TabsList className="bg-secondary/50">
+              <TabsTrigger value="all" className="text-[10px] uppercase">All</TabsTrigger>
+              <TabsTrigger value="categories" className="text-[10px] uppercase">By Group</TabsTrigger>
+            </TabsList>
+          </div>
 
-      {!result && !isLoading && (
-        <div className="grid grid-cols-2 gap-3">
-          {suggestions.map((q) => (
-            <Button 
-              key={q} 
-              variant="outline" 
-              className="h-auto py-4 flex-col gap-2 glass-card hover:border-primary/50 text-left items-start px-4"
-              onClick={() => { setQuery(q); handleSearch(); }}
-            >
-              <span className="text-xs font-headline font-bold line-clamp-1">{q}</span>
-              <div className="flex items-center gap-1 text-[10px] text-muted-foreground uppercase tracking-wider">
-                Explore <ArrowRight className="w-2 h-2" />
+          <TabsContent value="all">
+            <ScrollArea className="h-[400px] rounded-xl border border-border/50 bg-secondary/10 p-4">
+              <div className="grid gap-3">
+                {KNOWLEDGE_HUB.map((module) => (
+                  <button 
+                    key={module.id} 
+                    className="flex items-center justify-between p-3 rounded-lg bg-card/40 hover:bg-card/80 text-left transition-all border border-transparent hover:border-primary/20 group"
+                    onClick={() => { setQuery(module.title); handleSearch(); }}
+                  >
+                    <div className="space-y-1">
+                      <div className="flex items-center gap-2">
+                        <span className="text-xs font-bold font-headline">{module.title}</span>
+                        <Badge variant="outline" className="text-[8px] h-4 py-0 uppercase border-primary/30 text-primary">{module.category}</Badge>
+                      </div>
+                      <p className="text-[10px] text-muted-foreground line-clamp-1">{module.summary}</p>
+                    </div>
+                    <ChevronRight className="w-4 h-4 text-muted-foreground group-hover:text-primary transition-colors" />
+                  </button>
+                ))}
               </div>
-            </Button>
-          ))}
-        </div>
+            </ScrollArea>
+          </TabsContent>
+
+          <TabsContent value="categories">
+            <div className="grid grid-cols-2 gap-3">
+              {categories.map((cat) => (
+                <Card key={cat} className="glass-card hover:border-primary/50 cursor-pointer transition-all" onClick={() => setQuery(cat)}>
+                  <CardHeader className="p-4 flex flex-row items-center justify-between">
+                    <span className="text-xs font-bold uppercase tracking-tight">{cat}</span>
+                    <Badge variant="secondary" className="text-[9px]">
+                      {KNOWLEDGE_HUB.filter(m => m.category === cat).length}
+                    </Badge>
+                  </CardHeader>
+                </Card>
+              ))}
+            </div>
+          </TabsContent>
+        </Tabs>
       )}
 
-      <footer className="text-center">
-        <p className="text-[10px] uppercase tracking-widest text-muted-foreground">
-          Connected to 60/60 Authorized Data Sources
-        </p>
+      <footer className="text-center pt-8">
+        <div className="flex items-center justify-center gap-2 text-muted-foreground">
+          <Settings className="w-3 h-3" />
+          <p className="text-[10px] uppercase tracking-widest">
+            Protocol: Classical Salafi API (Ahlus-Sunnah)
+          </p>
+        </div>
       </footer>
     </div>
   );
