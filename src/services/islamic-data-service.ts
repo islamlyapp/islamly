@@ -11,6 +11,9 @@ export type PrayerTimings = {
   Isha: string;
 };
 
+/**
+ * Fetches prayer times based on city and country.
+ */
 export async function fetchPrayerTimes(city: string, country: string, method: number = 2): Promise<PrayerTimings> {
   try {
     const response = await fetch(`https://api.aladhan.com/v1/timingsByCity?city=${city}&country=${country}&method=${method}`);
@@ -18,6 +21,23 @@ export async function fetchPrayerTimes(city: string, country: string, method: nu
     return data.data.timings;
   } catch (error) {
     console.error("Error fetching prayer times:", error);
+    throw error;
+  }
+}
+
+/**
+ * Fetches prayer times based on geographic coordinates.
+ */
+export async function fetchPrayerTimesByCoords(lat: number, lng: number, method: number = 2): Promise<{ timings: PrayerTimings, meta: any }> {
+  try {
+    const response = await fetch(`https://api.aladhan.com/v1/timings?latitude=${lat}&longitude=${lng}&method=${method}`);
+    const data = await response.json();
+    return {
+      timings: data.data.timings,
+      meta: data.data.meta
+    };
+  } catch (error) {
+    console.error("Error fetching prayer times by coords:", error);
     throw error;
   }
 }
@@ -38,9 +58,6 @@ export async function fetchSurahVerses(surahId: number, translationId?: number) 
     const translationParam = translationId ? `&translations=${translationId}` : '';
     const response = await fetch(`https://api.quran.com/api/v4/quran/verses/uthmani?chapter_number=${surahId}${translationParam}`);
     const data = await response.json();
-    
-    // If we want translation text too, we need a slightly different endpoint or combine them
-    // For simplicity in this UI, we fetch the Uthmani script and if translation is needed, we'd fetch translations specifically
     return data.verses;
   } catch (error) {
     console.error("Error fetching verses:", error);
