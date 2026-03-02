@@ -17,7 +17,12 @@ import {
   ShieldAlert,
   Clock,
   BookOpen,
-  Languages
+  Languages,
+  MapPin,
+  Utensils,
+  Home as HomeIcon,
+  Zap,
+  Users
 } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
@@ -38,6 +43,15 @@ export default function Home() {
       ]
     },
     {
+      group: "Community & Services",
+      items: [
+        { title: "Masjids", href: "/masjid-locator", icon: MapPin, color: "text-primary" },
+        { title: "Halal Finder", href: "/halal-locator", icon: Utensils, color: "text-accent" },
+        { title: "Families", href: "/family", icon: HomeIcon, color: "text-primary" },
+        { title: "Youth Hub", href: "/teens", icon: Zap, color: "text-accent" },
+      ]
+    },
+    {
       group: "Interactive Guidance",
       items: [
         { title: "Ask AI", href: "/ask", icon: MessageCircle, color: "text-primary" },
@@ -47,8 +61,9 @@ export default function Home() {
       ]
     },
     {
-      group: "Growth & Community",
+      group: "Growth & Education",
       items: [
+        { title: "Parenting", href: "/parenting", icon: Baby, color: "text-primary" },
         { title: "Reverts", href: "/reverts", icon: UserPlus, color: "text-primary" },
         { title: "Discover", href: "/dawah", icon: Globe, color: "text-accent" },
         { title: "Kids Corner", href: "/kids", icon: Baby, color: "text-primary" },
