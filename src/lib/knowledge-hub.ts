@@ -45,7 +45,7 @@ export const KNOWLEDGE_HUB: KnowledgeModule[] = [
 
   // 31-40: Hadith & Quran Sciences (Tanzil/Quran.com style)
   { id: "31", category: "Calculations", title: "Prayer Time Algorithms", summary: "AlAdhan method.", details: "Methods for calculating prayer times based on sun angle (MWL, ISNA, Umm al-Qura)." },
-  { id: "32", category: "Recitation", title: "Qira'at Variants", summary: "The 10 readings.", details: "The authentic ways of reciting the Quran as transmitted from the Prophet." },
+  { id: "32", category: "Quran", title: "The 10 Mutawatir Qira'at", summary: "Canonical variant readings.", details: "The 10 authentic ways of reciting the Quran transmitted through multiple chains (Mutawatir)." },
   { id: "33", category: "Manuscripts", title: "Uthmanic Orthography", summary: "Tanzil Rasm.", details: "The specific script (Rasm) used in the early Mushafs that preserves variants." },
   { id: "34", category: "Hadith", title: "Mustalah al-Hadith", summary: "Hadith terminology.", details: "Classifying narrations into Sahih (authentic), Hasan (good), and Da'if (weak)." },
   { id: "35", category: "Quran", title: "Asbab al-Nuzul", summary: "Context of revelation.", details: "The historical events surrounding the revelation of specific verses." },
@@ -59,8 +59,7 @@ export const KNOWLEDGE_HUB: KnowledgeModule[] = [
   { id: "41", category: "Ethics", title: "Adab (Manners)", summary: "Prophetic character.", details: "The importance of truthfulness, humility, and keeping promises." },
   { id: "42", category: "Refutation", title: "Misconception: Jihad", summary: "Clarifying extremes.", details: "Defining Jihad as a struggle for justice under scholarly authority, not lawlessness." },
   { id: "43", category: "Spirituality", title: "Tazkiyah (Purification)", summary: "Curing the heart.", details: "Removing diseases of the heart like envy, pride, and ostentation (Riya)." },
-  { id: "44", category: "Society", title: "Rights of Neighbors", summary: "Community bond.", details: "The Prophet's emphasis on treating neighbors with excellence, regardless of faith." },
-  { id: "45", category: "Science", title: "Astronomy in Islam", summary: "Signs in creation.", details: "Classical scholarly views on celestial bodies as signs of the Creator's power." },
+  { id: "45", category: "Refutation", title: "Sifaat of Allah", summary: "Attributes of the Creator.", details: "Understanding Allah's attributes according to the Salaf, avoiding Tashbih and Ta'til." },
   { id: "46", category: "Spirituality", title: "Tahajjud Virtue", summary: "The night prayer.", details: "The spiritual benefits of standing in the last third of the night." },
   { id: "47", category: "Ethics", title: "Kindness to Parents", summary: "The highest duty.", details: "The mandatory nature of Birr al-Walidayn after worshipping Allah." },
   { id: "48", category: "Law", title: "Islamic Criminal Law", summary: "Hudud and Qisas.", details: "The objectives (Maqasid) of preserving life, intellect, and property through law." },
