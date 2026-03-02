@@ -2,28 +2,34 @@
 
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Search, Globe, Info, ShieldCheck } from "lucide-react";
+import { Search, Globe, ShieldCheck, Loader2 } from "lucide-react";
 import { Input } from "@/components/ui/input";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
-
-const surahs = [
-  { id: 1, name: "Al-Fatihah", arabic: "الفاتحة", verses: 7, type: "Meccan", meaning: "The Opening", module: "Uthmanic" },
-  { id: 2, name: "Al-Baqarah", arabic: "البقرة", verses: 286, type: "Medinan", meaning: "The Cow", module: "Standard" },
-  { id: 3, name: "Ali 'Imran", arabic: "آل عمران", verses: 200, type: "Medinan", meaning: "Family of Imran", module: "Uthmanic" },
-  { id: 4, name: "An-Nisa", arabic: "النساء", verses: 176, type: "Medinan", meaning: "The Women", module: "Hafs" },
-  { id: 112, name: "Al-Ikhlas", arabic: "الإخلاص", verses: 4, type: "Meccan", meaning: "The Sincerity", module: "Uthmanic" },
-  { id: 113, name: "Al-Falaq", arabic: "الفلق", verses: 5, type: "Meccan", meaning: "The Daybreak", module: "Uthmanic" },
-  { id: 114, name: "An-Nas", arabic: "الناس", verses: 6, type: "Meccan", meaning: "The Mankind", module: "Uthmanic" },
-];
+import { fetchSurahList } from "@/services/islamic-data-service";
 
 export default function QuranPage() {
   const [search, setSearch] = useState("");
-  const [activeReading, setActiveReading] = useState("Standard");
+  const [surahs, setSurahs] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    async function loadSurahs() {
+      try {
+        const data = await fetchSurahList();
+        setSurahs(data);
+      } catch (err) {
+        console.error(err);
+      } finally {
+        setLoading(false);
+      }
+    }
+    loadSurahs();
+  }, []);
 
   const filteredSurahs = surahs.filter(s => 
-    s.name.toLowerCase().includes(search.toLowerCase()) || 
-    s.meaning.toLowerCase().includes(search.toLowerCase())
+    s.name_simple.toLowerCase().includes(search.toLowerCase()) || 
+    s.translated_name.name.toLowerCase().includes(search.toLowerCase())
   );
 
   return (
@@ -33,7 +39,7 @@ export default function QuranPage() {
           <h1 className="text-3xl font-headline font-bold">The Holy Quran</h1>
           <Badge variant="secondary" className="gap-1 bg-primary/10 text-primary border-primary/20">
             <ShieldCheck className="w-3 h-3" />
-            Verified Text
+            Verified Source
           </Badge>
         </div>
         <div className="relative">
@@ -47,64 +53,47 @@ export default function QuranPage() {
         </div>
       </header>
 
-      <div className="flex gap-2 overflow-x-auto no-scrollbar pb-1">
-        {["Standard", "Hafs", "Warsh", "Uthmani", "IndoPak"].map((reading) => (
-          <Badge 
-            key={reading} 
-            variant={activeReading === reading ? "default" : "outline"}
-            className="cursor-pointer whitespace-nowrap px-4 py-1"
-            onClick={() => setActiveReading(reading)}
-          >
-            {reading} Reading
-          </Badge>
-        ))}
-      </div>
-
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-        {filteredSurahs.map((surah) => (
-          <Link key={surah.id} href={`/quran/${surah.id}`}>
-            <Card className="glass-card hover:border-primary/50 transition-all group overflow-hidden">
-              <CardContent className="p-4 flex items-center justify-between">
-                <div className="flex items-center gap-4">
-                  <div className="w-10 h-10 flex items-center justify-center rounded-full bg-secondary/50 text-xs font-headline font-bold group-hover:bg-primary/20 transition-colors">
-                    {surah.id}
-                  </div>
-                  <div>
-                    <h3 className="font-headline font-semibold group-hover:text-primary transition-colors">{surah.name}</h3>
-                    <div className="flex items-center gap-2 mt-0.5">
-                      <p className="text-[10px] text-muted-foreground">{surah.verses} Verses</p>
-                      <span className="text-[10px] text-muted-foreground/30">•</span>
-                      <p className="text-[10px] text-accent font-bold uppercase tracking-tight">{surah.module}</p>
+      {loading ? (
+        <div className="h-[400px] flex items-center justify-center">
+          <Loader2 className="w-8 h-8 animate-spin text-primary" />
+        </div>
+      ) : (
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+          {filteredSurahs.map((surah) => (
+            <Link key={surah.id} href={`/quran/${surah.id}`}>
+              <Card className="glass-card hover:border-primary/50 transition-all group overflow-hidden">
+                <CardContent className="p-4 flex items-center justify-between">
+                  <div className="flex items-center gap-4">
+                    <div className="w-10 h-10 flex items-center justify-center rounded-full bg-secondary/50 text-xs font-headline font-bold group-hover:bg-primary/20 transition-colors">
+                      {surah.id}
+                    </div>
+                    <div>
+                      <h3 className="font-headline font-semibold group-hover:text-primary transition-colors">{surah.name_simple}</h3>
+                      <div className="flex items-center gap-2 mt-0.5">
+                        <p className="text-[10px] text-muted-foreground">{surah.verses_count} Verses</p>
+                        <span className="text-[10px] text-muted-foreground/30">•</span>
+                        <p className="text-[10px] text-accent font-bold uppercase tracking-tight">{surah.revelation_place}</p>
+                      </div>
                     </div>
                   </div>
-                </div>
-                <div className="text-right">
-                  <p className="text-xl font-serif text-literata" dir="rtl">{surah.arabic}</p>
-                  <Badge variant="outline" className="text-[8px] uppercase mt-1 h-4">{surah.type}</Badge>
-                </div>
-              </CardContent>
-            </Card>
-          </Link>
-        ))}
-      </div>
+                  <div className="text-right">
+                    <p className="text-xl font-serif text-literata" dir="rtl">{surah.name_arabic}</p>
+                    <p className="text-[9px] text-muted-foreground">{surah.translated_name.name}</p>
+                  </div>
+                </CardContent>
+              </Card>
+            </Link>
+          ))}
+        </div>
+      )}
 
       <section className="bg-secondary/20 p-6 rounded-xl border border-border flex flex-col gap-3">
         <div className="flex items-center gap-2">
           <Globe className="w-4 h-4 text-primary" />
-          <h3 className="font-headline font-bold text-sm uppercase tracking-widest">Script Details</h3>
+          <h3 className="font-headline font-bold text-sm uppercase tracking-widest">Reference Details</h3>
         </div>
-        <div className="space-y-2">
-          <div className="flex justify-between text-[11px]">
-            <span className="text-muted-foreground">Orthography (Rasm)</span>
-            <span className="font-bold">Uthmanic Standard</span>
-          </div>
-          <div className="flex justify-between text-[11px]">
-            <span className="text-muted-foreground">Transmission</span>
-            <span className="font-bold">Hafs 'an 'Asim</span>
-          </div>
-        </div>
-        <p className="text-[10px] text-muted-foreground leading-relaxed mt-2 italic">
-          Text sourced and verified against classical manuscript indexes.
+        <p className="text-[11px] text-muted-foreground leading-relaxed italic">
+          Textual references verified against standard manuscript indexes.
         </p>
       </section>
     </div>
