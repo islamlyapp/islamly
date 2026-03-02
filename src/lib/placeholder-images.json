@@ -1,3 +1,28 @@
 {
-  "placeholderImages": []
+  "placeholderImages": [
+    {
+      "id": "quran-cover",
+      "description": "Ornate Quran cover with gold calligraphy",
+      "imageUrl": "https://images.unsplash.com/photo-1720701575003-51dafcf39cb4?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw1fHxxdXJhbiUyMGNhbGxpZ3JhcGh5fGVufDB8fHx8MTc3MjQ0OTEzMHww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "quran calligraphy"
+    },
+    {
+      "id": "library-books",
+      "description": "Classical Islamic leather-bound books on a shelf",
+      "imageUrl": "https://images.unsplash.com/photo-1491841651911-c44c30c34548?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw0fHxvbGQlMjBib29rc3xlbnwwfHx8fDE3NzIzODQ3MjV8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "old books"
+    },
+    {
+      "id": "mosque-interior",
+      "description": "Stunning mosque interior with high arches",
+      "imageUrl": "https://images.unsplash.com/photo-1637645932063-bb7324874809?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw2fHxtb3NxdWUlMjBhcmNoaXRlY3R1cmV8ZW58MHx8fHwxNzcyMzI2MjQ2fDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "mosque architecture"
+    },
+    {
+      "id": "desert-scholar",
+      "description": "Silhouette of a scholar in a library or desert setting",
+      "imageUrl": "https://images.unsplash.com/photo-1741528804373-2bedeb308ce1?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxMHx8c2Nob2xhciUyMGxpYnJhcnl8ZW58MHx8fHwxNzcyNDQ5MTMwfDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "scholar library"
+    }
+  ]
 }
