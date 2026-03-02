@@ -1,7 +1,7 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { BookMarked, Search, ArrowRight, Sun, Moon, MapPin, Library } from "lucide-react";
+import { BookMarked, Search, ArrowRight, Sun, Moon, MapPin, Library, Sparkles } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
 import { PlaceHolderImages } from "@/lib/placeholder-images";
@@ -9,6 +9,15 @@ import { cn } from "@/lib/utils";
 
 export default function Home() {
   const libraryImage = PlaceHolderImages.find(img => img.id === 'library-books');
+
+  const mainFeatures = [
+    { title: "Quran Study", href: "/quran", icon: BookMarked, color: "text-primary" },
+    { title: "Hadith Explorer", href: "/hadith", icon: Search, color: "text-accent" },
+    { title: "Seerah Navigator", href: "/seerah", icon: BookMarked, color: "text-primary" },
+    { title: "AI Explanation", href: "/explain", icon: Sparkles, color: "text-accent" },
+    { title: "Islamic Quizzes", href: "/quizzes", icon: MessageCircleQuestionIcon, color: "text-primary" },
+    { title: "Text Library", href: "/library", icon: Library, color: "text-accent" },
+  ];
 
   return (
     <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
@@ -60,7 +69,7 @@ export default function Home() {
       </section>
 
       {/* Hero Section */}
-      <section className="relative h-[250px] rounded-2xl overflow-hidden group">
+      <section className="relative h-[250px] rounded-2xl overflow-hidden group shadow-2xl">
         <Image 
           src={libraryImage?.imageUrl || "https://picsum.photos/seed/lib/800/400"} 
           alt="Library"
@@ -83,14 +92,7 @@ export default function Home() {
 
       {/* Main Feature Grid */}
       <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-        {[
-          { title: "Quran Study", href: "/quran", icon: BookMarked, color: "text-primary" },
-          { title: "Hadith Explorer", href: "/hadith", icon: Search, color: "text-accent" },
-          { title: "Seerah Navigator", href: "/seerah", icon: BookMarked, color: "text-primary" },
-          { title: "AI Explanation", href: "/explain", icon: SparklesIcon, color: "text-accent" },
-          { title: "Islamic Quizzes", href: "/quizzes", icon: MessageCircleQuestionIcon, color: "text-primary" },
-          { title: "Text Library", href: "/library", icon: Library, color: "text-accent" },
-        ].map((item) => (
+        {mainFeatures.map((item) => (
           <Link key={item.title} href={item.href}>
             <Card className="glass-card hover:border-primary/50 transition-all group h-full">
               <CardContent className="flex flex-col items-center justify-center p-6 text-center gap-3">
@@ -115,7 +117,7 @@ export default function Home() {
             <p className="text-muted-foreground">
               "It is You we worship and You we ask for help."
             </p>
-            <p className="text-xs uppercase tracking-widest text-primary font-headline">
+            <p className="text-xs uppercase tracking-widest text-primary font-headline font-bold">
               Surah Al-Fatiha [1:5]
             </p>
           </CardContent>
@@ -141,29 +143,6 @@ function ClockIcon({ className }: { className?: string }) {
     >
       <circle cx="12" cy="12" r="10" />
       <polyline points="12 6 12 12 16 14" />
-    </svg>
-  );
-}
-
-function SparklesIcon({ className }: { className?: string }) {
-  return (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      className={className}
-    >
-      <path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z" />
-      <path d="M5 3v4" />
-      <path d="M19 17v4" />
-      <path d="M3 5h4" />
-      <path d="M17 19h4" />
     </svg>
   );
 }
