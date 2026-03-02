@@ -32,6 +32,14 @@
           "type": "string",
           "description": "The user's preferred or detected time zone (e.g., 'America/New_York')."
         },
+        "preferredLanguage": {
+          "type": "string",
+          "description": "The display name of the user's preferred translation language."
+        },
+        "preferredLanguageId": {
+          "type": "number",
+          "description": "The ID of the translation resource from the external API."
+        },
         "createdAt": {
           "type": "string",
           "description": "Timestamp indicating when the user profile was created.",
@@ -45,10 +53,6 @@
       },
       "required": [
         "id",
-        "preferredCalculationMethod",
-        "latitude",
-        "longitude",
-        "timeZone",
         "createdAt",
         "updatedAt"
       ]

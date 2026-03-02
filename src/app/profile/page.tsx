@@ -1,18 +1,45 @@
+
 "use client";
 
 import { useRouter } from "next/navigation";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { User, LogOut, Shield, Bookmark, BookOpen, Settings, ChevronRight } from "lucide-react";
-import { useUser, useAuth } from "@/firebase";
+import { User, LogOut, Shield, Bookmark, BookOpen, Settings, ChevronRight, Languages, Search, Globe, Loader2 } from "lucide-react";
+import { useUser, useAuth, useFirestore, useDoc, useMemoFirebase, setDocumentNonBlocking } from "@/firebase";
 import { signOut } from "firebase/auth";
+import { doc, serverTimestamp } from "firebase/firestore";
+import {
+  Sheet,
+  SheetContent,
+  SheetDescription,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from "@/components/ui/sheet";
+import { Input } from "@/components/ui/input";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { fetchAvailableTranslations } from "@/services/islamic-data-service";
 
 export default function ProfilePage() {
   const { user, isUserLoading } = useUser();
   const auth = useAuth();
+  const db = useFirestore();
   const router = useRouter();
+
+  // Firestore User Profile
+  const profileRef = useMemoFirebase(() => {
+    if (!db || !user?.uid) return null;
+    return doc(db, "users", user.uid);
+  }, [db, user?.uid]);
+
+  const { data: profile, isLoading: isProfileLoading } = useDoc(profileRef);
+
+  // Settings State
+  const [availableLanguages, setAvailableLanguages] = useState<any[]>([]);
+  const [langSearch, setLangSearch] = useState("");
+  const [isSettingsOpen, setIsSettingsOpen] = useState(false);
 
   useEffect(() => {
     if (!user && !isUserLoading) {
@@ -20,9 +47,30 @@ export default function ProfilePage() {
     }
   }, [user, isUserLoading, router]);
 
+  useEffect(() => {
+    async function loadLangs() {
+      const langs = await fetchAvailableTranslations();
+      setAvailableLanguages(langs);
+    }
+    loadLangs();
+  }, []);
+
   const handleSignOut = async () => {
     await signOut(auth);
     router.push("/login");
+  };
+
+  const handleLanguageSelect = (lang: any) => {
+    if (!profileRef) return;
+
+    setDocumentNonBlocking(profileRef, {
+      preferredLanguage: lang.language_name,
+      preferredLanguageId: lang.id,
+      id: user?.uid,
+      updatedAt: serverTimestamp(),
+    }, { merge: true });
+
+    setIsSettingsOpen(false);
   };
 
   if (isUserLoading || !user) {
@@ -36,8 +84,12 @@ export default function ProfilePage() {
   const profileItems = [
     { label: "My Bookmarks", icon: Bookmark, count: "12" },
     { label: "Personal Notes", icon: BookOpen, count: "5" },
-    { label: "App Settings", icon: Settings, count: null },
   ];
+
+  const filteredLangs = availableLanguages.filter(l => 
+    l.language_name.toLowerCase().includes(langSearch.toLowerCase()) || 
+    l.name.toLowerCase().includes(langSearch.toLowerCase())
+  );
 
   return (
     <div className="space-y-8 animate-in fade-in duration-500 pb-20">
@@ -53,10 +105,99 @@ export default function ProfilePage() {
               {user.isAnonymous ? "Guest Access" : "Verified Student"}
             </Badge>
           </div>
+          {profile?.preferredLanguage && (
+            <p className="text-[10px] text-muted-foreground uppercase tracking-widest mt-2 flex items-center justify-center gap-1">
+              <Languages className="w-2 h-2" />
+              {profile.preferredLanguage} Translation
+            </p>
+          )}
         </div>
       </header>
 
       <section className="grid gap-4">
+        {/* Settings Entry */}
+        <Sheet open={isSettingsOpen} onOpenChange={setIsSettingsOpen}>
+          <SheetTrigger asChild>
+            <Card className="glass-card hover:bg-secondary/30 transition-all cursor-pointer group border-primary/20 bg-primary/5">
+              <CardContent className="p-4 flex items-center justify-between">
+                <div className="flex items-center gap-3">
+                  <div className="p-2 bg-primary/20 rounded-lg group-hover:bg-primary/30 transition-colors">
+                    <Settings className="w-4 h-4 text-primary" />
+                  </div>
+                  <div className="text-left">
+                    <span className="font-headline font-semibold text-sm block">App Settings</span>
+                    <span className="text-[10px] text-muted-foreground uppercase">Global Preferences</span>
+                  </div>
+                </div>
+                <ChevronRight className="w-4 h-4 text-muted-foreground" />
+              </CardContent>
+            </Card>
+          </SheetTrigger>
+          <SheetContent side="bottom" className="h-[85vh] rounded-t-3xl border-none glass-card">
+            <SheetHeader className="pb-4">
+              <SheetTitle className="font-headline text-2xl">Preferences</SheetTitle>
+              <SheetDescription className="text-muted-foreground">
+                Set your global language and scholarly preferences for the entire application.
+              </SheetDescription>
+            </SheetHeader>
+            
+            <div className="space-y-6 pt-2">
+              <div className="space-y-3">
+                <div className="flex items-center justify-between px-1">
+                  <h3 className="text-xs font-bold uppercase tracking-widest text-primary flex items-center gap-2">
+                    <Languages className="w-3 h-3" />
+                    Quran Translation
+                  </h3>
+                  <Badge variant="outline" className="text-[9px]">7709+ Spoken Languages</Badge>
+                </div>
+                
+                <div className="relative">
+                  <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground w-4 h-4" />
+                  <Input 
+                    placeholder="Search world languages..." 
+                    className="pl-10 h-12 bg-secondary/30 border-white/5"
+                    value={langSearch}
+                    onChange={(e) => setLangSearch(e.target.value)}
+                  />
+                </div>
+
+                <ScrollArea className="h-[45vh] rounded-xl bg-secondary/10 border border-white/5 p-2">
+                  <div className="grid gap-1">
+                    {filteredLangs.map((lang) => (
+                      <button
+                        key={lang.id}
+                        onClick={() => handleLanguageSelect(lang)}
+                        className={`flex items-center justify-between p-4 rounded-lg text-left transition-all ${
+                          profile?.preferredLanguageId === lang.id 
+                            ? "bg-primary/20 border border-primary/30" 
+                            : "hover:bg-white/5"
+                        }`}
+                      >
+                        <div>
+                          <p className="font-headline font-bold text-sm uppercase tracking-tight">{lang.language_name}</p>
+                          <p className="text-[10px] text-muted-foreground">{lang.name}</p>
+                        </div>
+                        {profile?.preferredLanguageId === lang.id && (
+                          <div className="w-2 h-2 rounded-full bg-primary animate-pulse" />
+                        )}
+                      </button>
+                    ))}
+                  </div>
+                </ScrollArea>
+              </div>
+
+              <div className="space-y-4 pt-4 border-t border-white/5">
+                <p className="text-[10px] text-center text-muted-foreground italic">
+                  Changes made here will apply universally across all scholarly modules.
+                </p>
+                <Button variant="outline" className="w-full h-12 font-headline" onClick={() => setIsSettingsOpen(false)}>
+                  Done
+                </Button>
+              </div>
+            </div>
+          </SheetContent>
+        </Sheet>
+
         {profileItems.map((item) => (
           <Card key={item.label} className="glass-card hover:bg-secondary/30 transition-all cursor-pointer group">
             <CardContent className="p-4 flex items-center justify-between">
@@ -86,8 +227,9 @@ export default function ProfilePage() {
         </Button>
       </section>
 
-      <footer className="text-center text-[10px] text-muted-foreground uppercase tracking-widest pt-8">
-        Member since {user.metadata.creationTime ? new Date(user.metadata.creationTime).toLocaleDateString() : 'N/A'}
+      <footer className="text-center text-[10px] text-muted-foreground uppercase tracking-widest pt-8 flex flex-col items-center gap-2">
+        <span className="opacity-50 tracking-[0.3em]">Universal Knowledge Guard</span>
+        <span>Member since {user.metadata.creationTime ? new Date(user.metadata.creationTime).toLocaleDateString() : 'N/A'}</span>
       </footer>
     </div>
   );

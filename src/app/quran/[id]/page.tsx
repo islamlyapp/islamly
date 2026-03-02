@@ -1,7 +1,8 @@
+
 "use client";
 
 import { useState, useEffect, use } from "react";
-import { fetchSurahVerses, fetchVerseTranslations, fetchAvailableTranslations } from "@/services/islamic-data-service";
+import { fetchSurahVerses, fetchVerseTranslations } from "@/services/islamic-data-service";
 import { Button } from "@/components/ui/button";
 import { ChevronLeft, Loader2, BookOpen, Settings2, Info, ChevronDown, Languages, Globe } from "lucide-react";
 import Link from "next/link";
@@ -16,26 +17,32 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Badge } from "@/components/ui/badge";
-import { ScrollArea } from "@/components/ui/scroll-area";
-import { Input } from "@/components/ui/input";
+import { useUser, useFirestore, useDoc, useMemoFirebase } from "@/firebase";
+import { doc } from "firebase/firestore";
 
 export default function SurahReadingPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = use(params);
+  const { user } = useUser();
+  const db = useFirestore();
+
+  // Load User Preferences from Settings
+  const profileRef = useMemoFirebase(() => {
+    if (!db || !user?.uid) return null;
+    return doc(db, "users", user.uid);
+  }, [db, user?.uid]);
+
+  const { data: profile } = useDoc(profileRef);
+
   const [verses, setVerses] = useState<any[]>([]);
   const [translations, setTranslations] = useState<any[]>([]);
-  const [availableLanguages, setAvailableLanguages] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [selectedQiraah, setSelectedQiraah] = useState<Qiraah>(QIRAAT_DATA[0]);
-  const [selectedTranslation, setSelectedTranslation] = useState<any>({ id: 131, name: "Clear Quran", language_name: "English" });
-  const [langSearch, setLangSearch] = useState("");
 
-  useEffect(() => {
-    async function loadResources() {
-      const langs = await fetchAvailableTranslations();
-      setAvailableLanguages(langs);
-    }
-    loadResources();
-  }, []);
+  // Default translation if none set in settings
+  const defaultTranslation = { id: 131, language_name: "English", name: "Clear Quran" };
+  const currentLang = profile?.preferredLanguageId 
+    ? { id: profile.preferredLanguageId, language_name: profile.preferredLanguage } 
+    : defaultTranslation;
 
   useEffect(() => {
     async function loadContent() {
@@ -43,7 +50,7 @@ export default function SurahReadingPage({ params }: { params: Promise<{ id: str
       try {
         const [verseData, transData] = await Promise.all([
           fetchSurahVerses(parseInt(id)),
-          fetchVerseTranslations(parseInt(id), selectedTranslation.id)
+          fetchVerseTranslations(parseInt(id), currentLang.id)
         ]);
         setVerses(verseData);
         setTranslations(transData);
@@ -54,12 +61,7 @@ export default function SurahReadingPage({ params }: { params: Promise<{ id: str
       }
     }
     loadContent();
-  }, [id, selectedQiraah, selectedTranslation]);
-
-  const filteredLangs = availableLanguages.filter(l => 
-    l.language_name.toLowerCase().includes(langSearch.toLowerCase()) || 
-    l.name.toLowerCase().includes(langSearch.toLowerCase())
-  );
+  }, [id, selectedQiraah, currentLang.id]);
 
   return (
     <div className="space-y-6 animate-in fade-in duration-500 pb-32">
@@ -68,49 +70,19 @@ export default function SurahReadingPage({ params }: { params: Promise<{ id: str
           <Button asChild variant="ghost" size="icon">
             <Link href="/quran"><ChevronLeft className="w-6 h-6" /></Link>
           </Button>
-          <div className="hidden sm:block">
+          <div>
             <h1 className="text-xl font-headline font-bold">Surah {id}</h1>
             <p className="text-[10px] text-muted-foreground uppercase tracking-widest">Global Outreach Edition</p>
           </div>
         </div>
 
         <div className="flex gap-2">
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button variant="outline" size="sm" className="glass-card gap-2 h-9">
-                <Languages className="w-4 h-4 text-primary" />
-                <span className="text-xs hidden md:inline">{selectedTranslation.language_name}</span>
-                <ChevronDown className="w-3 h-3 opacity-50" />
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="end" className="w-80 glass-card">
-              <DropdownMenuLabel className="text-[10px] uppercase font-bold text-primary flex items-center justify-between">
-                <span>7709+ Language Support</span>
-                <Globe className="w-3 h-3" />
-              </DropdownMenuLabel>
-              <div className="p-2">
-                <Input 
-                  placeholder="Search 7709+ languages..." 
-                  className="h-8 text-xs bg-secondary/30"
-                  value={langSearch}
-                  onChange={(e) => setLangSearch(e.target.value)}
-                />
-              </div>
-              <DropdownMenuSeparator />
-              <ScrollArea className="h-[300px]">
-                {filteredLangs.map((l) => (
-                  <DropdownMenuItem 
-                    key={l.id} 
-                    onClick={() => setSelectedTranslation(l)}
-                    className="flex flex-col items-start gap-0.5 p-3 cursor-pointer"
-                  >
-                    <span className="font-bold text-sm uppercase tracking-tight">{l.language_name}</span>
-                    <span className="text-[10px] text-muted-foreground">{l.name}</span>
-                  </DropdownMenuItem>
-                ))}
-              </ScrollArea>
-            </DropdownMenuContent>
-          </DropdownMenu>
+          <Button asChild variant="outline" size="sm" className="glass-card gap-2 h-9">
+            <Link href="/profile">
+              <Languages className="w-4 h-4 text-primary" />
+              <span className="text-xs hidden md:inline">{currentLang.language_name}</span>
+            </Link>
+          </Button>
 
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
@@ -144,9 +116,9 @@ export default function SurahReadingPage({ params }: { params: Promise<{ id: str
         <CardContent className="p-4 flex items-start gap-3">
           <Info className="w-4 h-4 text-primary shrink-0 mt-0.5" />
           <div className="space-y-1">
-            <p className="text-xs font-bold uppercase tracking-tight text-primary">Scholarly Translation</p>
+            <p className="text-xs font-bold uppercase tracking-tight text-primary">Global Setting Active</p>
             <p className="text-[11px] text-muted-foreground leading-relaxed italic">
-              Currently viewing translation in {selectedTranslation.language_name} ({selectedTranslation.name}). Verified for accuracy.
+              Currently viewing translation in {currentLang.language_name}. Update your preferences in <Link href="/profile" className="text-primary underline">App Settings</Link>.
             </p>
           </div>
         </CardContent>
@@ -172,7 +144,7 @@ export default function SurahReadingPage({ params }: { params: Promise<{ id: str
                     </Badge>
                   )}
                   <Badge variant="outline" className="text-[9px] border-primary/20 text-primary">
-                    {selectedTranslation.language_name}
+                    {currentLang.language_name}
                   </Badge>
                 </div>
               </div>
