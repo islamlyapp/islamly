@@ -4,7 +4,7 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Search, Sparkles, Loader2, BookOpen, ArrowRight, MessageCircle, Database, ChevronRight, Settings } from "lucide-react";
+import { Search, Sparkles, Loader2, BookOpen, MessageCircle, ChevronRight, Bookmark } from "lucide-react";
 import { searchKnowledgeHub, SearchKnowledgeOutput } from "@/ai/flows/search-knowledge-flow";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -37,11 +37,11 @@ export default function AskPage() {
     <div className="space-y-8 animate-in fade-in duration-500 pb-20">
       <header className="space-y-2 text-center">
         <div className="mx-auto w-16 h-16 bg-primary/20 rounded-full flex items-center justify-center mb-4">
-          <Database className="w-8 h-8 text-primary" />
+          <MessageCircle className="w-8 h-8 text-primary" />
         </div>
-        <h1 className="text-4xl font-headline font-bold">Knowledge Hub AI</h1>
+        <h1 className="text-4xl font-headline font-bold">Knowledge Assistant</h1>
         <p className="text-muted-foreground max-w-sm mx-auto">
-          Unified portal for 60+ classical API modules.
+          Search across our collection of verified classical texts and scholarly works.
         </p>
       </header>
 
@@ -49,7 +49,7 @@ export default function AskPage() {
         <div className="relative flex-1">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground w-4 h-4" />
           <Input 
-            placeholder="Query any of our 60 modules..." 
+            placeholder="Ask about Aqidah, Fiqh, or History..." 
             className="pl-10 glass-card h-12"
             value={query}
             onChange={(e) => setQuery(e.target.value)}
@@ -65,7 +65,7 @@ export default function AskPage() {
           <CardHeader className="flex flex-row items-center justify-between">
             <CardTitle className="text-xl font-headline flex items-center gap-2">
               <Sparkles className="w-5 h-5 text-primary" />
-              AI Insight
+              Insight
             </CardTitle>
             <Button variant="ghost" size="sm" onClick={() => setResult(null)}>Clear</Button>
           </CardHeader>
@@ -76,14 +76,14 @@ export default function AskPage() {
 
             {result.sourceModule && (
               <div className="pt-4 border-t border-border/50">
-                <span className="text-[10px] uppercase tracking-widest text-muted-foreground">Active Module</span>
+                <span className="text-[10px] uppercase tracking-widest text-muted-foreground">Source Reference</span>
                 <p className="text-sm font-bold text-primary">{result.sourceModule}</p>
               </div>
             )}
 
             {result.relatedTopics.length > 0 && (
               <div className="space-y-2">
-                <span className="text-[10px] uppercase tracking-widest text-muted-foreground">Related Endpoints</span>
+                <span className="text-[10px] uppercase tracking-widest text-muted-foreground">Related Topics</span>
                 <div className="flex flex-wrap gap-2">
                   {result.relatedTopics.map((topic) => (
                     <Badge 
@@ -103,10 +103,10 @@ export default function AskPage() {
       ) : (
         <Tabs defaultValue="all" className="w-full">
           <div className="flex items-center justify-between mb-4 px-1">
-            <h3 className="text-xs font-bold uppercase tracking-widest text-muted-foreground">API Explorer (60)</h3>
+            <h3 className="text-xs font-bold uppercase tracking-widest text-muted-foreground">Explore Resources</h3>
             <TabsList className="bg-secondary/50">
               <TabsTrigger value="all" className="text-[10px] uppercase">All</TabsTrigger>
-              <TabsTrigger value="categories" className="text-[10px] uppercase">By Group</TabsTrigger>
+              <TabsTrigger value="categories" className="text-[10px] uppercase">Categories</TabsTrigger>
             </TabsList>
           </div>
 
@@ -152,9 +152,9 @@ export default function AskPage() {
 
       <footer className="text-center pt-8">
         <div className="flex items-center justify-center gap-2 text-muted-foreground">
-          <Settings className="w-3 h-3" />
+          <Bookmark className="w-3 h-3" />
           <p className="text-[10px] uppercase tracking-widest">
-            Protocol: Classical Salafi API (Ahlus-Sunnah)
+            Verified Scholarly Content (Ahlus-Sunnah)
           </p>
         </div>
       </footer>

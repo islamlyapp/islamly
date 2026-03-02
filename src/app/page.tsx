@@ -16,7 +16,7 @@ import {
   MessageCircle,
   ShieldAlert,
   Clock,
-  Database
+  BookOpen
 } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
@@ -37,16 +37,16 @@ export default function Home() {
       ]
     },
     {
-      group: "AI & Interactive",
+      group: "Interactive Guidance",
       items: [
         { title: "Ask AI", href: "/ask", icon: MessageCircle, color: "text-primary" },
         { title: "Explain", href: "/explain", icon: Sparkles, color: "text-accent" },
-        { title: "Refutation", href: "/refutation", icon: ShieldAlert, color: "text-destructive" },
+        { title: "Defense", href: "/refutation", icon: ShieldAlert, color: "text-destructive" },
         { title: "Live Streams", href: "/live", icon: Video, color: "text-primary" },
       ]
     },
     {
-      group: "Guidance & Growth",
+      group: "Growth & Community",
       items: [
         { title: "Reverts", href: "/reverts", icon: UserPlus, color: "text-primary" },
         { title: "Discover", href: "/dawah", icon: Globe, color: "text-accent" },
@@ -94,13 +94,13 @@ export default function Home() {
 
         <Card className="glass-card">
           <CardHeader className="flex flex-row items-center justify-between pb-2 space-y-0">
-            <CardTitle className="text-sm font-medium">Universal API</CardTitle>
-            <Database className="h-4 w-4 text-primary" />
+            <CardTitle className="text-sm font-medium">Daily Verse</CardTitle>
+            <BookOpen className="h-4 w-4 text-primary" />
           </CardHeader>
           <CardContent>
-            <div className="text-lg font-medium">60 Modules Active</div>
-            <Link href="/ask" className="text-xs text-primary hover:underline flex items-center gap-1 mt-1">
-              Explore Data <ArrowRight className="w-3 h-3" />
+            <div className="text-lg font-medium">Surah Al-Fatiha</div>
+            <Link href="/quran" className="text-xs text-primary hover:underline flex items-center gap-1 mt-1">
+              Read Quran <ArrowRight className="w-3 h-3" />
             </Link>
           </CardContent>
         </Card>
@@ -117,10 +117,10 @@ export default function Home() {
         />
         <div className="absolute inset-0 bg-gradient-to-t from-background via-background/20 to-transparent" />
         <div className="absolute bottom-0 left-0 p-6 space-y-1">
-          <Badge variant="secondary" className="bg-primary text-white">60+ API Modules</Badge>
+          <Badge variant="secondary" className="bg-primary text-white">Verified Sources</Badge>
           <h2 className="text-2xl font-headline font-bold">Knowledge Hub Integrated</h2>
           <p className="text-sm text-muted-foreground max-w-md line-clamp-1">
-            Access 60 specialized endpoints for Quran, Hadith, and Prayer.
+            Access a vast collection of verified classical texts and rulings.
           </p>
           <Button asChild size="sm" className="mt-4 h-8">
             <Link href="/ask">Try AI Search</Link>
@@ -151,7 +151,7 @@ export default function Home() {
         </section>
       ))}
 
-      {/* Daily Verse */}
+      {/* Daily Quote */}
       <section className="py-6 pb-20">
         <Card className="bg-secondary/20 border-border/50 overflow-hidden relative">
           <div className="absolute top-0 right-0 p-4 opacity-10">
