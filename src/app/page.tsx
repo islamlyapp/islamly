@@ -22,7 +22,8 @@ import {
   Utensils,
   Home as HomeIcon,
   Zap,
-  Newspaper
+  Newspaper,
+  Trophy
 } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
@@ -43,6 +44,15 @@ export default function Home() {
       ]
     },
     {
+      group: "Interactive Learning",
+      items: [
+        { title: "Quizzes", href: "/quiz", icon: Trophy, color: "text-yellow-500" },
+        { title: "Ask AI", href: "/ask", icon: MessageCircle, color: "text-primary" },
+        { title: "Explain", href: "/explain", icon: Sparkles, color: "text-accent" },
+        { title: "Defense", href: "/refutation", icon: ShieldAlert, color: "text-destructive" },
+      ]
+    },
+    {
       group: "Community & Services",
       items: [
         { title: "Masjids", href: "/masjid-locator", icon: MapPin, color: "text-primary" },
@@ -52,19 +62,10 @@ export default function Home() {
       ]
     },
     {
-      group: "Interactive Guidance",
-      items: [
-        { title: "Ask AI", href: "/ask", icon: MessageCircle, color: "text-primary" },
-        { title: "Explain", href: "/explain", icon: Sparkles, color: "text-accent" },
-        { title: "Defense", href: "/refutation", icon: ShieldAlert, color: "text-destructive" },
-        { title: "Live Streams", href: "/live", icon: Video, color: "text-primary" },
-      ]
-    },
-    {
       group: "Growth & Education",
       items: [
         { title: "Youth Hub", href: "/teens", icon: Zap, color: "text-accent" },
-        { title: "Parenting", href: "/parenting", icon: Baby, color: "text-primary" },
+        { title: "Live Streams", href: "/live", icon: Video, color: "text-primary" },
         { title: "Reverts", href: "/reverts", icon: UserPlus, color: "text-primary" },
         { title: "Discover", href: "/dawah", icon: Globe, color: "text-accent" },
       ]
@@ -114,15 +115,15 @@ export default function Home() {
           </CardContent>
         </Card>
 
-        <Card className="glass-card">
+        <Card className="glass-card border-l-4 border-yellow-500">
           <CardHeader className="flex flex-row items-center justify-between pb-2 space-y-0">
-            <CardTitle className="text-sm font-medium">Daily Verse</CardTitle>
-            <BookOpen className="h-4 w-4 text-primary" />
+            <CardTitle className="text-sm font-medium">Daily Challenge</CardTitle>
+            <Trophy className="h-4 w-4 text-yellow-500" />
           </CardHeader>
           <CardContent>
-            <div className="text-lg font-medium">Surah Al-Fatiha</div>
-            <Link href="/quran" className="text-xs text-primary hover:underline flex items-center gap-1 mt-1">
-              Read Quran <ArrowRight className="w-3 h-3" />
+            <div className="text-lg font-medium">Aqidah Quiz</div>
+            <Link href="/quiz" className="text-xs text-yellow-500 hover:underline flex items-center gap-1 mt-1">
+              Test your knowledge <ArrowRight className="w-3 h-3" />
             </Link>
           </CardContent>
         </Card>
@@ -141,7 +142,7 @@ export default function Home() {
         <div className="absolute bottom-0 left-0 p-6 space-y-1">
           <div className="flex gap-2">
             <Badge variant="secondary" className="bg-primary text-white">Verified Sources</Badge>
-            <Badge variant="outline" className="bg-black/20 text-white backdrop-blur-sm border-white/20">Global Translation Active</Badge>
+            <Badge variant="outline" className="bg-black/20 text-white backdrop-blur-sm border-white/20">Universal Translation</Badge>
           </div>
           <h2 className="text-2xl font-headline font-bold">Universal Reach Support</h2>
           <p className="text-sm text-muted-foreground max-w-md line-clamp-1">

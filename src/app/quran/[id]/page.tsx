@@ -1,10 +1,9 @@
-
 "use client";
 
 import { useState, useEffect, use } from "react";
 import { fetchSurahVerses, fetchVerseTranslations } from "@/services/islamic-data-service";
 import { Button } from "@/components/ui/button";
-import { ChevronLeft, Loader2, BookOpen, Settings2, Info, ChevronDown, Languages, Globe } from "lucide-react";
+import { ChevronLeft, Loader2, BookOpen, Settings2, Info, ChevronDown, Languages, Globe, Bookmark, MessageSquare, Plus } from "lucide-react";
 import Link from "next/link";
 import { Card, CardContent } from "@/components/ui/card";
 import { QIRAAT_DATA, type Qiraah } from "@/lib/qiraat-data";
@@ -16,16 +15,22 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
 import { Badge } from "@/components/ui/badge";
-import { useUser, useFirestore, useDoc, useMemoFirebase } from "@/firebase";
-import { doc } from "firebase/firestore";
+import { Textarea } from "@/components/ui/textarea";
+import { useUser, useFirestore, useDoc, useMemoFirebase, setDocumentNonBlocking, addDocumentNonBlocking } from "@/firebase";
+import { doc, collection, serverTimestamp } from "firebase/firestore";
+import { toast } from "@/hooks/use-toast";
 
 export default function SurahReadingPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = use(params);
   const { user } = useUser();
   const db = useFirestore();
 
-  // Load User Preferences from Settings
   const profileRef = useMemoFirebase(() => {
     if (!db || !user?.uid) return null;
     return doc(db, "users", user.uid);
@@ -37,8 +42,8 @@ export default function SurahReadingPage({ params }: { params: Promise<{ id: str
   const [translations, setTranslations] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [selectedQiraah, setSelectedQiraah] = useState<Qiraah>(QIRAAT_DATA[0]);
+  const [noteContent, setNoteContent] = useState("");
 
-  // Default translation if none set in settings
   const defaultTranslation = { id: 131, language_name: "English", name: "Clear Quran" };
   const currentLang = profile?.preferredLanguageId 
     ? { id: profile.preferredLanguageId, language_name: profile.preferredLanguage } 
@@ -61,7 +66,35 @@ export default function SurahReadingPage({ params }: { params: Promise<{ id: str
       }
     }
     loadContent();
-  }, [id, selectedQiraah, currentLang.id]);
+  }, [id, currentLang.id]);
+
+  const handleBookmark = (verseKey: string) => {
+    if (!db || !user?.uid) return;
+    const bookmarkRef = doc(collection(db, "users", user.uid, "bookmarks"));
+    setDocumentNonBlocking(bookmarkRef, {
+      userId: user.uid,
+      targetType: "Passage",
+      targetId: verseKey,
+      createdAt: serverTimestamp(),
+      id: bookmarkRef.id
+    }, { merge: true });
+    toast({ title: "Verse Bookmarked", description: `Verse ${verseKey} added to your profile.` });
+  };
+
+  const handleAddNote = (verseKey: string) => {
+    if (!db || !user?.uid || !noteContent.trim()) return;
+    const noteRef = doc(collection(db, "users", user.uid, "notes"));
+    setDocumentNonBlocking(noteRef, {
+      userId: user.uid,
+      passageId: verseKey,
+      content: noteContent,
+      createdAt: serverTimestamp(),
+      updatedAt: serverTimestamp(),
+      id: noteRef.id
+    }, { merge: true });
+    setNoteContent("");
+    toast({ title: "Note Saved", description: "Your personal study note has been recorded." });
+  };
 
   return (
     <div className="space-y-6 animate-in fade-in duration-500 pb-32">
@@ -118,7 +151,7 @@ export default function SurahReadingPage({ params }: { params: Promise<{ id: str
           <div className="space-y-1">
             <p className="text-xs font-bold uppercase tracking-tight text-primary">Global Setting Active</p>
             <p className="text-[11px] text-muted-foreground leading-relaxed italic">
-              Currently viewing translation in {currentLang.language_name}. Update your preferences in <Link href="/profile" className="text-primary underline">App Settings</Link>.
+              Currently viewing translation in {currentLang.language_name}.
             </p>
           </div>
         </CardContent>
@@ -131,11 +164,39 @@ export default function SurahReadingPage({ params }: { params: Promise<{ id: str
       ) : (
         <div className="space-y-12">
           {verses.map((verse, index) => (
-            <div key={verse.id} className="space-y-6">
+            <div key={verse.id} className="group space-y-6">
               <div className="flex justify-between items-center">
-                <Badge variant="secondary" className="text-[10px] bg-secondary/50 font-mono">
-                  {verse.verse_key}
-                </Badge>
+                <div className="flex items-center gap-2">
+                  <Badge variant="secondary" className="text-[10px] bg-secondary/50 font-mono">
+                    {verse.verse_key}
+                  </Badge>
+                  <div className="flex opacity-0 group-hover:opacity-100 transition-opacity gap-1">
+                    <Button variant="ghost" size="icon" className="h-6 w-6" onClick={() => handleBookmark(verse.verse_key)}>
+                      <Bookmark className="w-3 h-3" />
+                    </Button>
+                    <Popover>
+                      <PopoverTrigger asChild>
+                        <Button variant="ghost" size="icon" className="h-6 w-6">
+                          <MessageSquare className="w-3 h-3" />
+                        </Button>
+                      </PopoverTrigger>
+                      <PopoverContent className="w-80 glass-card">
+                        <div className="space-y-3">
+                          <h4 className="font-headline font-bold text-xs uppercase tracking-widest text-primary">Add Study Note</h4>
+                          <Textarea 
+                            placeholder="Record your thoughts or scholarly context..." 
+                            className="text-xs h-20 bg-secondary/20"
+                            value={noteContent}
+                            onChange={(e) => setNoteContent(e.target.value)}
+                          />
+                          <Button size="sm" className="w-full text-[10px] uppercase font-bold" onClick={() => handleAddNote(verse.verse_key)}>
+                            Save Note
+                          </Button>
+                        </div>
+                      </PopoverContent>
+                    </Popover>
+                  </div>
+                </div>
                 <div className="flex gap-2">
                   {verse.verse_number % 7 === 0 && (
                     <Badge variant="outline" className="text-[9px] border-accent/30 text-accent gap-1">
@@ -163,9 +224,11 @@ export default function SurahReadingPage({ params }: { params: Promise<{ id: str
       )}
 
       <div className="fixed bottom-24 left-1/2 -translate-x-1/2 z-50">
-        <Button className="rounded-full shadow-2xl gap-2 font-headline h-12 px-8 bg-primary hover:bg-primary/90 text-white border-4 border-background">
-          <BookOpen className="w-4 h-4" />
-          Finish Reading
+        <Button asChild className="rounded-full shadow-2xl gap-2 font-headline h-12 px-8 bg-primary hover:bg-primary/90 text-white border-4 border-background">
+          <Link href="/quran">
+            <BookOpen className="w-4 h-4" />
+            Finish Reading
+          </Link>
         </Button>
       </div>
     </div>
