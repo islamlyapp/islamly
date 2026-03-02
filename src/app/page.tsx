@@ -22,7 +22,7 @@ import {
   Utensils,
   Home as HomeIcon,
   Zap,
-  Users
+  Newspaper
 } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
@@ -47,8 +47,8 @@ export default function Home() {
       items: [
         { title: "Masjids", href: "/masjid-locator", icon: MapPin, color: "text-primary" },
         { title: "Halal Finder", href: "/halal-locator", icon: Utensils, color: "text-accent" },
+        { title: "Islamic News", href: "/news", icon: Newspaper, color: "text-primary" },
         { title: "Families", href: "/family", icon: HomeIcon, color: "text-primary" },
-        { title: "Youth Hub", href: "/teens", icon: Zap, color: "text-accent" },
       ]
     },
     {
@@ -63,10 +63,10 @@ export default function Home() {
     {
       group: "Growth & Education",
       items: [
+        { title: "Youth Hub", href: "/teens", icon: Zap, color: "text-accent" },
         { title: "Parenting", href: "/parenting", icon: Baby, color: "text-primary" },
         { title: "Reverts", href: "/reverts", icon: UserPlus, color: "text-primary" },
         { title: "Discover", href: "/dawah", icon: Globe, color: "text-accent" },
-        { title: "Kids Corner", href: "/kids", icon: Baby, color: "text-primary" },
       ]
     }
   ];
@@ -147,9 +147,14 @@ export default function Home() {
           <p className="text-sm text-muted-foreground max-w-md line-clamp-1">
             Access Quranic translations and scholarly insights in 7709+ languages.
           </p>
-          <Button asChild size="sm" className="mt-4 h-8">
-            <Link href="/ask">Try Global Search</Link>
-          </Button>
+          <div className="flex gap-2 mt-4">
+            <Button asChild size="sm" className="h-8">
+              <Link href="/ask">Try Global Search</Link>
+            </Button>
+            <Button asChild variant="outline" size="sm" className="h-8 glass-card">
+              <Link href="/news">Latest News</Link>
+            </Button>
+          </div>
         </div>
       </section>
 
