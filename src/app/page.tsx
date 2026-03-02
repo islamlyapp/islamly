@@ -1,3 +1,5 @@
+"use client";
+
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -11,12 +13,10 @@ import {
   Scale, 
   UserPlus, 
   Globe, 
-  Baby, 
   Video,
   MessageCircle,
   ShieldAlert,
   Clock,
-  BookOpen,
   Languages,
   MapPin,
   Utensils,
@@ -24,15 +24,34 @@ import {
   Zap,
   Newspaper,
   Trophy,
-  ShieldCheck
+  ShieldCheck,
+  Loader2
 } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
 import { PlaceHolderImages } from "@/lib/placeholder-images";
 import { cn } from "@/lib/utils";
+import { useEffect, useState } from "react";
+import { generateDailyReflection, type DailyReflectionOutput } from "@/ai/flows/daily-reflection-flow";
 
 export default function Home() {
   const libraryImage = PlaceHolderImages.find(img => img.id === 'library-books');
+  const [reflection, setReflection] = useState<DailyReflectionOutput | null>(null);
+  const [loadingReflection, setLoadingReflection] = useState(true);
+
+  useEffect(() => {
+    async function loadReflection() {
+      try {
+        const data = await generateDailyReflection();
+        setReflection(data);
+      } catch (err) {
+        console.error(err);
+      } finally {
+        setLoadingReflection(false);
+      }
+    }
+    loadReflection();
+  }, []);
 
   const categories = [
     { 
@@ -130,6 +149,44 @@ export default function Home() {
         </Card>
       </section>
 
+      {/* AI Reflection Section */}
+      <section className="py-4">
+        <Card className="bg-accent/5 border-accent/20 overflow-hidden relative">
+          <CardHeader className="pb-2">
+            <CardTitle className="text-xs font-bold uppercase tracking-widest text-accent flex items-center gap-2">
+              <Sparkles className="w-4 h-4" />
+              AI Daily Reflection
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            {loadingReflection ? (
+              <div className="flex items-center gap-2 py-4 text-muted-foreground italic text-sm">
+                <Loader2 className="w-4 h-4 animate-spin" />
+                Retrieving spiritual insight...
+              </div>
+            ) : reflection ? (
+              <div className="space-y-4 animate-in fade-in duration-700">
+                {reflection.arabicText && (
+                  <p className="text-2xl font-serif text-literata text-right leading-loose" dir="rtl">
+                    {reflection.arabicText}
+                  </p>
+                )}
+                <div className="space-y-2">
+                  <p className="text-lg text-foreground/90 font-medium italic leading-relaxed">
+                    "{reflection.reflection}"
+                  </p>
+                  <p className="text-[10px] uppercase tracking-widest text-accent font-bold">
+                    Source: {reflection.source}
+                  </p>
+                </div>
+              </div>
+            ) : (
+              <p className="text-sm text-muted-foreground italic">Connect to knowledge to receive reflections.</p>
+            )}
+          </CardContent>
+        </Card>
+      </section>
+
       {/* Hero Section */}
       <section className="relative h-[220px] rounded-2xl overflow-hidden group shadow-2xl">
         <Image 
@@ -183,7 +240,7 @@ export default function Home() {
         </section>
       ))}
 
-      {/* Daily Quote */}
+      {/* Daily Quote (Static/Classic) */}
       <section className="py-6 pb-20">
         <Card className="bg-secondary/20 border-border/50 overflow-hidden relative">
           <div className="absolute top-0 right-0 p-4 opacity-10">
