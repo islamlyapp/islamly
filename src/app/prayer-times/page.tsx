@@ -2,7 +2,7 @@
 
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Clock, MapPin, Settings2, Bell, Info, ShieldCheck, Loader2, Navigation } from "lucide-react";
+import { Clock, MapPin, Settings2, Bell, Info, ShieldCheck, Loader2, Navigation, Search, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useState, useEffect } from "react";
 import {
@@ -11,6 +11,8 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
 import { fetchPrayerTimesByCoords, type PrayerTimings } from "@/services/islamic-data-service";
 
 const methods = [
@@ -25,56 +27,79 @@ export default function PrayerTimesPage() {
   const [method, setMethod] = useState(methods[3]); // Default to Makkah
   const [timings, setTimings] = useState<PrayerTimings | null>(null);
   const [loading, setLoading] = useState(true);
-  const [locationName, setLocationName] = useState("Detecting location...");
+  const [locationName, setLocationName] = useState("Detecting...");
   const [isAutoLocation, setIsAutoLocation] = useState(false);
+  const [showSearch, setShowSearch] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
+
+  const loadTimesByCity = async (city: string) => {
+    setLoading(true);
+    try {
+      const response = await fetch(`https://api.aladhan.com/v1/timingsByCity?city=${encodeURIComponent(city)}&country=&method=${method.id}`);
+      const data = await response.json();
+      if (data.code === 200) {
+        setTimings(data.data.timings);
+        setLocationName(city);
+        setIsAutoLocation(false);
+        setShowSearch(false);
+      } else {
+        throw new Error("City not found");
+      }
+    } catch (err) {
+      console.error(err);
+      // Fallback if search fails
+      loadDefaultTimes();
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const loadDefaultTimes = async () => {
+    try {
+      const response = await fetch(`https://api.aladhan.com/v1/timingsByCity?city=London&country=UK&method=${method.id}`);
+      const data = await response.json();
+      setTimings(data.data.timings);
+      setLocationName("London, United Kingdom");
+      setIsAutoLocation(false);
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleAutoDetect = () => {
+    setLoading(true);
+    if ("geolocation" in navigator) {
+      navigator.geolocation.getCurrentPosition(
+        async (position) => {
+          const { latitude, longitude } = position.coords;
+          try {
+            const data = await fetchPrayerTimesByCoords(latitude, longitude, method.id);
+            setTimings(data.timings);
+            setLocationName(`Detected (${latitude.toFixed(2)}, ${longitude.toFixed(2)})`);
+            setIsAutoLocation(true);
+            setShowSearch(false);
+          } catch (err) {
+            loadDefaultTimes();
+          } finally {
+            setLoading(false);
+          }
+        },
+        (error) => {
+          console.warn("Location denied", error);
+          setShowSearch(true); // Show manual search if denied
+          loadDefaultTimes();
+        }
+      );
+    } else {
+      setShowSearch(true);
+      loadDefaultTimes();
+    }
+  };
 
   useEffect(() => {
-    async function loadTimes() {
-      setLoading(true);
-      
-      // Attempt Geolocation
-      if ("geolocation" in navigator) {
-        navigator.geolocation.getCurrentPosition(
-          async (position) => {
-            const { latitude, longitude } = position.coords;
-            try {
-              const data = await fetchPrayerTimesByCoords(latitude, longitude, method.id);
-              setTimings(data.timings);
-              setLocationName(`Current Location (${latitude.toFixed(2)}, ${longitude.toFixed(2)})`);
-              setIsAutoLocation(true);
-            } catch (err) {
-              console.error("Failed to fetch by coords, falling back", err);
-              loadDefaultTimes();
-            } finally {
-              setLoading(false);
-            }
-          },
-          (error) => {
-            console.warn("Location permission denied", error);
-            loadDefaultTimes();
-          }
-        );
-      } else {
-        loadDefaultTimes();
-      }
-    }
-
-    async function loadDefaultTimes() {
-      try {
-        // Fallback to London
-        const response = await fetch(`https://api.aladhan.com/v1/timingsByCity?city=London&country=UK&method=${method.id}`);
-        const data = await response.json();
-        setTimings(data.data.timings);
-        setLocationName("London, United Kingdom (Default)");
-        setIsAutoLocation(false);
-      } catch (err) {
-        console.error(err);
-      } finally {
-        setLoading(false);
-      }
-    }
-
-    loadTimes();
+    handleAutoDetect();
   }, [method]);
 
   const prayers = timings ? [
@@ -88,43 +113,72 @@ export default function PrayerTimesPage() {
 
   return (
     <div className="space-y-8 animate-in fade-in duration-500 pb-20">
-      <header className="flex items-center justify-between">
-        <div>
-          <h1 className="text-3xl font-headline font-bold">Prayer Schedule</h1>
-          <div className="flex items-center gap-2 text-muted-foreground text-sm mt-1">
-            <MapPin className={cn("w-4 h-4", isAutoLocation && "text-primary")} />
-            <span className={cn(isAutoLocation && "text-primary font-medium")}>{locationName}</span>
-          </div>
-        </div>
-        <div className="flex gap-2">
-          {isAutoLocation && (
-            <Badge variant="outline" className="hidden sm:flex h-9 border-primary/20 text-primary bg-primary/5 gap-1">
-              <Navigation className="w-3 h-3" /> Auto
-            </Badge>
-          )}
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <button className="p-2 rounded-full hover:bg-secondary transition-colors ring-1 ring-border">
-                <Settings2 className="w-5 h-5 text-muted-foreground" />
+      <header className="space-y-4">
+        <div className="flex items-center justify-between">
+          <div className="space-y-1">
+            <h1 className="text-3xl font-headline font-bold">Prayer Schedule</h1>
+            {!showSearch ? (
+              <button 
+                onClick={() => setShowSearch(true)}
+                className="flex items-center gap-2 text-muted-foreground text-sm hover:text-primary transition-colors group"
+              >
+                <MapPin className={cn("w-4 h-4", isAutoLocation && "text-primary")} />
+                <span className={cn(isAutoLocation && "text-primary font-medium")}>{locationName}</span>
+                <Search className="w-3 h-3 opacity-0 group-hover:opacity-100" />
               </button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="end" className="glass-card w-64">
-              <div className="p-2 px-3 text-[10px] uppercase font-bold text-muted-foreground border-b mb-1">Calculation Method</div>
-              {methods.map((m) => (
-                <DropdownMenuItem key={m.id} onClick={() => setMethod(m)} className="text-xs">
-                  {m.name}
-                  {method.id === m.id && <ShieldCheck className="w-3 h-3 ml-auto text-primary" />}
-                </DropdownMenuItem>
-              ))}
-            </DropdownMenuContent>
-          </DropdownMenu>
+            ) : (
+              <div className="flex gap-2 items-center animate-in slide-in-from-left-2 duration-300">
+                <div className="relative flex-1 max-w-[240px]">
+                  <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-3 h-3 text-muted-foreground" />
+                  <Input 
+                    autoFocus
+                    placeholder="Enter City..." 
+                    className="h-8 pl-8 bg-secondary/30 text-xs"
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    onKeyDown={(e) => e.key === 'Enter' && loadTimesByCity(searchQuery)}
+                  />
+                </div>
+                <Button size="icon" variant="ghost" className="h-8 w-8" onClick={() => setShowSearch(false)}>
+                  <X className="w-4 h-4" />
+                </Button>
+              </div>
+            )}
+          </div>
+          <div className="flex gap-2">
+            <button 
+              onClick={handleAutoDetect}
+              className={cn(
+                "p-2 rounded-full transition-all ring-1 ring-border hover:bg-secondary",
+                isAutoLocation && "bg-primary/10 ring-primary/30 text-primary"
+              )}
+            >
+              <Navigation className="w-4 h-4" />
+            </button>
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <button className="p-2 rounded-full hover:bg-secondary transition-colors ring-1 ring-border">
+                  <Settings2 className="w-4 h-4 text-muted-foreground" />
+                </button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end" className="glass-card w-64">
+                <div className="p-2 px-3 text-[10px] uppercase font-bold text-muted-foreground border-b mb-1">Calculation Method</div>
+                {methods.map((m) => (
+                  <DropdownMenuItem key={m.id} onClick={() => setMethod(m)} className="text-xs">
+                    {m.name}
+                    {method.id === m.id && <ShieldCheck className="w-3 h-3 ml-auto text-primary" />}
+                  </DropdownMenuItem>
+                ))}
+              </DropdownMenuContent>
+            </DropdownMenu>
+          </div>
         </div>
       </header>
 
       {loading ? (
         <div className="h-[300px] flex flex-col items-center justify-center gap-4">
           <Loader2 className="w-10 h-10 animate-spin text-primary" />
-          <p className="text-sm text-muted-foreground italic">Updating schedule for your coordinates...</p>
+          <p className="text-sm text-muted-foreground italic">Updating schedule...</p>
         </div>
       ) : (
         <>
@@ -133,9 +187,9 @@ export default function PrayerTimesPage() {
               <Clock className="w-24 h-24" />
             </div>
             <CardContent className="p-8 text-center space-y-2 relative z-10">
-              <p className="text-primary uppercase tracking-[0.2em] font-headline font-bold text-xs">Verified Local Timing</p>
+              <p className="text-primary uppercase tracking-[0.2em] font-headline font-bold text-xs">Verified Timing</p>
               <h2 className="text-5xl font-headline font-bold">Dhuhr</h2>
-              <p className="text-muted-foreground">Standardized calculation active</p>
+              <p className="text-muted-foreground">{locationName}</p>
               <div className="pt-4 flex justify-center gap-2">
                 <Badge variant="outline" className="border-primary/50 text-primary">
                   <Bell className="w-3 h-3 mr-1" />
@@ -196,14 +250,10 @@ export default function PrayerTimesPage() {
           </div>
           <div className="space-y-1">
             <span className="text-muted-foreground block">Detection Mode</span>
-            <span className="font-bold">{isAutoLocation ? "Automatic GPS" : "Static City Fallback"}</span>
+            <span className="font-bold">{isAutoLocation ? "Automatic GPS" : "Manual/Static Fallback"}</span>
           </div>
         </div>
       </section>
-
-      <footer className="text-center text-[10px] text-muted-foreground italic opacity-60">
-        Local timings are computed dynamically based on the latest astronomical algorithms.
-      </footer>
     </div>
   );
 }
