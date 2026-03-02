@@ -23,7 +23,8 @@ import {
   Home as HomeIcon,
   Zap,
   Newspaper,
-  Trophy
+  Trophy,
+  ShieldCheck
 } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
@@ -38,9 +39,9 @@ export default function Home() {
       group: "Core Knowledge",
       items: [
         { title: "Quran", href: "/quran", icon: BookMarked, color: "text-primary" },
-        { title: "Hadith", href: "/library", icon: Search, color: "text-accent" },
-        { title: "Fiqh", href: "/fiqh", icon: Scale, color: "text-primary" },
         { title: "Library", href: "/library", icon: Library, color: "text-accent" },
+        { title: "Fiqh", href: "/fiqh", icon: Scale, color: "text-primary" },
+        { title: "Hadith", href: "/library", icon: Search, color: "text-accent" },
       ]
     },
     {
@@ -53,21 +54,21 @@ export default function Home() {
       ]
     },
     {
-      group: "Community & Services",
+      group: "Practical & Community",
       items: [
+        { title: "Ruqyah", href: "/ruqyah", icon: ShieldCheck, color: "text-accent" },
         { title: "Masjids", href: "/masjid-locator", icon: MapPin, color: "text-primary" },
         { title: "Halal Finder", href: "/halal-locator", icon: Utensils, color: "text-accent" },
         { title: "Islamic News", href: "/news", icon: Newspaper, color: "text-primary" },
-        { title: "Families", href: "/family", icon: HomeIcon, color: "text-primary" },
       ]
     },
     {
-      group: "Growth & Education",
+      group: "Household & Youth",
       items: [
+        { title: "Families", href: "/family", icon: HomeIcon, color: "text-primary" },
         { title: "Youth Hub", href: "/teens", icon: Zap, color: "text-accent" },
-        { title: "Live Streams", href: "/live", icon: Video, color: "text-primary" },
         { title: "Reverts", href: "/reverts", icon: UserPlus, color: "text-primary" },
-        { title: "Discover", href: "/dawah", icon: Globe, color: "text-accent" },
+        { title: "Live Streams", href: "/live", icon: Video, color: "text-primary" },
       ]
     }
   ];

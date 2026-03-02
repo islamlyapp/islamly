@@ -43,7 +43,7 @@ export const KNOWLEDGE_HUB: KnowledgeModule[] = [
   { id: "29", category: "History", title: "The Abbasid Golden Age", summary: "Rise of Sciences.", details: "The House of Wisdom in Baghdad and the preservation of classical knowledge." },
   { id: "30", category: "History", title: "Scholars of the Salaf", summary: "The early imams.", details: "Biographies of Imam Malik, Ash-Shafi'i, Ahmad, and Abu Hanifah." },
 
-  // 31-40: Hadith & Quran Sciences (Tanzil/Quran.com style)
+  // 31-40: Hadith & Quran Sciences
   { id: "31", category: "Calculations", title: "Prayer Time Algorithms", summary: "AlAdhan method.", details: "Methods for calculating prayer times based on sun angle (MWL, ISNA, Umm al-Qura)." },
   { id: "32", category: "Quran", title: "The 10 Mutawatir Qira'at", summary: "Canonical variant readings.", details: "The 10 authentic ways of reciting the Quran transmitted through multiple chains (Mutawatir)." },
   { id: "33", category: "Manuscripts", title: "Uthmanic Orthography", summary: "Tanzil Rasm.", details: "The specific script (Rasm) used in the early Mushafs that preserves variants." },
@@ -55,24 +55,12 @@ export const KNOWLEDGE_HUB: KnowledgeModule[] = [
   { id: "39", category: "Quran", title: "Tajweed Principles", summary: "Art of recitation.", details: "Rules of pronunciation (Makharij) and characteristics (Sifat) of letters." },
   { id: "40", category: "Calculations", title: "Lunar Sighting API", summary: "Islamic Calendar.", details: "Determining the start of Hijri months through local or global sighting." },
 
-  // 41-60: Specialized Ethics, Refutations, and Living
+  // 41-60: Specialized Ethics, Living & Ruqyah
   { id: "41", category: "Ethics", title: "Adab (Manners)", summary: "Prophetic character.", details: "The importance of truthfulness, humility, and keeping promises." },
-  { id: "42", category: "Refutation", title: "Misconception: Jihad", summary: "Clarifying extremes.", details: "Defining Jihad as a struggle for justice under scholarly authority, not lawlessness." },
-  { id: "43", category: "Spirituality", title: "Tazkiyah (Purification)", summary: "Curing the heart.", details: "Removing diseases of the heart like envy, pride, and ostentation (Riya)." },
-  { id: "45", category: "Refutation", title: "Sifaat of Allah", summary: "Attributes of the Creator.", details: "Understanding Allah's attributes according to the Salaf, avoiding Tashbih and Ta'til." },
-  { id: "46", category: "Spirituality", title: "Tahajjud Virtue", summary: "The night prayer.", details: "The spiritual benefits of standing in the last third of the night." },
-  { id: "47", category: "Ethics", title: "Kindness to Parents", summary: "The highest duty.", details: "The mandatory nature of Birr al-Walidayn after worshipping Allah." },
-  { id: "48", category: "Law", title: "Islamic Criminal Law", summary: "Hudud and Qisas.", details: "The objectives (Maqasid) of preserving life, intellect, and property through law." },
-  { id: "49", category: "Refutation", title: "Status of Sunnah", summary: "Defense of Hadith.", details: "Refuting those who reject the Sunnah and showing its necessity for understanding Quran." },
-  { id: "50", category: "Food", title: "Intoxicants (Khamr)", summary: "Absolute prohibition.", details: "Rulings on alcohol, drugs, and their impact on faith and society." },
-  { id: "51", category: "Etiquette", title: "Seeking Knowledge", summary: "Path to Jannah.", details: "The etiquettes of a student with their teacher and their books." },
-  { id: "52", category: "Eschatology", title: "Minor Signs", summary: "Precursors to the Hour.", details: "Events like the loss of trust and the spread of ignorance." },
-  { id: "53", category: "Eschatology", title: "Major Signs", summary: "End times proximate.", details: "Dajjal, descent of Isa (Jesus), and the sun rising from the west." },
-  { id: "54", category: "Eschatology", title: "The Grave (Barzakh)", summary: "Intermediate state.", details: "Belief in the trials and rewards of the grave after death." },
-  { id: "55", category: "Health", title: "Prophetic Medicine", summary: "Tibb al-Nabawi.", details: "Honey, black seed, and cupping (Hijama) as mentioned in authentic texts." },
-  { id: "56", category: "Family", title: "Raising Children", summary: "Nurturing faith.", details: "Teaching Salah and Aqidah from the age of seven." },
-  { id: "57", category: "Ethics", title: "Haya (Modesty)", summary: "Branch of faith.", details: "Internalized shame from doing what is displeasing to Allah." },
-  { id: "58", category: "Law", title: "Waqf (Endowments)", summary: "Perpetual charity.", details: "The system of establishing hospitals, schools, and wells for public good." },
-  { id: "59", category: "Spirituality", title: "Repentance (Tawbah)", summary: "Turning back.", details: "Conditions of sincere repentance and the vastness of Allah's mercy." },
-  { id: "60", category: "Theology", title: "Intercession of Quran", summary: "Friend of the believer.", details: "How the Quran will intercede for its reciters on the Day of Resurrection." }
+  { id: "42", category: "Ruqyah", title: "Ruqyah Shari'ah", summary: "Lawful spiritual healing.", details: "Using Quranic verses and authentic supplications for protection and cure." },
+  { id: "43", category: "Ruqyah", title: "Evil Eye ('Ayn)", summary: "The reality of 'Ayn.", details: "Proofs from the Sunnah regarding the effects of the evil eye and its treatment." },
+  { id: "44", category: "Ruqyah", title: "Magic (Sihr)", summary: "Protection from magic.", details: "Understanding the dangers of magic and the lawful ways to dissolve its effects." },
+  { id: "45", category: "Aqidah", title: "Sifaat of Allah", summary: "Attributes of the Creator.", details: "Understanding Allah's attributes according to the Salaf, avoiding Tashbih and Ta'til." },
+  { id: "46", category: "Spirituality", title: "Tazkiyah (Purification)", summary: "Curing the heart.", details: "Removing diseases of the heart like envy, pride, and ostentation (Riya)." },
+  { id: "61", category: "Library", title: "Scholarly Biographies", summary: "Legacy of the Ulama.", details: "A database of thousands of scholars from the first generation to the present day." }
 ];

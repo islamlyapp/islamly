@@ -1,12 +1,12 @@
-
 "use client";
 
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
-import { Search, Filter, BookOpen } from "lucide-react";
+import { Search, Filter, BookOpen, User, BookCheck, Shield } from "lucide-react";
 import Link from "next/link";
 import { useState } from "react";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 const categories = ["All", "Aqidah", "Hadith", "Fiqh", "Tafsir", "Manhaj", "History"];
 
@@ -17,6 +17,7 @@ const books = [
   { id: 4, title: "Bulugh Al-Maram", author: "Ibn Hajar al-Asqalani", category: "Hadith", description: "A collection of hadith for legal rulings." },
   { id: 5, title: "Umdat al-Ahkam", author: "Abdul-Ghani al-Maqdisi", category: "Hadith", description: "Authentic hadiths related to religious rulings." },
   { id: 6, title: "Tafsir Ibn Kathir", author: "Ibn Kathir", category: "Tafsir", description: "The most famous exegesis of the Quran." },
+  { id: 7, title: "Foundations of the Sunnah", author: "Imam Ahmad ibn Hanbal", category: "Manhaj", description: "Crucial principles of belief for the early generations." },
 ];
 
 export default function LibraryPage() {
@@ -31,59 +32,102 @@ export default function LibraryPage() {
   });
 
   return (
-    <div className="space-y-6 animate-in fade-in duration-500">
+    <div className="space-y-6 animate-in fade-in duration-500 pb-20">
       <header className="space-y-4">
-        <h1 className="text-3xl font-headline font-bold">Text Library</h1>
+        <h1 className="text-3xl font-headline font-bold">Scholarly Library</h1>
         <div className="relative">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground w-4 h-4" />
           <Input 
             placeholder="Search by title, author, or topic..." 
-            className="pl-10 glass-card"
+            className="pl-10 glass-card h-12"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
           />
         </div>
       </header>
 
-      <div className="flex gap-2 overflow-x-auto pb-2 no-scrollbar">
-        {categories.map((cat) => (
-          <Badge 
-            key={cat} 
-            variant={activeCategory === cat ? "default" : "secondary"}
-            className="cursor-pointer transition-colors whitespace-nowrap"
-            onClick={() => setActiveCategory(cat)}
-          >
-            {cat}
-          </Badge>
-        ))}
-      </div>
+      <Tabs defaultValue="books" className="w-full">
+        <TabsList className="bg-secondary/50 p-1 h-10 w-fit mb-4">
+          <TabsTrigger value="books" className="text-[10px] uppercase font-bold tracking-widest px-6">Classical Texts</TabsTrigger>
+          <TabsTrigger value="scholars" className="text-[10px] uppercase font-bold tracking-widest px-6">Major Scholars</TabsTrigger>
+        </TabsList>
 
-      <div className="grid gap-4">
-        {filteredBooks.map((book) => (
-          <Link key={book.id} href={`/library/${book.id}`}>
-            <Card className="glass-card hover:border-primary/50 transition-all group">
-              <CardContent className="p-5 flex items-start gap-4">
-                <div className="w-12 h-16 bg-primary/20 rounded flex items-center justify-center shrink-0">
-                  <BookOpen className="text-primary w-6 h-6" />
-                </div>
-                <div className="space-y-1">
-                  <div className="flex items-center gap-2">
-                    <h3 className="font-headline font-semibold text-lg group-hover:text-primary transition-colors">{book.title}</h3>
-                    <Badge variant="outline" className="text-[10px] uppercase py-0">{book.category}</Badge>
-                  </div>
-                  <p className="text-sm text-accent italic">{book.author}</p>
-                  <p className="text-sm text-muted-foreground line-clamp-1">{book.description}</p>
-                </div>
-              </CardContent>
-            </Card>
-          </Link>
-        ))}
-        {filteredBooks.length === 0 && (
-          <div className="text-center py-20 text-muted-foreground">
-            No texts found matching your search.
+        <TabsContent value="books" className="space-y-6">
+          <div className="flex gap-2 overflow-x-auto pb-2 no-scrollbar">
+            {categories.map((cat) => (
+              <Badge 
+                key={cat} 
+                variant={activeCategory === cat ? "default" : "secondary"}
+                className="cursor-pointer transition-colors whitespace-nowrap text-[10px] uppercase tracking-tighter"
+                onClick={() => setActiveCategory(cat)}
+              >
+                {cat}
+              </Badge>
+            ))}
           </div>
-        )}
-      </div>
+
+          <div className="grid gap-4">
+            {filteredBooks.map((book) => (
+              <Link key={book.id} href={`/library/${book.id}`}>
+                <Card className="glass-card hover:border-primary/50 transition-all group overflow-hidden">
+                  <CardContent className="p-5 flex items-start gap-4">
+                    <div className="w-12 h-16 bg-primary/10 rounded-lg flex items-center justify-center shrink-0 group-hover:bg-primary/20 transition-colors">
+                      <BookCheck className="text-primary w-6 h-6" />
+                    </div>
+                    <div className="space-y-1 flex-1">
+                      <div className="flex items-center justify-between">
+                        <h3 className="font-headline font-bold text-lg group-hover:text-primary transition-colors">{book.title}</h3>
+                        <Badge variant="outline" className="text-[8px] uppercase py-0 border-primary/20 text-primary">{book.category}</Badge>
+                      </div>
+                      <p className="text-xs text-accent font-medium italic">{book.author}</p>
+                      <p className="text-[11px] text-muted-foreground line-clamp-2 leading-relaxed">{book.description}</p>
+                    </div>
+                  </CardContent>
+                </Card>
+              </Link>
+            ))}
+            {filteredBooks.length === 0 && (
+              <div className="text-center py-20 text-muted-foreground">
+                <Search className="w-10 h-10 mx-auto mb-4 opacity-20" />
+                No texts found matching your criteria.
+              </div>
+            )}
+          </div>
+        </TabsContent>
+
+        <TabsContent value="scholars">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            {[
+              { name: "Sheikh Ibn Baz", era: "Modern", books: 54 },
+              { name: "Sheikh Al-Albani", era: "Modern", books: 120 },
+              { name: "Ibn Taymiyyah", era: "Classical", books: 350 },
+              { name: "Imam Ahmad", era: "Salaf", books: 12 }
+            ].map(s => (
+              <Card key={s.name} className="glass-card p-5 hover:border-accent/30 cursor-pointer group">
+                <div className="flex items-center gap-4">
+                  <div className="w-10 h-10 rounded-full bg-accent/20 flex items-center justify-center">
+                    <User className="w-5 h-5 text-accent" />
+                  </div>
+                  <div>
+                    <h4 className="font-headline font-bold text-sm">{s.name}</h4>
+                    <p className="text-[10px] text-muted-foreground uppercase">{s.era} Era • {s.books} Works</p>
+                  </div>
+                </div>
+              </Card>
+            ))}
+          </div>
+        </TabsContent>
+      </Tabs>
+
+      <section className="bg-primary/5 p-6 rounded-2xl border border-primary/20 mt-10">
+        <div className="flex items-center gap-2 mb-3">
+          <Shield className="w-5 h-5 text-primary" />
+          <h3 className="font-headline font-bold text-sm uppercase tracking-widest">Verified Archives</h3>
+        </div>
+        <p className="text-xs text-muted-foreground leading-relaxed">
+          The Islamly library only catalogs works that align with the understanding of the Salaf-us-Salih. Every digitized manuscript is verified against recognized scholarly editions.
+        </p>
+      </section>
     </div>
   );
 }
