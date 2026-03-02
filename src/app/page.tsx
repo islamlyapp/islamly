@@ -1,3 +1,4 @@
+
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -13,7 +14,7 @@ import {
   Globe, 
   Baby, 
   Video,
-  MessageCircleQuestion,
+  MessageCircle,
   ShieldAlert
 } from "lucide-react";
 import Link from "next/link";
@@ -35,20 +36,20 @@ export default function Home() {
       ]
     },
     {
-      group: "Guidance & Growth",
+      group: "AI & Interactive",
       items: [
-        { title: "Reverts", href: "/reverts", icon: UserPlus, color: "text-primary" },
-        { title: "About Islam", href: "/dawah", icon: Globe, color: "text-accent" },
-        { title: "Kids Corner", href: "/kids", icon: Baby, color: "text-primary" },
-        { title: "AI Explain", href: "/explain", icon: Sparkles, color: "text-accent" },
+        { title: "Ask AI", href: "/ask", icon: MessageCircle, color: "text-primary" },
+        { title: "Explain", href: "/explain", icon: Sparkles, color: "text-accent" },
+        { title: "Refutation", href: "/refutation", icon: ShieldAlert, color: "text-destructive" },
+        { title: "Live Streams", href: "/live", icon: Video, color: "text-primary" },
       ]
     },
     {
-      group: "Defense & Interactive",
+      group: "Guidance & Growth",
       items: [
-        { title: "Refutation", href: "/refutation", icon: ShieldAlert, color: "text-destructive" },
-        { title: "Quizzes", href: "/quizzes", icon: MessageCircleQuestion, color: "text-accent" },
-        { title: "Live Streams", href: "/live", icon: Video, color: "text-primary" },
+        { title: "Reverts", href: "/reverts", icon: UserPlus, color: "text-primary" },
+        { title: "Discover", href: "/dawah", icon: Globe, color: "text-accent" },
+        { title: "Kids Corner", href: "/kids", icon: Baby, color: "text-primary" },
       ]
     }
   ];
@@ -96,9 +97,9 @@ export default function Home() {
             <div className="h-2 w-2 rounded-full bg-red-500 animate-pulse" />
           </CardHeader>
           <CardContent>
-            <div className="text-lg font-medium">Sheikh Al-Albani Series</div>
-            <Link href="/live" className="text-xs text-primary hover:underline flex items-center gap-1 mt-1">
-              Watch Stream <ArrowRight className="w-3 h-3" />
+            <div className="text-lg font-medium">Ask an Expert</div>
+            <Link href="/ask" className="text-xs text-primary hover:underline flex items-center gap-1 mt-1">
+              Query Assistant <ArrowRight className="w-3 h-3" />
             </Link>
           </CardContent>
         </Card>
@@ -115,13 +116,13 @@ export default function Home() {
         />
         <div className="absolute inset-0 bg-gradient-to-t from-background via-background/20 to-transparent" />
         <div className="absolute bottom-0 left-0 p-6 space-y-1">
-          <Badge variant="secondary" className="bg-primary text-white">Featured Text</Badge>
-          <h2 className="text-2xl font-headline font-bold">The Three Principles</h2>
+          <Badge variant="secondary" className="bg-primary text-white">New Feature</Badge>
+          <h2 className="text-2xl font-headline font-bold">Universal Knowledge API</h2>
           <p className="text-sm text-muted-foreground max-w-md line-clamp-1">
-            Essential knowledge every Muslim must understand about their Lord.
+            Search over 60 curated modules of authentic Islamic knowledge.
           </p>
           <Button asChild size="sm" className="mt-4 h-8">
-            <Link href="/library/1">Read Now</Link>
+            <Link href="/ask">Try AI Search</Link>
           </Button>
         </div>
       </section>

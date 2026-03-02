@@ -1,17 +1,17 @@
+
 "use client";
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Home, Library, BookOpen, Clock, Sparkles, MessageCircleQuestion } from "lucide-react";
+import { Home, Library, BookOpen, Clock, Sparkles, MessageCircle } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 const navItems = [
   { href: "/", label: "Home", icon: Home },
   { href: "/quran", label: "Quran", icon: BookOpen },
+  { href: "/ask", label: "Ask AI", icon: MessageCircle },
   { href: "/library", label: "Library", icon: Library },
-  { href: "/explain", label: "AI Explain", icon: Sparkles },
   { href: "/prayer-times", label: "Salah", icon: Clock },
-  { href: "/quizzes", label: "Quizzes", icon: MessageCircleQuestion },
 ];
 
 export function BottomNav() {
