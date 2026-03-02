@@ -46,8 +46,8 @@
   .pb-safe {
     padding-bottom: env(safe-area-inset-bottom);
   }
-  .pb-safe-offset-24 {
-    padding-bottom: calc(6rem + env(safe-area-inset-bottom));
+  .pt-safe {
+    padding-top: env(safe-area-inset-top);
   }
 }
 

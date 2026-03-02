@@ -1,6 +1,6 @@
 import type {Metadata, Viewport} from 'next';
 import './globals.css';
-import { BottomNav } from '@/components/layout/bottom-nav';
+import { GlobalHeader } from '@/components/layout/global-header';
 import { FirebaseClientProvider } from '@/firebase/client-provider';
 import { AuthGuard } from '@/components/auth-guard';
 
@@ -35,13 +35,15 @@ export default function RootLayout({
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Literata:ital,opsz,wght@0,7..72,400;0,7..72,500;0,7..72,600;0,7..72,700;1,7..72,400&display=swap" rel="stylesheet" />
       </head>
-      <body className="font-body antialiased min-h-screen pb-safe-offset-24 md:pb-0 md:pl-0 overflow-x-hidden selection:bg-primary/30">
+      <body className="font-body antialiased min-h-screen pt-safe overflow-x-hidden selection:bg-primary/30">
         <FirebaseClientProvider>
           <AuthGuard>
-            <main className="max-w-4xl mx-auto px-4 py-8 pb-32 md:pb-8">
-              {children}
-            </main>
-            <BottomNav />
+            <div className="min-h-screen flex flex-col">
+              <GlobalHeader />
+              <main className="flex-1 max-w-4xl mx-auto w-full px-4 py-8">
+                {children}
+              </main>
+            </div>
           </AuthGuard>
         </FirebaseClientProvider>
       </body>
