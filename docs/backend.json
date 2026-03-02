@@ -1,0 +1,600 @@
+{
+  "entities": {
+    "UserProfile": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "UserProfile",
+      "type": "object",
+      "description": "Represents a user's profile within the Islamly application, storing preferences and data associated with their unique identifier from an external authentication system.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the UserProfile entity, typically provided by an external authentication system."
+        },
+        "preferredCalculationMethod": {
+          "type": "string",
+          "description": "The user's chosen method for calculating daily prayer times (e.g., 'MWL', 'ISNA', 'Egyptian')."
+        },
+        "madhab": {
+          "type": "string",
+          "description": "The user's chosen juristic method for determining the Asr prayer time (e.g., 'Hanafi', 'Standard').",
+          "format": "string"
+        },
+        "latitude": {
+          "type": "number",
+          "description": "The geographical latitude of the user's location, used for prayer time calculations."
+        },
+        "longitude": {
+          "type": "number",
+          "description": "The geographical longitude of the user's location, used for prayer time calculations."
+        },
+        "timeZone": {
+          "type": "string",
+          "description": "The user's preferred or detected time zone (e.g., 'America/New_York')."
+        },
+        "createdAt": {
+          "type": "string",
+          "description": "Timestamp indicating when the user profile was created.",
+          "format": "date-time"
+        },
+        "updatedAt": {
+          "type": "string",
+          "description": "Timestamp indicating when the user profile was last updated.",
+          "format": "date-time"
+        }
+      },
+      "required": [
+        "id",
+        "preferredCalculationMethod",
+        "latitude",
+        "longitude",
+        "timeZone",
+        "createdAt",
+        "updatedAt"
+      ]
+    },
+    "Text": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "Text",
+      "type": "object",
+      "description": "Represents a classical Islamic text, scholarly work, Hadith collection, Quran, Seerah compilation, or Adhkar collection within the app's library.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the Text entity."
+        },
+        "title": {
+          "type": "string",
+          "description": "The primary title of the text (e.g., 'Sahih Bukhari', 'The Holy Quran')."
+        },
+        "originalTitle": {
+          "type": "string",
+          "description": "The original Arabic title of the text, if applicable."
+        },
+        "author": {
+          "type": "string",
+          "description": "The author or compiler of the text (e.g., 'Imam Bukhari')."
+        },
+        "description": {
+          "type": "string",
+          "description": "A brief summary or introduction to the text."
+        },
+        "type": {
+          "type": "string",
+          "description": "The category of the text (e.g., 'Quran', 'HadithCollection', 'Book', 'Seerah', 'AdhkarCollection')."
+        },
+        "language": {
+          "type": "string",
+          "description": "The primary language of the text content (e.g., 'ar' for Arabic, 'en' for English)."
+        },
+        "publicationYear": {
+          "type": "number",
+          "description": "The year of publication or compilation of the text."
+        },
+        "sourceUrl": {
+          "type": "string",
+          "description": "An optional URL pointing to the external source or origin of the text.",
+          "format": "uri"
+        }
+      },
+      "required": [
+        "id",
+        "title",
+        "type"
+      ]
+    },
+    "Chapter": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "Chapter",
+      "type": "object",
+      "description": "Represents a chapter, section, or book within a larger text, providing structure to content.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the Chapter entity."
+        },
+        "textId": {
+          "type": "string",
+          "description": "Reference to the parent Text entity. (Relationship: Text 1:N Chapter)"
+        },
+        "title": {
+          "type": "string",
+          "description": "The title of the chapter or section."
+        },
+        "originalTitle": {
+          "type": "string",
+          "description": "The original Arabic title of the chapter, if applicable."
+        },
+        "order": {
+          "type": "number",
+          "description": "The sequential order of the chapter within its parent text or collection."
+        },
+        "description": {
+          "type": "string",
+          "description": "A brief description or summary of the chapter."
+        }
+      },
+      "required": [
+        "id",
+        "textId",
+        "title",
+        "order"
+      ]
+    },
+    "Passage": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "Passage",
+      "type": "object",
+      "description": "Represents a granular unit of content, such as a Quranic verse, Hadith, Dua, or a paragraph from a scholarly text.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the Passage entity."
+        },
+        "textId": {
+          "type": "string",
+          "description": "Reference to the parent Text entity. (Relationship: Text 1:N Passage)"
+        },
+        "chapterId": {
+          "type": "string",
+          "description": "Optional reference to the parent Chapter entity, if the passage belongs to a specific chapter. (Relationship: Chapter 1:N Passage)"
+        },
+        "type": {
+          "type": "string",
+          "description": "The specific type of content represented by this passage (e.g., 'Verse', 'Hadith', 'Dua', 'Paragraph', 'ScholarlyPassage')."
+        },
+        "contentArabic": {
+          "type": "string",
+          "description": "The original text content in Arabic."
+        },
+        "contentTranslation": {
+          "type": "string",
+          "description": "The English translation of the content."
+        },
+        "contentTransliteration": {
+          "type": "string",
+          "description": "The transliteration of the Arabic content, useful for non-Arabic speakers."
+        },
+        "commentary": {
+          "type": "string",
+          "description": "Associated tafsir, explanation, or commentary for the passage."
+        },
+        "sourceReference": {
+          "type": "string",
+          "description": "A specific reference string within the original source (e.g., 'Surah 2: Ayat 255', 'Bukhari 1:1', 'Hisnul Muslim No. 12')."
+        },
+        "order": {
+          "type": "number",
+          "description": "The sequential order of the passage within its parent chapter or text."
+        },
+        "pageNumber": {
+          "type": "number",
+          "description": "The page number within the physical source text, if applicable."
+        }
+      },
+      "required": [
+        "id",
+        "textId",
+        "type"
+      ]
+    },
+    "Bookmark": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "Bookmark",
+      "type": "object",
+      "description": "Allows users to bookmark favorite texts, chapters, or specific passages for quick reference.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the Bookmark entity."
+        },
+        "userId": {
+          "type": "string",
+          "description": "Reference to the UserProfile who created the bookmark. (Relationship: UserProfile 1:N Bookmark)"
+        },
+        "targetType": {
+          "type": "string",
+          "description": "Specifies the type of content being bookmarked ('Text', 'Chapter', or 'Passage')."
+        },
+        "targetId": {
+          "type": "string",
+          "description": "The ID of the content entity being bookmarked (Text.id, Chapter.id, or Passage.id, depending on targetType)."
+        },
+        "createdAt": {
+          "type": "string",
+          "description": "Timestamp indicating when the bookmark was created.",
+          "format": "date-time"
+        }
+      },
+      "required": [
+        "id",
+        "userId",
+        "targetType",
+        "targetId",
+        "createdAt"
+      ]
+    },
+    "Note": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "Note",
+      "type": "object",
+      "description": "Stores personal notes added by users to specific passages within the application.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the Note entity."
+        },
+        "userId": {
+          "type": "string",
+          "description": "Reference to the UserProfile who created the note. (Relationship: UserProfile 1:N Note)"
+        },
+        "passageId": {
+          "type": "string",
+          "description": "Reference to the Passage entity to which the note is attached. (Relationship: Passage 1:N Note)"
+        },
+        "content": {
+          "type": "string",
+          "description": "The actual text content of the personal note."
+        },
+        "createdAt": {
+          "type": "string",
+          "description": "Timestamp indicating when the note was created.",
+          "format": "date-time"
+        },
+        "updatedAt": {
+          "type": "string",
+          "description": "Timestamp indicating when the note was last updated.",
+          "format": "date-time"
+        }
+      },
+      "required": [
+        "id",
+        "userId",
+        "passageId",
+        "content",
+        "createdAt",
+        "updatedAt"
+      ]
+    },
+    "Quiz": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "Quiz",
+      "type": "object",
+      "description": "Defines an Islamic quiz with its title, description, topic, and difficulty.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the Quiz entity."
+        },
+        "title": {
+          "type": "string",
+          "description": "The title of the quiz."
+        },
+        "description": {
+          "type": "string",
+          "description": "A brief description of the quiz's content or focus."
+        },
+        "topic": {
+          "type": "string",
+          "description": "The primary topic covered by the quiz (e.g., 'Quran', 'Hadith', 'Seerah', 'Fiqh')."
+        },
+        "difficulty": {
+          "type": "string",
+          "description": "The difficulty level of the quiz ('Beginner', 'Intermediate', 'Advanced')."
+        }
+      },
+      "required": [
+        "id",
+        "title",
+        "description",
+        "topic",
+        "difficulty"
+      ]
+    },
+    "Question": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "Question",
+      "type": "object",
+      "description": "Represents an individual question belonging to a quiz, including its text, type, options, and correct answer.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the Question entity."
+        },
+        "quizId": {
+          "type": "string",
+          "description": "Reference to the parent Quiz entity. (Relationship: Quiz 1:N Question)"
+        },
+        "questionText": {
+          "type": "string",
+          "description": "The full text of the question."
+        },
+        "type": {
+          "type": "string",
+          "description": "The type of question (e.g., 'MultipleChoice', 'TrueFalse', 'FillInTheBlank')."
+        },
+        "options": {
+          "type": "array",
+          "description": "An array of possible answer options for multiple-choice questions.",
+          "items": {
+            "type": "string"
+          }
+        },
+        "correctAnswer": {
+          "type": "string",
+          "description": "The correct answer to the question."
+        },
+        "explanation": {
+          "type": "string",
+          "description": "An explanation or rationale for the correct answer."
+        }
+      },
+      "required": [
+        "id",
+        "quizId",
+        "questionText",
+        "type",
+        "correctAnswer"
+      ]
+    },
+    "QuizAttempt": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "QuizAttempt",
+      "type": "object",
+      "description": "Records a user's attempt at a specific quiz, including start/end times and overall score.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the QuizAttempt entity."
+        },
+        "userId": {
+          "type": "string",
+          "description": "Reference to the UserProfile who made the attempt. (Relationship: UserProfile 1:N QuizAttempt)"
+        },
+        "quizId": {
+          "type": "string",
+          "description": "Reference to the Quiz that was attempted. (Relationship: Quiz 1:N QuizAttempt)"
+        },
+        "startTime": {
+          "type": "string",
+          "description": "Timestamp indicating when the quiz attempt started.",
+          "format": "date-time"
+        },
+        "endTime": {
+          "type": "string",
+          "description": "Optional timestamp indicating when the quiz attempt ended.",
+          "format": "date-time"
+        },
+        "score": {
+          "type": "number",
+          "description": "The score obtained by the user in this quiz attempt (e.g., percentage or raw score)."
+        },
+        "isCompleted": {
+          "type": "boolean",
+          "description": "A boolean indicating whether the quiz attempt was fully completed."
+        }
+      },
+      "required": [
+        "id",
+        "userId",
+        "quizId",
+        "startTime",
+        "isCompleted"
+      ]
+    },
+    "QuizAnswer": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "QuizAnswer",
+      "type": "object",
+      "description": "Stores a user's specific answer to a question within a quiz attempt.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the QuizAnswer entity."
+        },
+        "quizAttemptId": {
+          "type": "string",
+          "description": "Reference to the parent QuizAttempt. (Relationship: QuizAttempt 1:N QuizAnswer)"
+        },
+        "questionId": {
+          "type": "string",
+          "description": "Reference to the Question being answered. (Relationship: Question 1:N QuizAnswer)"
+        },
+        "userAnswer": {
+          "type": "string",
+          "description": "The answer provided by the user for this question."
+        },
+        "isCorrect": {
+          "type": "boolean",
+          "description": "Indicates whether the user's provided answer was correct."
+        }
+      },
+      "required": [
+        "id",
+        "quizAttemptId",
+        "questionId",
+        "userAnswer"
+      ]
+    }
+  },
+  "auth": {
+    "providers": [
+      "password",
+      "anonymous"
+    ]
+  },
+  "firestore": {
+    "structure": [
+      {
+        "path": "/users/{userId}",
+        "definition": {
+          "entityName": "UserProfile",
+          "schema": {
+            "$ref": "#/backend/entities/UserProfile"
+          },
+          "description": "Stores individual user profiles. Access is restricted to the owner (`request.auth.uid == userId`). Includes denormalized 'id' (which is the userId) for authorization independence.",
+          "params": [
+            {
+              "name": "userId",
+              "description": "The unique identifier of the user, corresponding to `request.auth.uid`."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/texts/{textId}",
+        "definition": {
+          "entityName": "Text",
+          "schema": {
+            "$ref": "#/backend/entities/Text"
+          },
+          "description": "Contains a global, public collection of Islamic texts. Authenticated users have read-only access. No specific owner, accessible by all users."
+        }
+      },
+      {
+        "path": "/texts/{textId}/chapters/{chapterId}",
+        "definition": {
+          "entityName": "Chapter",
+          "schema": {
+            "$ref": "#/backend/entities/Chapter"
+          },
+          "description": "Subcollection of chapters belonging to a specific text. Authenticated users have read-only access. Logically nested for organization, sharing the parent text's public access posture. The 'textId' is included in the document for query consistency."
+        }
+      },
+      {
+        "path": "/texts/{textId}/passages/{passageId}",
+        "definition": {
+          "entityName": "Passage",
+          "schema": {
+            "$ref": "#/backend/entities/Passage"
+          },
+          "description": "Subcollection of passages belonging to a specific text. Authenticated users have read-only access. Allows passages to exist directly under a text, with an optional 'chapterId' field for further categorization."
+        }
+      },
+      {
+        "path": "/users/{userId}/bookmarks/{bookmarkId}",
+        "definition": {
+          "entityName": "Bookmark",
+          "schema": {
+            "$ref": "#/backend/entities/Bookmark"
+          },
+          "description": "Stores user-specific bookmarks. Access is restricted to the owner (`request.auth.uid == userId`). Includes denormalized 'userId' for authorization independence and query efficiency.",
+          "params": [
+            {
+              "name": "userId",
+              "description": "The unique identifier of the user who owns this bookmark."
+            },
+            {
+              "name": "bookmarkId",
+              "description": "The unique identifier of the bookmark."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/users/{userId}/notes/{noteId}",
+        "definition": {
+          "entityName": "Note",
+          "schema": {
+            "$ref": "#/backend/entities/Note"
+          },
+          "description": "Stores user-specific personal notes. Access is restricted to the owner (`request.auth.uid == userId`). Includes denormalized 'userId' for authorization independence and query efficiency.",
+          "params": [
+            {
+              "name": "userId",
+              "description": "The unique identifier of the user who owns this note."
+            },
+            {
+              "name": "noteId",
+              "description": "The unique identifier of the note."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/quizzes/{quizId}",
+        "definition": {
+          "entityName": "Quiz",
+          "schema": {
+            "$ref": "#/backend/entities/Quiz"
+          },
+          "description": "Contains a global, public collection of Islamic quizzes. Authenticated users have read-only access. No specific owner, accessible by all users."
+        }
+      },
+      {
+        "path": "/quizzes/{quizId}/questions/{questionId}",
+        "definition": {
+          "entityName": "Question",
+          "schema": {
+            "$ref": "#/backend/entities/Question"
+          },
+          "description": "Subcollection of questions belonging to a specific quiz. Authenticated users have read-only access. Logically nested for organization, sharing the parent quiz's public access posture."
+        }
+      },
+      {
+        "path": "/users/{userId}/quizAttempts/{quizAttemptId}",
+        "definition": {
+          "entityName": "QuizAttempt",
+          "schema": {
+            "$ref": "#/backend/entities/QuizAttempt"
+          },
+          "description": "Records user-specific attempts at quizzes. Access is restricted to the owner (`request.auth.uid == userId`). Includes denormalized 'userId' for authorization independence and query efficiency.",
+          "params": [
+            {
+              "name": "userId",
+              "description": "The unique identifier of the user who made this quiz attempt."
+            },
+            {
+              "name": "quizAttemptId",
+              "description": "The unique identifier of the quiz attempt."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/users/{userId}/quizAttempts/{quizAttemptId}/quizAnswers/{quizAnswerId}",
+        "definition": {
+          "entityName": "QuizAnswer",
+          "schema": {
+            "$ref": "#/backend/entities/QuizAnswer"
+          },
+          "description": "Stores user's answers to questions within a specific quiz attempt. Access is restricted to the owner of the parent quiz attempt (`request.auth.uid == userId`). The 'userId' is implicitly available via the parent path for authorization independence.",
+          "params": [
+            {
+              "name": "userId",
+              "description": "The unique identifier of the user who owns the parent quiz attempt."
+            },
+            {
+              "name": "quizAttemptId",
+              "description": "The unique identifier of the parent quiz attempt."
+            },
+            {
+              "name": "quizAnswerId",
+              "description": "The unique identifier of the quiz answer."
+            }
+          ]
+        }
+      }
+    ],
+    "reasoning": "The Firestore data structure for Islamly prioritizes clear authorization, scalability, and debuggability by strictly adhering to the core design principles. \n\n**Authorization Independence (CRITICAL):** Authorization is primarily achieved through path-based ownership for user-specific data and universal read access for public content, eliminating the need for `get()` calls in security rules. For example, user profiles, bookmarks, notes, quiz attempts, and quiz answers are all nested directly under `/users/{userId}/...`. The `userId` in the path (e.g., `{userId}`) directly corresponds to `request.auth.uid`, making authorization checks atomic and independent of parent document fetches. For entities like `Bookmark`, `Note`, and `QuizAttempt`, the `userId` field is also explicitly included in the document schema, serving as a denormalized authorization context that reinforces ownership and enables direct queries, even though the path itself is sufficient for rules. Public content (Texts, Chapters, Passages, Quizzes, Questions) is placed in root-level or nested root-level collections, granting authenticated users read-only access without any complex authorization dependencies.\n\n**QAPs (Rules are not Filters):** This structure inherently supports Query-Able Paths (QAPs). For user-owned data, `list` operations are implicitly scoped by the `/users/{userId}/` path segment, meaning a user can only list their own bookmarks, notes, quiz attempts, and quiz answers. For public content, `list` operations on collections like `/texts` or `/quizzes` are permitted for all authenticated users, allowing efficient browsing and searching of the library without requiring complex rule-based filtering. The structural segregation ensures that public data and private user data have distinct, simple security postures, making rules straightforward and performant."
+  }
+}
