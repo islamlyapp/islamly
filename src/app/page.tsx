@@ -43,7 +43,8 @@ import {
   Flame,
   Star,
   ChevronDown,
-  ChevronUp
+  ChevronUp,
+  Users
 } from "lucide-react";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
