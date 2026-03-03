@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useRouter } from "next/navigation";
@@ -40,10 +41,14 @@ export default function ProfilePage() {
   const [availableLanguages, setAvailableLanguages] = useState<any[]>([]);
   const [langSearch, setLangSearch] = useState("");
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
+  const [creationDate, setCreationDate] = useState<string | null>(null);
 
   useEffect(() => {
     if (!user && !isUserLoading) {
       router.push("/login");
+    }
+    if (user?.metadata.creationTime) {
+      setCreationDate(new Date(user.metadata.creationTime).toLocaleDateString());
     }
   }, [user, isUserLoading, router]);
 
@@ -125,7 +130,6 @@ export default function ProfilePage() {
       </header>
 
       <section className="grid gap-4">
-        {/* Launch Readiness Center */}
         <Card className="border-accent/30 bg-accent/5 overflow-hidden">
           <CardHeader className="pb-3">
             <div className="flex items-center justify-between">
@@ -157,7 +161,6 @@ export default function ProfilePage() {
           </CardContent>
         </Card>
 
-        {/* Settings Entry */}
         <Sheet open={isSettingsOpen} onOpenChange={setIsSettingsOpen}>
           <SheetTrigger asChild>
             <Card className="glass-card hover:bg-secondary/30 transition-all cursor-pointer group">
@@ -271,7 +274,7 @@ export default function ProfilePage() {
 
       <footer className="text-center text-[10px] text-muted-foreground uppercase tracking-widest pt-8 flex flex-col items-center gap-2">
         <span className="opacity-50 tracking-[0.3em]">Islamly Scholarly Guard</span>
-        <span>Member since {user.metadata.creationTime ? new Date(user.metadata.creationTime).toLocaleDateString() : 'N/A'}</span>
+        <span>Member since {creationDate || 'N/A'}</span>
       </footer>
     </div>
   );

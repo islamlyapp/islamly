@@ -1,10 +1,11 @@
+
 "use client";
 
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Clock, MapPin, Settings2, Bell, Info, ShieldCheck, Loader2, Navigation, Search, X } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -31,6 +32,16 @@ export default function PrayerTimesPage() {
   const [isAutoLocation, setIsAutoLocation] = useState(false);
   const [showSearch, setShowSearch] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
+  const [currentTimeStr, setCurrentTimeStr] = useState("");
+
+  useEffect(() => {
+    // Update current time for "Next Prayer" logic, preventing hydration mismatch
+    const interval = setInterval(() => {
+      const now = new Date();
+      setCurrentTimeStr(now.getHours().toString().padStart(2, '0') + ":" + now.getMinutes().toString().padStart(2, '0'));
+    }, 1000);
+    return () => clearInterval(interval);
+  }, []);
 
   const loadTimesByCity = async (city: string) => {
     setLoading(true);
@@ -47,7 +58,6 @@ export default function PrayerTimesPage() {
       }
     } catch (err) {
       console.error(err);
-      // Fallback if search fails
       loadDefaultTimes();
     } finally {
       setLoading(false);
@@ -88,7 +98,7 @@ export default function PrayerTimesPage() {
         },
         (error) => {
           console.warn("Location denied", error);
-          setShowSearch(true); // Show manual search if denied
+          setShowSearch(true);
           loadDefaultTimes();
         }
       );
@@ -102,14 +112,23 @@ export default function PrayerTimesPage() {
     handleAutoDetect();
   }, [method]);
 
-  const prayers = timings ? [
-    { name: "Fajr", time: timings.Fajr },
-    { name: "Sunrise", time: timings.Sunrise },
-    { name: "Dhuhr", time: timings.Dhuhr },
-    { name: "Asr", time: timings.Asr },
-    { name: "Maghrib", time: timings.Maghrib },
-    { name: "Isha", time: timings.Isha },
-  ] : [];
+  const prayers = useMemo(() => {
+    if (!timings) return [];
+    return [
+      { name: "Fajr", time: timings.Fajr },
+      { name: "Sunrise", time: timings.Sunrise },
+      { name: "Dhuhr", time: timings.Dhuhr },
+      { name: "Asr", time: timings.Asr },
+      { name: "Maghrib", time: timings.Maghrib },
+      { name: "Isha", time: timings.Isha },
+    ];
+  }, [timings]);
+
+  const nextPrayer = useMemo(() => {
+    if (!prayers.length || !currentTimeStr) return prayers[0];
+    const found = prayers.find(p => p.time > currentTimeStr);
+    return found || prayers[0];
+  }, [prayers, currentTimeStr]);
 
   return (
     <div className="space-y-8 animate-in fade-in duration-500 pb-20">
@@ -188,7 +207,7 @@ export default function PrayerTimesPage() {
             </div>
             <CardContent className="p-8 text-center space-y-2 relative z-10">
               <p className="text-primary uppercase tracking-[0.2em] font-headline font-bold text-xs">Verified Timing</p>
-              <h2 className="text-5xl font-headline font-bold">Dhuhr</h2>
+              <h2 className="text-5xl font-headline font-bold">{nextPrayer.name}</h2>
               <p className="text-muted-foreground">{locationName}</p>
               <div className="pt-4 flex justify-center gap-2">
                 <Badge variant="outline" className="border-primary/50 text-primary">
@@ -205,7 +224,7 @@ export default function PrayerTimesPage() {
 
           <div className="grid gap-2">
             {prayers.map((prayer) => {
-              const isNext = prayer.name === "Dhuhr";
+              const isNext = prayer.name === nextPrayer.name;
               return (
                 <Card key={prayer.name} className={cn(
                   "glass-card border-none transition-all hover:translate-x-1",
