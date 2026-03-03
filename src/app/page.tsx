@@ -30,7 +30,9 @@ import {
   Compass,
   Search,
   BookOpen,
-  UserCheck
+  UserCheck,
+  ChevronRight,
+  Shield
 } from "lucide-react";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
@@ -93,15 +95,6 @@ export default function Home() {
         { title: "Astronomy", href: "/astronomy", icon: Compass, color: "text-blue-400", bg: "bg-blue-500/10", border: "border-blue-500/20" },
         { title: "Refutation", href: "/refutation", icon: ShieldAlert, color: "text-red-400", bg: "bg-red-500/10", border: "border-red-500/20" },
       ]
-    },
-    {
-      group: "Community & Living",
-      items: [
-        { title: "Families", href: "/family", icon: HomeIcon, color: "text-pink-400", bg: "bg-pink-500/10", border: "border-pink-500/20" },
-        { title: "Reverts", href: "/reverts", icon: Rocket, color: "text-teal-400", bg: "bg-teal-500/10", border: "border-teal-500/20" },
-        { title: "Masjids", href: "/masjid-locator", icon: MapPin, color: "text-blue-400", bg: "bg-blue-500/10", border: "border-blue-500/20" },
-        { title: "Halal", href: "/halal-locator", icon: Utensils, color: "text-orange-400", bg: "bg-orange-500/10", border: "border-orange-500/20" },
-      ]
     }
   ];
 
@@ -115,13 +108,18 @@ export default function Home() {
               <GraduationCap className="w-5 h-5 text-white" />
             </div>
           </h1>
-          <Badge variant="secondary" className="bg-primary/10 text-primary border-primary/20 gap-1 h-6">
-            <Database className="w-3 h-3" /> 500+ Modules Active
-          </Badge>
+          <div className="flex items-center gap-2">
+            <Badge variant="outline" className="border-emerald-500/30 text-emerald-500 gap-1 bg-emerald-500/5">
+              <ShieldCheck className="w-3 h-3" /> No Shirk or Bid'ah
+            </Badge>
+            <Badge variant="secondary" className="bg-primary/10 text-primary border-primary/20 gap-1 h-6">
+              <Database className="w-3 h-3" /> 500+ Modules
+            </Badge>
+          </div>
         </div>
         <div className="flex items-center gap-2">
           <p className="text-muted-foreground text-lg italic">
-            Welcome to the Universal Scholarly Infrastructure.
+            Authentic Scholarly Infrastructure.
           </p>
           {profile?.preferredLanguage && (
             <Badge variant="outline" className="text-[10px] gap-1 py-0 border-accent/30 text-accent">
@@ -231,6 +229,10 @@ export default function Home() {
 
       <footer className="py-10 text-center space-y-4">
         <div className="flex flex-col items-center gap-2">
+          <div className="flex items-center gap-2 mb-2">
+             <Shield className="w-4 h-4 text-emerald-500" />
+             <span className="text-[10px] uppercase tracking-widest font-bold text-emerald-500">Pure Monotheism (Tawhid) Only</span>
+          </div>
           <Badge variant="outline" className="text-[10px] uppercase tracking-widest text-primary font-headline">
             Islamly Unified Infrastructure
           </Badge>

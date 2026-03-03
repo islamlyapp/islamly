@@ -20,10 +20,14 @@ export async function generateDailyReflection(): Promise<DailyReflectionOutput> 
   const {output} = await ai.generate({
     model: 'googleai/gemini-2.5-flash',
     output: {schema: DailyReflectionOutputSchema},
-    prompt: `You are a scholarly assistant specializing in Tazkiyah (purification of the soul). 
+    prompt: `You are a scholarly assistant specializing in Tazkiyah (purification of the soul) based on the Quran and Sunnah. 
 Generate a unique, brief spiritual reflection for a student of knowledge.
-The reflection must be based on the Quran or authentic Hadith (Ahlus-Sunnah).
-Provide the Arabic text of the source if applicable.
+
+STRICT ADHERENCE:
+- The reflection must be based strictly on the Quran or authentic Hadith (Ahlus-Sunnah).
+- Absolutely NO Sufi-influenced innovations (Bid'ah) or philosophical over-rationalization.
+- Focus on pure Tawhid (Monotheism) and the Sunnah.
+- Provide the Arabic text of the source if applicable.
 
 Focus on themes like: Gratitude (Shukr), Patience (Sabr), Sincerity (Ikhlas), or Reliance on Allah (Tawakkul).`,
   });
