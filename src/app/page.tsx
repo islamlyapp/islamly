@@ -1,3 +1,4 @@
+
 "use client";
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -32,7 +33,17 @@ import {
   BookOpen,
   UserCheck,
   ChevronRight,
-  Shield
+  Shield,
+  Heart,
+  Baby,
+  Library,
+  Video,
+  Volume2,
+  Target,
+  Flame,
+  Star,
+  ChevronDown,
+  ChevronUp
 } from "lucide-react";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
@@ -46,6 +57,7 @@ export default function Home() {
   const db = useFirestore();
   const [reflection, setReflection] = useState<DailyReflectionOutput | null>(null);
   const [loadingReflection, setLoadingReflection] = useState(true);
+  const [isExpanded, setIsExpanded] = useState(false);
 
   const profileRef = useMemoFirebase(() => {
     if (!db || !user?.uid) return null;
@@ -68,35 +80,62 @@ export default function Home() {
     loadReflection();
   }, []);
 
-  const categories = [
-    { 
-      group: "Al-Mualim AI Infrastructure",
-      items: [
-        { title: "Teacher", href: "/mualim", icon: GraduationCap, color: "text-primary", bg: "bg-primary/10", border: "border-primary/20" },
-        { title: "Recite", href: "/mualim", icon: Mic, color: "text-emerald-400", bg: "bg-emerald-500/10", border: "border-emerald-500/20" },
-        { title: "Ask AI", href: "/ask", icon: MessageCircle, color: "text-rose-400", bg: "bg-rose-500/10", border: "border-rose-500/20" },
-        { title: "Simplify", href: "/explain", icon: Sparkles, color: "text-purple-400", bg: "bg-purple-500/10", border: "border-purple-500/20" },
-      ]
-    },
-    { 
-      group: "Primary Scholarly Modules",
-      items: [
-        { title: "Quran", href: "/quran", icon: BookMarked, color: "text-emerald-400", bg: "bg-emerald-500/10", border: "border-emerald-500/20" },
-        { title: "Hadith", href: "/hadith", icon: ScrollText, color: "text-amber-400", bg: "bg-amber-500/10", border: "border-amber-500/20" },
-        { title: "Seerah", href: "/seerah", icon: History, color: "text-cyan-400", bg: "bg-cyan-500/10", border: "border-cyan-500/20" },
-        { title: "Fiqh", href: "/fiqh", icon: Scale, color: "text-indigo-400", bg: "bg-indigo-500/10", border: "border-indigo-500/20" },
-      ]
-    },
-    {
-      group: "Advanced Research & Heritage",
-      items: [
-        { title: "Scholars", href: "/scholars", icon: UserCheck, color: "text-orange-400", bg: "bg-orange-500/10", border: "border-orange-500/20" },
-        { title: "Manuscripts", href: "/manuscripts", icon: BookOpen, color: "text-yellow-400", bg: "bg-yellow-500/10", border: "border-yellow-500/20" },
-        { title: "Astronomy", href: "/astronomy", icon: Compass, color: "text-blue-400", bg: "bg-blue-500/10", border: "border-blue-500/20" },
-        { title: "Refutation", href: "/refutation", icon: ShieldAlert, color: "text-red-400", bg: "bg-red-500/10", border: "border-red-500/20" },
-      ]
-    }
+  const allModules = [
+    // Cluster 1: AI Infrastructure
+    { title: "Teacher", href: "/mualim", icon: GraduationCap, color: "text-primary", bg: "bg-primary/10", border: "border-primary/20", group: "AI Infrastructure", essential: true },
+    { title: "Recite", href: "/mualim", icon: Mic, color: "text-emerald-400", bg: "bg-emerald-500/10", border: "border-emerald-500/20", group: "AI Infrastructure", essential: true },
+    { title: "Ask AI", href: "/ask", icon: MessageCircle, color: "text-rose-400", bg: "bg-rose-500/10", border: "border-rose-500/20", group: "AI Infrastructure", essential: true },
+    { title: "Simplify", href: "/explain", icon: Sparkles, color: "text-purple-400", bg: "bg-purple-500/10", border: "border-purple-500/20", group: "AI Infrastructure", essential: true },
+    
+    // Cluster 2: Core Knowledge
+    { title: "Quran", href: "/quran", icon: BookMarked, color: "text-emerald-400", bg: "bg-emerald-500/10", border: "border-emerald-500/20", group: "Core Knowledge", essential: true },
+    { title: "Hadith", href: "/hadith", icon: ScrollText, color: "text-amber-400", bg: "bg-amber-500/10", border: "border-amber-500/20", group: "Core Knowledge", essential: true },
+    { title: "Seerah", href: "/seerah", icon: History, color: "text-cyan-400", bg: "bg-cyan-500/10", border: "border-cyan-500/20", group: "Core Knowledge", essential: true },
+    { title: "Fiqh", href: "/fiqh", icon: Scale, color: "text-indigo-400", bg: "bg-indigo-500/10", border: "border-indigo-500/20", group: "Core Knowledge", essential: true },
+    { title: "Aqidah", href: "/ask", icon: ShieldCheck, color: "text-red-400", bg: "bg-red-500/10", border: "border-red-500/20", group: "Core Knowledge", essential: false },
+    { title: "Tafsir", href: "/library", icon: BookOpen, color: "text-emerald-500", bg: "bg-emerald-500/10", border: "border-emerald-500/20", group: "Core Knowledge", essential: false },
+    { title: "Manhaj", href: "/ask", icon: Compass, color: "text-orange-500", bg: "bg-orange-500/10", border: "border-orange-500/20", group: "Core Knowledge", essential: false },
+    { title: "History", href: "/seerah", icon: History, color: "text-amber-600", bg: "bg-amber-600/10", border: "border-amber-600/20", group: "Core Knowledge", essential: false },
+
+    // Cluster 3: Practical Living
+    { title: "Salah", href: "/prayer-times", icon: Clock, color: "text-blue-400", bg: "bg-blue-500/10", border: "border-blue-500/20", group: "Practical Living", essential: true },
+    { title: "Masjid", href: "/masjid-locator", icon: MapPin, color: "text-emerald-400", bg: "bg-emerald-500/10", border: "border-emerald-500/20", group: "Practical Living", essential: true },
+    { title: "Halal", href: "/halal-locator", icon: Utensils, color: "text-orange-400", bg: "bg-orange-500/10", border: "border-orange-500/20", group: "Practical Living", essential: true },
+    { title: "Adhkar", href: "/adhkar", icon: Zap, color: "text-yellow-400", bg: "bg-yellow-500/10", border: "border-yellow-500/20", group: "Practical Living", essential: true },
+    { title: "Ruqyah", href: "/ruqyah", icon: ShieldCheck, color: "text-sky-400", bg: "bg-sky-500/10", border: "border-sky-500/20", group: "Practical Living", essential: false },
+    { title: "Dua", href: "/adhkar", icon: Heart, color: "text-rose-400", bg: "bg-rose-500/10", border: "border-rose-500/20", group: "Practical Living", essential: false },
+    { title: "Zakat", href: "/fiqh", icon: Database, color: "text-teal-400", bg: "bg-teal-500/10", border: "border-teal-500/20", group: "Practical Living", essential: false },
+    { title: "Ramadan", href: "/prayer-times", icon: Moon, color: "text-indigo-400", bg: "bg-indigo-500/10", border: "border-indigo-500/20", group: "Practical Living", essential: false },
+
+    // Cluster 4: Community & Family
+    { title: "Family", href: "/family", icon: HomeIcon, color: "text-pink-400", bg: "bg-pink-500/10", border: "border-pink-500/20", group: "Community", essential: false },
+    { title: "Kids", href: "/kids", icon: Rocket, color: "text-orange-400", bg: "bg-orange-500/10", border: "border-orange-500/20", group: "Community", essential: false },
+    { title: "Teens", href: "/teens", icon: Flame, color: "text-violet-400", bg: "bg-violet-500/10", border: "border-violet-500/20", group: "Community", essential: false },
+    { title: "Reverts", href: "/reverts", icon: UserCheck, color: "text-emerald-400", bg: "bg-emerald-500/10", border: "border-emerald-500/20", group: "Community", essential: false },
+    { title: "Parenting", href: "/parenting", icon: Baby, color: "text-rose-400", bg: "bg-rose-500/10", border: "border-rose-500/20", group: "Community", essential: false },
+    { title: "Dawah", href: "/dawah", icon: Globe, color: "text-blue-400", bg: "bg-blue-500/10", border: "border-blue-500/20", group: "Community", essential: false },
+    { title: "Marriage", href: "/family", icon: Heart, color: "text-pink-500", bg: "bg-pink-500/10", border: "border-pink-500/20", group: "Community", essential: false },
+    { title: "Elderly", href: "/family", icon: Users, color: "text-amber-400", bg: "bg-amber-500/10", border: "border-amber-500/20", group: "Community", essential: false },
+
+    // Cluster 5: Research & Heritage
+    { title: "Archive", href: "/manuscripts", icon: ScrollText, color: "text-yellow-400", bg: "bg-yellow-500/10", border: "border-yellow-500/20", group: "Heritage", essential: true },
+    { title: "Astronomy", href: "/astronomy", icon: Compass, color: "text-blue-400", bg: "bg-blue-500/10", border: "border-blue-500/20", group: "Heritage", essential: true },
+    { title: "Scholars", href: "/scholars", icon: UserCheck, color: "text-orange-400", bg: "bg-orange-500/10", border: "border-orange-500/20", group: "Heritage", essential: true },
+    { title: "Defense", href: "/refutation", icon: ShieldAlert, color: "text-red-400", bg: "bg-red-500/10", border: "border-red-500/20", group: "Heritage", essential: true },
+    { title: "Library", href: "/library", icon: Library, color: "text-indigo-400", bg: "bg-indigo-500/10", border: "border-indigo-500/20", group: "Heritage", essential: false },
+    { title: "News", href: "/news", icon: Newspaper, color: "text-zinc-400", bg: "bg-zinc-500/10", border: "border-zinc-500/20", group: "Heritage", essential: false },
+    { title: "Live", href: "/live", icon: Video, color: "text-red-500", bg: "bg-red-500/10", border: "border-red-500/20", group: "Heritage", essential: false },
+    { title: "Audio", href: "/live", icon: Volume2, color: "text-emerald-400", bg: "bg-emerald-500/10", border: "border-emerald-500/20", group: "Heritage", essential: false },
+
+    // Cluster 6: Interactive
+    { title: "Quizzes", href: "/quiz", icon: Trophy, color: "text-yellow-500", bg: "bg-yellow-500/10", border: "border-yellow-500/20", group: "Interactive", essential: false },
+    { title: "Goals", href: "/profile", icon: Target, color: "text-blue-500", bg: "bg-blue-500/10", border: "border-blue-500/20", group: "Interactive", essential: false },
+    { title: "Badges", href: "/profile", icon: ShieldCheck, color: "text-amber-500", bg: "bg-amber-500/10", border: "border-amber-500/20", group: "Interactive", essential: false },
+    { title: "Challenges", href: "/kids", icon: Star, color: "text-purple-500", bg: "bg-purple-500/10", border: "border-purple-500/20", group: "Interactive", essential: false },
   ];
+
+  const categories = Array.from(new Set(allModules.map(m => m.group)));
+  const visibleModules = isExpanded ? allModules : allModules.filter(m => m.essential);
 
   return (
     <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500 pb-20">
@@ -113,7 +152,7 @@ export default function Home() {
               <ShieldCheck className="w-3 h-3" /> No Shirk or Bid'ah
             </Badge>
             <Badge variant="secondary" className="bg-primary/10 text-primary border-primary/20 gap-1 h-6">
-              <Database className="w-3 h-3" /> 500+ Modules
+              <Database className="w-3 h-3" /> 40+ Modules
             </Badge>
           </div>
         </div>
@@ -155,38 +194,60 @@ export default function Home() {
         </Link>
       </section>
 
-      {/* Feature Clusters */}
-      {categories.map((group) => (
-        <section key={group.group} className="space-y-4">
-          <h3 className="text-xs font-headline font-bold uppercase tracking-widest text-muted-foreground/80 pl-1 border-l-2 border-primary/30 ml-1">
-            {group.group}
-          </h3>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-            {group.items.map((item) => (
-              <Link key={item.title} href={item.href}>
-                <Card className={cn(
-                  "glass-card hover:scale-[1.03] transition-all group h-full border-2",
-                  item.border,
-                  "hover:shadow-lg hover:shadow-primary/5"
-                )}>
-                  <CardContent className="flex flex-col items-center justify-center p-6 text-center gap-4">
-                    <div className={cn(
-                      "p-4 rounded-2xl transition-all duration-300 group-hover:scale-110 shadow-inner",
-                      item.bg,
-                      item.color
+      {/* Categorized Module Grid */}
+      <div className="space-y-10">
+        {categories.map((group) => {
+          const groupModules = visibleModules.filter(m => m.group === group);
+          if (groupModules.length === 0) return null;
+
+          return (
+            <section key={group} className="space-y-4">
+              <h3 className="text-xs font-headline font-bold uppercase tracking-widest text-muted-foreground/80 pl-1 border-l-2 border-primary/30 ml-1">
+                {group}
+              </h3>
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                {groupModules.map((item) => (
+                  <Link key={item.title} href={item.href}>
+                    <Card className={cn(
+                      "glass-card hover:scale-[1.03] transition-all group h-full border-2",
+                      item.border,
+                      "hover:shadow-lg hover:shadow-primary/5"
                     )}>
-                      <item.icon className="w-6 h-6" />
-                    </div>
-                    <span className="font-headline font-bold text-xs uppercase tracking-widest block group-hover:text-primary transition-colors">
-                      {item.title}
-                    </span>
-                  </CardContent>
-                </Card>
-              </Link>
-            ))}
-          </div>
-        </section>
-      ))}
+                      <CardContent className="flex flex-col items-center justify-center p-6 text-center gap-4">
+                        <div className={cn(
+                          "p-4 rounded-2xl transition-all duration-300 group-hover:scale-110 shadow-inner",
+                          item.bg,
+                          item.color
+                        )}>
+                          <item.icon className="w-6 h-6" />
+                        </div>
+                        <span className="font-headline font-bold text-xs uppercase tracking-widest block group-hover:text-primary transition-colors">
+                          {item.title}
+                        </span>
+                      </CardContent>
+                    </Card>
+                  </Link>
+                ))}
+              </div>
+            </section>
+          );
+        })}
+      </div>
+
+      {/* Universal "More" Button */}
+      <div className="flex justify-center pt-4">
+        <Button 
+          variant="outline" 
+          className="rounded-full h-12 px-10 gap-2 font-headline border-primary/30 text-primary hover:bg-primary/5"
+          onClick={() => setIsExpanded(!isExpanded)}
+        >
+          {isExpanded ? (
+            <>Show Essentials <ChevronUp className="w-4 h-4" /></>
+          ) : (
+            <>Explore All 40+ Modules <ChevronDown className="w-4 h-4" /></>
+          )}
+        </Button>
+      </div>
 
       {/* AI Daily Reflection Section */}
       <section className="py-4">
