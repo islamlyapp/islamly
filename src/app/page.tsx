@@ -35,11 +35,22 @@ import { PlaceHolderImages } from "@/lib/placeholder-images";
 import { cn } from "@/lib/utils";
 import { useEffect, useState } from "react";
 import { generateDailyReflection, type DailyReflectionOutput } from "@/ai/flows/daily-reflection-flow";
+import { useUser, useFirestore, useDoc, useMemoFirebase } from "@/firebase";
+import { doc } from "firebase/firestore";
 
 export default function Home() {
-  const libraryImage = PlaceHolderImages.find(img => img.id === 'library-books');
+  const { user } = useUser();
+  const db = useFirestore();
   const [reflection, setReflection] = useState<DailyReflectionOutput | null>(null);
   const [loadingReflection, setLoadingReflection] = useState(true);
+
+  // Get user profile for global language preference
+  const profileRef = useMemoFirebase(() => {
+    if (!db || !user?.uid) return null;
+    return doc(db, "users", user.uid);
+  }, [db, user?.uid]);
+
+  const { data: profile } = useDoc(profileRef);
 
   useEffect(() => {
     async function loadReflection() {
@@ -47,7 +58,7 @@ export default function Home() {
         const data = await generateDailyReflection();
         setReflection(data);
       } catch (err) {
-        console.error(err);
+        console.error("Failed to load daily reflection:", err);
       } finally {
         setLoadingReflection(false);
       }
@@ -104,10 +115,12 @@ export default function Home() {
           <p className="text-muted-foreground text-lg italic">
             Your portal to authentic Islamic knowledge.
           </p>
-          <Badge variant="outline" className="text-[10px] gap-1 py-0 border-primary/30 text-primary">
-            <Languages className="w-3 h-3" />
-            7709+ Languages
-          </Badge>
+          {profile?.preferredLanguage && (
+            <Badge variant="outline" className="text-[10px] gap-1 py-0 border-accent/30 text-accent">
+              <Globe className="w-3 h-3" />
+              {profile.preferredLanguage} Active
+            </Badge>
+          )}
         </div>
       </header>
 

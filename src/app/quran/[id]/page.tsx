@@ -53,30 +53,30 @@ export default function SurahReadingPage({ params }: { params: Promise<{ id: str
   const [audioElement, setAudioElement] = useState<HTMLAudioElement | null>(null);
 
   const defaultTranslation = { id: 131, language_name: "English", name: "Clear Quran" };
-  const currentLang = profile?.preferredLanguageId 
-    ? { id: profile.preferredLanguageId, language_name: profile.preferredLanguage } 
-    : defaultTranslation;
+  const currentLangId = profile?.preferredLanguageId || defaultTranslation.id;
+  const currentLangName = profile?.preferredLanguage || defaultTranslation.language_name;
 
   useEffect(() => {
     async function loadContent() {
+      if (!id) return;
       setLoading(true);
       try {
         const [verseData, transData, audioData] = await Promise.all([
           fetchSurahVerses(parseInt(id)),
-          fetchVerseTranslations(parseInt(id), currentLang.id),
+          fetchVerseTranslations(parseInt(id), currentLangId),
           fetchSurahAudio(parseInt(id))
         ]);
-        setVerses(verseData);
-        setTranslations(transData);
-        setAudioUrl(audioData.audio_url);
+        setVerses(verseData || []);
+        setTranslations(transData || []);
+        setAudioUrl(audioData?.audio_url || null);
       } catch (err) {
-        console.error(err);
+        console.error("Failed to load Surah content:", err);
       } finally {
         setLoading(false);
       }
     }
     loadContent();
-  }, [id, currentLang.id]);
+  }, [id, currentLangId]);
 
   useEffect(() => {
     if (audioUrl) {
@@ -84,7 +84,9 @@ export default function SurahReadingPage({ params }: { params: Promise<{ id: str
       setAudioElement(audio);
 
       const updateProgress = () => {
-        setAudioProgress((audio.currentTime / audio.duration) * 100);
+        if (audio.duration) {
+          setAudioProgress((audio.currentTime / audio.duration) * 100);
+        }
       };
 
       const handleEnded = () => {
@@ -158,7 +160,7 @@ export default function SurahReadingPage({ params }: { params: Promise<{ id: str
           <Button asChild variant="outline" size="sm" className="glass-card gap-2 h-9">
             <Link href="/profile">
               <Languages className="w-4 h-4 text-primary" />
-              <span className="text-xs hidden md:inline">{currentLang.language_name}</span>
+              <span className="text-xs hidden md:inline">{currentLangName}</span>
             </Link>
           </Button>
 
@@ -214,7 +216,7 @@ export default function SurahReadingPage({ params }: { params: Promise<{ id: str
           <div className="space-y-1">
             <p className="text-xs font-bold uppercase tracking-tight text-primary">Global Setting Active</p>
             <p className="text-[11px] text-muted-foreground leading-relaxed italic">
-              Currently viewing translation in {currentLang.language_name}.
+              Currently viewing translation in {currentLangName}.
             </p>
           </div>
         </CardContent>
@@ -268,7 +270,7 @@ export default function SurahReadingPage({ params }: { params: Promise<{ id: str
                     </Badge>
                   )}
                   <Badge variant="outline" className="text-[9px] border-primary/20 text-primary">
-                    {currentLang.language_name}
+                    {currentLangName}
                   </Badge>
                 </div>
               </div>
