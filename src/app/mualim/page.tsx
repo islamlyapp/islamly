@@ -3,13 +3,35 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Mic, MicOff, Waves, Sparkles, Loader2, CheckCircle2, AlertCircle, RotateCcw, Volume2 } from "lucide-react";
+import { Mic, MicOff, Waves, Sparkles, Loader2, CheckCircle2, AlertCircle, RotateCcw, Volume2, BookOpen, ScrollText, Library, ChevronRight } from "lucide-react";
 import { provideRecitationFeedback, type MualimFeedbackOutput } from "@/ai/flows/mualim-feedback-flow";
 import { Badge } from "@/components/ui/badge";
-import { Progress } from "@/components/ui/progress";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { cn } from "@/lib/utils";
 
+const MOCK_LIBRARY = {
+  Quran: [
+    { id: "1:1", title: "Surah Al-Fatiha (1:1)" },
+    { id: "2:255", title: "Ayat al-Kursi (2:255)" },
+    { id: "112:1", title: "Surah Al-Ikhlas" },
+  ],
+  Hadith: [
+    { id: "Arb1", title: "Actions are by Intentions (Hadith 1)" },
+    { id: "Arb2", title: "Islam, Iman, Ihsan (Hadith 2)" },
+    { id: "Arb3", title: "Pillars of Islam (Hadith 3)" },
+  ],
+  Mutoon: [
+    { id: "Thalatha", title: "Thalathat al-Usul (The 3 Principles)" },
+    { id: "Wasitiyya", title: "Al-Aqidah Al-Wasitiyyah" },
+    { id: "Qawaid", title: "Al-Qawa'id al-Arba' (The 4 Rules)" },
+  ]
+};
+
+type Category = 'Quran' | 'Hadith' | 'Mutoon';
+
 export default function MualimPage() {
+  const [activeCategory, setActiveCategory] = useState<Category>('Quran');
+  const [selectedText, setSelectedText] = useState(MOCK_LIBRARY.Quran[0]);
   const [isRecording, setIsRecording] = useState(false);
   const [isAnalyzing, setIsAnalyzing] = useState(false);
   const [result, setResult] = useState<MualimFeedbackOutput | null>(null);
@@ -18,10 +40,12 @@ export default function MualimPage() {
   const startReciting = () => {
     setIsRecording(true);
     setResult(null);
-    // Simulated transcription start
-    setTimeout(() => {
-      setTranscription("Bismillahirahman nirahim...");
+    setTranscription("Bismillah...");
+    // Simulated transcription growth
+    const timer = setInterval(() => {
+      setTranscription(prev => prev + " .");
     }, 1000);
+    setTimeout(() => clearInterval(timer), 5000);
   };
 
   const stopReciting = async () => {
@@ -29,7 +53,8 @@ export default function MualimPage() {
     setIsAnalyzing(true);
     try {
       const data = await provideRecitationFeedback({ 
-        verseKey: "1:1", 
+        category: activeCategory,
+        textReference: selectedText.title, 
         transcription: transcription || "Bismillahirahman nirahim" 
       });
       setResult(data);
@@ -46,11 +71,50 @@ export default function MualimPage() {
         <div className="mx-auto w-20 h-20 bg-primary/20 rounded-full flex items-center justify-center mb-4 ring-8 ring-primary/5">
           <Mic className={cn("w-10 h-10 text-primary", isRecording && "animate-pulse")} />
         </div>
-        <h1 className="text-4xl font-headline font-bold">AI Recitation Teacher</h1>
-        <p className="text-muted-foreground italic">Recite to Al-Mualim for real-time Tajweed and Hifz feedback.</p>
+        <h1 className="text-4xl font-headline font-bold">Al-Mualim AI Teacher</h1>
+        <p className="text-muted-foreground italic">Recite Quran, Hadith, or Mutoon for scholarly AI feedback.</p>
       </header>
 
-      <section className="flex flex-col items-center gap-6">
+      <section className="space-y-6">
+        <Tabs defaultValue="Quran" onValueChange={(v) => {
+          const cat = v as Category;
+          setActiveCategory(cat);
+          setSelectedText(MOCK_LIBRARY[cat][0]);
+          setResult(null);
+        }}>
+          <TabsList className="grid w-full grid-cols-3 bg-secondary/50 p-1">
+            <TabsTrigger value="Quran" className="gap-2">
+              <BookOpen className="w-4 h-4" /> Quran
+            </TabsTrigger>
+            <TabsTrigger value="Hadith" className="gap-2">
+              <ScrollText className="w-4 h-4" /> Hadith
+            </TabsTrigger>
+            <TabsTrigger value="Mutoon" className="gap-2">
+              <Library className="w-4 h-4" /> Mutoon
+            </TabsTrigger>
+          </TabsList>
+
+          <div className="mt-4 grid gap-2">
+            <label className="text-[10px] uppercase tracking-[0.2em] font-bold text-muted-foreground ml-1">Select Text to Recite</label>
+            <div className="flex gap-2 overflow-x-auto no-scrollbar pb-2">
+              {MOCK_LIBRARY[activeCategory].map((item) => (
+                <Button 
+                  key={item.id} 
+                  variant={selectedText.id === item.id ? "default" : "outline"}
+                  size="sm"
+                  className="whitespace-nowrap h-10 px-4 rounded-xl text-xs"
+                  onClick={() => {
+                    setSelectedText(item);
+                    setResult(null);
+                  }}
+                >
+                  {item.title}
+                </Button>
+              ))}
+            </div>
+          </div>
+        </Tabs>
+
         <Card className="w-full glass-card border-none shadow-2xl overflow-hidden">
           <CardContent className="p-8 flex flex-col items-center gap-6">
             <div className="h-24 w-full flex items-center justify-center gap-1">
@@ -71,11 +135,14 @@ export default function MualimPage() {
               )}
             </div>
 
-            {isRecording && (
-              <p className="text-lg font-serif text-literata italic text-center animate-pulse">
-                "{transcription}"
-              </p>
-            )}
+            <div className="text-center space-y-2">
+              <Badge variant="outline" className="text-[10px] uppercase border-primary/20 text-primary">Target: {selectedText.title}</Badge>
+              {isRecording && (
+                <p className="text-lg font-serif text-literata italic animate-pulse">
+                  "{transcription}"
+                </p>
+              )}
+            </div>
 
             <div className="flex gap-4">
               {!isRecording ? (
@@ -103,7 +170,7 @@ export default function MualimPage() {
         {isAnalyzing && (
           <div className="flex flex-col items-center gap-3 py-10">
             <Loader2 className="w-10 h-10 animate-spin text-primary" />
-            <p className="text-sm font-headline text-muted-foreground uppercase tracking-widest">Al-Mualim is listening...</p>
+            <p className="text-sm font-headline text-muted-foreground uppercase tracking-widest">Al-Mualim is analyzing accuracy...</p>
           </div>
         )}
 
@@ -157,10 +224,10 @@ export default function MualimPage() {
           <Volume2 className="w-6 h-6 text-primary" />
         </div>
         <div>
-          <h3 className="font-headline font-bold text-sm">Pronunciation Guide</h3>
-          <p className="text-xs text-muted-foreground mt-0.5">Learn the correct Makharij (exit points) of letters with visual aids.</p>
+          <h3 className="font-headline font-bold text-sm">Memorization Mode</h3>
+          <p className="text-xs text-muted-foreground mt-0.5">Toggle between listening feedback and verbatim memorization checks.</p>
         </div>
-      </header>
+      </footer>
     </div>
   );
 }
