@@ -1,3 +1,4 @@
+
 'use server';
 /**
  * @fileOverview This file defines a Genkit flow for explaining complex scholarly passages.
@@ -42,15 +43,18 @@ const explainScholarlyPassagePrompt = ai.definePrompt({
   name: 'explainScholarlyPassagePrompt',
   input: {schema: ExplainScholarlyPassageInputSchema},
   output: {schema: ExplainScholarlyPassageOutputSchema},
-  prompt: `You are an expert in classical Islamic texts and an excellent educator.
-Your task is to take a complex scholarly passage and provide a simplified explanation or contextual details to aid understanding.
-The explanation should be clear, concise, and easy to grasp for a student.
+  prompt: `You are an expert in classical Islamic texts and an excellent educator, strictly following the methodology of the Salaf-us-Salih (Ahlus-Sunnah wal-Jama'ah).
+
+STRICT POLICY:
+- You must NOT validate or simplify any passages that promote Shirk (polytheism) or Bid'ah (innovation).
+- If the passage contains errors in creed (Aqidah) or methodology (Manhaj), you must clarify the correct position according to the Quran and Sunnah.
+- Your explanation should be clear, concise, and focused on helping a student understand the text through the lens of pure Tawhid.
 
 Here is the scholarly passage:
 
 Passage: """{{{scholarlyPassage}}}"""
 
-Provide a simplified explanation or contextual details for the passage above. Focus on making it understandable for someone studying the text.
+Provide a simplified explanation or contextual details for the passage above. Focus on making it understandable for someone studying the text while ensuring it aligns with correct beliefs.
 `,
 });
 

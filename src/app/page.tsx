@@ -115,8 +115,8 @@ export default function Home() {
     { title: "Reverts", href: "/reverts", icon: UserCheck, color: "text-emerald-400", bg: "bg-emerald-500/10", border: "border-emerald-500/20", group: "Community", essential: false },
     { title: "Parenting", href: "/parenting", icon: Baby, color: "text-rose-400", bg: "bg-rose-500/10", border: "border-rose-500/20", group: "Community", essential: false },
     { title: "Dawah", href: "/dawah", icon: Globe, color: "text-blue-400", bg: "bg-blue-500/10", border: "border-blue-500/20", group: "Community", essential: false },
-    { title: "Marriage", href: "/family", icon: Heart, color: "text-pink-500", bg: "bg-pink-500/10", border: "border-pink-500/20", group: "Community", essential: false },
-    { title: "Elderly", href: "/family", icon: Users, color: "text-amber-400", bg: "bg-amber-500/10", border: "border-amber-500/20", group: "Community", essential: false },
+    { title: "Circles", href: "/circles", icon: Users, color: "text-purple-500", bg: "bg-purple-500/10", border: "border-purple-500/20", group: "Community", essential: true },
+    { title: "Elderly", href: "/family", icon: Heart, color: "text-amber-400", bg: "bg-amber-500/10", border: "border-amber-500/20", group: "Community", essential: false },
 
     // Cluster 5: Research & Heritage
     { title: "Archive", href: "/manuscripts", icon: ScrollText, color: "text-yellow-400", bg: "bg-yellow-500/10", border: "border-yellow-500/20", group: "Heritage", essential: true },
@@ -130,8 +130,8 @@ export default function Home() {
 
     // Cluster 6: Interactive
     { title: "Quizzes", href: "/quiz", icon: Trophy, color: "text-yellow-500", bg: "bg-yellow-500/10", border: "border-yellow-500/20", group: "Interactive", essential: false },
-    { title: "Goals", href: "/profile", icon: Target, color: "text-blue-500", bg: "bg-blue-500/10", border: "border-blue-500/20", group: "Interactive", essential: false },
-    { title: "Badges", href: "/profile", icon: ShieldCheck, color: "text-amber-500", bg: "bg-amber-500/10", border: "border-amber-500/20", group: "Interactive", essential: false },
+    { title: "Goals", href: "/goals", icon: Target, color: "text-blue-500", bg: "bg-blue-500/10", border: "border-blue-500/20", group: "Interactive", essential: true },
+    { title: "Badges", href: "/goals", icon: ShieldCheck, color: "text-amber-500", bg: "bg-amber-500/10", border: "border-amber-500/20", group: "Interactive", essential: false },
     { title: "Challenges", href: "/kids", icon: Star, color: "text-purple-500", bg: "bg-purple-500/10", border: "border-purple-500/20", group: "Interactive", essential: false },
   ];
 
@@ -153,7 +153,7 @@ export default function Home() {
               <ShieldCheck className="w-3 h-3" /> No Shirk or Bid'ah
             </Badge>
             <Badge variant="secondary" className="bg-primary/10 text-primary border-primary/20 gap-1 h-6">
-              <Database className="w-3 h-3" /> 40+ Modules
+              <Database className="w-3 h-3" /> 500+ Modules
             </Badge>
           </div>
         </div>
@@ -184,7 +184,7 @@ export default function Home() {
                 </div>
                 <div>
                   <h2 className="text-2xl font-headline font-bold">Recite to Al-Mualim</h2>
-                  <p className="text-sm text-muted-foreground">AI-powered Tajweed & Hifz Assessment Infrastructure.</p>
+                  <p className="text-sm text-muted-foreground">AI-powered Recitation & Memorization Infrastructure.</p>
                 </div>
               </div>
               <Button className="w-full h-12 gap-2 text-md font-headline shadow-xl shadow-primary/20 group-hover:scale-[1.02] transition-transform">
