@@ -1,4 +1,3 @@
-
 {
   "entities": {
     "UserProfile": {
@@ -460,7 +459,7 @@
           "schema": {
             "$ref": "#/backend/entities/UserProfile"
           },
-          "description": "Stores individual user profiles. Access is restricted to the owner (`request.auth.uid == userId`). Includes denormalized 'id' (which is the userId) for authorization independence.",
+          "description": "Stores individual user profiles in Islamly. Access is restricted to the owner (`request.auth.uid == userId`).",
           "params": [
             {
               "name": "userId",
@@ -476,7 +475,7 @@
           "schema": {
             "$ref": "#/backend/entities/Text"
           },
-          "description": "Contains a global, public collection of Islamic texts. Authenticated users have read-only access. No specific owner, accessible by all users."
+          "description": "Contains the Islamly global library of Islamic texts."
         }
       },
       {
@@ -486,7 +485,7 @@
           "schema": {
             "$ref": "#/backend/entities/Chapter"
           },
-          "description": "Subcollection of chapters belonging to a specific text. Authenticated users have read-only access. Logically nested for organization, sharing the parent text's public access posture. The 'textId' is included in the document for query consistency."
+          "description": "Subcollection of chapters belonging to a specific text in Islamly."
         }
       },
       {
@@ -496,7 +495,7 @@
           "schema": {
             "$ref": "#/backend/entities/Passage"
           },
-          "description": "Subcollection of passages belonging to a specific text. Authenticated users have read-only access. Allows passages to exist directly under a text, with an optional 'chapterId' field for further categorization."
+          "description": "Subcollection of passages belonging to a specific text in Islamly."
         }
       },
       {
@@ -506,7 +505,7 @@
           "schema": {
             "$ref": "#/backend/entities/Bookmark"
           },
-          "description": "Stores user-specific bookmarks. Access is restricted to the owner (`request.auth.uid == userId`). Includes denormalized 'userId' for authorization independence and query efficiency.",
+          "description": "Stores Islamly user-specific bookmarks.",
           "params": [
             {
               "name": "userId",
@@ -526,7 +525,7 @@
           "schema": {
             "$ref": "#/backend/entities/Note"
           },
-          "description": "Stores user-specific personal notes. Access is restricted to the owner (`request.auth.uid == userId`). Includes denormalized 'userId' for authorization independence and query efficiency.",
+          "description": "Stores Islamly user-specific personal notes.",
           "params": [
             {
               "name": "userId",
@@ -546,7 +545,7 @@
           "schema": {
             "$ref": "#/backend/entities/Quiz"
           },
-          "description": "Contains a global, public collection of Islamic quizzes. Authenticated users have read-only access. No specific owner, accessible by all users."
+          "description": "Contains a collection of Islamic quizzes available in Islamly."
         }
       },
       {
@@ -556,7 +555,7 @@
           "schema": {
             "$ref": "#/backend/entities/Question"
           },
-          "description": "Subcollection of questions belonging to a specific quiz. Authenticated users have read-only access. Logically nested for organization, sharing the parent quiz's public access posture."
+          "description": "Subcollection of questions belonging to a specific quiz in Islamly."
         }
       },
       {
@@ -566,7 +565,7 @@
           "schema": {
             "$ref": "#/backend/entities/QuizAttempt"
           },
-          "description": "Records user-specific attempts at quizzes. Access is restricted to the owner (`request.auth.uid == userId`). Includes denormalized 'userId' for authorization independence and query efficiency.",
+          "description": "Records Islamly user-specific attempts at quizzes.",
           "params": [
             {
               "name": "userId",
@@ -586,7 +585,7 @@
           "schema": {
             "$ref": "#/backend/entities/QuizAnswer"
           },
-          "description": "Stores user's answers to questions within a specific quiz attempt. Access is restricted to the owner of the parent quiz attempt (`request.auth.uid == userId`). The 'userId' is implicitly available via the parent path for authorization independence.",
+          "description": "Stores user's answers to questions in Islamly quiz attempts.",
           "params": [
             {
               "name": "userId",
@@ -604,6 +603,6 @@
         }
       }
     ],
-    "reasoning": "The Firestore data structure for Islamly prioritizes clear authorization, scalability, and debuggability by strictly adhering to the core design principles. \n\n**Authorization Independence (CRITICAL):** Authorization is primarily achieved through path-based ownership for user-specific data and universal read access for public content, eliminating the need for `get()` calls in security rules. For example, user profiles, bookmarks, notes, quiz attempts, and quiz answers are all nested directly under `/users/{userId}/...`. The `userId` in the path (e.g., `{userId}`) directly corresponds to `request.auth.uid`, making authorization checks atomic and independent of parent document fetches. For entities like `Bookmark`, `Note`, and `QuizAttempt`, the `userId` field is also explicitly included in the document schema, serving as a denormalized authorization context that reinforces ownership and enables direct queries, even though the path itself is sufficient for rules. Public content (Texts, Chapters, Passages, Quizzes, Questions) is placed in root-level or nested root-level collections, granting authenticated users read-only access without any complex authorization dependencies.\n\n**QAPs (Rules are not Filters):** This structure inherently supports Query-Able Paths (QAPs). For user-owned data, `list` operations are implicitly scoped by the `/users/{userId}/` path segment, meaning a user can only list their own bookmarks, notes, quiz attempts, and quiz answers. For public content, `list` operations on collections like `/texts` or `/quizzes` are permitted for all authenticated users, allowing efficient browsing and searching of the library without requiring complex rule-based filtering. The structural segregation ensures that public data and private user data have distinct, simple security postures, making rules straightforward and performant."
+    "reasoning": "The Firestore data structure for Islamly prioritizes clear authorization and scalability."
   }
 }

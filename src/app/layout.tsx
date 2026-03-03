@@ -5,27 +5,27 @@ import { FirebaseClientProvider } from '@/firebase/client-provider';
 import { AuthGuard } from '@/components/auth-guard';
 
 export const metadata: Metadata = {
-  title: 'Al-Mualim - AI Quran Teacher & Scholarly Infrastructure',
+  title: 'Islamly - AI-Powered Scholarly Infrastructure',
   description: 'AI-powered recitation correction, memorization tracking, and a curated collection of classical Islamic texts. Built for the global Ummah.',
-  applicationName: 'Al-Mualim',
+  applicationName: 'Islamly',
   appleWebApp: {
     capable: true,
     statusBarStyle: 'black-translucent',
-    title: 'Al-Mualim',
+    title: 'Islamly',
   },
   formatDetection: {
     telephone: false,
   },
   openGraph: {
     type: 'website',
-    siteName: 'Al-Mualim',
-    title: 'Al-Mualim - AI Recitation Teacher',
+    siteName: 'Islamly',
+    title: 'Islamly - Authentic Islamic Knowledge',
     description: 'Universal platform for authentic Islamic knowledge and AI-driven recitation feedback.',
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Al-Mualim',
-    description: 'AI-powered Quran Teacher for the Global Ummah.',
+    title: 'Islamly',
+    description: 'AI-powered Islamic Knowledge Platform for the Global Ummah.',
   },
 };
 

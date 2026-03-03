@@ -1,4 +1,3 @@
-
 "use client";
 
 import { useRouter } from "next/navigation";
@@ -271,7 +270,7 @@ export default function ProfilePage() {
       </section>
 
       <footer className="text-center text-[10px] text-muted-foreground uppercase tracking-widest pt-8 flex flex-col items-center gap-2">
-        <span className="opacity-50 tracking-[0.3em]">Universal Knowledge Guard</span>
+        <span className="opacity-50 tracking-[0.3em]">Islamly Scholarly Guard</span>
         <span>Member since {user.metadata.creationTime ? new Date(user.metadata.creationTime).toLocaleDateString() : 'N/A'}</span>
       </footer>
     </div>

@@ -66,7 +66,7 @@ export default function Home() {
     { 
       group: "AI Recitation & Teacher",
       items: [
-        { title: "AI Teacher", href: "/mualim", icon: GraduationCap, color: "text-primary", bg: "bg-primary/10", border: "border-primary/20" },
+        { title: "Al-Mualim", href: "/mualim", icon: GraduationCap, color: "text-primary", bg: "bg-primary/10", border: "border-primary/20" },
         { title: "Recite", href: "/mualim", icon: Mic, color: "text-emerald-400", bg: "bg-emerald-500/10", border: "border-emerald-500/20" },
         { title: "Ask AI", href: "/ask", icon: MessageCircle, color: "text-rose-400", bg: "bg-rose-500/10", border: "border-rose-500/20" },
         { title: "Explain", href: "/explain", icon: Sparkles, color: "text-purple-400", bg: "bg-purple-500/10", border: "border-purple-500/20" },
@@ -112,7 +112,7 @@ export default function Home() {
         </h1>
         <div className="flex items-center gap-2">
           <p className="text-muted-foreground text-lg italic">
-            Welcome to Al-Mualim, your AI-powered Quran companion.
+            Welcome to Islamly, your authentic scholarly companion.
           </p>
           {profile?.preferredLanguage && (
             <Badge variant="outline" className="text-[10px] gap-1 py-0 border-accent/30 text-accent">
@@ -136,12 +136,12 @@ export default function Home() {
                   <Mic className="w-6 h-6 text-white" />
                 </div>
                 <div>
-                  <h2 className="text-2xl font-headline font-bold">Start AI Recitation</h2>
-                  <p className="text-sm text-muted-foreground">Get instant feedback on your Tajweed and Hifz.</p>
+                  <h2 className="text-2xl font-headline font-bold">Start Al-Mualim Recitation</h2>
+                  <p className="text-sm text-muted-foreground">Get instant AI-powered feedback on your Tajweed and Hifz.</p>
                 </div>
               </div>
               <Button className="w-full h-12 gap-2 text-md font-headline shadow-xl shadow-primary/20 group-hover:scale-[1.02] transition-transform">
-                Recite to Al-Mualim <ArrowRight className="w-4 h-4" />
+                Recite to AI <ArrowRight className="w-4 h-4" />
               </Button>
             </CardContent>
           </Card>
@@ -227,7 +227,7 @@ export default function Home() {
           <CardHeader className="pb-2">
             <CardTitle className="text-xs font-bold uppercase tracking-widest text-accent flex items-center gap-2">
               <Sparkles className="w-4 h-4" />
-              AI Daily Reflection
+              Daily Reflection
             </CardTitle>
           </CardHeader>
           <CardContent>
@@ -258,11 +258,11 @@ export default function Home() {
       <footer className="py-10 pb-20 text-center space-y-4">
         <div className="flex flex-col items-center gap-2">
           <Badge variant="outline" className="text-[10px] uppercase tracking-widest text-primary font-headline">
-            Al-Mualim Infrastructure
+            Islamly Infrastructure
           </Badge>
           <span className="text-[9px] text-muted-foreground uppercase tracking-widest flex items-center gap-1">
             <Globe className="w-2 h-2" />
-            Universal AI Teacher for All Humanity
+            Universal Authentic Knowledge for All Humanity
           </span>
         </div>
       </footer>

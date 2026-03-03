@@ -1,10 +1,10 @@
-# Al-Mualim - AI Quran Teacher & Scholarly Infrastructure
+# Islamly - AI-Powered Scholarly Infrastructure
 
-This NextJS prototype is a comprehensive AI-powered portal for Quranic recitation, memorization, and authentic Islamic knowledge, inspired by Tarteel AI.
+This NextJS prototype is a comprehensive portal for authentic Islamic knowledge, aligned with the Salafi/Athari methodology, featuring the Al-Mualim AI Teacher.
 
 ## Core Features Implemented
 
-### 1. AI Recitation Teacher (Tarteel Clone)
+### 1. Al-Mualim: AI Recitation Teacher
 - **Real-time AI Feedback**: Recite directly to the app for instant correction on Tajweed and Hifz accuracy.
 - **Waveform Analysis**: Visual feedback on recitation patterns.
 - **Correction Summaries**: AI identifies specific words for improvement and provides scholarly guidance.
