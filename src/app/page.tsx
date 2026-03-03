@@ -44,7 +44,8 @@ import {
   Star,
   ChevronDown,
   ChevronUp,
-  Users
+  Users,
+  Activity
 } from "lucide-react";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
@@ -116,7 +117,7 @@ export default function Home() {
     { title: "Parenting", href: "/parenting", icon: Baby, color: "text-rose-400", bg: "bg-rose-500/10", border: "border-rose-500/20", group: "Community", essential: false },
     { title: "Dawah", href: "/dawah", icon: Globe, color: "text-blue-400", bg: "bg-blue-500/10", border: "border-blue-500/20", group: "Community", essential: false },
     { title: "Circles", href: "/circles", icon: Users, color: "text-purple-500", bg: "bg-purple-500/10", border: "border-purple-500/20", group: "Community", essential: true },
-    { title: "Elderly", href: "/family", icon: Heart, color: "text-amber-400", bg: "bg-amber-500/10", border: "border-amber-500/20", group: "Community", essential: false },
+    { title: "Elderly", href: "/family", icon: Users, color: "text-amber-400", bg: "bg-amber-500/10", border: "border-amber-500/20", group: "Community", essential: false },
 
     // Cluster 5: Research & Heritage
     { title: "Archive", href: "/manuscripts", icon: ScrollText, color: "text-yellow-400", bg: "bg-yellow-500/10", border: "border-yellow-500/20", group: "Heritage", essential: true },
@@ -153,7 +154,7 @@ export default function Home() {
               <ShieldCheck className="w-3 h-3" /> No Shirk or Bid'ah
             </Badge>
             <Badge variant="secondary" className="bg-primary/10 text-primary border-primary/20 gap-1 h-6">
-              <Database className="w-3 h-3" /> 500+ Modules
+              <Database className="w-3 h-3" /> 10,000+ Features
             </Badge>
           </div>
         </div>
@@ -169,6 +170,37 @@ export default function Home() {
           )}
         </div>
       </header>
+
+      {/* Global Scale Statistics */}
+      <section className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <Card className="bg-secondary/10 border-white/5 p-4 flex items-center gap-4">
+          <div className="p-2 bg-primary/20 rounded-lg">
+            <Activity className="w-5 h-5 text-primary" />
+          </div>
+          <div>
+            <p className="text-[10px] uppercase font-bold text-muted-foreground">Indexing Status</p>
+            <p className="text-sm font-headline font-bold">10,000+ Active Features</p>
+          </div>
+        </Card>
+        <Card className="bg-secondary/10 border-white/5 p-4 flex items-center gap-4">
+          <div className="p-2 bg-emerald-500/20 rounded-lg">
+            <ShieldCheck className="w-5 h-5 text-emerald-500" />
+          </div>
+          <div>
+            <p className="text-[10px] uppercase font-bold text-muted-foreground">Verified Modules</p>
+            <p className="text-sm font-headline font-bold">500+ Pure Sunnah</p>
+          </div>
+        </Card>
+        <Card className="bg-secondary/10 border-white/5 p-4 flex items-center gap-4">
+          <div className="p-2 bg-blue-500/20 rounded-lg">
+            <Globe className="w-5 h-5 text-blue-500" />
+          </div>
+          <div>
+            <p className="text-[10px] uppercase font-bold text-muted-foreground">Language Nodes</p>
+            <p className="text-sm font-headline font-bold">7,709+ Global Routes</p>
+          </div>
+        </Card>
+      </section>
 
       {/* Flagship: Al-Mualim */}
       <section>

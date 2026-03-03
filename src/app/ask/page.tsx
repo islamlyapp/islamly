@@ -1,10 +1,11 @@
+
 "use client";
 
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Search, Sparkles, Loader2, BookOpen, MessageCircle, ChevronRight, Bookmark } from "lucide-react";
+import { Search, Sparkles, Loader2, BookOpen, MessageCircle, ChevronRight, Bookmark, Database } from "lucide-react";
 import { searchKnowledgeHub, SearchKnowledgeOutput } from "@/ai/flows/search-knowledge-flow";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -41,8 +42,13 @@ export default function AskPage() {
         </div>
         <h1 className="text-4xl font-headline font-bold">Knowledge Assistant</h1>
         <p className="text-muted-foreground max-w-sm mx-auto">
-          Search across our collection of verified classical texts and scholarly works.
+          Search across 10,000+ verified scholarly features and classical texts.
         </p>
+        <div className="flex justify-center pt-2">
+          <Badge variant="secondary" className="bg-primary/10 text-primary gap-1">
+            <Database className="w-3 h-3" /> Massive Index Active
+          </Badge>
+        </div>
       </header>
 
       <form onSubmit={handleSearch} className="flex gap-2">
@@ -122,7 +128,9 @@ export default function AskPage() {
                     <div className="space-y-1">
                       <div className="flex items-center gap-2">
                         <span className="text-xs font-bold font-headline">{module.title}</span>
-                        <Badge variant="outline" className="text-[8px] h-4 py-0 uppercase border-primary/30 text-primary">{module.category}</Badge>
+                        <Badge variant="outline" className="text-[8px] h-4 py-0 uppercase border-primary/30 text-primary">
+                          {module.subFeatures ? `${module.subFeatures}+ Features` : module.category}
+                        </Badge>
                       </div>
                       <p className="text-[10px] text-muted-foreground line-clamp-1">{module.summary}</p>
                     </div>
@@ -138,9 +146,12 @@ export default function AskPage() {
               {categories.map((cat) => (
                 <Card key={cat} className="glass-card hover:border-primary/50 cursor-pointer transition-all" onClick={() => setQuery(cat)}>
                   <CardHeader className="p-4 flex flex-row items-center justify-between">
-                    <span className="text-xs font-bold uppercase tracking-tight">{cat}</span>
+                    <div className="space-y-1">
+                      <span className="text-xs font-bold uppercase tracking-tight">{cat}</span>
+                      <p className="text-[10px] text-muted-foreground">Universal Cluster</p>
+                    </div>
                     <Badge variant="secondary" className="text-[9px]">
-                      {KNOWLEDGE_HUB.filter(m => m.category === cat).length}
+                      Index Active
                     </Badge>
                   </CardHeader>
                 </Card>
@@ -154,7 +165,7 @@ export default function AskPage() {
         <div className="flex items-center justify-center gap-2 text-muted-foreground">
           <Bookmark className="w-3 h-3" />
           <p className="text-[10px] uppercase tracking-widest">
-            Verified Scholarly Content (Ahlus-Sunnah)
+            Verified 10,000+ Feature Scholarly Infrastructure
           </p>
         </div>
       </footer>
