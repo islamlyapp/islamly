@@ -9,24 +9,22 @@ import {
   Moon, 
   Sparkles, 
   Scale, 
-  UserPlus, 
-  Globe, 
-  Video,
-  MessageCircle,
-  ShieldAlert,
-  Clock,
-  MapPin,
-  Utensils,
-  Home as HomeIcon,
-  Zap,
-  Newspaper,
-  Trophy,
-  ShieldCheck,
-  Loader2,
-  History,
-  ScrollText,
-  Mic,
-  GraduationCap
+  MessageCircle, 
+  ShieldAlert, 
+  Clock, 
+  MapPin, 
+  Utensils, 
+  Home as HomeIcon, 
+  Zap, 
+  Newspaper, 
+  Trophy, 
+  ShieldCheck, 
+  Loader2, 
+  History, 
+  ScrollText, 
+  Mic, 
+  GraduationCap,
+  Globe
 } from "lucide-react";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
@@ -91,7 +89,7 @@ export default function Home() {
       ]
     },
     {
-      group: "Community",
+      group: "Community & Living",
       items: [
         { title: "Families", href: "/family", icon: HomeIcon, color: "text-pink-400", bg: "bg-pink-500/10", border: "border-pink-500/20" },
         { title: "Youth", href: "/teens", icon: Zap, color: "text-yellow-300", bg: "bg-yellow-400/10", border: "border-yellow-400/20" },
@@ -102,7 +100,7 @@ export default function Home() {
   ];
 
   return (
-    <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
+    <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500 pb-20">
       <header className="flex flex-col gap-2">
         <h1 className="text-4xl font-headline font-bold tracking-tight text-foreground flex items-center gap-3">
           Assalamu Alaikum
@@ -112,18 +110,18 @@ export default function Home() {
         </h1>
         <div className="flex items-center gap-2">
           <p className="text-muted-foreground text-lg italic">
-            Welcome to Islamly, your authentic scholarly companion.
+            Welcome back to Islamly, your scholarly companion.
           </p>
           {profile?.preferredLanguage && (
             <Badge variant="outline" className="text-[10px] gap-1 py-0 border-accent/30 text-accent">
               <Globe className="w-3 h-3" />
-              {profile.preferredLanguage} Active
+              {profile.preferredLanguage} Translation
             </Badge>
           )}
         </div>
       </header>
 
-      {/* Main Feature Highlight */}
+      {/* Main Al-Mualim Feature Highlight */}
       <section>
         <Link href="/mualim">
           <Card className="bg-primary/5 border-2 border-primary/20 hover:border-primary/50 transition-all group overflow-hidden relative">
@@ -136,12 +134,12 @@ export default function Home() {
                   <Mic className="w-6 h-6 text-white" />
                 </div>
                 <div>
-                  <h2 className="text-2xl font-headline font-bold">Start Al-Mualim Recitation</h2>
-                  <p className="text-sm text-muted-foreground">Get instant AI-powered feedback on your Tajweed and Hifz.</p>
+                  <h2 className="text-2xl font-headline font-bold">Recite to Al-Mualim</h2>
+                  <p className="text-sm text-muted-foreground">AI-powered feedback on your Tajweed and Hifz accuracy.</p>
                 </div>
               </div>
               <Button className="w-full h-12 gap-2 text-md font-headline shadow-xl shadow-primary/20 group-hover:scale-[1.02] transition-transform">
-                Recite to AI <ArrowRight className="w-4 h-4" />
+                Start Recitation <ArrowRight className="w-4 h-4" />
               </Button>
             </CardContent>
           </Card>
@@ -176,7 +174,7 @@ export default function Home() {
 
         <Card className="glass-card border-l-4 border-yellow-500 hover:bg-yellow-500/5 transition-all">
           <CardHeader className="flex flex-row items-center justify-between pb-2 space-y-0">
-            <CardTitle className="text-sm font-medium">Memorization Goal</CardTitle>
+            <CardTitle className="text-sm font-medium">Hifz Progress</CardTitle>
             <Trophy className="h-4 w-4 text-yellow-500" />
           </CardHeader>
           <CardContent>
@@ -186,7 +184,7 @@ export default function Home() {
         </Card>
       </section>
 
-      {/* Feature Groups */}
+      {/* Vibrant Feature Grid */}
       {categories.map((group) => (
         <section key={group.group} className="space-y-4">
           <h3 className="text-sm font-headline font-bold uppercase tracking-widest text-muted-foreground/80 pl-1 border-l-2 border-primary/30 ml-1">
@@ -221,7 +219,7 @@ export default function Home() {
         </section>
       ))}
 
-      {/* AI Reflection Section */}
+      {/* AI Daily Reflection Section */}
       <section className="py-4">
         <Card className="bg-accent/5 border-accent/20 overflow-hidden relative group">
           <CardHeader className="pb-2">
@@ -255,14 +253,14 @@ export default function Home() {
         </Card>
       </section>
 
-      <footer className="py-10 pb-20 text-center space-y-4">
+      <footer className="py-10 text-center space-y-4">
         <div className="flex flex-col items-center gap-2">
           <Badge variant="outline" className="text-[10px] uppercase tracking-widest text-primary font-headline">
-            Islamly Infrastructure
+            Islamly Scholarly Infrastructure
           </Badge>
           <span className="text-[9px] text-muted-foreground uppercase tracking-widest flex items-center gap-1">
             <Globe className="w-2 h-2" />
-            Universal Authentic Knowledge for All Humanity
+            Authenticated Scholarly Content (Ahlus-Sunnah)
           </span>
         </div>
       </footer>
