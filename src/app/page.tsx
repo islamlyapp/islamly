@@ -27,11 +27,10 @@ import {
   Trophy,
   ShieldCheck,
   Loader2,
-  History
+  History,
+  ScrollText
 } from "lucide-react";
 import Link from "next/link";
-import Image from "next/image";
-import { PlaceHolderImages } from "@/lib/placeholder-images";
 import { cn } from "@/lib/utils";
 import { useEffect, useState } from "react";
 import { generateDailyReflection, type DailyReflectionOutput } from "@/ai/flows/daily-reflection-flow";
@@ -44,7 +43,6 @@ export default function Home() {
   const [reflection, setReflection] = useState<DailyReflectionOutput | null>(null);
   const [loadingReflection, setLoadingReflection] = useState(true);
 
-  // Get user profile for global language preference
   const profileRef = useMemoFirebase(() => {
     if (!db || !user?.uid) return null;
     return doc(db, "users", user.uid);
@@ -70,37 +68,37 @@ export default function Home() {
     { 
       group: "Core Knowledge",
       items: [
-        { title: "Quran", href: "/quran", icon: BookMarked, color: "text-primary" },
-        { title: "Seerah", href: "/seerah", icon: History, color: "text-accent" },
-        { title: "Fiqh", href: "/fiqh", icon: Scale, color: "text-primary" },
-        { title: "Library", href: "/library", icon: Library, color: "text-accent" },
+        { title: "Quran", href: "/quran", icon: BookMarked, color: "text-emerald-400", bg: "bg-emerald-500/10", border: "border-emerald-500/20" },
+        { title: "Hadith", href: "/hadith", icon: ScrollText, color: "text-amber-400", bg: "bg-amber-500/10", border: "border-amber-500/20" },
+        { title: "Seerah", href: "/seerah", icon: History, color: "text-cyan-400", bg: "bg-cyan-500/10", border: "border-cyan-500/20" },
+        { title: "Fiqh", href: "/fiqh", icon: Scale, color: "text-indigo-400", bg: "bg-indigo-500/10", border: "border-indigo-500/20" },
       ]
     },
     {
       group: "Interactive Learning",
       items: [
-        { title: "Quizzes", href: "/quiz", icon: Trophy, color: "text-yellow-500" },
-        { title: "Ask AI", href: "/ask", icon: MessageCircle, color: "text-primary" },
-        { title: "Explain", href: "/explain", icon: Sparkles, color: "text-accent" },
-        { title: "Defense", href: "/refutation", icon: ShieldAlert, color: "text-destructive" },
+        { title: "Quizzes", href: "/quiz", icon: Trophy, color: "text-yellow-400", bg: "bg-yellow-500/10", border: "border-yellow-500/20" },
+        { title: "Ask AI", href: "/ask", icon: MessageCircle, color: "text-rose-400", bg: "bg-rose-500/10", border: "border-rose-500/20" },
+        { title: "Explain", href: "/explain", icon: Sparkles, color: "text-purple-400", bg: "bg-purple-500/10", border: "border-purple-500/20" },
+        { title: "Defense", href: "/refutation", icon: ShieldAlert, color: "text-red-400", bg: "bg-red-500/10", border: "border-red-500/20" },
       ]
     },
     {
-      group: "Practical & Community",
+      group: "Practical Living",
       items: [
-        { title: "Ruqyah", href: "/ruqyah", icon: ShieldCheck, color: "text-accent" },
-        { title: "Masjids", href: "/masjid-locator", icon: MapPin, color: "text-primary" },
-        { title: "Halal Finder", href: "/halal-locator", icon: Utensils, color: "text-accent" },
-        { title: "Islamic News", href: "/news", icon: Newspaper, color: "text-primary" },
+        { title: "Ruqyah", href: "/ruqyah", icon: ShieldCheck, color: "text-teal-400", bg: "bg-teal-500/10", border: "border-teal-500/20" },
+        { title: "Masjids", href: "/masjid-locator", icon: MapPin, color: "text-blue-400", bg: "bg-blue-500/10", border: "border-blue-500/20" },
+        { title: "Halal Finder", href: "/halal-locator", icon: Utensils, color: "text-orange-400", bg: "bg-orange-500/10", border: "border-orange-500/20" },
+        { title: "Islamic News", href: "/news", icon: Newspaper, color: "text-sky-400", bg: "bg-sky-500/10", border: "border-sky-500/20" },
       ]
     },
     {
-      group: "Household & Youth",
+      group: "Community",
       items: [
-        { title: "Families", href: "/family", icon: HomeIcon, color: "text-primary" },
-        { title: "Youth Hub", href: "/teens", icon: Zap, color: "text-accent" },
-        { title: "Reverts", href: "/reverts", icon: UserPlus, color: "text-primary" },
-        { title: "Live Streams", href: "/live", icon: Video, color: "text-primary" },
+        { title: "Families", href: "/family", icon: HomeIcon, color: "text-pink-400", bg: "bg-pink-500/10", border: "border-pink-500/20" },
+        { title: "Youth Hub", href: "/teens", icon: Zap, color: "text-yellow-300", bg: "bg-yellow-400/10", border: "border-yellow-400/20" },
+        { title: "Reverts", href: "/reverts", icon: UserPlus, color: "text-lime-400", bg: "bg-lime-500/10", border: "border-lime-500/20" },
+        { title: "Live Streams", href: "/live", icon: Video, color: "text-violet-400", bg: "bg-violet-500/10", border: "border-violet-500/20" },
       ]
     }
   ];
@@ -108,8 +106,11 @@ export default function Home() {
   return (
     <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
       <header className="flex flex-col gap-2">
-        <h1 className="text-4xl font-headline font-bold tracking-tight text-foreground">
+        <h1 className="text-4xl font-headline font-bold tracking-tight text-foreground flex items-center gap-3">
           Assalamu Alaikum
+          <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center shadow-lg animate-bounce">
+            <ShieldCheck className="w-5 h-5 text-white" />
+          </div>
         </h1>
         <div className="flex items-center gap-2">
           <p className="text-muted-foreground text-lg italic">
@@ -126,7 +127,7 @@ export default function Home() {
 
       {/* Quick Status Cards */}
       <section className="grid grid-cols-1 md:grid-cols-3 gap-4">
-        <Card className="bg-primary/10 border-primary/20">
+        <Card className="bg-primary/10 border-primary/20 hover:bg-primary/20 transition-all cursor-pointer group">
           <CardHeader className="flex flex-row items-center justify-between pb-2 space-y-0">
             <CardTitle className="text-sm font-medium">Next Prayer</CardTitle>
             <Clock className="h-4 w-4 text-primary" />
@@ -134,10 +135,13 @@ export default function Home() {
           <CardContent>
             <div className="text-2xl font-bold">Dhuhr</div>
             <p className="text-xs text-muted-foreground">In 2 hours 15 minutes</p>
+            <Link href="/prayer-times" className="text-[10px] text-primary mt-2 flex items-center gap-1 group-hover:translate-x-1 transition-transform">
+              Full schedule <ArrowRight className="w-2 h-2" />
+            </Link>
           </CardContent>
         </Card>
         
-        <Card className="glass-card">
+        <Card className="glass-card hover:border-accent/50 transition-all">
           <CardHeader className="flex flex-row items-center justify-between pb-2 space-y-0">
             <CardTitle className="text-sm font-medium">Daily Adhkar</CardTitle>
             <Moon className="h-4 w-4 text-accent" />
@@ -150,7 +154,7 @@ export default function Home() {
           </CardContent>
         </Card>
 
-        <Card className="glass-card border-l-4 border-yellow-500">
+        <Card className="glass-card border-l-4 border-yellow-500 hover:bg-yellow-500/5 transition-all">
           <CardHeader className="flex flex-row items-center justify-between pb-2 space-y-0">
             <CardTitle className="text-sm font-medium">Daily Challenge</CardTitle>
             <Trophy className="h-4 w-4 text-yellow-500" />
@@ -166,7 +170,10 @@ export default function Home() {
 
       {/* AI Reflection Section */}
       <section className="py-4">
-        <Card className="bg-accent/5 border-accent/20 overflow-hidden relative">
+        <Card className="bg-accent/5 border-accent/20 overflow-hidden relative group">
+          <div className="absolute top-0 right-0 p-4 opacity-5 group-hover:opacity-10 transition-opacity">
+            <ShieldCheck className="w-32 h-32" />
+          </div>
           <CardHeader className="pb-2">
             <CardTitle className="text-xs font-bold uppercase tracking-widest text-accent flex items-center gap-2">
               <Sparkles className="w-4 h-4" />
@@ -205,18 +212,31 @@ export default function Home() {
       {/* Feature Groups */}
       {categories.map((group) => (
         <section key={group.group} className="space-y-4">
-          <h3 className="text-sm font-headline font-bold uppercase tracking-widest text-muted-foreground/80 pl-1">
+          <h3 className="text-sm font-headline font-bold uppercase tracking-widest text-muted-foreground/80 pl-1 border-l-2 border-primary/30 ml-1">
             {group.group}
           </h3>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             {group.items.map((item) => (
               <Link key={item.title} href={item.href}>
-                <Card className="glass-card hover:border-primary/50 transition-all group h-full">
-                  <CardContent className="flex flex-col items-center justify-center p-5 text-center gap-3">
-                    <div className={cn("p-3 rounded-2xl bg-secondary/50 group-hover:bg-primary/20 transition-colors", item.color)}>
-                      <item.icon className="w-5 h-5" />
+                <Card className={cn(
+                  "glass-card hover:scale-[1.03] transition-all group h-full border-2",
+                  item.border,
+                  "hover:shadow-lg hover:shadow-primary/5"
+                )}>
+                  <CardContent className="flex flex-col items-center justify-center p-6 text-center gap-4">
+                    <div className={cn(
+                      "p-4 rounded-2xl transition-all duration-300 group-hover:scale-110 shadow-inner",
+                      item.bg,
+                      item.color
+                    )}>
+                      <item.icon className="w-6 h-6" />
                     </div>
-                    <span className="font-headline font-semibold text-xs uppercase tracking-tight">{item.title}</span>
+                    <div className="space-y-1">
+                      <span className="font-headline font-bold text-xs uppercase tracking-widest block group-hover:text-primary transition-colors">
+                        {item.title}
+                      </span>
+                      <div className="h-0.5 w-0 group-hover:w-full bg-primary transition-all duration-300 mx-auto" />
+                    </div>
                   </CardContent>
                 </Card>
               </Link>
@@ -227,7 +247,7 @@ export default function Home() {
 
       {/* Daily Quote (Static/Classic) */}
       <section className="py-6 pb-20">
-        <Card className="bg-secondary/20 border-border/50 overflow-hidden relative">
+        <Card className="bg-secondary/20 border-border/50 overflow-hidden relative shadow-inner">
           <div className="absolute top-0 right-0 p-4 opacity-10">
             <BookMarked className="w-24 h-24 rotate-12" />
           </div>
@@ -253,3 +273,4 @@ export default function Home() {
     </div>
   );
 }
+
