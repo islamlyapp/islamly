@@ -3,11 +3,12 @@
 import { useUser } from '@/firebase';
 import { useRouter, usePathname } from 'next/navigation';
 import { useEffect } from 'react';
-import { Loader2 } from 'lucide-react';
+import { SplashScreen } from '@/components/splash-screen';
 
 /**
  * A global authentication guard that protects all routes.
  * Redirects unauthenticated users to /login and authenticated users away from /login.
+ * Displays the high-fidelity startup splash screen during initialisation.
  */
 export function AuthGuard({ children }: { children: React.ReactNode }) {
   const { user, isUserLoading } = useUser();
@@ -27,13 +28,9 @@ export function AuthGuard({ children }: { children: React.ReactNode }) {
     }
   }, [user, isUserLoading, pathname, router]);
 
-  // Show a full-screen loader while the initial auth state is being resolved
+  // Show the professional splash screen while the initial auth state is being resolved
   if (isUserLoading) {
-    return (
-      <div className="min-h-screen flex items-center justify-center bg-background">
-        <Loader2 className="w-8 h-8 animate-spin text-primary" />
-      </div>
-    );
+    return <SplashScreen />;
   }
 
   // Prevent flicker of protected content while redirecting unauthenticated users
