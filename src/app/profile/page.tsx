@@ -97,12 +97,15 @@ export default function ProfilePage() {
     setCurrentFeatures(formatFeatureCount(calculateCurrentFeatures()));
   }, [user, isUserLoading, router]);
 
+  // Check for staff email domain or specific address
+  const isStaffEmail = user?.email === 'islamlystaff@gmail.com' || user?.email?.endsWith('@islamly.uk');
+
   // Auto-upgrade staff account to admin role if needed
   useEffect(() => {
-    if (user?.email === 'islamlystaff@gmail.com' && profile && profile.role !== 'admin') {
+    if (isStaffEmail && profile && profile.role !== 'admin') {
       updateProfile({ role: 'admin' });
     }
-  }, [user, profile]);
+  }, [user, profile, isStaffEmail]);
 
   useEffect(() => {
     async function loadLangs() {
@@ -148,7 +151,7 @@ export default function ProfilePage() {
     { label: "Personal Notes", icon: BookOpen, count: "5" },
   ];
 
-  const isAdmin = profile?.role === 'admin' || user?.email === 'islamlystaff@gmail.com';
+  const isAdmin = profile?.role === 'admin' || isStaffEmail;
 
   return (
     <div className="space-y-8 animate-in fade-in duration-500 pb-20">

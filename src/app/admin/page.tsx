@@ -88,8 +88,9 @@ export default function AdminPage() {
     );
   }
 
-  // Check for admin role or the specific hardcoded staff email
-  const isAdmin = profile?.role === 'admin' || user?.email === 'islamlystaff@gmail.com';
+  // Check for admin role or staff email criteria
+  const isStaffEmail = user?.email === 'islamlystaff@gmail.com' || user?.email?.endsWith('@islamly.uk');
+  const isAdmin = profile?.role === 'admin' || isStaffEmail;
 
   if (!isAdmin) {
     return (
