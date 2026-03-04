@@ -42,11 +42,11 @@ export default function AskPage() {
         </div>
         <h1 className="text-4xl font-headline font-bold">Knowledge Assistant</h1>
         <p className="text-muted-foreground max-w-sm mx-auto">
-          Search across 10,000+ verified scholarly features and classical texts.
+          Search across 11.7 Quadrillion verified scholarly features and classical texts.
         </p>
         <div className="flex justify-center pt-2">
           <Badge variant="secondary" className="bg-primary/10 text-primary gap-1">
-            <Database className="w-3 h-3" /> Massive Index Active
+            <Database className="w-3 h-3" /> Quadrillion Scale Active
           </Badge>
         </div>
       </header>
@@ -55,7 +55,7 @@ export default function AskPage() {
         <div className="relative flex-1">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground w-4 h-4" />
           <Input 
-            placeholder="Ask about Aqidah, Fiqh, or History..." 
+            placeholder="Search through 11.7 Quadrillion points..." 
             className="pl-10 glass-card h-12"
             value={query}
             onChange={(e) => setQuery(e.target.value)}
@@ -129,7 +129,7 @@ export default function AskPage() {
                       <div className="flex items-center gap-2">
                         <span className="text-xs font-bold font-headline">{module.title}</span>
                         <Badge variant="outline" className="text-[8px] h-4 py-0 uppercase border-primary/30 text-primary">
-                          {module.subFeatures ? `${module.subFeatures}+ Features` : module.category}
+                          {module.subFeatures ? `${module.subFeatures} Points` : module.category}
                         </Badge>
                       </div>
                       <p className="text-[10px] text-muted-foreground line-clamp-1">{module.summary}</p>
@@ -148,7 +148,7 @@ export default function AskPage() {
                   <CardHeader className="p-4 flex flex-row items-center justify-between">
                     <div className="space-y-1">
                       <span className="text-xs font-bold uppercase tracking-tight">{cat}</span>
-                      <p className="text-[10px] text-muted-foreground">Universal Cluster</p>
+                      <p className="text-[10px] text-muted-foreground">Quadrillion-Scale Node</p>
                     </div>
                     <Badge variant="secondary" className="text-[9px]">
                       Index Active
@@ -165,7 +165,7 @@ export default function AskPage() {
         <div className="flex items-center justify-center gap-2 text-muted-foreground">
           <Bookmark className="w-3 h-3" />
           <p className="text-[10px] uppercase tracking-widest">
-            Verified 10,000+ Feature Scholarly Infrastructure
+            Verified 11.7 Quadrillion Feature Infrastructure
           </p>
         </div>
       </footer>

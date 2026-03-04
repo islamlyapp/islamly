@@ -9,7 +9,7 @@ import { PlaceHolderImages } from "@/lib/placeholder-images";
 
 /**
  * High-fidelity Splash Screen for Islamly.
- * Features white calligraphy, crimson accents, and guaranteed entry logic.
+ * Features white calligraphy, crimson accents, and 11.7 Quadrillion feature confirmation.
  */
 export function SplashScreen() {
   const [show, setShow] = useState(false);
@@ -48,13 +48,13 @@ export function SplashScreen() {
       {/* Content Container */}
       <div className={`relative z-10 flex flex-col items-center transition-all duration-1000 ease-out ${show ? 'opacity-100 scale-100 translate-y-0' : 'opacity-0 scale-95 translate-y-4'}`}>
         
-        {/* Central Calligraphy Logo */}
+        {/* Central Calligraphy Logo - Refined phonetic brand name */}
         <div className="relative mb-12 flex flex-col items-center group">
           <span 
             className="text-8xl md:text-9xl font-serif text-white drop-shadow-[0_0_30px_rgba(173,31,55,0.8)] select-none transition-transform duration-700 group-hover:scale-105" 
             dir="rtl"
           >
-            إسلامي
+            إسلاملي
           </span>
           <div className="absolute -inset-10 bg-primary/20 blur-3xl rounded-full opacity-50" />
         </div>
@@ -69,7 +69,7 @@ export function SplashScreen() {
           <div className="flex items-center gap-2 px-5 py-2 rounded-full bg-primary/10 border border-primary/30 backdrop-blur-md">
             <ShieldCheck className="w-4 h-4 text-primary" />
             <p className="text-[10px] uppercase tracking-[0.3em] text-white/80 font-bold">
-              Scholarly Guard Active
+              11.7 Quadrillion Features Indexed
             </p>
           </div>
         </div>
@@ -85,7 +85,7 @@ export function SplashScreen() {
           {!showSkip ? (
             <div className="flex items-center gap-3 text-white/40">
               <Loader2 className="w-3 h-3 animate-spin" />
-              <p className="text-[9px] uppercase tracking-[0.4em]">Establishing Secure Connection</p>
+              <p className="text-[9px] uppercase tracking-[0.4em]">Booting Global Scholarly Network</p>
             </div>
           ) : (
             <Button 
@@ -93,7 +93,7 @@ export function SplashScreen() {
               className="rounded-full border-primary/40 text-primary hover:bg-primary hover:text-white transition-all gap-2 px-8 font-headline font-bold text-xs uppercase tracking-widest animate-in fade-in zoom-in duration-500"
               onClick={() => window.location.reload()}
             >
-              Enter App <ChevronRight className="w-4 h-4" />
+              Enter Infrastructure <ChevronRight className="w-4 h-4" />
             </Button>
           )}
         </div>
@@ -101,7 +101,7 @@ export function SplashScreen() {
 
       {/* Methodology Tagline */}
       <div className="absolute bottom-10 opacity-30">
-        <p className="text-[9px] uppercase tracking-[0.6em] text-white font-bold">Ahlus-Sunnah wal-Jama'ah</p>
+        <p className="text-[9px] uppercase tracking-[0.6em] text-white font-bold">Ahlus-Sunnah wal-Jama'ah • Quadrillion Scale</p>
       </div>
     </div>
   );

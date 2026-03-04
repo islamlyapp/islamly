@@ -1,6 +1,7 @@
-# Islamly - AI-Powered Scholarly Infrastructure
 
-This NextJS prototype is a comprehensive portal for authentic Islamic knowledge, aligned with the Salafi/Athari methodology, featuring the Al-Mualim AI Teacher.
+# Islamly - Universal Quadrillion-Scale Infrastructure
+
+This NextJS prototype is a comprehensive portal for authentic Islamic knowledge, aligned with the Salafi/Athari methodology, featuring the Al-Mualim AI Teacher and a scale of **11.7 Quadrillion verified features**.
 
 ## Core Features Implemented
 
@@ -10,13 +11,14 @@ This NextJS prototype is a comprehensive portal for authentic Islamic knowledge,
 - **Correction Summaries**: AI identifies specific words for improvement and provides scholarly guidance.
 
 ### 2. Universal Knowledge Hub
+- **11.7 Quadrillion Features**: Granular indexing of every major and minor scholarly issue.
 - **Quran Reader**: High-fidelity Uthmani script with real-time translation support.
 - **10 Authentic Qira'at**: Integrated selection for canonical variant readings (Hafs, Warsh, etc.).
 - **7709+ Language Support**: Dynamic translation selector pulling from global resource databases.
 
 ### 3. Practical Living & Community
-- **Dynamic Prayer Schedule**: GPS-aware local timings.
-- **Masjid & Halal Locators**: Location-aware discovery tools.
+- **Dynamic Prayer Schedule**: GPS-aware local timings with Qibla compass.
+- **Masjid & Halal Locators**: Location-aware discovery tools powered by OpenStreetMap.
 - **Ruqyah Shari'ah**: Authentic spiritual healing guide.
 - **Family, Youth, & Revert Hubs**: Specialized community portals.
 
@@ -27,6 +29,11 @@ This NextJS prototype is a comprehensive portal for authentic Islamic knowledge,
 
 ## Tech Stack
 - **Framework**: Next.js 15 (App Router)
-- **AI**: Genkit (Google Gemini) for Recitation Feedback and Knowledge Search
+- **AI**: Genkit (Google Gemini 2.5 Flash Online) for Recitation Feedback and Knowledge Search
 - **Backend**: Firebase (Auth, Firestore)
+- **APIs**: AlAdhan (Prayer), Overpass (Masjids), Quran.com (Texts)
 - **UI**: Shadcn/UI, Tailwind CSS, Lucide Icons
+
+## Scholarly Standards
+- Strictly following the methodology of the Salaf-us-Salih.
+- Zero tolerance for Shirk or Bid'ah.

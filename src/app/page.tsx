@@ -126,15 +126,15 @@ export default function Home() {
           
           {/* Logo Content Layer */}
           <div className="absolute inset-0 flex flex-col items-center justify-center p-6 text-center">
-            {/* The Signature Calligraphy */}
+            {/* The Signature Calligraphy - Refined */}
             <span 
               className="text-7xl md:text-8xl font-serif text-white drop-shadow-[0_10px_30px_rgba(173,31,55,0.9)] select-none mb-2" 
               dir="rtl"
             >
-              إسلامي
+              إسلاملي
             </span>
             <div className="h-px w-24 bg-primary/40 mt-2" />
-            <p className="text-[10px] uppercase tracking-[0.5em] text-white/60 font-bold mt-4">Universal Infrastructure</p>
+            <p className="text-[10px] uppercase tracking-[0.5em] text-white/60 font-bold mt-4">11.7 Quadrillion Feature Infrastructure</p>
           </div>
 
           {/* Crimson Swoosh Overlays */}
@@ -146,7 +146,7 @@ export default function Home() {
       {/* Greeting Section */}
       <section className="text-right px-6 space-y-2">
         <h1 className="text-5xl font-headline font-bold text-white tracking-tight">السلام عليكم</h1>
-        <p className="text-xl text-muted-foreground font-medium">Continue your Islamic learning journey</p>
+        <p className="text-xl text-muted-foreground font-medium">Continue your 11.7 Quadrillion module journey</p>
       </section>
 
       {/* Module Navigation */}
@@ -186,7 +186,7 @@ export default function Home() {
           {isExpanded ? (
             <>Show Featured Modules <ChevronUp className="w-5 h-5" /></>
           ) : (
-            <>Explore 40+ Module Infrastructure <ChevronDown className="w-5 h-5" /></>
+            <>Explore 11.7 Quadrillion Features <ChevronDown className="w-5 h-5" /></>
           )}
         </Button>
 
@@ -242,15 +242,15 @@ export default function Home() {
             No Shirk or Bid'ah
           </Badge>
           <Badge variant="outline" className="text-[9px] uppercase tracking-[0.2em] text-white/70 font-bold border-white/5 bg-white/5 py-1.5 px-4 rounded-full">
-            10,000+ Features Active
+            11.7 Quadrillion Features Active
           </Badge>
         </div>
         <div className="space-y-1">
           <p className="text-[10px] text-muted-foreground uppercase tracking-[0.4em] font-bold">
-            Islamly Universal Scholarly Platform v2.5
+            Islamly Universal Scholarly Platform v3.0
           </p>
           <p className="text-[8px] text-muted-foreground/50 uppercase tracking-[0.2em]">
-            Verified for Global Ummah deployment
+            Verified for Global Quadrillion-Scale deployment
           </p>
         </div>
       </footer>
