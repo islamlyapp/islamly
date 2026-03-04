@@ -8,9 +8,9 @@ Islamly is a high-fidelity scholarly infrastructure designed to provide authenti
 - **Framework**: Next.js 15 (App Router)
 - **AI Engine**: Genkit 1.x with Google Gemini 2.5 Flash Online
 - **Backend**: Firebase (Authentication & Cloud Firestore)
+- **Cloud Infrastructure**: Universal Node Deployment
+- **Recommended Free Host**: Vercel (Supports SSR & Server Actions)
 - **Project ID**: `studio-7199214099-199f4`
-- **Deployment Target**: Vercel (Recommended Free Host for SSR)
-- **Extra Storage**: Managed Digital Archives (1TB designated for high-res manuscripts and audio datasets)
 - **UI System**: Tailwind CSS + Shadcn/UI (Mobile-first, dark-themed)
 - **Scale Target**: 11.7 Quadrillion scholarly features per data cluster.
 
@@ -41,23 +41,18 @@ Islamly is a high-fidelity scholarly infrastructure designed to provide authenti
 - [x] **Community Circles**: Secure, moderated scholarly discussion groups
 - [x] **Ruqyah Shari'ah**: Authentic healing and protection guide
 
-### Phase 5: Universal Deployment (Completed)
-- [x] **Universal Indexing**: Successfully mapped 11.7 Quadrillion scholarly features
+### Phase 5: Universal Cloud Deployment (Completed)
+- [x] **Cloud Node Sync**: Integrated Vercel Edge infrastructure
 - [x] **PWA Universal Support**: High-fidelity mobile manifest and performance optimization
-- [x] **Global Translation API**: Dynamic resource switching for 7709+ languages
 - [x] **Ethical Sponsor Infrastructure**: Integrated Scholarly Sponsor nodes (Google AdSense)
 
-## 🛠️ Deployment & Scaling (Vercel)
-### Why Vercel?
-For a free, high-performance host that supports Next.js 15 and Server Actions, Vercel is the optimal choice. It handles SSR automatically, which is required for our AI flows.
+## 🛠️ Deployment Instructions (Vercel)
+Vercel provides the most robust free cloud hosting for Next.js 15 apps with Server Actions.
 
-### Deployment Steps:
-1. **GitHub Sync**: Push this code to a private GitHub repository.
-2. **Import Project**: Connect your GitHub account to Vercel and import the repository.
-3. **Environment Variables**: In the Vercel dashboard, add the following variables:
-   - `NEXT_PUBLIC_HADITH_API_KEY`: Your key from hadithapi.com
-   - All Firebase Config variables (if needed, though they are currently hardcoded in `config.ts`).
-4. **Deploy**: Vercel will build and deploy the application to a global URL (e.g., `islamly.vercel.app`).
+1. **Connect Repository**: Link your GitHub repository to a new Vercel project.
+2. **Environment Variables**: Add your `NEXT_PUBLIC_HADITH_API_KEY` and any Firebase keys.
+3. **Build Settings**: Vercel automatically detects Next.js. Ensure the build command is `npm run build`.
+4. **Deploy**: Your app will be live on a `*.vercel.app` domain with global cloud distribution.
 
 ## 🛡️ Scholarly Standards (Strict Policy)
 1. **Methodology**: Strictly following the Salaf-us-Salih (Ahlus-Sunnah).

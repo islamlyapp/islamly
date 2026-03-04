@@ -3,7 +3,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { User, Globe, LogIn, Bell } from "lucide-react";
+import { User, Globe, LogIn, Bell, Cloud } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useUser } from "@/firebase";
 import { Button } from "@/components/ui/button";
@@ -18,9 +18,15 @@ export function GlobalHeader() {
   return (
     <header className="sticky top-0 z-50 w-full bg-background/95 backdrop-blur-md border-b border-white/5 pt-safe" aria-label="Global Header">
       <div className="max-w-4xl mx-auto px-6 h-16 flex items-center justify-between">
-        <Link href="/" className="flex items-center gap-2 group" aria-label="Islamly Home">
-          <span className="font-headline font-bold text-2xl tracking-tight text-white">Islamly</span>
-        </Link>
+        <div className="flex items-center gap-4">
+          <Link href="/" className="flex items-center gap-2 group" aria-label="Islamly Home">
+            <span className="font-headline font-bold text-2xl tracking-tight text-white">Islamly</span>
+          </Link>
+          <div className="hidden sm:flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-blue-500/5 border border-blue-500/10">
+            <Cloud className="w-3 h-3 text-blue-400" />
+            <span className="text-[8px] uppercase tracking-widest text-blue-400 font-bold">Cloud Sync Active</span>
+          </div>
+        </div>
 
         <div className="flex items-center gap-4">
           <div className="flex items-center gap-3">
@@ -35,7 +41,6 @@ export function GlobalHeader() {
                 <Globe className="w-5 h-5" />
               </button>
             </Link>
-            <span className="text-xl hidden sm:inline" role="img" aria-label="Global Support">🌍</span>
           </div>
           
           <Link href={user ? "/profile" : "/login"} aria-label={user ? "Manage account" : "Sign in to your account"}>

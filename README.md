@@ -33,7 +33,7 @@ This NextJS prototype is a comprehensive portal for authentic Islamic knowledge,
 - **Framework**: Next.js 15 (App Router)
 - **AI**: Genkit (Google Gemini 2.5 Flash Online)
 - **Backend**: Firebase (Auth, Firestore)
-- **Deployment**: Vercel (Global Edge Network)
+- **Cloud Hosting**: Vercel (Global Edge Network)
 - **APIs**: AlAdhan (Prayer), Overpass (Masjids), Quran.com (Texts), Nominatim (Geocoding), HadithAPI
 - **UI**: Shadcn/UI, Tailwind CSS, Lucide Icons
 

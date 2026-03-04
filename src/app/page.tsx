@@ -1,3 +1,4 @@
+
 "use client";
 
 import { Card, CardContent } from "@/components/ui/card";
@@ -39,7 +40,8 @@ import {
   Newspaper,
   Heart,
   Users,
-  Settings
+  Settings,
+  Cloud
 } from "lucide-react";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
@@ -141,7 +143,7 @@ export default function Home() {
               إسلاملي
             </span>
             <div className="h-px w-24 bg-primary/40 mt-2" aria-hidden="true" />
-            <p className="text-[10px] uppercase tracking-[0.5em] text-white/60 font-bold mt-4">Universal Scholarly Infrastructure</p>
+            <p className="text-[10px] uppercase tracking-[0.5em] text-white/60 font-bold mt-4">Universal Cloud Infrastructure</p>
           </div>
           <div className="absolute top-0 left-0 w-1/2 h-full pointer-events-none opacity-20 bg-gradient-to-br from-primary via-transparent to-transparent" aria-hidden="true" />
           <div className="absolute bottom-0 right-0 w-1/2 h-full pointer-events-none opacity-20 bg-gradient-to-tl from-primary via-transparent to-transparent" aria-hidden="true" />
@@ -259,6 +261,9 @@ export default function Home() {
           </Badge>
           <Badge variant="outline" className="text-[9px] uppercase tracking-[0.2em] text-white/70 font-bold border-white/5 bg-white/5 py-1.5 px-4 rounded-full">
             {featureCount} Features
+          </Badge>
+          <Badge variant="outline" className="hidden sm:flex text-[9px] uppercase tracking-[0.2em] text-blue-400 font-bold border-blue-500/10 bg-blue-500/5 py-1.5 px-4 rounded-full gap-2">
+            <Cloud className="w-3 h-3" /> Universal Cloud Active
           </Badge>
         </div>
         <div className="space-y-1">
