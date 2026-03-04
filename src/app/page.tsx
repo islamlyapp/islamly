@@ -42,12 +42,19 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Image from "next/image";
 import { PlaceHolderImages } from "@/lib/placeholder-images";
+import { calculateCurrentFeatures, formatFeatureCount } from "@/lib/feature-counter";
 
 export default function Home() {
   const [isExpanded, setIsExpanded] = useState(false);
+  const [featureCount, setFeatureCount] = useState<string>("2.5 Billion");
+
+  useEffect(() => {
+    const count = calculateCurrentFeatures();
+    setFeatureCount(formatFeatureCount(count));
+  }, []);
 
   const brandHero = PlaceHolderImages.find(img => img.id === 'brand-hero')!;
 
@@ -95,7 +102,7 @@ export default function Home() {
     { title: "Defense", href: "/refutation", icon: ShieldAlert, color: "text-red-400", bg: "bg-red-500/10", border: "border-red-500/20", group: "Heritage" },
     { title: "Library", href: "/library", icon: Library, color: "text-indigo-400", bg: "bg-indigo-500/10", border: "border-indigo-500/20", group: "Heritage" },
     { title: "News", href: "/news", icon: Newspaper, color: "text-zinc-400", bg: "bg-zinc-500/10", border: "border-zinc-500/20", group: "Heritage" },
-    { title: "Live", href: "/live", icon: Video, color: "text-red-500", bg: "bg-red-500/10", border: "border-red-500/20", group: "Heritage" },
+    { title: "Live", href: "/live", icon: Video, color: "text-red-500", bg: "bg-red-500/10", border: "border-primary/20", group: "Heritage" },
     { title: "Audio", href: "/audio", icon: Volume2, color: "text-emerald-400", bg: "bg-emerald-500/10", border: "border-emerald-500/20", group: "Heritage" },
 
     // Cluster 6: Interactive
@@ -242,7 +249,7 @@ export default function Home() {
             No Shirk or Bid'ah
           </Badge>
           <Badge variant="outline" className="text-[9px] uppercase tracking-[0.2em] text-white/70 font-bold border-white/5 bg-white/5 py-1.5 px-4 rounded-full">
-            11.7 Quadrillion Features
+            {featureCount} Features
           </Badge>
         </div>
         <div className="space-y-1">

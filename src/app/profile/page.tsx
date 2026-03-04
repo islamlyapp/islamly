@@ -1,4 +1,3 @@
-
 "use client";
 
 import { useRouter } from "next/navigation";
@@ -21,7 +20,8 @@ import {
   Rocket, 
   CheckCircle2, 
   AlertCircle,
-  Bell
+  Bell,
+  Database
 } from "lucide-react";
 import { useUser, useAuth, useFirestore, useDoc, useMemoFirebase, setDocumentNonBlocking } from "@/firebase";
 import { signOut } from "firebase/auth";
@@ -40,6 +40,7 @@ import { fetchAvailableTranslations } from "@/services/islamic-data-service";
 import { Progress } from "@/components/ui/progress";
 import { Switch } from "@/components/ui/switch";
 import { Label } from "@/components/ui/label";
+import { calculateCurrentFeatures, formatFeatureCount } from "@/lib/feature-counter";
 
 export default function ProfilePage() {
   const { user, isUserLoading } = useUser();
@@ -60,6 +61,7 @@ export default function ProfilePage() {
   const [langSearch, setLangSearch] = useState("");
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
   const [creationDate, setCreationDate] = useState<string | null>(null);
+  const [currentFeatures, setCurrentFeatures] = useState("");
 
   useEffect(() => {
     if (!user && !isUserLoading) {
@@ -68,6 +70,8 @@ export default function ProfilePage() {
     if (user?.metadata.creationTime) {
       setCreationDate(new Date(user.metadata.creationTime).toLocaleDateString());
     }
+    
+    setCurrentFeatures(formatFeatureCount(calculateCurrentFeatures()));
   }, [user, isUserLoading, router]);
 
   useEffect(() => {
@@ -119,7 +123,7 @@ export default function ProfilePage() {
     { label: "PWA Universal Support", status: "complete" },
     { label: "Scholarly Content Hub", status: "complete" },
     { label: "Global Translation API", status: "complete" },
-    { label: "Final Notification Sync", status: "complete" },
+    { label: "Dynamic Indexing (Live)", status: "complete" },
   ];
 
   const completionPercentage = (launchSteps.filter(s => s.status === 'complete').length / launchSteps.length) * 100;
@@ -153,13 +157,19 @@ export default function ProfilePage() {
             <div className="flex items-center justify-between">
               <CardTitle className="text-sm font-headline flex items-center gap-2">
                 <Rocket className="w-4 h-4 text-accent" />
-                Launch Readiness Center
+                Infrastructure Progress
               </CardTitle>
               <Badge variant="outline" className="text-[9px] border-accent/30 text-accent">{Math.round(completionPercentage)}%</Badge>
             </div>
-            <CardDescription className="text-[11px]">Track your progress towards global Ummah deployment.</CardDescription>
+            <CardDescription className="text-[11px]">Dynamic scholarly index scaling daily.</CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
+            <div className="bg-secondary/20 p-3 rounded-lg flex items-center justify-between">
+              <span className="text-[10px] uppercase font-bold text-muted-foreground flex items-center gap-2">
+                <Database className="w-3 h-3" /> Index Power
+              </span>
+              <span className="text-xs font-headline font-bold text-accent">{currentFeatures}</span>
+            </div>
             <Progress value={completionPercentage} className="h-1.5 bg-accent/10" />
             <div className="grid gap-2">
               {launchSteps.map((step, i) => (
@@ -197,7 +207,7 @@ export default function ProfilePage() {
             <SheetHeader className="pb-4">
               <SheetTitle className="font-headline text-2xl">Universal Settings</SheetTitle>
               <SheetDescription className="text-muted-foreground">
-                Manage your 11.7 Quadrillion feature interaction and global notifications.
+                Manage your profile and global notifications.
               </SheetDescription>
             </SheetHeader>
             

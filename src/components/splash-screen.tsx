@@ -1,4 +1,3 @@
-
 "use client";
 
 import { ShieldCheck, ChevronRight, Loader2 } from "lucide-react";
@@ -6,20 +5,27 @@ import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
 import { PlaceHolderImages } from "@/lib/placeholder-images";
+import { calculateCurrentFeatures, formatFeatureCount } from "@/lib/feature-counter";
 
 /**
  * High-fidelity Splash Screen for Islamly.
- * Features إسلاملي calligraphy, crimson accents, and 11.7 Quadrillion feature confirmation.
+ * Features إسلاملي calligraphy, crimson accents, and dynamic feature confirmation.
  */
 export function SplashScreen() {
   const [show, setShow] = useState(false);
   const [showSkip, setShowSkip] = useState(false);
+  const [featureCount, setFeatureCount] = useState<string>("2.5 Billion");
+  
   const brandHero = PlaceHolderImages.find(img => img.id === 'brand-hero')!;
 
   useEffect(() => {
     const timer = setTimeout(() => setShow(true), 100);
     // Show skip button very early (after 1.5 seconds) to guarantee the user is never stuck
     const skipTimer = setTimeout(() => setShowSkip(true), 1500);
+    
+    // Set dynamic feature count
+    const count = calculateCurrentFeatures();
+    setFeatureCount(formatFeatureCount(count));
     
     return () => {
       clearTimeout(timer);
@@ -28,7 +34,6 @@ export function SplashScreen() {
   }, []);
 
   const handleManualEnter = () => {
-    // Force immediate UI entry by reloading or simply letting the safety hooks in AuthGuard take over
     window.location.reload();
   };
 
@@ -74,7 +79,7 @@ export function SplashScreen() {
           <div className="flex items-center gap-2 px-5 py-2 rounded-full bg-primary/10 border border-primary/30 backdrop-blur-md">
             <ShieldCheck className="w-4 h-4 text-primary" />
             <p className="text-[10px] uppercase tracking-[0.3em] text-white/80 font-bold">
-              11.7 Quadrillion Features Indexed
+              {featureCount} Features Indexed
             </p>
           </div>
         </div>
@@ -106,7 +111,7 @@ export function SplashScreen() {
 
       {/* Methodology Tagline */}
       <div className="absolute bottom-10 opacity-30">
-        <p className="text-[9px] uppercase tracking-[0.6em] text-white font-bold">Ahlus-Sunnah wal-Jama'ah • 11.7 Quadrillion Features</p>
+        <p className="text-[9px] uppercase tracking-[0.6em] text-white font-bold">Ahlus-Sunnah wal-Jama'ah • Dynamic Infrastructure</p>
       </div>
     </div>
   );
