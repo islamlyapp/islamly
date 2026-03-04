@@ -1,6 +1,6 @@
 'use server';
 /**
- * @fileOverview Expanded AI Mualim Feedback flow for Quran, Hadith, and Mutoon.
+ * @fileOverview Expanded AI Mualim Feedback flow for Quran, Hadith, and Mutoon using Gemini Online.
  *
  * - provideRecitationFeedback - Analyzes recitation text and provides Tajweed/Hifz feedback.
  * - MualimFeedbackInput - Input schema.
@@ -25,11 +25,11 @@ const MualimFeedbackOutputSchema = z.object({
 });
 export type MualimFeedbackOutput = z.infer<typeof MualimFeedbackOutputSchema>;
 
-export async function provideRecitationFeedback(input: MualimFeedbackInput): Promise<MualimFeedbackOutput> {
-  const {output} = await ai.generate({
-    model: 'googleai/gemini-2.5-flash',
-    output: {schema: MualimFeedbackOutputSchema},
-    prompt: `You are Al-Mualim, an expert Islamic Teacher specializing in Hifz (memorization) and recitation.
+const mualimPrompt = ai.definePrompt({
+  name: 'mualimPrompt',
+  input: {schema: MualimFeedbackInputSchema},
+  output: {schema: MualimFeedbackOutputSchema},
+  prompt: `You are Al-Mualim, an expert Islamic Teacher specializing in Hifz (memorization) and recitation. 
 You are listening to a student recite a text from the category: {{{category}}}.
 The specific reference is: {{{textReference}}}.
 The transcribed text of their recitation is: """{{{transcription}}}"""
@@ -44,6 +44,20 @@ Your task:
 STRICT POLICY: 
 - Maintain absolute respect for the sacred texts.
 - Encourage the student even if they make many mistakes.`,
-  });
-  return output!;
+});
+
+export async function provideRecitationFeedback(input: MualimFeedbackInput): Promise<MualimFeedbackOutput> {
+  return mualimFeedbackFlow(input);
 }
+
+const mualimFeedbackFlow = ai.defineFlow(
+  {
+    name: 'mualimFeedbackFlow',
+    inputSchema: MualimFeedbackInputSchema,
+    outputSchema: MualimFeedbackOutputSchema,
+  },
+  async input => {
+    const {output} = await mualimPrompt(input);
+    return output!;
+  }
+);

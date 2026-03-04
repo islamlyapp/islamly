@@ -16,11 +16,10 @@ const DailyReflectionOutputSchema = z.object({
 });
 export type DailyReflectionOutput = z.infer<typeof DailyReflectionOutputSchema>;
 
-export async function generateDailyReflection(): Promise<DailyReflectionOutput> {
-  const {output} = await ai.generate({
-    model: 'googleai/gemini-2.5-flash',
-    output: {schema: DailyReflectionOutputSchema},
-    prompt: `You are a scholarly assistant specializing in Tazkiyah (purification of the soul) based on the Quran and Sunnah. 
+const dailyReflectionPrompt = ai.definePrompt({
+  name: 'dailyReflectionPrompt',
+  output: {schema: DailyReflectionOutputSchema},
+  prompt: `You are a scholarly assistant specializing in Tazkiyah (purification of the soul) based on the Quran and Sunnah. 
 Generate a unique, brief spiritual reflection for a student of knowledge.
 
 STRICT ADHERENCE:
@@ -30,6 +29,19 @@ STRICT ADHERENCE:
 - Provide the Arabic text of the source if applicable.
 
 Focus on themes like: Gratitude (Shukr), Patience (Sabr), Sincerity (Ikhlas), or Reliance on Allah (Tawakkul).`,
-  });
-  return output!;
+});
+
+export async function generateDailyReflection(): Promise<DailyReflectionOutput> {
+  return dailyReflectionFlow();
 }
+
+const dailyReflectionFlow = ai.defineFlow(
+  {
+    name: 'dailyReflectionFlow',
+    outputSchema: DailyReflectionOutputSchema,
+  },
+  async () => {
+    const {output} = await dailyReflectionPrompt();
+    return output!;
+  }
+);

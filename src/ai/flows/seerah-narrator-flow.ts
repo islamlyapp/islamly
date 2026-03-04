@@ -1,7 +1,6 @@
-
 'use server';
 /**
- * @fileOverview AI Seerah Narrator flow.
+ * @fileOverview AI Seerah Narrator flow using Gemini Online.
  *
  * - narrateSeerah - Generates a compelling narrative of Prophetic biography events.
  * - SeerahNarratorInput - Input schema.
@@ -24,11 +23,11 @@ const SeerahNarratorOutputSchema = z.object({
 });
 export type SeerahNarratorOutput = z.infer<typeof SeerahNarratorOutputSchema>;
 
-export async function narrateSeerah(input: SeerahNarratorInput): Promise<SeerahNarratorOutput> {
-  const {output} = await ai.generate({
-    model: 'googleai/gemini-2.5-flash',
-    output: {schema: SeerahNarratorOutputSchema},
-    prompt: `You are an expert historian specializing in the Seerah (Prophetic Biography) and Islamic History, strictly aligned with the authentic sources of Ahlus-Sunnah.
+const seerahPrompt = ai.definePrompt({
+  name: 'seerahPrompt',
+  input: {schema: SeerahNarratorInputSchema},
+  output: {schema: SeerahNarratorOutputSchema},
+  prompt: `You are an expert historian specializing in the Seerah (Prophetic Biography) and Islamic History, strictly aligned with the authentic sources of Ahlus-Sunnah.
 
 Focus on:
 1. Historical accuracy based on authentic sources (Ibn Hisham, Ibn Kathir, etc.).
@@ -40,6 +39,20 @@ STRICT POLICY:
 - Ensure the narrative is free from any sectarian revisionism.
 
 Topic: """{{{topic}}}"""`,
-  });
-  return output!;
+});
+
+export async function narrateSeerah(input: SeerahNarratorInput): Promise<SeerahNarratorOutput> {
+  return seerahNarratorFlow(input);
 }
+
+const seerahNarratorFlow = ai.defineFlow(
+  {
+    name: 'seerahNarratorFlow',
+    inputSchema: SeerahNarratorInputSchema,
+    outputSchema: SeerahNarratorOutputSchema,
+  },
+  async input => {
+    const {output} = await seerahPrompt(input);
+    return output!;
+  }
+);
