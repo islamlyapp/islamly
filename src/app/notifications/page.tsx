@@ -65,7 +65,7 @@ const notifications = [
     id: 5,
     type: "System",
     title: "Universal Synchronization",
-    desc: "Nominatim geocoding services have been recalibrated for your region.",
+    desc: "Geospatial synchronization services have been recalibrated for your region.",
     time: "2 days ago",
     icon: AlertCircle,
     color: "text-amber-400",

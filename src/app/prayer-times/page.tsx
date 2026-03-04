@@ -58,7 +58,6 @@ export default function PrayerTimesPage() {
   const [qibla, setQibla] = useState<number | null>(null);
   const [hijri, setHijri] = useState<any>(null);
 
-  // Adhan Audio State
   const [isPlayingAdhan, setIsPlayingAdhan] = useState(false);
   const [currentAdhanStyle, setCurrentAdhanStyle] = useState(ADHAN_STYLES[0]);
   const audioRef = useRef<HTMLAudioElement | null>(null);
@@ -217,7 +216,7 @@ export default function PrayerTimesPage() {
                   <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-3 h-3 text-muted-foreground" aria-hidden="true" />
                   <Input 
                     autoFocus
-                    placeholder="Search City (Nominatim)..." 
+                    placeholder="Search City (Universal Index)..." 
                     className="h-8 pl-8 bg-secondary/30 text-xs"
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
@@ -378,7 +377,7 @@ export default function PrayerTimesPage() {
           </div>
           <div className="space-y-1">
             <span className="block opacity-50">Audio Source</span>
-            <span className="text-white">11.7 Quadrillion Verification Points</span>
+            <span className="text-white">Universal Verification Points</span>
           </div>
         </div>
       </section>

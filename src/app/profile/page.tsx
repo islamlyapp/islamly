@@ -1,4 +1,3 @@
-
 "use client";
 
 import { useRouter } from "next/navigation";
@@ -26,7 +25,8 @@ import {
   Scale,
   Lock,
   Library,
-  Clock
+  Clock,
+  Heart
 } from "lucide-react";
 import { useUser, useAuth, useFirestore, useDoc, useMemoFirebase, setDocumentNonBlocking } from "@/firebase";
 import { signOut } from "firebase/auth";
@@ -69,7 +69,6 @@ export default function ProfilePage() {
   const db = useFirestore();
   const router = useRouter();
 
-  // Firestore User Profile
   const profileRef = useMemoFirebase(() => {
     if (!db || !user?.uid) return null;
     return doc(db, "users", user.uid);
@@ -77,7 +76,6 @@ export default function ProfilePage() {
 
   const { data: profile, isLoading: isProfileLoading } = useDoc(profileRef);
 
-  // Settings State
   const [availableLanguages, setAvailableLanguages] = useState<any[]>([]);
   const [langSearch, setLangSearch] = useState("");
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
@@ -145,16 +143,6 @@ export default function ProfilePage() {
     { label: "Personal Notes", icon: BookOpen, count: "5" },
   ];
 
-  const launchSteps = [
-    { label: "Core Infrastructure", status: "complete" },
-    { label: "PWA Universal Support", status: "complete" },
-    { label: "Scholarly Content Hub", status: "complete" },
-    { label: "Universal Asset Buffer", status: "complete" },
-    { label: "Dynamic Indexing (Live)", status: "complete" },
-  ];
-
-  const completionPercentage = (launchSteps.filter(s => s.status === 'complete').length / launchSteps.length) * 100;
-
   return (
     <div className="space-y-8 animate-in fade-in duration-500 pb-20">
       <header className="flex flex-col items-center text-center gap-4">
@@ -179,7 +167,6 @@ export default function ProfilePage() {
       </header>
 
       <section className="grid gap-4">
-        {/* Rebranded Storage Card */}
         <Card className="border-blue-500/20 bg-blue-500/5 overflow-hidden">
           <CardHeader className="pb-3">
             <div className="flex items-center justify-between">
@@ -197,7 +184,6 @@ export default function ProfilePage() {
               <span className="text-blue-400">1024 GB Indexed</span>
             </div>
             <Progress value={15} className="h-1 bg-blue-500/10" />
-            <p className="text-[9px] text-muted-foreground italic">Connected to the universal scholarly infrastructure.</p>
           </CardContent>
         </Card>
 
@@ -333,7 +319,7 @@ export default function ProfilePage() {
 
               <div className="space-y-4 pt-4 border-t border-white/5 pb-10">
                 <p className="text-[10px] text-center text-muted-foreground italic">
-                  Changes made here apply universally to the Islamly infrastructure.
+                  Changes apply universally to the Islamly infrastructure.
                 </p>
                 <Button variant="outline" className="w-full h-12 font-headline" onClick={() => setIsSettingsOpen(false)}>
                   Done
@@ -359,6 +345,20 @@ export default function ProfilePage() {
             </CardContent>
           </Card>
         ))}
+
+        <Link href="/credits">
+          <Card className="glass-card hover:bg-primary/5 transition-all cursor-pointer group">
+            <CardContent className="p-4 flex items-center justify-between">
+              <div className="flex items-center gap-3">
+                <div className="p-2 bg-primary/10 rounded-lg group-hover:bg-primary/20 transition-colors">
+                  <Heart className="w-4 h-4 text-primary" />
+                </div>
+                <span className="font-headline font-semibold text-sm">Acknowledgments</span>
+              </div>
+              <ChevronRight className="w-4 h-4 text-muted-foreground" />
+            </CardContent>
+          </Card>
+        </Link>
 
         <div className="grid grid-cols-2 gap-3 pt-2">
           <Link href="/terms" className="block">
