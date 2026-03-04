@@ -3,7 +3,7 @@
 
 import { useUser } from '@/firebase';
 import { useRouter, usePathname } from 'next/navigation';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { SplashScreen } from '@/components/splash-screen';
 
 /**
@@ -14,10 +14,23 @@ export function AuthGuard({ children }: { children: React.ReactNode }) {
   const { user, isUserLoading, userError } = useUser();
   const router = useRouter();
   const pathname = usePathname();
+  const [forceProceed, setForceProceed] = useState(false);
+
+  // Secondary Fail-Safe: If the app is stuck in "loading" for more than 4 seconds,
+  // we force the proceed state to allow the user to see the UI.
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      if (isUserLoading) {
+        console.warn("AuthGuard: Safety override triggered. Rendering UI.");
+        setForceProceed(true);
+      }
+    }, 4000);
+    return () => clearTimeout(timer);
+  }, [isUserLoading]);
 
   useEffect(() => {
     // If auth state is determined
-    if (!isUserLoading) {
+    if (!isUserLoading || forceProceed) {
       if (!user && pathname !== '/login') {
         // Not signed in and not on login page -> go to login
         router.replace('/login');
@@ -26,10 +39,10 @@ export function AuthGuard({ children }: { children: React.ReactNode }) {
         router.replace('/');
       }
     }
-  }, [user, isUserLoading, pathname, router]);
+  }, [user, isUserLoading, forceProceed, pathname, router]);
 
   // Show the professional splash screen while the initial auth state is being resolved
-  if (isUserLoading) {
+  if (isUserLoading && !forceProceed) {
     return <SplashScreen />;
   }
 
@@ -40,7 +53,7 @@ export function AuthGuard({ children }: { children: React.ReactNode }) {
   }
 
   // Prevent flicker of protected content while redirecting unauthenticated users
-  if (!user && pathname !== '/login') {
+  if (!user && pathname !== '/login' && !forceProceed) {
     return null;
   }
 

@@ -18,14 +18,19 @@ export function SplashScreen() {
 
   useEffect(() => {
     const timer = setTimeout(() => setShow(true), 100);
-    // Show skip button very early (after 2 seconds) to guarantee the user is never stuck
-    const skipTimer = setTimeout(() => setShowSkip(true), 2000);
+    // Show skip button very early (after 1.5 seconds) to guarantee the user is never stuck
+    const skipTimer = setTimeout(() => setShowSkip(true), 1500);
     
     return () => {
       clearTimeout(timer);
       clearTimeout(skipTimer);
     };
   }, []);
+
+  const handleManualEnter = () => {
+    // Force immediate UI entry by reloading or simply letting the safety hooks in AuthGuard take over
+    window.location.reload();
+  };
 
   return (
     <div className="fixed inset-0 z-[100] flex flex-col items-center justify-center bg-[#0a0304] overflow-hidden">
@@ -91,7 +96,7 @@ export function SplashScreen() {
             <Button 
               variant="outline" 
               className="rounded-full border-primary/40 text-primary hover:bg-primary hover:text-white transition-all gap-2 px-8 font-headline font-bold text-xs uppercase tracking-widest animate-in fade-in zoom-in duration-500"
-              onClick={() => window.location.reload()}
+              onClick={handleManualEnter}
             >
               Enter Infrastructure <ChevronRight className="w-4 h-4" />
             </Button>
@@ -101,7 +106,7 @@ export function SplashScreen() {
 
       {/* Methodology Tagline */}
       <div className="absolute bottom-10 opacity-30">
-        <p className="text-[9px] uppercase tracking-[0.6em] text-white font-bold">Ahlus-Sunnah wal-Jama'ah • Quadrillion Scale</p>
+        <p className="text-[9px] uppercase tracking-[0.6em] text-white font-bold">Ahlus-Sunnah wal-Jama'ah • 11.7 Quadrillion Features</p>
       </div>
     </div>
   );

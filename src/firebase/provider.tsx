@@ -78,6 +78,7 @@ export const FirebaseProvider: React.FC<FirebaseProviderProps> = ({
     setUserAuthState({ user: null, isUserLoading: true, userError: null });
 
     // FAST TIMEOUT: Reduced to 3 seconds to guarantee the splash screen resolves quickly
+    // This ensures that even if onAuthStateChanged never fires, the app will continue.
     const safetyTimeout = setTimeout(() => {
       setUserAuthState(prev => {
         if (prev.isUserLoading) {
