@@ -111,12 +111,12 @@ export default function Home() {
   return (
     <div className="space-y-10 animate-in fade-in duration-700 pb-20">
       {/* Hero Section - Prominent Brand Identity */}
-      <section className="flex flex-col items-center pt-4 px-4">
+      <section className="flex flex-col items-center pt-4 px-4" aria-labelledby="hero-title">
         <div className="relative w-full max-w-lg aspect-[16/9] rounded-[2.5rem] overflow-hidden shadow-2xl shadow-black border border-white/5 group">
           {/* Background Layer */}
           <Image 
             src={brandHero.imageUrl} 
-            alt="Library Background" 
+            alt="Deep dark scholarly library background" 
             fill 
             className="object-cover group-hover:scale-105 transition-transform duration-1000 opacity-40"
             priority
@@ -127,33 +127,35 @@ export default function Home() {
           <div className="absolute inset-0 flex flex-col items-center justify-center p-6 text-center">
             {/* The Signature Calligraphy - إسلاملي */}
             <span 
+              id="hero-title"
               className="text-7xl md:text-8xl font-serif text-white drop-shadow-[0_10px_30px_rgba(173,31,55,0.9)] select-none mb-2" 
               dir="rtl"
+              aria-label="Islamly Arabic Calligraphy"
             >
               إسلاملي
             </span>
-            <div className="h-px w-24 bg-primary/40 mt-2" />
+            <div className="h-px w-24 bg-primary/40 mt-2" aria-hidden="true" />
             <p className="text-[10px] uppercase tracking-[0.5em] text-white/60 font-bold mt-4">11.7 Quadrillion Feature Infrastructure</p>
           </div>
 
           {/* Crimson Swoosh Overlays */}
-          <div className="absolute top-0 left-0 w-1/2 h-full pointer-events-none opacity-20 bg-gradient-to-br from-primary via-transparent to-transparent" />
-          <div className="absolute bottom-0 right-0 w-1/2 h-full pointer-events-none opacity-20 bg-gradient-to-tl from-primary via-transparent to-transparent" />
+          <div className="absolute top-0 left-0 w-1/2 h-full pointer-events-none opacity-20 bg-gradient-to-br from-primary via-transparent to-transparent" aria-hidden="true" />
+          <div className="absolute bottom-0 right-0 w-1/2 h-full pointer-events-none opacity-20 bg-gradient-to-tl from-primary via-transparent to-transparent" aria-hidden="true" />
         </div>
       </section>
 
       {/* Greeting Section */}
-      <section className="text-right px-6 space-y-2">
+      <section className="text-right px-6 space-y-2" aria-label="Welcome Greeting">
         <h1 className="text-5xl font-headline font-bold text-white tracking-tight">السلام عليكم</h1>
         <p className="text-xl text-muted-foreground font-medium">Continue your 11.7 Quadrillion module journey</p>
       </section>
 
       {/* Module Navigation */}
-      <div className="flex flex-col items-center gap-8 pt-4">
+      <section className="flex flex-col items-center gap-8 pt-4" aria-label="Application Modules">
         {!isExpanded && (
           <div className="w-full px-6 grid grid-cols-2 md:grid-cols-4 gap-4 animate-in fade-in duration-500">
             {visibleModules.map((item) => (
-              <Link key={item.title} href={item.href}>
+              <Link key={item.title} href={item.href} aria-label={`Go to ${item.title}`}>
                 <Card className={cn(
                   "glass-card hover:scale-[1.03] transition-all group h-full border-2",
                   item.border,
@@ -165,7 +167,7 @@ export default function Home() {
                       item.bg,
                       item.color
                     )}>
-                      <item.icon className="w-6 h-6" />
+                      <item.icon className="w-6 h-6" aria-hidden="true" />
                     </div>
                     <div className="space-y-1">
                       <span className="font-headline font-bold text-[10px] uppercase tracking-widest block group-hover:text-primary transition-colors">
@@ -186,6 +188,8 @@ export default function Home() {
           variant="ghost" 
           className="rounded-full h-14 px-12 gap-3 font-headline font-bold border border-white/10 text-white bg-white/5 hover:bg-white/10 shadow-xl transition-all active:scale-95"
           onClick={() => setIsExpanded(!isExpanded)}
+          aria-expanded={isExpanded}
+          aria-controls="expanded-modules"
         >
           {isExpanded ? (
             <>Show Featured Modules <ChevronUp className="w-5 h-5" /></>
@@ -195,7 +199,7 @@ export default function Home() {
         </Button>
 
         {isExpanded && (
-          <div className="w-full space-y-14 animate-in slide-in-from-bottom-8 duration-500 px-6">
+          <div id="expanded-modules" className="w-full space-y-14 animate-in slide-in-from-bottom-8 duration-500 px-6">
             {categories.map((group) => {
               const groupModules = allModules.filter(m => m.group === group);
               if (groupModules.length === 0) return null;
@@ -206,11 +210,11 @@ export default function Home() {
                     <h3 className="text-[10px] font-headline font-bold uppercase tracking-[0.3em] text-muted-foreground whitespace-nowrap">
                       {group}
                     </h3>
-                    <div className="h-px w-full bg-gradient-to-r from-border/50 to-transparent" />
+                    <div className="h-px w-full bg-gradient-to-r from-border/50 to-transparent" aria-hidden="true" />
                   </div>
                   <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                     {groupModules.map((item) => (
-                      <Link key={item.title} href={item.href}>
+                      <Link key={item.title} href={item.href} aria-label={`Go to ${item.title}`}>
                         <Card className={cn(
                           "glass-card hover:scale-[1.03] transition-all group h-full border-2",
                           item.border,
@@ -222,7 +226,7 @@ export default function Home() {
                               item.bg,
                               item.color
                             )}>
-                              <item.icon className="w-6 h-6" />
+                              <item.icon className="w-6 h-6" aria-hidden="true" />
                             </div>
                             <div className="space-y-1">
                               <span className="font-headline font-bold text-[10px] uppercase tracking-widest block group-hover:text-primary transition-colors">
@@ -242,10 +246,10 @@ export default function Home() {
             })}
           </div>
         )}
-      </div>
+      </section>
 
       {/* Compliance Footer */}
-      <footer className="py-12 text-center space-y-6 opacity-60">
+      <footer className="py-12 text-center space-y-6 opacity-60" aria-label="System Compliance">
         <div className="flex justify-center gap-3">
           <Badge variant="outline" className="text-[9px] uppercase tracking-[0.2em] text-white/70 font-bold border-white/5 bg-white/5 py-1.5 px-4 rounded-full">
             No Shirk or Bid'ah
