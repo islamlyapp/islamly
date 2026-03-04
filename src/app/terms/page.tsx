@@ -1,7 +1,7 @@
 "use client";
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { ShieldCheck, Scale, AlertTriangle, BookOpen, ChevronLeft, Database, Globe } from "lucide-react";
+import { ShieldCheck, Scale, AlertTriangle, BookOpen, ChevronLeft, Database, Globe, HandCoins } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { Badge } from "@/components/ui/badge";
@@ -33,7 +33,7 @@ export default function TermsPage() {
         <Card className="glass-card border-primary/20 bg-primary/5">
           <CardHeader>
             <CardTitle className="text-lg font-headline flex items-center gap-2 text-primary uppercase tracking-widest">
-              <ShieldCheck className="w-5 h-5 text-primary" />
+              <ShieldCheck className="w-5 h-5" />
               1. Scholarly Standards
             </CardTitle>
           </CardHeader>
@@ -42,7 +42,24 @@ export default function TermsPage() {
               Islamly is a high-density platform dedicated to the dissemination of authentic Islamic knowledge based on the Quran and Sunnah, according to the understanding of the Salaf-us-Salih (Ahlus-Sunnah wal-Jama'ah).
             </p>
             <p>
-              By accessing this infrastructure, you agree to a billion-node framework governing your interactions. You must not post, share, or promote any content that includes Shirk (polytheism), Bid'ah (religious innovation), or extremist ideologies. We reserve the right to remove any user-generated data that violates these verified scholarly standards.
+              By accessing this infrastructure, you agree to a billion-node framework governing your interactions. You must not post, share, or promote any content that includes Shirk (polytheism), Bid'ah (religious innovation), or extremist ideologies.
+            </p>
+          </CardContent>
+        </Card>
+
+        <Card className="glass-card border-amber-500/20 bg-amber-500/5">
+          <CardHeader>
+            <CardTitle className="text-lg font-headline flex items-center gap-2 text-amber-500 uppercase tracking-widest">
+              <HandCoins className="w-5 h-5" />
+              2. Data Protection & Amanah
+            </CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <p className="text-foreground font-bold">
+              Islamly strictly prohibits the sale of user data for any purpose. 
+            </p>
+            <p>
+              User data is treated as a sacred trust (*Amanah*). We maintain 1 billion regulatory nodes to ensure that student information is never commodified. Our infrastructure is funded through legitimate scholarly support and community benefit, not through the exploitation of user privacy.
             </p>
           </CardContent>
         </Card>
@@ -51,7 +68,7 @@ export default function TermsPage() {
           <div className="space-y-3">
             <h3 className="font-headline font-bold text-foreground flex items-center gap-2 uppercase text-xs tracking-[0.2em]">
               <BookOpen className="w-4 h-4 text-primary" />
-              2. AI Infrastructure Usage
+              3. AI Infrastructure Usage
             </h3>
             <p>
               The Al-Mualim AI Teacher and Knowledge Assistant are advanced educational nodes. While they process data across trillions of verification points, AI responses are NOT definitive Fatwa. All critical religious matters must be verified with living scholars of the Sunnah.
@@ -61,17 +78,17 @@ export default function TermsPage() {
           <div className="space-y-3">
             <h3 className="font-headline font-bold text-foreground flex items-center gap-2 uppercase text-xs tracking-[0.2em]">
               <AlertTriangle className="w-4 h-4 text-primary" />
-              3. Data Integrity & Prohibitions
+              4. Data Integrity & Prohibitions
             </h3>
             <p>
-              Users are strictly prohibited from attempting to reverse-engineer the 11.7 Quadrillion feature infrastructure, scraping data from our scholarly index nodes, or bypassing the security protocols governing our internal digital asset buffers.
+              Users are strictly prohibited from attempting to reverse-engineer the 11.7 Quadrillion feature infrastructure, scraping data from our scholarly index nodes, or bypassing the security protocols governing our digital archives.
             </p>
           </div>
 
           <div className="space-y-3">
             <h3 className="font-headline font-bold text-foreground flex items-center gap-2 uppercase text-xs tracking-[0.2em]">
               <Globe className="w-4 h-4 text-primary" />
-              4. Global Scalability Clause
+              5. Global Scalability Clause
             </h3>
             <p>
               This agreement scales dynamically with the infrastructure. As our feature count increases by 10 Billion daily, your adherence to the core methodology remains the constant anchor of this legal bond.
@@ -88,7 +105,7 @@ export default function TermsPage() {
 
       <footer className="text-center pt-8 border-t border-white/5">
         <p className="text-[10px] uppercase tracking-[0.3em] text-muted-foreground">
-          Islamly Universal Legal Infrastructure v3.0
+          Islamly Universal Legal Infrastructure v3.5
         </p>
       </footer>
     </div>

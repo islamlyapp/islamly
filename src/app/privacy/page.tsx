@@ -1,7 +1,7 @@
 "use client";
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Lock, EyeOff, Globe, MapPin, ChevronLeft, Shield, Database } from "lucide-react";
+import { Lock, EyeOff, Globe, MapPin, ChevronLeft, Shield, Database, ShieldAlert } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { Badge } from "@/components/ui/badge";
@@ -30,6 +30,23 @@ export default function PrivacyPage() {
       </header>
 
       <section className="space-y-6 text-sm text-muted-foreground leading-relaxed">
+        <Card className="glass-card border-emerald-500/20 bg-emerald-500/5">
+          <CardHeader>
+            <CardTitle className="text-lg font-headline flex items-center gap-2 text-emerald-400 uppercase tracking-widest">
+              <ShieldAlert className="w-5 h-5" />
+              The No-Sale Guarantee
+            </CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <p className="text-foreground font-bold">
+              Islamly does not sell, trade, or monetize your personal data. 
+            </p>
+            <p>
+              Under our strict scholarly methodology, your information is considered an "Amanah" (Sacred Trust). We reject any revenue models based on data harvesting. Our 1 billion privacy nodes are dedicated solely to protecting your learning journey within the 11.7 Quadrillion feature infrastructure.
+            </p>
+          </CardContent>
+        </Card>
+
         <Card className="glass-card border-accent/20 bg-accent/5">
           <CardHeader>
             <CardTitle className="text-lg font-headline flex items-center gap-2 text-accent uppercase tracking-widest">
@@ -39,7 +56,7 @@ export default function PrivacyPage() {
           </CardHeader>
           <CardContent>
             <p>
-              In accordance with Islamic principles of privacy and trust, Islamly is committed to protecting your personal information across our entire 11.7 Quadrillion feature infrastructure. Our 1 billion privacy nodes ensure your data is never sold, traded, or shared with unauthorized entities.
+              In accordance with Islamic principles of privacy and trust, Islamly is committed to protecting your personal information across our entire high-density infrastructure. Our billion-node framework ensures your data is never accessed by unauthorized entities.
             </p>
           </CardContent>
         </Card>
@@ -48,7 +65,7 @@ export default function PrivacyPage() {
           <div className="space-y-3">
             <h3 className="font-headline font-bold text-foreground flex items-center gap-2 uppercase text-xs tracking-[0.2em]">
               <EyeOff className="w-4 h-4 text-accent" />
-              1. Scholarly Data Collection
+              1. Scholarly Data Usage
             </h3>
             <p>
               We collect only the essential metadata required to maintain your position within the global scholarly index:
@@ -66,7 +83,7 @@ export default function PrivacyPage() {
               2. Geospatial Synchronization
             </h3>
             <p>
-              Real-time geolocation is utilized exclusively for precision solar calculations (Prayer Times) and identifying local physical archives (Masjids). This data remains transient within your local node and is not utilized for long-term pattern tracking.
+              Real-time geolocation is utilized exclusively for precision solar calculations (Prayer Times) and identifying local physical archives (Masjids). This data remains transient and is never utilized for commercial pattern tracking.
             </p>
           </div>
 
@@ -85,7 +102,7 @@ export default function PrivacyPage() {
               4. Complete Data Eradication
             </h3>
             <p>
-              You maintain the absolute right to purge your entire presence from our 11.7 Quadrillion feature infrastructure. Initiating an account deletion will trigger a cascade across all 1 billion privacy nodes to ensure no residual scholarly records remain.
+              You maintain the absolute right to purge your entire presence from our infrastructure. Initiating an account deletion will trigger a cascade across all 1 billion privacy nodes to ensure no residual scholarly records remain.
             </p>
           </div>
         </div>
@@ -93,7 +110,7 @@ export default function PrivacyPage() {
 
       <footer className="text-center pt-8 border-t border-white/5">
         <p className="text-[10px] uppercase tracking-[0.3em] text-muted-foreground">
-          Islamly Universal Privacy Infrastructure v3.0 • Verified for 1 Billion+ Individual Nodes
+          Islamly Universal Privacy Infrastructure v3.5 • Verified for 1 Billion+ Individual Privacy Nodes
         </p>
       </footer>
     </div>
