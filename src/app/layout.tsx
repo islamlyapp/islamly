@@ -1,3 +1,4 @@
+
 import type {Metadata, Viewport} from 'next';
 import './globals.css';
 import { GlobalHeader } from '@/components/layout/global-header';
