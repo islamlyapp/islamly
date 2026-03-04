@@ -111,46 +111,54 @@ export default function Home() {
 
   return (
     <div className="space-y-10 animate-in fade-in duration-700 pb-20">
-      {/* Hero Section - Matching New Logo Aesthetic */}
-      <section className="flex flex-col items-center pt-4">
-        <div className="relative w-full max-w-lg aspect-square md:aspect-video rounded-3xl overflow-hidden shadow-2xl shadow-black/80 border border-white/10 group">
+      {/* Hero Section - Prominent Brand Identity */}
+      <section className="flex flex-col items-center pt-4 px-4">
+        <div className="relative w-full max-w-lg aspect-[16/9] rounded-[2.5rem] overflow-hidden shadow-2xl shadow-black border border-white/5 group">
+          {/* Background Layer */}
           <Image 
             src={brandHero.imageUrl} 
-            alt="Islamly Calligraphy Logo" 
+            alt="Library Background" 
             fill 
-            className="object-cover group-hover:scale-105 transition-transform duration-1000"
-            data-ai-hint={brandHero.imageHint}
+            className="object-cover group-hover:scale-105 transition-transform duration-1000 opacity-40"
             priority
+            data-ai-hint="dark library"
           />
-          <div className="absolute inset-0 bg-gradient-to-br from-black/60 via-black/40 to-transparent flex items-center justify-center">
-            {/* Visual simulation of the red swooshes using absolute positioned elements if possible, 
-                but primarily relying on the text drop shadow and contrast */}
-            <span className="text-7xl md:text-9xl font-serif text-white drop-shadow-[0_10px_20px_rgba(173,31,55,0.8)]" dir="rtl">
+          
+          {/* Logo Content Layer */}
+          <div className="absolute inset-0 flex flex-col items-center justify-center p-6 text-center">
+            {/* The Signature Calligraphy */}
+            <span 
+              className="text-7xl md:text-8xl font-serif text-white drop-shadow-[0_10px_30px_rgba(173,31,55,0.9)] select-none mb-2" 
+              dir="rtl"
+            >
               إسلامي
             </span>
+            <div className="h-px w-24 bg-primary/40 mt-2" />
+            <p className="text-[10px] uppercase tracking-[0.5em] text-white/60 font-bold mt-4">Universal Infrastructure</p>
           </div>
-          {/* Subtle Crimson Swoosh Overlay Simulation */}
-          <div className="absolute top-0 left-0 w-full h-full pointer-events-none opacity-20 bg-[radial-gradient(ellipse_at_top_left,_var(--tw-gradient-stops))] from-primary via-transparent to-transparent" />
-          <div className="absolute bottom-0 right-0 w-full h-full pointer-events-none opacity-20 bg-[radial-gradient(ellipse_at_bottom_right,_var(--tw-gradient-stops))] from-primary via-transparent to-transparent" />
+
+          {/* Crimson Swoosh Overlays */}
+          <div className="absolute top-0 left-0 w-1/2 h-full pointer-events-none opacity-20 bg-gradient-to-br from-primary via-transparent to-transparent" />
+          <div className="absolute bottom-0 right-0 w-1/2 h-full pointer-events-none opacity-20 bg-gradient-to-tl from-primary via-transparent to-transparent" />
         </div>
       </section>
 
       {/* Greeting Section */}
-      <section className="text-right px-4 space-y-2">
+      <section className="text-right px-6 space-y-2">
         <h1 className="text-5xl font-headline font-bold text-white tracking-tight">السلام عليكم</h1>
         <p className="text-xl text-muted-foreground font-medium">Continue your Islamic learning journey</p>
       </section>
 
-      {/* Universal Module Infrastructure */}
-      <div className="flex flex-col items-center gap-6 pt-4">
+      {/* Module Navigation */}
+      <div className="flex flex-col items-center gap-8 pt-4">
         {!isExpanded && (
-          <div className="w-full px-4 grid grid-cols-2 md:grid-cols-4 gap-4 animate-in fade-in duration-500">
+          <div className="w-full px-6 grid grid-cols-2 md:grid-cols-4 gap-4 animate-in fade-in duration-500">
             {visibleModules.map((item) => (
               <Link key={item.title} href={item.href}>
                 <Card className={cn(
                   "glass-card hover:scale-[1.03] transition-all group h-full border-2",
                   item.border,
-                  "hover:shadow-lg hover:shadow-primary/5"
+                  "hover:shadow-lg hover:shadow-primary/10"
                 )}>
                   <CardContent className="flex flex-col items-center justify-center p-6 text-center gap-4">
                     <div className={cn(
@@ -160,7 +168,7 @@ export default function Home() {
                     )}>
                       <item.icon className="w-6 h-6" />
                     </div>
-                    <span className="font-headline font-bold text-xs uppercase tracking-widest block group-hover:text-primary transition-colors">
+                    <span className="font-headline font-bold text-[10px] uppercase tracking-widest block group-hover:text-primary transition-colors">
                       {item.title}
                     </span>
                   </CardContent>
@@ -172,27 +180,30 @@ export default function Home() {
 
         <Button 
           variant="ghost" 
-          className="rounded-full h-14 px-10 gap-3 font-headline font-bold border border-white/10 text-white bg-white/5 hover:bg-white/10"
+          className="rounded-full h-14 px-12 gap-3 font-headline font-bold border border-white/10 text-white bg-white/5 hover:bg-white/10 shadow-xl transition-all active:scale-95"
           onClick={() => setIsExpanded(!isExpanded)}
         >
           {isExpanded ? (
             <>Show Featured Modules <ChevronUp className="w-5 h-5" /></>
           ) : (
-            <>Explore Full Infrastructure <ChevronDown className="w-5 h-5" /></>
+            <>Explore 40+ Module Infrastructure <ChevronDown className="w-5 h-5" /></>
           )}
         </Button>
 
         {isExpanded && (
-          <div className="w-full space-y-12 animate-in slide-in-from-bottom-8 duration-500 px-4">
+          <div className="w-full space-y-14 animate-in slide-in-from-bottom-8 duration-500 px-6">
             {categories.map((group) => {
               const groupModules = allModules.filter(m => m.group === group);
               if (groupModules.length === 0) return null;
 
               return (
-                <section key={group} className="space-y-4">
-                  <h3 className="text-xs font-headline font-bold uppercase tracking-widest text-muted-foreground/80 pl-1 border-l-2 border-[#AD1F37]/30 ml-1">
-                    {group}
-                  </h3>
+                <section key={group} className="space-y-6">
+                  <div className="flex items-center gap-4">
+                    <h3 className="text-[10px] font-headline font-bold uppercase tracking-[0.3em] text-muted-foreground whitespace-nowrap">
+                      {group}
+                    </h3>
+                    <div className="h-px w-full bg-gradient-to-r from-border/50 to-transparent" />
+                  </div>
                   <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                     {groupModules.map((item) => (
                       <Link key={item.title} href={item.href}>
@@ -203,13 +214,13 @@ export default function Home() {
                         )}>
                           <CardContent className="flex flex-col items-center justify-center p-6 text-center gap-4">
                             <div className={cn(
-                              "p-4 rounded-2xl transition-all duration-300 group-hover:scale-110 shadow-inner",
+                              "p-4 rounded-2xl transition-all duration-300 group-hover:scale-110",
                               item.bg,
                               item.color
                             )}>
                               <item.icon className="w-6 h-6" />
                             </div>
-                            <span className="font-headline font-bold text-xs uppercase tracking-widest block group-hover:text-primary transition-colors">
+                            <span className="font-headline font-bold text-[10px] uppercase tracking-widest block group-hover:text-primary transition-colors">
                               {item.title}
                             </span>
                           </CardContent>
@@ -224,18 +235,24 @@ export default function Home() {
         )}
       </div>
 
-      <footer className="py-10 text-center space-y-4 opacity-50">
-        <div className="flex justify-center gap-2 mb-4">
-          <Badge variant="outline" className="text-[10px] uppercase tracking-widest text-white/60 font-headline border-white/10">
+      {/* Compliance Footer */}
+      <footer className="py-12 text-center space-y-6 opacity-60">
+        <div className="flex justify-center gap-3">
+          <Badge variant="outline" className="text-[9px] uppercase tracking-[0.2em] text-white/70 font-bold border-white/5 bg-white/5 py-1.5 px-4 rounded-full">
             No Shirk or Bid'ah
           </Badge>
-          <Badge variant="outline" className="text-[10px] uppercase tracking-widest text-white/60 font-headline border-white/10">
+          <Badge variant="outline" className="text-[9px] uppercase tracking-[0.2em] text-white/70 font-bold border-white/5 bg-white/5 py-1.5 px-4 rounded-full">
             10,000+ Features Active
           </Badge>
         </div>
-        <p className="text-[10px] text-muted-foreground uppercase tracking-widest">
-          Islamly Universal Platform v2.5
-        </p>
+        <div className="space-y-1">
+          <p className="text-[10px] text-muted-foreground uppercase tracking-[0.4em] font-bold">
+            Islamly Universal Scholarly Platform v2.5
+          </p>
+          <p className="text-[8px] text-muted-foreground/50 uppercase tracking-[0.2em]">
+            Verified for Global Ummah deployment
+          </p>
+        </div>
       </footer>
     </div>
   );

@@ -77,8 +77,7 @@ export const FirebaseProvider: React.FC<FirebaseProviderProps> = ({
 
     setUserAuthState({ user: null, isUserLoading: true, userError: null });
 
-    // Safety timeout to prevent infinite loading screen
-    // Reduced to 5 seconds for better prototype responsiveness
+    // FAST TIMEOUT: Reduced to 3 seconds to guarantee the splash screen resolves quickly
     const safetyTimeout = setTimeout(() => {
       setUserAuthState(prev => {
         if (prev.isUserLoading) {
@@ -87,7 +86,7 @@ export const FirebaseProvider: React.FC<FirebaseProviderProps> = ({
         }
         return prev;
       });
-    }, 5000); 
+    }, 3000); 
 
     const unsubscribe = onAuthStateChanged(
       auth,
