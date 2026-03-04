@@ -9,7 +9,7 @@ Islamly is a high-fidelity scholarly infrastructure designed to provide authenti
 - **AI Engine**: Genkit 1.x with Google Gemini 2.5 Flash Online
 - **Backend**: Firebase (Authentication & Cloud Firestore)
 - **Project ID**: `studio-7199214099-199f4`
-- **Deployment**: Firebase App Hosting (SSR Optimized)
+- **Deployment**: Wispbyte (SSR Optimized Node.js Environment)
 - **Extra Storage**: Managed Digital Archives (1TB designated for high-res manuscripts and audio datasets)
 - **UI System**: Tailwind CSS + Shadcn/UI (Mobile-first, dark-themed)
 - **Scale Target**: 11.7 Quadrillion scholarly features per data cluster.
@@ -47,13 +47,13 @@ Islamly is a high-fidelity scholarly infrastructure designed to provide authenti
 - [x] **Global Translation API**: Dynamic resource switching for 7709+ languages
 - [x] **Ethical Sponsor Infrastructure**: Integrated Scholarly Sponsor nodes (Google Adsense)
 
-## 🛠️ Deployment & Scaling
-### Firebase App Hosting Setup
-1. **Project ID**: Use `studio-7199214099-199f4` for console operations.
-2. **Enable API**: Ensure `firebaseapphosting.googleapis.com` is enabled in the [Google Cloud Console](https://console.cloud.google.com/apis/library/firebaseapphosting.googleapis.com?project=studio-7199214099-199f4).
-3. **Billing**: App Hosting requires the **Blaze Plan**.
-4. **GitHub Integration**: Connect your repository to the Firebase App Hosting dashboard.
-5. **Environment**: Use `apphosting.yaml` to manage secrets and runtime constraints.
+## 🛠️ Deployment & Scaling (Wispbyte)
+### Wispbyte SSR Setup
+1. **Environment**: Ensure the Wispbyte container is running **Node.js 20+**.
+2. **Build Command**: `npm run build`
+3. **Start Command**: `npm run start`
+4. **Server Actions**: Since we use Genkit AI, the hosting must support SSR (Server-Side Rendering). Static HTML export is NOT compatible with the AI teacher.
+5. **Firebase Config**: Ensure `NEXT_PUBLIC_` environment variables are set in the Wispbyte dashboard for Firebase Auth/Firestore.
 
 ## 🛡️ Scholarly Standards (Strict Policy)
 1. **Methodology**: Strictly following the Salaf-us-Salih (Ahlus-Sunnah).
