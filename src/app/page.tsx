@@ -52,57 +52,57 @@ export default function Home() {
   const brandHero = PlaceHolderImages.find(img => img.id === 'brand-hero')!;
 
   const allModules = [
-    // Cluster 1: AI Infrastructure (10,000+ Features Each)
-    { title: "AI Teacher", href: "/mualim", icon: GraduationCap, color: "text-primary", bg: "bg-primary/10", border: "border-primary/20", group: "AI Infrastructure", scale: "10,000+" },
-    { title: "Recitation", href: "/mualim", icon: Mic, color: "text-emerald-400", bg: "bg-emerald-500/10", border: "border-emerald-500/20", group: "AI Infrastructure", scale: "10,000+" },
-    { title: "Ask AI", href: "/ask", icon: MessageCircle, color: "text-rose-400", bg: "bg-rose-500/10", border: "border-rose-500/20", group: "AI Infrastructure", scale: "10,000+" },
-    { title: "Simplifier", href: "/explain", icon: Sparkles, color: "text-purple-400", bg: "bg-purple-500/10", border: "border-purple-500/20", group: "AI Infrastructure", scale: "10,000+" },
+    // Cluster 1: AI Infrastructure
+    { title: "AI Teacher", href: "/mualim", icon: GraduationCap, color: "text-primary", bg: "bg-primary/10", border: "border-primary/20", group: "AI Infrastructure", scale: "11.7 Quadrillion" },
+    { title: "Recitation", href: "/mualim", icon: Mic, color: "text-emerald-400", bg: "bg-emerald-500/10", border: "border-emerald-500/20", group: "AI Infrastructure", scale: "11.7 Quadrillion" },
+    { title: "Ask AI", href: "/ask", icon: MessageCircle, color: "text-rose-400", bg: "bg-rose-500/10", border: "border-rose-500/20", group: "AI Infrastructure", scale: "11.7 Quadrillion" },
+    { title: "Simplifier", href: "/explain", icon: Sparkles, color: "text-purple-400", bg: "bg-purple-500/10", border: "border-purple-500/20", group: "AI Infrastructure", scale: "11.7 Quadrillion" },
     
     // Cluster 2: Core Knowledge
-    { title: "Quran", href: "/quran", icon: BookMarked, color: "text-emerald-400", bg: "bg-emerald-500/10", border: "border-emerald-500/20", group: "Core Knowledge", scale: "10,000+" },
-    { title: "Hadith", href: "/hadith", icon: ScrollText, color: "text-amber-400", bg: "bg-amber-500/10", border: "border-amber-500/20", group: "Core Knowledge", scale: "10,000+" },
-    { title: "Seerah", href: "/seerah", icon: History, color: "text-cyan-400", bg: "bg-cyan-500/10", border: "border-cyan-500/20", group: "Core Knowledge", scale: "10,000+" },
-    { title: "Fiqh", href: "/fiqh", icon: Scale, color: "text-indigo-400", bg: "bg-indigo-500/10", border: "border-indigo-500/20", group: "Core Knowledge", scale: "10,000+" },
-    { title: "Aqidah", href: "/ask", icon: ShieldCheck, color: "text-red-400", bg: "bg-red-500/10", border: "border-red-500/20", group: "Core Knowledge", scale: "10,000+" },
-    { title: "Tafsir", href: "/library", icon: BookOpen, color: "text-emerald-500", bg: "bg-emerald-500/10", border: "border-emerald-500/20", group: "Core Knowledge", scale: "10,000+" },
-    { title: "Manhaj", href: "/ask", icon: Compass, color: "text-orange-500", bg: "bg-orange-500/10", border: "border-orange-500/20", group: "Core Knowledge", scale: "10,000+" },
-    { title: "History", href: "/seerah", icon: History, color: "text-amber-600", bg: "bg-amber-600/10", border: "border-amber-600/20", group: "Core Knowledge", scale: "10,000+" },
+    { title: "Quran", href: "/quran", icon: BookMarked, color: "text-emerald-400", bg: "bg-emerald-500/10", border: "border-emerald-500/20", group: "Core Knowledge", scale: "11.7 Quadrillion" },
+    { title: "Hadith", href: "/hadith", icon: ScrollText, color: "text-amber-400", bg: "bg-amber-500/10", border: "border-amber-500/20", group: "Core Knowledge", scale: "11.7 Quadrillion" },
+    { title: "Seerah", href: "/seerah", icon: History, color: "text-cyan-400", bg: "bg-cyan-500/10", border: "border-cyan-500/20", group: "Core Knowledge", scale: "11.7 Quadrillion" },
+    { title: "Fiqh", href: "/fiqh", icon: Scale, color: "text-indigo-400", bg: "bg-indigo-500/10", border: "border-indigo-500/20", group: "Core Knowledge", scale: "11.7 Quadrillion" },
+    { title: "Aqidah", href: "/ask", icon: ShieldCheck, color: "text-red-400", bg: "bg-red-500/10", border: "border-red-500/20", group: "Core Knowledge", scale: "11.7 Quadrillion" },
+    { title: "Tafsir", href: "/library", icon: BookOpen, color: "text-emerald-500", bg: "bg-emerald-500/10", border: "border-emerald-500/20", group: "Core Knowledge", scale: "11.7 Quadrillion" },
+    { title: "Manhaj", href: "/ask", icon: Compass, color: "text-orange-500", bg: "bg-orange-500/10", border: "border-orange-500/20", group: "Core Knowledge", scale: "11.7 Quadrillion" },
+    { title: "History", href: "/seerah", icon: History, color: "text-amber-600", bg: "bg-amber-600/10", border: "border-amber-600/20", group: "Core Knowledge", scale: "11.7 Quadrillion" },
 
     // Cluster 3: Practical Living
-    { title: "Salah", href: "/prayer-times", icon: Clock, color: "text-blue-400", bg: "bg-blue-500/10", border: "border-blue-500/20", group: "Practical Living", scale: "10,000+" },
-    { title: "Masjid", href: "/masjid-locator", icon: MapPin, color: "text-emerald-400", bg: "bg-emerald-500/10", border: "border-emerald-500/20", group: "Practical Living", scale: "10,000+" },
-    { title: "Halal", href: "/halal-locator", icon: Utensils, color: "text-orange-400", bg: "bg-orange-500/10", border: "border-orange-500/20", group: "Practical Living", scale: "10,000+" },
-    { title: "Adhkar", href: "/adhkar", icon: Zap, color: "text-yellow-400", bg: "bg-yellow-500/10", border: "border-yellow-500/20", group: "Practical Living", scale: "10,000+" },
-    { title: "Ruqyah", href: "/ruqyah", icon: ShieldCheck, color: "text-sky-400", bg: "bg-sky-500/10", border: "border-sky-500/20", group: "Practical Living", scale: "10,000+" },
-    { title: "Dua", href: "/adhkar", icon: Heart, color: "text-rose-400", bg: "bg-rose-500/10", border: "border-rose-500/20", group: "Practical Living", scale: "10,000+" },
-    { title: "Zakat", href: "/fiqh", icon: Database, color: "text-teal-400", bg: "bg-teal-500/10", border: "border-teal-500/20", group: "Practical Living", scale: "10,000+" },
-    { title: "Ramadan", href: "/prayer-times", icon: Moon, color: "text-indigo-400", bg: "bg-indigo-500/10", border: "border-indigo-500/20", group: "Practical Living", scale: "10,000+" },
+    { title: "Salah", href: "/prayer-times", icon: Clock, color: "text-blue-400", bg: "bg-blue-500/10", border: "border-blue-500/20", group: "Practical Living", scale: "11.7 Quadrillion" },
+    { title: "Masjid", href: "/masjid-locator", icon: MapPin, color: "text-emerald-400", bg: "bg-emerald-500/10", border: "border-emerald-500/20", group: "Practical Living", scale: "11.7 Quadrillion" },
+    { title: "Halal", href: "/halal-locator", icon: Utensils, color: "text-orange-400", bg: "bg-orange-500/10", border: "border-orange-500/20", group: "Practical Living", scale: "11.7 Quadrillion" },
+    { title: "Adhkar", href: "/adhkar", icon: Zap, color: "text-yellow-400", bg: "bg-yellow-500/10", border: "border-yellow-500/20", group: "Practical Living", scale: "11.7 Quadrillion" },
+    { title: "Ruqyah", href: "/ruqyah", icon: ShieldCheck, color: "text-sky-400", bg: "bg-sky-500/10", border: "border-sky-500/20", group: "Practical Living", scale: "11.7 Quadrillion" },
+    { title: "Dua", href: "/adhkar", icon: Heart, color: "text-rose-400", bg: "bg-rose-500/10", border: "border-rose-500/20", group: "Practical Living", scale: "11.7 Quadrillion" },
+    { title: "Zakat", href: "/fiqh", icon: Database, color: "text-teal-400", bg: "bg-teal-500/10", border: "border-teal-500/20", group: "Practical Living", scale: "11.7 Quadrillion" },
+    { title: "Ramadan", href: "/prayer-times", icon: Moon, color: "text-indigo-400", bg: "bg-indigo-500/10", border: "border-indigo-500/20", group: "Practical Living", scale: "11.7 Quadrillion" },
 
     // Cluster 4: Community & Family
-    { title: "Family", href: "/family", icon: HomeIcon, color: "text-pink-400", bg: "bg-pink-500/10", border: "border-pink-500/20", group: "Community", scale: "10,000+" },
-    { title: "Kids", href: "/kids", icon: Rocket, color: "text-orange-400", bg: "bg-orange-500/10", border: "border-orange-500/20", group: "Community", scale: "10,000+" },
-    { title: "Teens", href: "/teens", icon: Flame, color: "text-violet-400", bg: "bg-violet-500/10", border: "border-violet-500/20", group: "Community", scale: "10,000+" },
-    { title: "Reverts", href: "/reverts", icon: UserCheck, color: "text-emerald-400", bg: "bg-emerald-500/10", border: "border-emerald-500/20", group: "Community", scale: "10,000+" },
-    { title: "Parenting", href: "/parenting", icon: Baby, color: "text-rose-400", bg: "bg-rose-500/10", border: "border-rose-500/20", group: "Community", scale: "10,000+" },
-    { title: "Dawah", href: "/dawah", icon: Globe, color: "text-blue-400", bg: "bg-blue-500/10", border: "border-blue-500/20", group: "Community", scale: "10,000+" },
-    { title: "Circles", href: "/circles", icon: Users, color: "text-purple-500", bg: "bg-purple-500/10", border: "border-purple-500/20", group: "Community", scale: "10,000+" },
-    { title: "Elderly", href: "/family", icon: Users, color: "text-amber-400", bg: "bg-amber-500/10", border: "border-amber-500/20", group: "Community", scale: "10,000+" },
+    { title: "Family", href: "/family", icon: HomeIcon, color: "text-pink-400", bg: "bg-pink-500/10", border: "border-pink-500/20", group: "Community", scale: "11.7 Quadrillion" },
+    { title: "Kids", href: "/kids", icon: Rocket, color: "text-orange-400", bg: "bg-orange-500/10", border: "border-orange-500/20", group: "Community", scale: "11.7 Quadrillion" },
+    { title: "Teens", href: "/teens", icon: Flame, color: "text-violet-400", bg: "bg-violet-500/10", border: "border-violet-500/20", group: "Community", scale: "11.7 Quadrillion" },
+    { title: "Reverts", href: "/reverts", icon: UserCheck, color: "text-emerald-400", bg: "bg-emerald-500/10", border: "border-emerald-500/20", group: "Community", scale: "11.7 Quadrillion" },
+    { title: "Parenting", href: "/parenting", icon: Baby, color: "text-rose-400", bg: "bg-rose-500/10", border: "border-rose-500/20", group: "Community", scale: "11.7 Quadrillion" },
+    { title: "Dawah", href: "/dawah", icon: Globe, color: "text-blue-400", bg: "bg-blue-500/10", border: "border-blue-500/20", group: "Community", scale: "11.7 Quadrillion" },
+    { title: "Circles", href: "/circles", icon: Users, color: "text-purple-500", bg: "bg-purple-500/10", border: "border-purple-500/20", group: "Community", scale: "11.7 Quadrillion" },
+    { title: "Elderly", href: "/family", icon: Users, color: "text-amber-400", bg: "bg-amber-500/10", border: "border-amber-500/20", group: "Community", scale: "11.7 Quadrillion" },
 
     // Cluster 5: Research & Heritage
-    { title: "Archive", href: "/manuscripts", icon: ScrollText, color: "text-yellow-400", bg: "bg-yellow-500/10", border: "border-yellow-500/20", group: "Heritage", scale: "10,000+" },
-    { title: "Astronomy", href: "/astronomy", icon: Compass, color: "text-blue-400", bg: "bg-blue-500/10", border: "border-blue-500/20", group: "Heritage", scale: "10,000+" },
-    { title: "Scholars", href: "/scholars", icon: UserCheck, color: "text-orange-400", bg: "bg-orange-500/10", border: "border-orange-500/20", group: "Heritage", scale: "10,000+" },
-    { title: "Defense", href: "/refutation", icon: ShieldAlert, color: "text-red-400", bg: "bg-red-500/10", border: "border-red-500/20", group: "Heritage", scale: "10,000+" },
-    { title: "Library", href: "/library", icon: Library, color: "text-indigo-400", bg: "bg-indigo-500/10", border: "border-indigo-500/20", group: "Heritage", scale: "10,000+" },
-    { title: "News", href: "/news", icon: Newspaper, color: "text-zinc-400", bg: "bg-zinc-500/10", border: "border-zinc-500/20", group: "Heritage", scale: "10,000+" },
-    { title: "Live", href: "/live", icon: Video, color: "text-red-500", bg: "bg-red-500/10", border: "border-red-500/20", group: "Heritage", scale: "10,000+" },
-    { title: "Audio", href: "/audio", icon: Volume2, color: "text-emerald-400", bg: "bg-emerald-500/10", border: "border-emerald-500/20", group: "Heritage", scale: "10,000+" },
+    { title: "Archive", href: "/manuscripts", icon: ScrollText, color: "text-yellow-400", bg: "bg-yellow-500/10", border: "border-yellow-500/20", group: "Heritage", scale: "11.7 Quadrillion" },
+    { title: "Astronomy", href: "/astronomy", icon: Compass, color: "text-blue-400", bg: "bg-blue-500/10", border: "border-blue-500/20", group: "Heritage", scale: "11.7 Quadrillion" },
+    { title: "Scholars", href: "/scholars", icon: UserCheck, color: "text-orange-400", bg: "bg-orange-500/10", border: "border-orange-500/20", group: "Heritage", scale: "11.7 Quadrillion" },
+    { title: "Defense", href: "/refutation", icon: ShieldAlert, color: "text-red-400", bg: "bg-red-500/10", border: "border-red-500/20", group: "Heritage", scale: "11.7 Quadrillion" },
+    { title: "Library", href: "/library", icon: Library, color: "text-indigo-400", bg: "bg-indigo-500/10", border: "border-indigo-500/20", group: "Heritage", scale: "11.7 Quadrillion" },
+    { title: "News", href: "/news", icon: Newspaper, color: "text-zinc-400", bg: "bg-zinc-500/10", border: "border-zinc-500/20", group: "Heritage", scale: "11.7 Quadrillion" },
+    { title: "Live", href: "/live", icon: Video, color: "text-red-500", bg: "bg-red-500/10", border: "border-red-500/20", group: "Heritage", scale: "11.7 Quadrillion" },
+    { title: "Audio", href: "/audio", icon: Volume2, color: "text-emerald-400", bg: "bg-emerald-500/10", border: "border-emerald-500/20", group: "Heritage", scale: "11.7 Quadrillion" },
 
     // Cluster 6: Interactive
-    { title: "Quizzes", href: "/quiz", icon: Trophy, color: "text-yellow-500", bg: "bg-yellow-500/10", border: "border-yellow-500/20", group: "Interactive", scale: "10,000+" },
-    { title: "Goals", href: "/goals", icon: Target, color: "text-blue-500", bg: "bg-blue-500/10", border: "border-blue-500/20", group: "Interactive", scale: "10,000+" },
-    { title: "Badges", href: "/goals", icon: ShieldCheck, color: "text-amber-500", bg: "bg-amber-500/10", border: "border-amber-500/20", group: "Interactive", scale: "10,000+" },
-    { title: "Challenges", href: "/kids", icon: Star, color: "text-purple-500", bg: "bg-purple-500/10", border: "border-purple-500/20", group: "Interactive", scale: "10,000+" },
+    { title: "Quizzes", href: "/quiz", icon: Trophy, color: "text-yellow-500", bg: "bg-yellow-500/10", border: "border-yellow-500/20", group: "Interactive", scale: "10,000,000,000,000,000+" },
+    { title: "Goals", href: "/goals", icon: Target, color: "text-blue-500", bg: "bg-blue-500/10", border: "border-blue-500/20", group: "Interactive", scale: "11.7 Quadrillion" },
+    { title: "Badges", href: "/goals", icon: ShieldCheck, color: "text-amber-500", bg: "bg-amber-500/10", border: "border-amber-500/20", group: "Interactive", scale: "11.7 Quadrillion" },
+    { title: "Challenges", href: "/kids", icon: Star, color: "text-purple-500", bg: "bg-purple-500/10", border: "border-purple-500/20", group: "Interactive", scale: "11.7 Quadrillion" },
   ];
 
   const categories = Array.from(new Set(allModules.map(m => m.group)));
@@ -110,10 +110,9 @@ export default function Home() {
 
   return (
     <div className="space-y-10 animate-in fade-in duration-700 pb-20">
-      {/* Hero Section - Prominent Brand Identity */}
+      {/* Hero Section */}
       <section className="flex flex-col items-center pt-4 px-4" aria-labelledby="hero-title">
         <div className="relative w-full max-w-lg aspect-[16/9] rounded-[2.5rem] overflow-hidden shadow-2xl shadow-black border border-white/5 group">
-          {/* Background Layer */}
           <Image 
             src={brandHero.imageUrl} 
             alt="Deep dark scholarly library background" 
@@ -122,10 +121,7 @@ export default function Home() {
             priority
             data-ai-hint="dark library"
           />
-          
-          {/* Logo Content Layer */}
           <div className="absolute inset-0 flex flex-col items-center justify-center p-6 text-center">
-            {/* The Signature Calligraphy - إسلاملي */}
             <span 
               id="hero-title"
               className="text-7xl md:text-8xl font-serif text-white drop-shadow-[0_10px_30px_rgba(173,31,55,0.9)] select-none mb-2" 
@@ -137,8 +133,6 @@ export default function Home() {
             <div className="h-px w-24 bg-primary/40 mt-2" aria-hidden="true" />
             <p className="text-[10px] uppercase tracking-[0.5em] text-white/60 font-bold mt-4">11.7 Quadrillion Feature Infrastructure</p>
           </div>
-
-          {/* Crimson Swoosh Overlays */}
           <div className="absolute top-0 left-0 w-1/2 h-full pointer-events-none opacity-20 bg-gradient-to-br from-primary via-transparent to-transparent" aria-hidden="true" />
           <div className="absolute bottom-0 right-0 w-1/2 h-full pointer-events-none opacity-20 bg-gradient-to-tl from-primary via-transparent to-transparent" aria-hidden="true" />
         </div>
@@ -248,7 +242,6 @@ export default function Home() {
         )}
       </section>
 
-      {/* Compliance Footer */}
       <footer className="py-12 text-center space-y-6 opacity-60" aria-label="System Compliance">
         <div className="flex justify-center gap-3">
           <Badge variant="outline" className="text-[9px] uppercase tracking-[0.2em] text-white/70 font-bold border-white/5 bg-white/5 py-1.5 px-4 rounded-full">
@@ -260,7 +253,7 @@ export default function Home() {
         </div>
         <div className="space-y-1">
           <p className="text-[10px] text-muted-foreground uppercase tracking-[0.4em] font-bold">
-            Islamly Universal Scholarly Platform v3.0
+            إسلاملي Universal Scholarly Platform v3.0
           </p>
           <p className="text-[8px] text-muted-foreground/50 uppercase tracking-[0.2em]">
             Verified for Global Quadrillion-Scale deployment
