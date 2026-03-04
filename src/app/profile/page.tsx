@@ -21,7 +21,9 @@ import {
   CheckCircle2, 
   AlertCircle,
   Bell,
-  Database
+  Database,
+  Scale,
+  Lock
 } from "lucide-react";
 import { useUser, useAuth, useFirestore, useDoc, useMemoFirebase, setDocumentNonBlocking } from "@/firebase";
 import { signOut } from "firebase/auth";
@@ -41,6 +43,7 @@ import { Progress } from "@/components/ui/progress";
 import { Switch } from "@/components/ui/switch";
 import { Label } from "@/components/ui/label";
 import { calculateCurrentFeatures, formatFeatureCount } from "@/lib/feature-counter";
+import Link from "next/link";
 
 export default function ProfilePage() {
   const { user, isUserLoading } = useUser();
@@ -112,11 +115,6 @@ export default function ProfilePage() {
     { label: "My Bookmarks", icon: Bookmark, count: "12" },
     { label: "Personal Notes", icon: BookOpen, count: "5" },
   ];
-
-  const filteredLangs = availableLanguages.filter(l => 
-    l.language_name.toLowerCase().includes(langSearch.toLowerCase()) || 
-    l.name.toLowerCase().includes(langSearch.toLowerCase())
-  );
 
   const launchSteps = [
     { label: "Core Infrastructure", status: "complete" },
@@ -254,7 +252,10 @@ export default function ProfilePage() {
 
                 <ScrollArea className="h-[30vh] rounded-xl bg-secondary/10 border border-white/5 p-2">
                   <div className="grid gap-1">
-                    {filteredLangs.map((lang) => (
+                    {availableLanguages.filter(l => 
+                      l.language_name.toLowerCase().includes(langSearch.toLowerCase()) || 
+                      l.name.toLowerCase().includes(langSearch.toLowerCase())
+                    ).map((lang) => (
                       <button
                         key={lang.id}
                         onClick={() => handleLanguageSelect(lang)}
@@ -305,6 +306,21 @@ export default function ProfilePage() {
             </CardContent>
           </Card>
         ))}
+
+        <div className="grid grid-cols-2 gap-3 pt-2">
+          <Link href="/terms" className="block">
+            <Card className="glass-card hover:bg-primary/5 transition-all text-center p-4">
+              <Scale className="w-4 h-4 text-primary mx-auto mb-2 opacity-60" />
+              <span className="text-[10px] uppercase font-bold tracking-widest text-muted-foreground">Terms</span>
+            </Card>
+          </Link>
+          <Link href="/privacy" className="block">
+            <Card className="glass-card hover:bg-accent/5 transition-all text-center p-4">
+              <Lock className="w-4 h-4 text-accent mx-auto mb-2 opacity-60" />
+              <span className="text-[10px] uppercase font-bold tracking-widest text-muted-foreground">Privacy</span>
+            </Card>
+          </Link>
+        </div>
       </section>
 
       <section className="pt-4">
