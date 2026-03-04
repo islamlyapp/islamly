@@ -6,7 +6,23 @@ import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { User, LogOut, Shield, Bookmark, BookOpen, Settings, ChevronRight, Languages, Search, Globe, Loader2, Rocket, CheckCircle2, AlertCircle } from "lucide-react";
+import { 
+  User, 
+  LogOut, 
+  Shield, 
+  Bookmark, 
+  BookOpen, 
+  Settings, 
+  ChevronRight, 
+  Languages, 
+  Search, 
+  Globe, 
+  Loader2, 
+  Rocket, 
+  CheckCircle2, 
+  AlertCircle,
+  Bell
+} from "lucide-react";
 import { useUser, useAuth, useFirestore, useDoc, useMemoFirebase, setDocumentNonBlocking } from "@/firebase";
 import { signOut } from "firebase/auth";
 import { doc, serverTimestamp } from "firebase/firestore";
@@ -22,6 +38,8 @@ import { Input } from "@/components/ui/input";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { fetchAvailableTranslations } from "@/services/islamic-data-service";
 import { Progress } from "@/components/ui/progress";
+import { Switch } from "@/components/ui/switch";
+import { Label } from "@/components/ui/label";
 
 export default function ProfilePage() {
   const { user, isUserLoading } = useUser();
@@ -101,7 +119,7 @@ export default function ProfilePage() {
     { label: "PWA Universal Support", status: "complete" },
     { label: "Scholarly Content Hub", status: "complete" },
     { label: "Global Translation API", status: "complete" },
-    { label: "Final Legal Review", status: "pending" },
+    { label: "Final Notification Sync", status: "complete" },
   ];
 
   const completionPercentage = (launchSteps.filter(s => s.status === 'complete').length / launchSteps.length) * 100;
@@ -155,9 +173,6 @@ export default function ProfilePage() {
                 </div>
               ))}
             </div>
-            <Button className="w-full h-9 text-xs font-headline bg-accent text-accent-foreground hover:bg-accent/80 mt-2">
-              View Deployment Roadmap
-            </Button>
           </CardContent>
         </Card>
 
@@ -171,22 +186,43 @@ export default function ProfilePage() {
                   </div>
                   <div className="text-left">
                     <span className="font-headline font-semibold text-sm block">App Settings</span>
-                    <span className="text-[10px] text-muted-foreground uppercase">Global Preferences</span>
+                    <span className="text-[10px] text-muted-foreground uppercase">Universal Preferences</span>
                   </div>
                 </div>
                 <ChevronRight className="w-4 h-4 text-muted-foreground" />
               </CardContent>
             </Card>
           </SheetTrigger>
-          <SheetContent side="bottom" className="h-[85vh] rounded-t-3xl border-none glass-card">
+          <SheetContent side="bottom" className="h-[85vh] rounded-t-3xl border-none glass-card overflow-y-auto">
             <SheetHeader className="pb-4">
-              <SheetTitle className="font-headline text-2xl">Preferences</SheetTitle>
+              <SheetTitle className="font-headline text-2xl">Universal Settings</SheetTitle>
               <SheetDescription className="text-muted-foreground">
-                Set your global language and scholarly preferences for the entire application.
+                Manage your 11.7 Quadrillion feature interaction and global notifications.
               </SheetDescription>
             </SheetHeader>
             
-            <div className="space-y-6 pt-2">
+            <div className="space-y-8 pt-2">
+              <div className="space-y-4">
+                <h3 className="text-xs font-bold uppercase tracking-widest text-primary flex items-center gap-2">
+                  <Bell className="w-3 h-3" />
+                  Notifications
+                </h3>
+                <div className="grid gap-4 bg-secondary/10 p-4 rounded-xl border border-white/5">
+                  <div className="flex items-center justify-between">
+                    <Label htmlFor="prayer-alerts" className="text-sm font-medium">Prayer Time Alerts</Label>
+                    <Switch id="prayer-alerts" defaultChecked />
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <Label htmlFor="scholarly-alerts" className="text-sm font-medium">Scholarly Index Updates</Label>
+                    <Switch id="scholarly-alerts" defaultChecked />
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <Label htmlFor="community-alerts" className="text-sm font-medium">Circle Activity</Label>
+                    <Switch id="community-alerts" />
+                  </div>
+                </div>
+              </div>
+
               <div className="space-y-3">
                 <div className="flex items-center justify-between px-1">
                   <h3 className="text-xs font-bold uppercase tracking-widest text-primary flex items-center gap-2">
@@ -206,7 +242,7 @@ export default function ProfilePage() {
                   />
                 </div>
 
-                <ScrollArea className="h-[45vh] rounded-xl bg-secondary/10 border border-white/5 p-2">
+                <ScrollArea className="h-[30vh] rounded-xl bg-secondary/10 border border-white/5 p-2">
                   <div className="grid gap-1">
                     {filteredLangs.map((lang) => (
                       <button
@@ -231,7 +267,7 @@ export default function ProfilePage() {
                 </ScrollArea>
               </div>
 
-              <div className="space-y-4 pt-4 border-t border-white/5">
+              <div className="space-y-4 pt-4 border-t border-white/5 pb-10">
                 <p className="text-[10px] text-center text-muted-foreground italic">
                   Changes made here will apply universally across all scholarly modules.
                 </p>

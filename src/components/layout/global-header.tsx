@@ -3,10 +3,11 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { User, Globe, LogIn } from "lucide-react";
+import { User, Globe, LogIn, Bell } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useUser } from "@/firebase";
 import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
 
 export function GlobalHeader() {
   const pathname = usePathname();
@@ -23,6 +24,12 @@ export function GlobalHeader() {
 
         <div className="flex items-center gap-4">
           <div className="flex items-center gap-3">
+            <Link href="/notifications" className="relative group">
+              <button className="text-white opacity-80 hover:opacity-100 transition-opacity p-2">
+                <Bell className="w-5 h-5" />
+                <Badge className="absolute top-0 right-0 w-2 h-2 p-0 bg-primary border-2 border-background rounded-full animate-pulse" />
+              </button>
+            </Link>
             <button className="text-white opacity-80 hover:opacity-100 transition-opacity">
               <Globe className="w-5 h-5" />
             </button>
