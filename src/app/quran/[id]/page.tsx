@@ -41,6 +41,7 @@ import { useUser, useFirestore, useDoc, useMemoFirebase, setDocumentNonBlocking 
 import { doc, collection, serverTimestamp } from "firebase/firestore";
 import { toast } from "@/hooks/use-toast";
 import { Progress } from "@/components/ui/progress";
+import { cn } from "@/lib/utils";
 
 export default function SurahReadingPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = use(params);
