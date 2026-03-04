@@ -39,7 +39,9 @@ import {
   ShieldAlert,
   BookOpen,
   Baby,
-  Rocket
+  Rocket,
+  Moon,
+  Newspaper
 } from "lucide-react";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
