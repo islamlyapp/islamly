@@ -8,7 +8,8 @@ Islamly is a high-fidelity scholarly infrastructure designed to provide authenti
 - **Framework**: Next.js 15 (App Router)
 - **AI Engine**: Genkit 1.x with Google Gemini 2.5 Flash Online
 - **Backend**: Firebase (Authentication & Cloud Firestore)
-- **Extra Storage**: TeraBox Free Infrastructure (1TB designated for high-res manuscripts and audio datasets)
+- **Deployment**: Firebase App Hosting (SSR Optimized)
+- **Extra Storage**: Managed Digital Archives (1TB designated for high-res manuscripts and audio datasets)
 - **UI System**: Tailwind CSS + Shadcn/UI (Mobile-first, dark-themed)
 - **Scale Target**: 11.7 Quadrillion scholarly features per data cluster.
 
@@ -43,7 +44,14 @@ Islamly is a high-fidelity scholarly infrastructure designed to provide authenti
 - [x] **Universal Indexing**: Successfully mapped 11.7 Quadrillion scholarly features
 - [x] **PWA Universal Support**: High-fidelity mobile manifest and performance optimization
 - [x] **Global Translation API**: Dynamic resource switching for 7709+ languages
-- [x] **Cloud Storage Bridge**: Integrated **TeraBox Free** for extra-large media hosting.
+- [x] **Ethical Sponsor Infrastructure**: Integrated Scholarly Sponsor nodes (Google Adsense)
+
+## 🛠️ Deployment & Scaling
+### Firebase App Hosting Setup
+1. **Enable API**: Ensure `firebaseapphosting.googleapis.com` is enabled in the Google Cloud Console.
+2. **Billing**: App Hosting requires the **Blaze Plan**.
+3. **GitHub Integration**: Connect your repository to the Firebase App Hosting dashboard.
+4. **Environment**: Use `apphosting.yaml` to manage secrets and runtime constraints.
 
 ## 🛡️ Scholarly Standards (Strict Policy)
 1. **Methodology**: Strictly following the Salaf-us-Salih (Ahlus-Sunnah).
