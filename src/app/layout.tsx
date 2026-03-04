@@ -8,6 +8,7 @@ import { AuthGuard } from '@/components/auth-guard';
 import { Toaster } from "@/components/ui/toaster";
 
 export const metadata: Metadata = {
+  metadataBase: new URL('https://islamly.uk'),
   title: 'Islamly - Authentic Scholarly Infrastructure',
   description: 'AI-powered recitation correction, memorization tracking, and a curated collection of classical Islamic texts. Built for the global Ummah.',
   applicationName: 'Islamly',
@@ -24,11 +25,13 @@ export const metadata: Metadata = {
     siteName: 'Islamly',
     title: 'Islamly - Authentic Islamic Knowledge',
     description: 'Universal platform for authentic Islamic knowledge and AI-driven recitation feedback.',
+    url: 'https://islamly.uk',
   },
   twitter: {
     card: 'summary_large_image',
     title: 'Islamly',
     description: 'AI-powered Islamic Knowledge Platform for the Global Ummah.',
+    site: '@islamly_uk',
   },
 };
 
