@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useUser } from '@/firebase';
@@ -8,10 +9,9 @@ import { SplashScreen } from '@/components/splash-screen';
 /**
  * A global authentication guard that protects all routes.
  * Redirects unauthenticated users to /login and authenticated users away from /login.
- * Displays the high-fidelity startup splash screen during initialisation.
  */
 export function AuthGuard({ children }: { children: React.ReactNode }) {
-  const { user, isUserLoading } = useUser();
+  const { user, isUserLoading, userError } = useUser();
   const router = useRouter();
   const pathname = usePathname();
 
@@ -31,6 +31,12 @@ export function AuthGuard({ children }: { children: React.ReactNode }) {
   // Show the professional splash screen while the initial auth state is being resolved
   if (isUserLoading) {
     return <SplashScreen />;
+  }
+
+  // If there's a serious auth error, we still want to let the user see the login page
+  if (userError && pathname !== '/login') {
+    router.replace('/login');
+    return null;
   }
 
   // Prevent flicker of protected content while redirecting unauthenticated users
