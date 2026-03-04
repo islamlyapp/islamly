@@ -25,7 +25,7 @@ import {
   Database,
   Scale,
   Lock,
-  Cloud,
+  Library,
   Clock
 } from "lucide-react";
 import { useUser, useAuth, useFirestore, useDoc, useMemoFirebase, setDocumentNonBlocking } from "@/firebase";
@@ -149,7 +149,7 @@ export default function ProfilePage() {
     { label: "Core Infrastructure", status: "complete" },
     { label: "PWA Universal Support", status: "complete" },
     { label: "Scholarly Content Hub", status: "complete" },
-    { label: "TeraBox Extra Storage", status: "complete" },
+    { label: "Universal Asset Buffer", status: "complete" },
     { label: "Dynamic Indexing (Live)", status: "complete" },
   ];
 
@@ -179,25 +179,25 @@ export default function ProfilePage() {
       </header>
 
       <section className="grid gap-4">
-        {/* TeraBox Infrastructure Card */}
+        {/* Rebranded Storage Card */}
         <Card className="border-blue-500/20 bg-blue-500/5 overflow-hidden">
           <CardHeader className="pb-3">
             <div className="flex items-center justify-between">
               <CardTitle className="text-sm font-headline flex items-center gap-2 text-blue-400">
-                <Cloud className="w-4 h-4" />
-                Extra Cloud Storage
+                <Library className="w-4 h-4" />
+                Digital Asset Buffer
               </CardTitle>
-              <Badge variant="outline" className="text-[9px] border-blue-500/30 text-blue-400">TeraBox Free Active</Badge>
+              <Badge variant="outline" className="text-[9px] border-blue-500/30 text-blue-400">High Density Active</Badge>
             </div>
-            <CardDescription className="text-[11px]">Hosting high-resolution scholarly manuscripts and media.</CardDescription>
+            <CardDescription className="text-[11px]">Synchronizing high-resolution scholarly manuscripts and media.</CardDescription>
           </CardHeader>
           <CardContent className="space-y-3">
             <div className="flex justify-between text-[10px] uppercase font-bold text-muted-foreground">
-              <span>Universal Asset Buffer</span>
-              <span className="text-blue-400">1024 GB Available</span>
+              <span>Infrastructure Capacity</span>
+              <span className="text-blue-400">1024 GB Indexed</span>
             </div>
             <Progress value={15} className="h-1 bg-blue-500/10" />
-            <p className="text-[9px] text-muted-foreground italic">Connected to the global TeraBox infrastructure.</p>
+            <p className="text-[9px] text-muted-foreground italic">Connected to the universal scholarly infrastructure.</p>
           </CardContent>
         </Card>
 

@@ -3,7 +3,7 @@
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { ScrollText, Search, History, BookOpen, ExternalLink, ShieldCheck, CloudDownload } from "lucide-react";
+import { ScrollText, Search, History, BookOpen, ExternalLink, ShieldCheck, Database, FileDown } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
@@ -52,14 +52,14 @@ export default function ManuscriptsPage() {
       <section className="bg-blue-500/5 border border-blue-500/20 p-4 rounded-xl flex items-center justify-between gap-4">
         <div className="flex items-center gap-3">
           <div className="p-2 bg-blue-500/10 rounded-lg">
-            <CloudDownload className="w-5 h-5 text-blue-400" />
+            <Database className="w-5 h-5 text-blue-400" />
           </div>
           <div>
-            <p className="text-xs font-bold text-blue-400 uppercase tracking-tight">Cloud Storage Infrastructure</p>
-            <p className="text-[10px] text-muted-foreground">High-resolution scans are served via TeraBox Free tier.</p>
+            <p className="text-xs font-bold text-blue-400 uppercase tracking-tight">Internal Data Infrastructure</p>
+            <p className="text-[10px] text-muted-foreground">High-resolution scans are served via the universal scholarly node.</p>
           </div>
         </div>
-        <Badge variant="outline" className="text-[9px] border-blue-500/30 text-blue-400">1TB Extra Storage Active</Badge>
+        <Badge variant="outline" className="text-[9px] border-blue-500/30 text-blue-400">1TB Node Capacity Active</Badge>
       </section>
 
       <div className="relative">
@@ -88,13 +88,13 @@ export default function ManuscriptsPage() {
             </div>
             <CardContent className="p-6 space-y-4">
               <div className="space-y-2">
-                <h3 className="text-xl font-headline font-bold group-hover:text-yellow-500 transition-colors">{m.title}</h3>
+                h3 className="text-xl font-headline font-bold group-hover:text-yellow-500 transition-colors">{m.title}</h3>
                 <p className="text-sm text-muted-foreground leading-relaxed">{m.desc}</p>
               </div>
               
               <div className="grid grid-cols-2 gap-3 pt-2">
                 <Button variant="outline" className="h-9 text-[10px] uppercase font-bold gap-2" onClick={() => window.open(m.teraBoxUrl, '_blank')}>
-                  <CloudDownload className="w-3.5 h-3.5 text-blue-400" /> High-Res Scans
+                  <FileDown className="w-3.5 h-3.5 text-blue-400" /> High-Res Scans
                 </Button>
                 <Button variant="ghost" className="h-9 text-[10px] uppercase font-bold gap-2 text-yellow-500 hover:text-yellow-400">
                   <BookOpen className="w-3.5 h-3.5" /> Study Rasm
@@ -120,7 +120,7 @@ export default function ManuscriptsPage() {
           <h3 className="font-headline font-bold text-sm uppercase tracking-widest text-yellow-500">Scholarly Preservation</h3>
         </div>
         <p className="text-[11px] text-muted-foreground leading-relaxed italic">
-          Islamly uses spectral imaging data hosted on TeraBox extra storage to assist in the study of Rasm (orthography) variants. These archives are maintained in coordination with major international manuscript centers.
+          Islamly uses spectral imaging data hosted on our internal storage nodes to assist in the study of Rasm (orthography) variants. These archives are maintained in coordination with major international manuscript centers.
         </p>
       </section>
     </div>
