@@ -1,3 +1,4 @@
+
 "use client";
 
 import Link from "next/link";
@@ -29,10 +30,12 @@ export function GlobalHeader() {
                 <Badge className="absolute top-0 right-0 w-2 h-2 p-0 bg-primary border-2 border-background rounded-full animate-pulse" />
               </button>
             </Link>
-            <button className="text-white opacity-80 hover:opacity-100 transition-opacity" aria-label="Change language or region">
-              <Globe className="w-5 h-5" aria-hidden="true" />
-            </button>
-            <span className="text-xl" role="img" aria-label="Bulgaria Flag">🇧🇬</span>
+            <Link href="/profile#settings" aria-label="Change language or scholarly settings">
+              <button className="text-white opacity-80 hover:opacity-100 transition-opacity p-2" aria-hidden="true" tabIndex={-1}>
+                <Globe className="w-5 h-5" />
+              </button>
+            </Link>
+            <span className="text-xl hidden sm:inline" role="img" aria-label="Global Support">🌍</span>
           </div>
           
           <Link href={user ? "/profile" : "/login"} aria-label={user ? "Manage account" : "Sign in to your account"}>

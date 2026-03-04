@@ -25,7 +25,8 @@ import {
   Database,
   Scale,
   Lock,
-  Cloud
+  Cloud,
+  Clock
 } from "lucide-react";
 import { useUser, useAuth, useFirestore, useDoc, useMemoFirebase, setDocumentNonBlocking } from "@/firebase";
 import { signOut } from "firebase/auth";
@@ -44,8 +45,23 @@ import { fetchAvailableTranslations } from "@/services/islamic-data-service";
 import { Progress } from "@/components/ui/progress";
 import { Switch } from "@/components/ui/switch";
 import { Label } from "@/components/ui/label";
+import { 
+  Select, 
+  SelectContent, 
+  SelectItem, 
+  SelectTrigger, 
+  SelectValue 
+} from "@/components/ui/select";
 import { calculateCurrentFeatures, formatFeatureCount } from "@/lib/feature-counter";
 import Link from "next/link";
+
+const PRAYER_METHODS = [
+  { id: 1, name: "Karachi (UIS)" },
+  { id: 2, name: "ISNA (North America)" },
+  { id: 3, name: "MWL (Muslim World League)" },
+  { id: 4, name: "Umm Al-Qura (Makkah)" },
+  { id: 5, name: "Egyptian Survey" }
+];
 
 export default function ProfilePage() {
   const { user, isUserLoading } = useUser();
@@ -67,6 +83,12 @@ export default function ProfilePage() {
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
   const [creationDate, setCreationDate] = useState<string | null>(null);
   const [currentFeatures, setCurrentFeatures] = useState("");
+
+  useEffect(() => {
+    if (typeof window !== 'undefined' && window.location.hash === '#settings') {
+      setIsSettingsOpen(true);
+    }
+  }, []);
 
   useEffect(() => {
     if (!user && !isUserLoading) {
@@ -92,16 +114,21 @@ export default function ProfilePage() {
     router.push("/login");
   };
 
-  const handleLanguageSelect = (lang: any) => {
-    if (!profileRef) return;
-
+  const updateProfile = (data: any) => {
+    if (!profileRef || !user) return;
     setDocumentNonBlocking(profileRef, {
+      ...data,
+      id: user.uid,
+      updatedAt: serverTimestamp(),
+      createdAt: profile?.createdAt || serverTimestamp(),
+    }, { merge: true });
+  };
+
+  const handleLanguageSelect = (lang: any) => {
+    updateProfile({
       preferredLanguage: lang.language_name,
       preferredLanguageId: lang.id,
-      id: user?.uid,
-      updatedAt: serverTimestamp(),
-    }, { merge: true });
-
+    });
     setIsSettingsOpen(false);
   };
 
@@ -170,41 +197,7 @@ export default function ProfilePage() {
               <span className="text-blue-400">1024 GB Available</span>
             </div>
             <Progress value={15} className="h-1 bg-blue-500/10" />
-            <p className="text-[9px] text-muted-foreground italic">Connected to the global TeraBox infrastructure for 11.7 Quadrillion feature redundancy.</p>
-          </CardContent>
-        </Card>
-
-        <Card className="border-accent/30 bg-accent/5 overflow-hidden">
-          <CardHeader className="pb-3">
-            <div className="flex items-center justify-between">
-              <CardTitle className="text-sm font-headline flex items-center gap-2">
-                <Rocket className="w-4 h-4 text-accent" />
-                Infrastructure Progress
-              </CardTitle>
-              <Badge variant="outline" className="text-[9px] border-accent/30 text-accent">{Math.round(completionPercentage)}%</Badge>
-            </div>
-            <CardDescription className="text-[11px]">Dynamic scholarly index scaling daily.</CardDescription>
-          </CardHeader>
-          <CardContent className="space-y-4">
-            <div className="bg-secondary/20 p-3 rounded-lg flex items-center justify-between">
-              <span className="text-[10px] uppercase font-bold text-muted-foreground flex items-center gap-2">
-                <Database className="w-3 h-3" /> Index Power
-              </span>
-              <span className="text-xs font-headline font-bold text-accent">{currentFeatures}</span>
-            </div>
-            <Progress value={completionPercentage} className="h-1.5 bg-accent/10" />
-            <div className="grid gap-2">
-              {launchSteps.map((step, i) => (
-                <div key={i} className="flex items-center justify-between text-[11px]">
-                  <span className="text-muted-foreground">{step.label}</span>
-                  {step.status === 'complete' ? (
-                    <CheckCircle2 className="w-3 h-3 text-green-500" />
-                  ) : (
-                    <AlertCircle className="w-3 h-3 text-accent animate-pulse" />
-                  )}
-                </div>
-              ))}
-            </div>
+            <p className="text-[9px] text-muted-foreground italic">Connected to the global TeraBox infrastructure.</p>
           </CardContent>
         </Card>
 
@@ -225,15 +218,55 @@ export default function ProfilePage() {
               </CardContent>
             </Card>
           </SheetTrigger>
-          <SheetContent side="bottom" className="h-[85vh] rounded-t-3xl border-none glass-card overflow-y-auto">
+          <SheetContent side="bottom" className="h-[90vh] rounded-t-3xl border-none glass-card overflow-y-auto">
             <SheetHeader className="pb-4">
               <SheetTitle className="font-headline text-2xl">Universal Settings</SheetTitle>
               <SheetDescription className="text-muted-foreground">
-                Manage your profile and global notifications.
+                Manage your profile and global scholarly preferences.
               </SheetDescription>
             </SheetHeader>
             
             <div className="space-y-8 pt-2">
+              <div className="space-y-4">
+                <h3 className="text-xs font-bold uppercase tracking-widest text-primary flex items-center gap-2">
+                  <Clock className="w-3 h-3" />
+                  Prayer Calculations
+                </h3>
+                <div className="grid gap-4 bg-secondary/10 p-4 rounded-xl border border-white/5">
+                  <div className="space-y-2">
+                    <Label className="text-[10px] text-muted-foreground uppercase font-bold">Calculation Method</Label>
+                    <Select 
+                      value={profile?.preferredCalculationMethod || "4"} 
+                      onValueChange={(v) => updateProfile({ preferredCalculationMethod: v })}
+                    >
+                      <SelectTrigger className="h-10 bg-secondary/30 border-white/5">
+                        <SelectValue placeholder="Select Method" />
+                      </SelectTrigger>
+                      <SelectContent className="glass-card">
+                        {PRAYER_METHODS.map(m => (
+                          <SelectItem key={m.id} value={m.id.toString()}>{m.name}</SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </div>
+                  <div className="space-y-2">
+                    <Label className="text-[10px] text-muted-foreground uppercase font-bold">Asr Madhab</Label>
+                    <Select 
+                      value={profile?.madhab || "Standard"} 
+                      onValueChange={(v) => updateProfile({ madhab: v })}
+                    >
+                      <SelectTrigger className="h-10 bg-secondary/30 border-white/5">
+                        <SelectValue placeholder="Select Madhab" />
+                      </SelectTrigger>
+                      <SelectContent className="glass-card">
+                        <SelectItem value="Standard">Standard (Shafi, Maliki, Hanbali)</SelectItem>
+                        <SelectItem value="Hanafi">Hanafi</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
+                </div>
+              </div>
+
               <div className="space-y-4">
                 <h3 className="text-xs font-bold uppercase tracking-widest text-primary flex items-center gap-2">
                   <Bell className="w-3 h-3" />
@@ -247,10 +280,6 @@ export default function ProfilePage() {
                   <div className="flex items-center justify-between">
                     <Label htmlFor="scholarly-alerts" className="text-sm font-medium">Scholarly Index Updates</Label>
                     <Switch id="scholarly-alerts" defaultChecked />
-                  </div>
-                  <div className="flex items-center justify-between">
-                    <Label htmlFor="community-alerts" className="text-sm font-medium">Circle Activity</Label>
-                    <Switch id="community-alerts" />
                   </div>
                 </div>
               </div>
@@ -304,7 +333,7 @@ export default function ProfilePage() {
 
               <div className="space-y-4 pt-4 border-t border-white/5 pb-10">
                 <p className="text-[10px] text-center text-muted-foreground italic">
-                  Changes made here will apply universally across all scholarly modules.
+                  Changes made here apply universally to the Islamly infrastructure.
                 </p>
                 <Button variant="outline" className="w-full h-12 font-headline" onClick={() => setIsSettingsOpen(false)}>
                   Done
