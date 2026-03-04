@@ -1,8 +1,7 @@
-
 "use client";
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Lock, EyeOff, Globe, MapPin, ChevronLeft, Shield, Database, ShieldAlert, Megaphone } from "lucide-react";
+import { Lock, EyeOff, Globe, MapPin, ChevronLeft, Shield, Database, ShieldAlert, Megaphone, Info } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { Badge } from "@/components/ui/badge";
@@ -40,10 +39,10 @@ export default function PrivacyPage() {
           </CardHeader>
           <CardContent className="space-y-4">
             <p className="text-foreground font-bold">
-              Islamly does not sell, trade, or monetize your personal data. 
+              Islamly does not sell, trade, or monetize your personal data to third-party brokers.
             </p>
             <p>
-              Under our strict scholarly methodology, your information is considered an "Amanah" (Sacred Trust). We reject any revenue models based on data harvesting. Our 1 billion privacy nodes are dedicated solely to protecting your learning journey within the 11.7 Quadrillion feature infrastructure.
+              Under our strict scholarly methodology, your information is considered an "Amanah" (Sacred Trust). We reject any revenue models based on bulk data harvesting. Our 1 billion privacy nodes are dedicated solely to protecting your learning journey.
             </p>
           </CardContent>
         </Card>
@@ -52,16 +51,25 @@ export default function PrivacyPage() {
           <CardHeader>
             <CardTitle className="text-lg font-headline flex items-center gap-2 text-primary uppercase tracking-widest">
               <Megaphone className="w-5 h-5" />
-              Ethical Promotion Nodes
+              Sponsored Content Disclosure
             </CardTitle>
           </CardHeader>
           <CardContent className="space-y-4">
             <p>
-              To sustain our infrastructure, we display contextual **Ethical Promotion Nodes**. These ads are strictly related to scholarly resources, Islamic education, or community benefits. 
+              To sustain our 11.7 Quadrillion feature infrastructure, we utilize third-party advertising nodes (including Google Ads).
             </p>
-            <p className="font-medium text-foreground">
-              Critical Policy: We do not share your unique identifier or behavioral telemetry with advertisers. All promotions are served based on the context of the page being viewed, maintaining 100% privacy node integrity.
-            </p>
+            <div className="bg-secondary/30 p-4 rounded-lg space-y-2 border border-white/5">
+              <div className="flex items-center gap-2 text-foreground font-bold text-xs uppercase tracking-tight">
+                <Info className="w-3 h-3 text-primary" />
+                Cookie & Telemetry Disclosure
+              </div>
+              <p className="text-[11px]">
+                Third-party vendors, including Google, use cookies to serve ads based on a student's prior visits to Islamly or other websites. Google's use of advertising cookies enables it and its partners to serve ads to our users based on their visit to our sites and/or other sites on the Internet.
+              </p>
+              <p className="text-[11px] italic">
+                Students may opt out of personalized advertising by visiting Ads Settings or www.aboutads.info.
+              </p>
+            </div>
           </CardContent>
         </Card>
 
@@ -75,7 +83,7 @@ export default function PrivacyPage() {
               We collect only the essential metadata required to maintain your position within the global scholarly index:
             </p>
             <ul className="list-disc pl-5 space-y-2 opacity-80">
-              <li>Authentication credentials managed via secure Firebase protocols.</li>
+              <li>Authentication credentials managed via secure protocols.</li>
               <li>Universal preferences (Language, Qira'at, and Calculation Methods).</li>
               <li>Learning telemetry (Bookmarks, Scholarly Notes, and Assessment Scores).</li>
             </ul>
@@ -87,7 +95,7 @@ export default function PrivacyPage() {
               2. Geospatial Synchronization
             </h3>
             <p>
-              Real-time geolocation is utilized exclusively for precision solar calculations (Prayer Times) and identifying local physical archives (Masjids). This data remains transient and is never utilized for commercial pattern tracking.
+              Real-time geolocation is utilized exclusively for precision solar calculations (Prayer Times) and identifying local physical archives (Masjids). This data remains transient and is never utilized for pattern tracking.
             </p>
           </div>
 
@@ -97,7 +105,7 @@ export default function PrivacyPage() {
               3. AI Processing & Ephemeral Audio
             </h3>
             <p>
-              The Al-Mualim AI Teacher processes recitation audio signals through high-density transcription clusters. To ensure absolute privacy, original audio streams are ephemeral and are not archived on the universal storage nodes after feedback generation.
+              The Al-Mualim AI Teacher processes recitation audio signals through high-density transcription clusters. To ensure absolute privacy, original audio streams are ephemeral and are not archived after feedback generation.
             </p>
           </div>
 
@@ -106,7 +114,7 @@ export default function PrivacyPage() {
               4. Complete Data Eradication
             </h3>
             <p>
-              You maintain the absolute right to purge your entire presence from our infrastructure. Initiating an account deletion will trigger a cascade across all 1 billion privacy nodes to ensure no residual scholarly records remain.
+              You maintain the absolute right to purge your entire presence from our infrastructure. Initiating an account deletion will trigger a cascade across all 1 billion privacy nodes.
             </p>
           </div>
         </div>

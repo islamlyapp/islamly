@@ -1,4 +1,3 @@
-
 "use client";
 
 import { Card, CardContent } from "@/components/ui/card";
@@ -48,7 +47,7 @@ import { useState, useEffect } from "react";
 import Image from "next/image";
 import { PlaceHolderImages } from "@/lib/placeholder-images";
 import { calculateCurrentFeatures, formatFeatureCount } from "@/lib/feature-counter";
-import { AdNode } from "@/components/ad-node";
+import { GoogleAd } from "@/components/google-ad";
 
 export default function Home() {
   const [isExpanded, setIsExpanded] = useState(false);
@@ -156,13 +155,7 @@ export default function Home() {
           <p className="text-xl text-muted-foreground font-medium">Continue your scholarly journey</p>
         </section>
 
-        <AdNode 
-          title="Support Authentic Knowledge"
-          description="Contribute to the 11.7 Quadrillion feature indexing project and help preserve the Sunnah for future generations."
-          cta="Become a Patron"
-          type="Support"
-          image="https://images.unsplash.com/photo-1532012197267-da84d127e765?auto=format&fit=crop&q=80&w=400"
-        />
+        <GoogleAd slot="home-top-responsive" />
       </div>
 
       {/* Module Navigation */}
@@ -256,6 +249,8 @@ export default function Home() {
           </div>
         )}
       </section>
+
+      <GoogleAd slot="home-bottom-fluid" format="fluid" />
 
       <footer className="py-12 text-center space-y-6 opacity-60" aria-label="System Compliance">
         <div className="flex justify-center gap-3">

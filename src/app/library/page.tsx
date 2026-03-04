@@ -1,4 +1,3 @@
-
 "use client";
 
 import { Input } from "@/components/ui/input";
@@ -8,7 +7,7 @@ import { Search, Filter, BookOpen, User, BookCheck, Shield } from "lucide-react"
 import Link from "next/link";
 import { useState } from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { AdNode } from "@/components/ad-node";
+import { GoogleAd } from "@/components/google-ad";
 
 const categories = ["All", "Aqidah", "Hadith", "Fiqh", "Tafsir", "Manhaj", "History"];
 
@@ -89,12 +88,7 @@ export default function LibraryPage() {
               </Link>
             ))}
 
-            <AdNode 
-              title="Study the Three Principles"
-              description="Deepen your understanding of the fundamentals of faith with our verified commentary nodes."
-              cta="Explore Course"
-              image="https://images.unsplash.com/photo-1544640808-32ca72ac7f37?auto=format&fit=crop&q=80&w=400"
-            />
+            <GoogleAd slot="library-mid-rectangle" />
 
             {filteredBooks.slice(3).map((book) => (
               <Link key={book.id} href={`/library/${book.id}`}>

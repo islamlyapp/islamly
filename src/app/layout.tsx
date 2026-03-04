@@ -1,4 +1,3 @@
-
 import type {Metadata, Viewport} from 'next';
 import './globals.css';
 import { GlobalHeader } from '@/components/layout/global-header';
@@ -6,6 +5,7 @@ import { BottomNav } from '@/components/layout/bottom-nav';
 import { FirebaseClientProvider } from '@/firebase/client-provider';
 import { AuthGuard } from '@/components/auth-guard';
 import { Toaster } from "@/components/ui/toaster";
+import Script from 'next/script';
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://islamly.uk'),
@@ -56,6 +56,12 @@ export default function RootLayout({
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Literata:ital,opsz,wght@0,7..72,400;0,7..72,500;0,7..72,600;0,7..72,700;1,7..72,400&display=swap" rel="stylesheet" />
         <meta name="mobile-web-app-capable" content="yes" />
+        <Script
+          async
+          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-0000000000000000"
+          crossOrigin="anonymous"
+          strategy="lazyOnload"
+        />
       </head>
       <body className="font-body antialiased min-h-screen pt-safe overflow-x-hidden selection:bg-primary/30 pb-20 md:pb-0">
         <FirebaseClientProvider>
