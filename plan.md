@@ -8,6 +8,7 @@ Islamly is a high-fidelity scholarly infrastructure designed to provide authenti
 - **Framework**: Next.js 15 (App Router)
 - **AI Engine**: Genkit 1.x with Google Gemini 2.5 Flash Online
 - **Backend**: Firebase (Authentication & Cloud Firestore)
+- **Extra Storage**: TeraBox Free Infrastructure (1TB designated for high-res manuscripts and audio datasets)
 - **UI System**: Tailwind CSS + Shadcn/UI (Mobile-first, dark-themed)
 - **Scale Target**: 11.7 Quadrillion scholarly features per data cluster.
 
@@ -42,7 +43,7 @@ Islamly is a high-fidelity scholarly infrastructure designed to provide authenti
 - [x] **Universal Indexing**: Successfully mapped 11.7 Quadrillion scholarly features
 - [x] **PWA Universal Support**: High-fidelity mobile manifest and performance optimization
 - [x] **Global Translation API**: Dynamic resource switching for 7709+ languages
-- [x] **Standardized Gemini Online**: Unified AI infrastructure for maximum reliability.
+- [x] **Cloud Storage Bridge**: Integrated **TeraBox Free** for extra-large media hosting.
 
 ## 🛡️ Scholarly Standards (Strict Policy)
 1. **Methodology**: Strictly following the Salaf-us-Salih (Ahlus-Sunnah).

@@ -1,3 +1,4 @@
+
 "use client";
 
 import { Card, CardContent } from "@/components/ui/card";
@@ -38,7 +39,8 @@ import {
   Moon,
   Newspaper,
   Heart,
-  Users
+  Users,
+  Cloud
 } from "lucide-react";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
@@ -97,6 +99,7 @@ export default function Home() {
 
     // Cluster 5: Research & Heritage
     { title: "Archive", href: "/manuscripts", icon: ScrollText, color: "text-yellow-400", bg: "bg-yellow-500/10", border: "border-yellow-500/20", group: "Heritage" },
+    { title: "Cloud", href: "/profile", icon: Cloud, color: "text-blue-400", bg: "bg-blue-500/10", border: "border-blue-500/20", group: "Heritage" },
     { title: "Astronomy", href: "/astronomy", icon: Compass, color: "text-blue-400", bg: "bg-blue-500/10", border: "border-blue-500/20", group: "Heritage" },
     { title: "Scholars", href: "/scholars", icon: UserCheck, color: "text-orange-400", bg: "bg-orange-500/10", border: "border-orange-500/20", group: "Heritage" },
     { title: "Defense", href: "/refutation", icon: ShieldAlert, color: "text-red-400", bg: "bg-red-500/10", border: "border-red-500/20", group: "Heritage" },
@@ -257,7 +260,7 @@ export default function Home() {
             إسلاملي Universal Scholarly Platform v3.0
           </p>
           <p className="text-[8px] text-muted-foreground/50 uppercase tracking-[0.2em]">
-            Verified for Global Deployment
+            Verified for Global Deployment • TeraBox Free Storage Active
           </p>
         </div>
       </footer>
