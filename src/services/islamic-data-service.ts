@@ -134,3 +134,14 @@ export async function fetchSurahAudio(surahId: number, reciterId: number = 7) {
     throw error;
   }
 }
+
+export async function fetchReciters() {
+  try {
+    const response = await fetch('https://api.quran.com/api/v4/resources/recitations');
+    const data = await response.json();
+    return data.recitations;
+  } catch (error) {
+    console.error("Error fetching reciters:", error);
+    return [];
+  }
+}

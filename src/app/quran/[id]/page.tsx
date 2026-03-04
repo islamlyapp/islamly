@@ -1,10 +1,24 @@
-
 "use client";
 
 import { useState, useEffect, use } from "react";
-import { fetchSurahVerses, fetchVerseTranslations, fetchSurahAudio } from "@/services/islamic-data-service";
+import { fetchSurahVerses, fetchVerseTranslations, fetchSurahAudio, fetchReciters } from "@/services/islamic-data-service";
 import { Button } from "@/components/ui/button";
-import { ChevronLeft, Loader2, BookOpen, Settings2, Info, ChevronDown, Languages, Globe, Bookmark, MessageSquare, Play, Pause, Volume2 } from "lucide-react";
+import { 
+  ChevronLeft, 
+  Loader2, 
+  BookOpen, 
+  Settings2, 
+  Info, 
+  ChevronDown, 
+  Languages, 
+  Globe, 
+  Bookmark, 
+  MessageSquare, 
+  Play, 
+  Pause, 
+  Volume2,
+  User
+} from "lucide-react";
 import Link from "next/link";
 import { Card, CardContent } from "@/components/ui/card";
 import { QIRAAT_DATA, type Qiraah } from "@/lib/qiraat-data";
@@ -42,6 +56,8 @@ export default function SurahReadingPage({ params }: { params: Promise<{ id: str
 
   const [verses, setVerses] = useState<any[]>([]);
   const [translations, setTranslations] = useState<any[]>([]);
+  const [reciters, setReciters] = useState<any[]>([]);
+  const [selectedReciter, setSelectedReciter] = useState<any>({ id: 7, reciter_name: "Mishary Rashid Alafasy" });
   const [loading, setLoading] = useState(true);
   const [selectedQiraah, setSelectedQiraah] = useState<Qiraah>(QIRAAT_DATA[0]);
   const [noteContent, setNoteContent] = useState("");
@@ -61,14 +77,16 @@ export default function SurahReadingPage({ params }: { params: Promise<{ id: str
       if (!id) return;
       setLoading(true);
       try {
-        const [verseData, transData, audioData] = await Promise.all([
+        const [verseData, transData, audioData, reciterData] = await Promise.all([
           fetchSurahVerses(parseInt(id)),
           fetchVerseTranslations(parseInt(id), currentLangId),
-          fetchSurahAudio(parseInt(id))
+          fetchSurahAudio(parseInt(id), selectedReciter.id),
+          fetchReciters()
         ]);
         setVerses(verseData || []);
         setTranslations(transData || []);
         setAudioUrl(audioData?.audio_url || null);
+        setReciters(reciterData);
       } catch (err) {
         console.error("Failed to load Surah content:", err);
       } finally {
@@ -76,12 +94,17 @@ export default function SurahReadingPage({ params }: { params: Promise<{ id: str
       }
     }
     loadContent();
-  }, [id, currentLangId]);
+  }, [id, currentLangId, selectedReciter.id]);
 
   useEffect(() => {
     if (audioUrl) {
+      if (audioElement) {
+        audioElement.pause();
+      }
       const audio = new Audio(audioUrl);
       setAudioElement(audio);
+      setIsPlaying(false);
+      setAudioProgress(0);
 
       const updateProgress = () => {
         if (audio.duration) {
@@ -152,24 +175,44 @@ export default function SurahReadingPage({ params }: { params: Promise<{ id: str
           </Button>
           <div>
             <h1 className="text-xl font-headline font-bold">Surah {id}</h1>
-            <p className="text-[10px] text-muted-foreground uppercase tracking-widest">Global Outreach Edition</p>
+            <p className="text-[10px] text-muted-foreground uppercase tracking-widest">Universal Infrastructure</p>
           </div>
         </div>
 
         <div className="flex gap-2">
-          <Button asChild variant="outline" size="sm" className="glass-card gap-2 h-9">
-            <Link href="/profile">
-              <Languages className="w-4 h-4 text-primary" />
-              <span className="text-xs hidden md:inline">{currentLangName}</span>
-            </Link>
-          </Button>
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="outline" size="sm" className="glass-card gap-2 h-9">
+                <User className="w-4 h-4 text-emerald-400" />
+                <span className="text-xs hidden md:inline">Reciter</span>
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end" className="w-64 glass-card">
+              <DropdownMenuLabel className="text-[10px] uppercase font-bold text-primary">Choose Reciter</DropdownMenuLabel>
+              <DropdownMenuSeparator />
+              <div className="max-h-[300px] overflow-y-auto no-scrollbar">
+                {reciters.map((r) => (
+                  <DropdownMenuItem 
+                    key={r.id} 
+                    onClick={() => setSelectedReciter(r)}
+                    className={cn(
+                      "flex flex-col items-start gap-0.5 p-3 cursor-pointer",
+                      selectedReciter.id === r.id && "bg-primary/10"
+                    )}
+                  >
+                    <span className="font-bold text-sm">{r.reciter_name}</span>
+                    <span className="text-[10px] text-muted-foreground uppercase">{r.style || "Standard"}</span>
+                  </DropdownMenuItem>
+                ))}
+              </div>
+            </DropdownMenuContent>
+          </DropdownMenu>
 
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button variant="outline" size="sm" className="glass-card gap-2 h-9">
                 <Settings2 className="w-4 h-4" />
                 <span className="text-xs hidden md:inline">Qira'at</span>
-                <ChevronDown className="w-3 h-3 opacity-50" />
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end" className="w-72 glass-card">
@@ -194,14 +237,14 @@ export default function SurahReadingPage({ params }: { params: Promise<{ id: str
 
       {/* Audio Controls Floating Card */}
       {audioUrl && (
-        <Card className="sticky top-20 z-40 glass-card border-primary/20 bg-primary/5 p-3 animate-in slide-in-from-top-4 duration-300">
+        <Card className="sticky top-20 z-40 glass-card border-primary/20 bg-background/80 backdrop-blur-xl p-3 animate-in slide-in-from-top-4 duration-300 shadow-xl">
           <div className="flex items-center gap-4">
-            <Button size="icon" className="rounded-full bg-primary h-10 w-10 shrink-0" onClick={toggleAudio}>
+            <Button size="icon" className="rounded-full bg-primary h-10 w-10 shrink-0 shadow-lg shadow-primary/20" onClick={toggleAudio}>
               {isPlaying ? <Pause className="w-5 h-5" /> : <Play className="w-5 h-5 fill-white" />}
             </Button>
             <div className="flex-1 space-y-2">
               <div className="flex justify-between items-center text-[10px] uppercase font-bold tracking-widest">
-                <span className="flex items-center gap-1 text-primary"><Volume2 className="w-3 h-3" /> Mishary Rashid</span>
+                <span className="flex items-center gap-1 text-primary"><Volume2 className="w-3 h-3" /> {selectedReciter.reciter_name}</span>
                 <span className="text-muted-foreground">Surah {id}</span>
               </div>
               <Progress value={audioProgress} className="h-1 bg-primary/20" />

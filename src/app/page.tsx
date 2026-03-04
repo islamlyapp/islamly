@@ -1,4 +1,3 @@
-
 "use client";
 
 import { Card, CardContent } from "@/components/ui/card";
@@ -97,7 +96,7 @@ export default function Home() {
     { title: "Library", href: "/library", icon: Library, color: "text-indigo-400", bg: "bg-indigo-500/10", border: "border-indigo-500/20", group: "Heritage", scale: "10,000+" },
     { title: "News", href: "/news", icon: Newspaper, color: "text-zinc-400", bg: "bg-zinc-500/10", border: "border-zinc-500/20", group: "Heritage", scale: "10,000+" },
     { title: "Live", href: "/live", icon: Video, color: "text-red-500", bg: "bg-red-500/10", border: "border-red-500/20", group: "Heritage", scale: "10,000+" },
-    { title: "Audio", href: "/live", icon: Volume2, color: "text-emerald-400", bg: "bg-emerald-500/10", border: "border-emerald-500/20", group: "Heritage", scale: "10,000+" },
+    { title: "Audio", href: "/audio", icon: Volume2, color: "text-emerald-400", bg: "bg-emerald-500/10", border: "border-emerald-500/20", group: "Heritage", scale: "10,000+" },
 
     // Cluster 6: Interactive
     { title: "Quizzes", href: "/quiz", icon: Trophy, color: "text-yellow-500", bg: "bg-yellow-500/10", border: "border-yellow-500/20", group: "Interactive", scale: "10,000+" },
