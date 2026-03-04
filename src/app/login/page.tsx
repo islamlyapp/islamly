@@ -4,7 +4,7 @@ import { useState, useRef, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
-import { ShieldCheck, Mail, Lock, Loader2, Apple, ChevronRight, ArrowLeft, CheckCircle2, Send, RefreshCcw } from "lucide-react";
+import { ShieldCheck, Mail, Lock, Loader2, Apple, ChevronRight, ArrowLeft, CheckCircle2, Send, RefreshCcw, UserPlus } from "lucide-react";
 import { 
   useAuth, 
   initiateEmailSignIn, 
@@ -17,13 +17,13 @@ import { toast } from "@/hooks/use-toast";
 import { sendOtpToEmail, verifyOtp } from "@/services/otp-service";
 import { cn } from "@/lib/utils";
 
-type AuthStep = "email" | "otp" | "password" | "login";
+type AuthStep = "register" | "otp" | "login";
 
 export default function LoginPage() {
-  const [step, setStep] = useState<AuthStep>("email");
+  const [step, setStep] = useState<AuthStep>("register");
   const [email, setEmail] = useState("");
-  const [otp, setOtp] = useState(["", "", "", "", "", ""]);
   const [password, setPassword] = useState("");
+  const [otp, setOtp] = useState(["", "", "", "", "", ""]);
   const [isLoading, setIsLoading] = useState(false);
   const [resendTimer, setResendTimer] = useState(0);
   const auth = useAuth();
@@ -39,19 +39,23 @@ export default function LoginPage() {
     return () => clearInterval(interval);
   }, [resendTimer]);
 
-  const handleEmailNext = async (e: React.FormEvent) => {
+  const handleRegisterSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!email || !email.includes('@')) {
       toast({ variant: "destructive", title: "Invalid Identity", description: "Please enter a valid scholarly email address." });
       return;
     }
+    if (password.length < 6) {
+      toast({ variant: "destructive", title: "Weak Access Key", description: "Passwords must be at least 6 characters." });
+      return;
+    }
 
     setIsLoading(true);
-    // Auto-dispatch OTP upon email submission
+    // Send code ONLY after registration details are provided
     const success = await sendOtpToEmail(email);
     if (success) {
       setStep("otp");
-      setResendTimer(60); // 60 second cooldown
+      setResendTimer(60);
       toast({
         title: "Verification Dispatched",
         description: "A 6-digit OTP has been auto-sent to your node address.",
@@ -77,7 +81,7 @@ export default function LoginPage() {
     setIsLoading(false);
   };
 
-  const handleOtpVerify = async (e: React.FormEvent) => {
+  const handleOtpVerifyAndSignUp = async (e: React.FormEvent) => {
     e.preventDefault();
     const fullOtp = otp.join("");
     if (fullOtp.length < 6) return;
@@ -85,37 +89,26 @@ export default function LoginPage() {
     setIsLoading(true);
     const isValid = await verifyOtp(email, fullOtp);
     if (isValid) {
-      setStep("password");
-      toast({
-        title: "Identity Verified",
-        description: "Credentials confirmed. Please set your secure access password.",
-      });
+      try {
+        // Identity verified, now create the account
+        await initiateEmailSignUp(auth, email, password);
+        toast({
+          title: "Infrastructure Initialized",
+          description: "Your scholarly node is now active.",
+        });
+      } catch (error: any) {
+        toast({
+          variant: "destructive",
+          title: "Creation Error",
+          description: error.message,
+        });
+        setIsLoading(false);
+      }
     } else {
       toast({
         variant: "destructive",
         title: "Verification Failed",
         description: "The provided OTP does not match our scholarly records.",
-      });
-    }
-    setIsLoading(false);
-  };
-
-  const handleFinalAuth = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!password || password.length < 6) {
-      toast({ variant: "destructive", title: "Weak Password", description: "Access keys must be at least 6 characters." });
-      return;
-    }
-
-    setIsLoading(true);
-    try {
-      // Create account after verification
-      initiateEmailSignUp(auth, email, password);
-    } catch (error: any) {
-      toast({
-        variant: "destructive",
-        title: "Creation Error",
-        description: error.message,
       });
       setIsLoading(false);
     }
@@ -157,7 +150,7 @@ export default function LoginPage() {
       <header className="text-center space-y-2">
         <div className="mx-auto w-16 h-16 bg-primary/20 rounded-2xl flex items-center justify-center mb-4 relative ring-8 ring-primary/5">
           <ShieldCheck className="w-8 h-8 text-primary" />
-          {step !== "email" && (
+          {step === "otp" && (
             <div className="absolute -top-1 -right-1 w-5 h-5 bg-emerald-500 rounded-full flex items-center justify-center border-2 border-background animate-in zoom-in">
               <CheckCircle2 className="w-3 h-3 text-white" />
             </div>
@@ -177,41 +170,52 @@ export default function LoginPage() {
         <CardHeader>
           <div className="flex items-center justify-between">
             <CardTitle className="font-headline text-lg uppercase tracking-tight">
-              {step === "email" && "Step 1: Identity"}
-              {step === "otp" && "Step 2: Verification"}
-              {step === "password" && "Step 3: Access"}
-              {step === "login" && "Sign In"}
+              {step === "register" && "Student Registration"}
+              {step === "otp" && "Node Verification"}
+              {step === "login" && "Scholar Sign In"}
             </CardTitle>
-            {step !== "email" && step !== "login" && (
-              <button onClick={() => setStep("email")} className="text-[10px] uppercase font-bold text-muted-foreground hover:text-primary transition-colors flex items-center gap-1">
-                <ArrowLeft className="w-3 h-3" /> Reset
+            {step !== "register" && (
+              <button onClick={() => setStep("register")} className="text-[10px] uppercase font-bold text-muted-foreground hover:text-primary transition-colors flex items-center gap-1">
+                <ArrowLeft className="w-3 h-3" /> Back
               </button>
             )}
           </div>
           <CardDescription className="text-xs">
-            {step === "email" && "Provide your email to auto-dispatch an OTP."}
+            {step === "register" && "Create your scholarly account to initialize OTP dispatch."}
             {step === "otp" && `Input the 6-digit code dispatched to ${email}`}
-            {step === "password" && "Establish a secure key for your scholarly account."}
             {step === "login" && "Connect to the Universal Node Infrastructure."}
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-6">
-          {/* STEP 1: EMAIL */}
-          {step === "email" && (
-            <form onSubmit={handleEmailNext} className="space-y-4">
-              <div className="relative">
-                <Mail className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground w-4 h-4" />
-                <Input
-                  type="email"
-                  placeholder="student@islamly.uk"
-                  className="pl-10 bg-secondary/20 h-12 border-white/5"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  required
-                />
+          {/* STEP 1: REGISTER (Email + Password) */}
+          {step === "register" && (
+            <form onSubmit={handleRegisterSubmit} className="space-y-4">
+              <div className="space-y-4">
+                <div className="relative">
+                  <Mail className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground w-4 h-4" />
+                  <Input
+                    type="email"
+                    placeholder="Email address"
+                    className="pl-10 bg-secondary/20 h-12 border-white/5"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    required
+                  />
+                </div>
+                <div className="relative">
+                  <Lock className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground w-4 h-4" />
+                  <Input
+                    type="password"
+                    placeholder="Set Access Password"
+                    className="pl-10 bg-secondary/20 h-12 border-white/5"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    required
+                  />
+                </div>
               </div>
-              <Button type="submit" className="w-full h-12 text-md font-headline gap-2 bg-primary hover:bg-primary/90">
-                Continue to Verification <ChevronRight className="w-4 h-4" />
+              <Button type="submit" className="w-full h-12 text-md font-headline gap-2 bg-primary hover:bg-primary/90 uppercase tracking-widest">
+                Initialize Account <ChevronRight className="w-4 h-4" />
               </Button>
               <div className="text-center pt-2">
                 <button 
@@ -219,15 +223,15 @@ export default function LoginPage() {
                   onClick={() => setStep("login")}
                   className="text-[10px] text-primary font-bold uppercase tracking-widest hover:underline"
                 >
-                  Already Verified? Sign In
+                  Already have an account? Sign In
                 </button>
               </div>
             </form>
           )}
 
-          {/* STEP 2: OTP */}
+          {/* STEP 2: OTP VERIFICATION */}
           {step === "otp" && (
-            <form onSubmit={handleOtpVerify} className="space-y-6">
+            <form onSubmit={handleOtpVerifyAndSignUp} className="space-y-6">
               <div className="flex justify-between gap-2">
                 {otp.map((digit, idx) => (
                   <input
@@ -245,7 +249,7 @@ export default function LoginPage() {
               </div>
               <div className="space-y-3">
                 <Button type="submit" className="w-full h-12 text-md font-headline gap-2" disabled={otp.join("").length < 6}>
-                  Verify Node <ShieldCheck className="w-4 h-4" />
+                  Verify & Activate Node <ShieldCheck className="w-4 h-4" />
                 </Button>
                 <div className="flex flex-col items-center gap-2">
                   <p className="text-[10px] text-center text-muted-foreground uppercase tracking-widest italic">
@@ -262,26 +266,6 @@ export default function LoginPage() {
                   </Button>
                 </div>
               </div>
-            </form>
-          )}
-
-          {/* STEP 3: PASSWORD (Sign Up) */}
-          {step === "password" && (
-            <form onSubmit={handleFinalAuth} className="space-y-4">
-              <div className="relative">
-                <Lock className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground w-4 h-4" />
-                <Input
-                  type="password"
-                  placeholder="Set Access Password"
-                  className="pl-10 bg-secondary/20 h-12 border-white/5"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  required
-                />
-              </div>
-              <Button type="submit" className="w-full h-12 text-md font-headline uppercase tracking-widest">
-                Initialize Account
-              </Button>
             </form>
           )}
 
@@ -316,13 +300,13 @@ export default function LoginPage() {
                   />
                 </div>
               </div>
-              <Button type="submit" className="w-full h-12 text-md font-headline">
+              <Button type="submit" className="w-full h-12 text-md font-headline uppercase tracking-widest">
                 Sign In
               </Button>
               <div className="text-center pt-2">
                 <button 
                   type="button" 
-                  onClick={() => setStep("email")}
+                  onClick={() => setStep("register")}
                   className="text-[10px] text-primary font-bold uppercase tracking-widest hover:underline"
                 >
                   New Student? Register with OTP
