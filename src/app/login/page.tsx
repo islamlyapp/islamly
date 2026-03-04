@@ -4,17 +4,14 @@ import { useState, useRef, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
-import { ShieldCheck, Mail, Lock, Loader2, Apple, Github, MessageSquare, ChevronRight, ArrowLeft, CheckCircle2 } from "lucide-react";
+import { ShieldCheck, Mail, Lock, Loader2, Apple, ChevronRight, ArrowLeft, CheckCircle2, Send, RefreshCcw } from "lucide-react";
 import { 
   useAuth, 
   initiateEmailSignIn, 
   initiateEmailSignUp, 
   initiateAnonymousSignIn,
   initiateGoogleSignIn,
-  initiateAppleSignIn,
-  initiateDiscordSignIn,
-  initiateGithubSignIn,
-  initiateMicrosoftSignIn
+  initiateAppleSignIn
 } from "@/firebase";
 import { toast } from "@/hooks/use-toast";
 import { sendOtpToEmail, verifyOtp } from "@/services/otp-service";
@@ -28,30 +25,54 @@ export default function LoginPage() {
   const [otp, setOtp] = useState(["", "", "", "", "", ""]);
   const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [resendTimer, setResendTimer] = useState(0);
   const auth = useAuth();
   
   const otpRefs = useRef<(HTMLInputElement | null)[]>([]);
 
+  // Timer for OTP resend capability
+  useEffect(() => {
+    let interval: any;
+    if (resendTimer > 0) {
+      interval = setInterval(() => setResendTimer(prev => prev - 1), 1000);
+    }
+    return () => clearInterval(interval);
+  }, [resendTimer]);
+
   const handleEmailNext = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!email) return;
+    if (!email || !email.includes('@')) {
+      toast({ variant: "destructive", title: "Invalid Identity", description: "Please enter a valid scholarly email address." });
+      return;
+    }
 
     setIsLoading(true);
-    // For registration, we send OTP. For login, we jump straight to password.
-    // In this implementation, we default to sending OTP for verification security.
+    // Auto-dispatch OTP upon email submission
     const success = await sendOtpToEmail(email);
     if (success) {
       setStep("otp");
+      setResendTimer(60); // 60 second cooldown
       toast({
-        title: "Verification Sent",
-        description: "A 6-digit OTP has been dispatched to your email infrastructure.",
+        title: "Verification Dispatched",
+        description: "A 6-digit OTP has been auto-sent to your node address.",
       });
     } else {
       toast({
         variant: "destructive",
-        title: "Node Error",
-        description: "Failed to generate verification token. Please try again.",
+        title: "Dispatch Error",
+        description: "Failed to generate verification token. Please check your network.",
       });
+    }
+    setIsLoading(false);
+  };
+
+  const handleResendOtp = async () => {
+    if (resendTimer > 0) return;
+    setIsLoading(true);
+    const success = await sendOtpToEmail(email);
+    if (success) {
+      setResendTimer(60);
+      toast({ title: "OTP Re-dispatched", description: "A fresh verification token has been sent." });
     }
     setIsLoading(false);
   };
@@ -67,13 +88,13 @@ export default function LoginPage() {
       setStep("password");
       toast({
         title: "Identity Verified",
-        description: "Universal credentials confirmed. Please set your access password.",
+        description: "Credentials confirmed. Please set your secure access password.",
       });
     } else {
       toast({
         variant: "destructive",
         title: "Verification Failed",
-        description: "The provided OTP does not match our records.",
+        description: "The provided OTP does not match our scholarly records.",
       });
     }
     setIsLoading(false);
@@ -81,11 +102,14 @@ export default function LoginPage() {
 
   const handleFinalAuth = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!password) return;
+    if (!password || password.length < 6) {
+      toast({ variant: "destructive", title: "Weak Password", description: "Access keys must be at least 6 characters." });
+      return;
+    }
 
     setIsLoading(true);
     try {
-      // In this flow, we've verified email via OTP, so we create the account.
+      // Create account after verification
       initiateEmailSignUp(auth, email, password);
     } catch (error: any) {
       toast({
@@ -103,7 +127,6 @@ export default function LoginPage() {
     newOtp[index] = value;
     setOtp(newOtp);
 
-    // Auto-focus next input
     if (value && index < 5) {
       otpRefs.current[index + 1]?.focus();
     }
@@ -132,7 +155,7 @@ export default function LoginPage() {
   return (
     <div className="max-w-md mx-auto space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500 py-10">
       <header className="text-center space-y-2">
-        <div className="mx-auto w-16 h-16 bg-primary/20 rounded-2xl flex items-center justify-center mb-4 relative">
+        <div className="mx-auto w-16 h-16 bg-primary/20 rounded-2xl flex items-center justify-center mb-4 relative ring-8 ring-primary/5">
           <ShieldCheck className="w-8 h-8 text-primary" />
           {step !== "email" && (
             <div className="absolute -top-1 -right-1 w-5 h-5 bg-emerald-500 rounded-full flex items-center justify-center border-2 border-background animate-in zoom-in">
@@ -140,19 +163,20 @@ export default function LoginPage() {
             </div>
           )}
         </div>
-        <h1 className="text-3xl font-headline font-bold tracking-tight text-white">Universal Access</h1>
-        <p className="text-muted-foreground italic">Verification required for all scholarly nodes.</p>
+        <h1 className="text-3xl font-headline font-bold tracking-tight text-white uppercase tracking-widest">Access Node</h1>
+        <p className="text-muted-foreground italic text-sm">Verified Entry into the Scholarly Infrastructure.</p>
       </header>
 
       <Card className="glass-card border-none shadow-2xl relative overflow-hidden">
         {isLoading && (
-          <div className="absolute inset-0 bg-background/40 backdrop-blur-[2px] z-50 flex items-center justify-center">
+          <div className="absolute inset-0 bg-background/60 backdrop-blur-[2px] z-50 flex flex-col items-center justify-center gap-3">
             <Loader2 className="w-8 h-8 animate-spin text-primary" />
+            <p className="text-[10px] uppercase font-bold tracking-widest text-primary animate-pulse">Syncing Node...</p>
           </div>
         )}
         <CardHeader>
           <div className="flex items-center justify-between">
-            <CardTitle className="font-headline">
+            <CardTitle className="font-headline text-lg uppercase tracking-tight">
               {step === "email" && "Step 1: Identity"}
               {step === "otp" && "Step 2: Verification"}
               {step === "password" && "Step 3: Access"}
@@ -164,11 +188,11 @@ export default function LoginPage() {
               </button>
             )}
           </div>
-          <CardDescription>
-            {step === "email" && "Enter your email to receive a verification OTP."}
-            {step === "otp" && `Confirm the 6-digit code sent to ${email}`}
-            {step === "password" && "Set a secure password for your scholarly account."}
-            {step === "login" && "Enter credentials to access the infrastructure."}
+          <CardDescription className="text-xs">
+            {step === "email" && "Provide your email to auto-dispatch an OTP."}
+            {step === "otp" && `Input the 6-digit code dispatched to ${email}`}
+            {step === "password" && "Establish a secure key for your scholarly account."}
+            {step === "login" && "Connect to the Universal Node Infrastructure."}
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-6">
@@ -179,23 +203,23 @@ export default function LoginPage() {
                 <Mail className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground w-4 h-4" />
                 <Input
                   type="email"
-                  placeholder="name@example.com"
-                  className="pl-10 bg-secondary/20 h-12"
+                  placeholder="student@islamly.uk"
+                  className="pl-10 bg-secondary/20 h-12 border-white/5"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   required
                 />
               </div>
-              <Button type="submit" className="w-full h-12 text-md font-headline gap-2">
-                Send OTP <ChevronRight className="w-4 h-4" />
+              <Button type="submit" className="w-full h-12 text-md font-headline gap-2 bg-primary hover:bg-primary/90">
+                Continue to Verification <ChevronRight className="w-4 h-4" />
               </Button>
-              <div className="text-center">
+              <div className="text-center pt-2">
                 <button 
                   type="button" 
                   onClick={() => setStep("login")}
-                  className="text-xs text-primary font-bold uppercase tracking-tight hover:underline"
+                  className="text-[10px] text-primary font-bold uppercase tracking-widest hover:underline"
                 >
-                  Already have an account? Sign In
+                  Already Verified? Sign In
                 </button>
               </div>
             </form>
@@ -219,12 +243,25 @@ export default function LoginPage() {
                   />
                 ))}
               </div>
-              <Button type="submit" className="w-full h-12 text-md font-headline gap-2" disabled={otp.join("").length < 6}>
-                Verify Token <ShieldCheck className="w-4 h-4" />
-              </Button>
-              <p className="text-[10px] text-center text-muted-foreground uppercase tracking-widest">
-                Check your inbox (and spam) for the verification code.
-              </p>
+              <div className="space-y-3">
+                <Button type="submit" className="w-full h-12 text-md font-headline gap-2" disabled={otp.join("").length < 6}>
+                  Verify Node <ShieldCheck className="w-4 h-4" />
+                </Button>
+                <div className="flex flex-col items-center gap-2">
+                  <p className="text-[10px] text-center text-muted-foreground uppercase tracking-widest italic">
+                    Check your console logs for the prototype OTP code.
+                  </p>
+                  <Button 
+                    type="button" 
+                    variant="ghost" 
+                    className="text-[9px] uppercase tracking-widest h-8 gap-2 font-bold" 
+                    disabled={resendTimer > 0}
+                    onClick={handleResendOtp}
+                  >
+                    {resendTimer > 0 ? `Resend Cooldown: ${resendTimer}s` : <><RefreshCcw className="w-3 h-3" /> Auto-Resend OTP</>}
+                  </Button>
+                </div>
+              </div>
             </form>
           )}
 
@@ -235,20 +272,20 @@ export default function LoginPage() {
                 <Lock className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground w-4 h-4" />
                 <Input
                   type="password"
-                  placeholder="Create Secure Password"
-                  className="pl-10 bg-secondary/20 h-12"
+                  placeholder="Set Access Password"
+                  className="pl-10 bg-secondary/20 h-12 border-white/5"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   required
                 />
               </div>
-              <Button type="submit" className="w-full h-12 text-md font-headline">
-                Complete Registration
+              <Button type="submit" className="w-full h-12 text-md font-headline uppercase tracking-widest">
+                Initialize Account
               </Button>
             </form>
           )}
 
-          {/* LOGIN FLOW (Skip OTP for existing users) */}
+          {/* LOGIN FLOW */}
           {step === "login" && (
             <form onSubmit={(e) => {
               e.preventDefault();
@@ -261,7 +298,7 @@ export default function LoginPage() {
                   <Input
                     type="email"
                     placeholder="Email address"
-                    className="pl-10 bg-secondary/20 h-12"
+                    className="pl-10 bg-secondary/20 h-12 border-white/5"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     required
@@ -272,7 +309,7 @@ export default function LoginPage() {
                   <Input
                     type="password"
                     placeholder="Password"
-                    className="pl-10 bg-secondary/20 h-12"
+                    className="pl-10 bg-secondary/20 h-12 border-white/5"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     required
@@ -282,25 +319,25 @@ export default function LoginPage() {
               <Button type="submit" className="w-full h-12 text-md font-headline">
                 Sign In
               </Button>
-              <div className="text-center">
+              <div className="text-center pt-2">
                 <button 
                   type="button" 
                   onClick={() => setStep("email")}
-                  className="text-xs text-primary font-bold uppercase tracking-tight hover:underline"
+                  className="text-[10px] text-primary font-bold uppercase tracking-widest hover:underline"
                 >
-                  New student? Register with OTP
+                  New Student? Register with OTP
                 </button>
               </div>
             </form>
           )}
 
           <div className="relative py-2">
-            <div className="absolute inset-0 flex items-center"><span className="w-full border-t border-border/50" /></div>
-            <div className="relative flex justify-center text-[10px] uppercase font-bold tracking-widest"><span className="bg-[#0a0304] px-2 text-muted-foreground">Unified Providers</span></div>
+            <div className="absolute inset-0 flex items-center"><span className="w-full border-t border-white/5" /></div>
+            <div className="relative flex justify-center text-[10px] uppercase font-bold tracking-widest"><span className="bg-[#0a0304] px-2 text-muted-foreground opacity-40">Verification Nodes</span></div>
           </div>
 
           <div className="grid grid-cols-2 gap-3">
-            <Button variant="outline" className="h-12 glass-card gap-2" onClick={() => handleSocialSignIn(() => initiateGoogleSignIn(auth))} disabled={isLoading}>
+            <Button variant="outline" className="h-12 glass-card gap-2 border-white/5" onClick={() => handleSocialSignIn(() => initiateGoogleSignIn(auth))} disabled={isLoading}>
               <svg className="w-4 h-4" viewBox="0 0 24 24">
                 <path fill="currentColor" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" />
                 <path fill="currentColor" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" />
@@ -309,19 +346,19 @@ export default function LoginPage() {
               </svg>
               Google
             </Button>
-            <Button variant="outline" className="h-12 glass-card gap-2" onClick={() => handleSocialSignIn(() => initiateAppleSignIn(auth))} disabled={isLoading}>
+            <Button variant="outline" className="h-12 glass-card gap-2 border-white/5" onClick={() => handleSocialSignIn(() => initiateAppleSignIn(auth))} disabled={isLoading}>
               <Apple className="w-4 h-4" /> Apple
             </Button>
           </div>
 
-          <Button variant="ghost" className="w-full text-[10px] uppercase tracking-widest text-muted-foreground" onClick={() => handleSocialSignIn(() => initiateAnonymousSignIn(auth))} disabled={isLoading}>
+          <Button variant="ghost" className="w-full text-[9px] uppercase tracking-[0.2em] text-muted-foreground opacity-40" onClick={() => handleSocialSignIn(() => initiateAnonymousSignIn(auth))} disabled={isLoading}>
             Continue as Guest Node
           </Button>
         </CardContent>
       </Card>
 
-      <footer className="text-center">
-        <p className="text-[10px] text-muted-foreground uppercase tracking-[0.2em] opacity-50">Secure Scholarly Infrastructure v3.5</p>
+      <footer className="text-center opacity-30">
+        <p className="text-[9px] text-muted-foreground uppercase tracking-[0.4em]">Universal Security Hub v3.8</p>
       </footer>
     </div>
   );
