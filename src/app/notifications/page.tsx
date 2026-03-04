@@ -1,4 +1,3 @@
-
 "use client";
 
 import { Card, CardContent } from "@/components/ui/card";
@@ -32,7 +31,7 @@ const notifications = [
   {
     id: 2,
     type: "Scholarly",
-    title: "11.7 Quadrillion Feature Update",
+    title: "Knowledge Index Update",
     desc: "New scholarly index nodes successfully deployed in Cluster 4 (Fiqh).",
     time: "2 hours ago",
     icon: Database,
@@ -84,7 +83,7 @@ export default function NotificationsPage() {
             <Bell className="w-8 h-8 text-primary" />
             Alerts Hub
           </h1>
-          <p className="text-muted-foreground italic">Universal scholarly notifications and reminders.</p>
+          <p className="text-muted-foreground italic">Scholarly notifications and reminders.</p>
         </div>
         <Button variant="ghost" size="icon" className="text-muted-foreground hover:text-destructive">
           <Trash2 className="w-5 h-5" />
@@ -139,9 +138,9 @@ export default function NotificationsPage() {
           <Database className="w-6 h-6 text-primary" />
         </div>
         <div className="space-y-1">
-          <h3 className="font-headline font-bold text-sm uppercase tracking-widest text-primary">Quadrillion-Scale Data Flow</h3>
+          <h3 className="font-headline font-bold text-sm uppercase tracking-widest text-primary">Universal Data Flow</h3>
           <p className="text-xs text-muted-foreground leading-relaxed max-w-xs mx-auto">
-            You are currently receiving high-density scholarly alerts from 11.7 Quadrillion index nodes.
+            You are currently receiving high-density scholarly alerts from our global index nodes.
           </p>
         </div>
         <Button variant="outline" className="text-[10px] uppercase font-bold tracking-widest border-primary/20 hover:bg-primary/5">
@@ -151,7 +150,7 @@ export default function NotificationsPage() {
 
       <footer className="text-center pt-8">
         <p className="text-[9px] text-muted-foreground uppercase tracking-[0.4em] opacity-40">
-          Islamly Universal Notification Engine v1.0
+          إسلاملي Universal Notification Engine v1.0
         </p>
       </footer>
     </div>

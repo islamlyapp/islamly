@@ -1,4 +1,3 @@
-
 "use client";
 
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
@@ -15,7 +14,6 @@ const availableQuizzes = [
     questions: 10,
     time: "5m",
     icon: Brain,
-    scale: "1.2 Quadrillion Nodes"
   },
   { 
     id: "q2", 
@@ -25,7 +23,6 @@ const availableQuizzes = [
     questions: 15,
     time: "8m",
     icon: Star,
-    scale: "850 Trillion Nodes"
   },
   { 
     id: "q3", 
@@ -35,7 +32,6 @@ const availableQuizzes = [
     questions: 12,
     time: "6m",
     icon: Trophy,
-    scale: "2.1 Quadrillion Nodes"
   },
   { 
     id: "q4", 
@@ -45,7 +41,6 @@ const availableQuizzes = [
     questions: 5,
     time: "2m",
     icon: Clock,
-    scale: "500 Trillion Nodes"
   }
 ];
 
@@ -59,11 +54,11 @@ export default function QuizListPage() {
             <h1 className="text-4xl font-headline font-bold">Scholarly Assessment</h1>
           </div>
           <Badge variant="secondary" className="bg-primary/10 text-primary border-primary/20 gap-1">
-            <Database className="w-3 h-3" /> 10 Quadrillion+ Active
+            <Database className="w-3 h-3" /> Interactive Hub Active
           </Badge>
         </div>
         <p className="text-muted-foreground text-lg italic max-w-2xl">
-          Test your knowledge across 11.7 Quadrillion verified scholarly points and earn digital badges of proof.
+          Test your knowledge across verified scholarly topics and earn digital badges of proof.
         </p>
       </header>
 
@@ -72,9 +67,9 @@ export default function QuizListPage() {
           <ShieldCheck className="w-8 h-8 text-yellow-500" />
         </div>
         <div className="space-y-1">
-          <h3 className="font-headline font-bold text-sm text-yellow-500 uppercase tracking-widest">Universal Verification Engine</h3>
+          <h3 className="font-headline font-bold text-sm text-yellow-500 uppercase tracking-widest">Verification Engine</h3>
           <p className="text-xs text-muted-foreground leading-relaxed">
-            Every question is generated from a pool of 10,000,000,000,000,000+ data points, cross-referenced against the 10 Authentic Qira'at and Major Hadith Collections.
+            Every question is cross-referenced against the 10 Authentic Qira'at and Major Hadith Collections for absolute accuracy.
           </p>
         </div>
       </section>
@@ -98,7 +93,6 @@ export default function QuizListPage() {
                       <span className="flex items-center gap-1.5 font-medium"><Brain className="w-3.5 h-3.5" /> {quiz.questions} Steps</span>
                       <span className="flex items-center gap-1.5 font-medium"><Clock className="w-3.5 h-3.5" /> {quiz.time}</span>
                       <Badge variant="secondary" className="text-[9px] bg-white/5 uppercase tracking-tighter">{quiz.difficulty}</Badge>
-                      <span className="text-primary font-bold text-[10px] uppercase tracking-widest opacity-60">{quiz.scale}</span>
                     </div>
                   </div>
                 </div>
@@ -116,11 +110,11 @@ export default function QuizListPage() {
         <div className="inline-flex items-center gap-3 px-6 py-2 rounded-full bg-white/5 border border-white/5">
           <Trophy className="w-4 h-4 text-yellow-500" />
           <p className="text-[10px] uppercase tracking-[0.2em] font-bold text-muted-foreground">
-            11.7 Quadrillion Scholarly Features Indexed
+            Scholarly Assessment Infrastructure
           </p>
         </div>
         <p className="text-[9px] text-muted-foreground/40 uppercase tracking-[0.4em]">
-          Islamly Interactive Assessment Infrastructure v3.0
+          إسلاملي Assessment v3.0
         </p>
       </footer>
     </div>

@@ -3,7 +3,7 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
-import { Search, ScrollText, Book, Info, Bookmark, Share2, Quote, Loader2, Database } from "lucide-react";
+import { Search, ScrollText, Book, Info, Bookmark, Share2, Quote, Loader2, Database, ShieldCheck } from "lucide-react";
 import { useState, useEffect } from "react";
 import { fetchHadiths } from "@/services/islamic-data-service";
 
@@ -61,7 +61,7 @@ export default function HadithPage() {
         <p className="text-muted-foreground italic">Exploring the preserved words and actions of the Messenger of Allah (PBUH).</p>
         <div className="flex pt-2">
           <Badge variant="secondary" className="bg-amber-500/10 text-amber-500 gap-1 border-amber-500/20">
-            <Database className="w-3 h-3" /> 11.7 Quadrillion Verification Points
+            <ShieldCheck className="w-3 h-3" /> Verified Scholarly Sources
           </Badge>
         </div>
       </header>
@@ -109,7 +109,7 @@ export default function HadithPage() {
                 </p>
                 <div className="flex items-center justify-between pt-4 border-t border-white/5">
                   <span className="text-[10px] uppercase tracking-widest text-muted-foreground font-bold">
-                    Ref: {hadith.hadithNumber || 'Global Infrastructure'}
+                    Ref: {hadith.hadithNumber || 'Universal Reference'}
                   </span>
                   <div className="flex gap-2">
                     <button className="p-2 hover:bg-amber-500/10 rounded-full transition-colors text-muted-foreground hover:text-amber-500">
@@ -132,7 +132,7 @@ export default function HadithPage() {
           <h3 className="font-headline font-bold text-sm uppercase tracking-widest text-amber-500">Mustalah Al-Hadith</h3>
         </div>
         <p className="text-xs text-muted-foreground leading-relaxed">
-          The Hadiths presented here are verified against primary collections. 11.7 Quadrillion data points ensure grading follows the consensus of major traditional Hadith critics.
+          The Hadiths presented here are verified against primary collections and graded according to the consensus of major traditional Hadith scholars.
         </p>
       </section>
     </div>

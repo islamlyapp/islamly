@@ -117,7 +117,7 @@ export default function AudioPage() {
         <p className="text-muted-foreground italic">High-fidelity Quranic audio from world-renowned Qaris.</p>
         <div className="flex pt-2">
           <Badge variant="secondary" className="bg-emerald-500/10 text-emerald-400 gap-1 border-emerald-500/20">
-            <Database className="w-3 h-3" /> 11.7 Quadrillion Audio Points
+            <Globe className="w-3 h-3" /> Global Recitation Network
           </Badge>
         </div>
       </header>
