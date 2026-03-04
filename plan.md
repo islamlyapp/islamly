@@ -9,7 +9,7 @@ Islamly is a high-fidelity scholarly infrastructure designed to provide authenti
 - **AI Engine**: Genkit 1.x with Google Gemini 2.5 Flash Online
 - **Backend**: Firebase (Authentication & Cloud Firestore)
 - **Project ID**: `studio-7199214099-199f4`
-- **Deployment**: Wispbyte (SSR Optimized Node.js Environment)
+- **Deployment Target**: Vercel (Recommended Free Host for SSR)
 - **Extra Storage**: Managed Digital Archives (1TB designated for high-res manuscripts and audio datasets)
 - **UI System**: Tailwind CSS + Shadcn/UI (Mobile-first, dark-themed)
 - **Scale Target**: 11.7 Quadrillion scholarly features per data cluster.
@@ -45,15 +45,19 @@ Islamly is a high-fidelity scholarly infrastructure designed to provide authenti
 - [x] **Universal Indexing**: Successfully mapped 11.7 Quadrillion scholarly features
 - [x] **PWA Universal Support**: High-fidelity mobile manifest and performance optimization
 - [x] **Global Translation API**: Dynamic resource switching for 7709+ languages
-- [x] **Ethical Sponsor Infrastructure**: Integrated Scholarly Sponsor nodes (Google Adsense)
+- [x] **Ethical Sponsor Infrastructure**: Integrated Scholarly Sponsor nodes (Google AdSense)
 
-## 🛠️ Deployment & Scaling (Wispbyte)
-### Wispbyte SSR Setup
-1. **Environment**: Ensure the Wispbyte container is running **Node.js 20+**.
-2. **Build Command**: `npm run build`
-3. **Start Command**: `npm run start`
-4. **Server Actions**: Since we use Genkit AI, the hosting must support SSR (Server-Side Rendering). Static HTML export is NOT compatible with the AI teacher.
-5. **Firebase Config**: Ensure `NEXT_PUBLIC_` environment variables are set in the Wispbyte dashboard for Firebase Auth/Firestore.
+## 🛠️ Deployment & Scaling (Vercel)
+### Why Vercel?
+For a free, high-performance host that supports Next.js 15 and Server Actions, Vercel is the optimal choice. It handles SSR automatically, which is required for our AI flows.
+
+### Deployment Steps:
+1. **GitHub Sync**: Push this code to a private GitHub repository.
+2. **Import Project**: Connect your GitHub account to Vercel and import the repository.
+3. **Environment Variables**: In the Vercel dashboard, add the following variables:
+   - `NEXT_PUBLIC_HADITH_API_KEY`: Your key from hadithapi.com
+   - All Firebase Config variables (if needed, though they are currently hardcoded in `config.ts`).
+4. **Deploy**: Vercel will build and deploy the application to a global URL (e.g., `islamly.vercel.app`).
 
 ## 🛡️ Scholarly Standards (Strict Policy)
 1. **Methodology**: Strictly following the Salaf-us-Salih (Ahlus-Sunnah).
