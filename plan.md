@@ -14,13 +14,13 @@ Islamly is a high-fidelity scholarly infrastructure designed to provide authenti
 - **UI System**: Tailwind CSS + Shadcn/UI (Mobile-first, dark-themed)
 - **Scale Target**: 11.7 Quadrillion scholarly features per data cluster.
 
-## 🚀 GitHub & Deployment Workflow
+## 🚀 GitHub & Deployment Workflow (If you don't see a terminal)
 
-### 1. Initialize GitHub Repository
-Execute these commands in your local terminal to push this project to GitHub:
-1. Create a new repository on [GitHub](https://github.com/new).
-2. Open your terminal in this project folder.
-3. Run the following sequence:
+If the terminal is not visible in your browser, you can follow these steps:
+1. **Download Code**: Export or download your project files to your computer.
+2. **Open Local Terminal**: Open your computer's terminal (Command Prompt, PowerShell, or Terminal app).
+3. **Navigate to Folder**: Use `cd path/to/your/folder`.
+4. **Initialize & Push**:
    ```bash
    git init
    git add .
@@ -30,7 +30,7 @@ Execute these commands in your local terminal to push this project to GitHub:
    git push -u origin main
    ```
 
-### 2. Deploy to Vercel (Free Cloud Hosting)
+## ☁️ Vercel Deployment (Free Hosting)
 Vercel is the designated free cloud provider for the Islamly Infrastructure.
 1. Go to [Vercel](https://vercel.com) and sign in with GitHub.
 2. Click **"Add New"** > **"Project"**.
