@@ -1,6 +1,6 @@
 /**
  * @fileOverview Service for interacting with external Islamic data providers.
- * Uses only free-tier or open APIs (AlAdhan, Quran.com, Overpass).
+ * Uses only free-tier or open APIs (AlAdhan, Quran.com, Overpass, Nominatim, HadithAPI).
  */
 
 export type PrayerTimings = {
@@ -11,20 +11,6 @@ export type PrayerTimings = {
   Maghrib: string;
   Isha: string;
 };
-
-/**
- * Fetches prayer times based on city and country using AlAdhan API.
- */
-export async function fetchPrayerTimes(city: string, country: string, method: number = 2): Promise<PrayerTimings> {
-  try {
-    const response = await fetch(`https://api.aladhan.com/v1/timingsByCity?city=${encodeURIComponent(city)}&country=${encodeURIComponent(country)}&method=${method}`);
-    const data = await response.json();
-    return data.data.timings;
-  } catch (error) {
-    console.error("Error fetching prayer times:", error);
-    throw error;
-  }
-}
 
 /**
  * Fetches prayer times based on geographic coordinates using AlAdhan API.
@@ -58,6 +44,20 @@ export async function fetchQibla(lat: number, lng: number) {
 }
 
 /**
+ * Fetches Hijri Date for a specific Gregorian date.
+ */
+export async function fetchHijriDate(date: string) {
+  try {
+    const response = await fetch(`https://api.aladhan.com/v1/gToH?date=${date}`);
+    const data = await response.json();
+    return data.data.hijri;
+  } catch (error) {
+    console.error("Error fetching Hijri date:", error);
+    return null;
+  }
+}
+
+/**
  * Fetches Masjids using OpenStreetMap Overpass API (around a radius).
  */
 export async function fetchMasjids(lat: number, lng: number, radius: number = 5000) {
@@ -79,6 +79,30 @@ export async function fetchMasjids(lat: number, lng: number, radius: number = 50
   }
 }
 
+/**
+ * Geocoding: Search for coordinates by city name using Nominatim (OSM).
+ */
+export async function fetchCityCoordinates(query: string) {
+  try {
+    const response = await fetch(`https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(query)}&format=json&limit=1`);
+    const data = await response.json();
+    if (data && data.length > 0) {
+      return {
+        lat: parseFloat(data[0].lat),
+        lon: parseFloat(data[0].lon),
+        display_name: data[0].display_name
+      };
+    }
+    return null;
+  } catch (error) {
+    console.error("Geocoding error:", error);
+    return null;
+  }
+}
+
+/**
+ * Quran API (Quran.com v4)
+ */
 export async function fetchSurahList() {
   try {
     const response = await fetch('https://api.quran.com/api/v4/chapters?language=en');
@@ -124,6 +148,9 @@ export async function fetchAvailableTranslations() {
   }
 }
 
+/**
+ * MP3Quran / Reciters API
+ */
 export async function fetchSurahAudio(surahId: number, reciterId: number = 7) {
   try {
     const response = await fetch(`https://api.quran.com/api/v4/chapter_recitations/${reciterId}/${surahId}`);
@@ -142,6 +169,26 @@ export async function fetchReciters() {
     return data.recitations;
   } catch (error) {
     console.error("Error fetching reciters:", error);
+    return [];
+  }
+}
+
+/**
+ * Hadith API integration
+ * Note: HadithAPI.com usually requires a free key. Placeholder logic included.
+ */
+export async function fetchHadiths(query: string = '', book: string = 'bukhari') {
+  try {
+    // Note: For a real app, the API key should be in .env.local
+    const apiKey = process.env.NEXT_PUBLIC_HADITH_API_KEY || 'no-key-provided';
+    const response = await fetch(`https://hadithapi.com/api/hadiths?apiKey=${apiKey}&book=${book}&paginate=10`);
+    const data = await response.json();
+    if (data.status === 200) {
+      return data.hadiths.data;
+    }
+    return [];
+  } catch (error) {
+    console.error("Error fetching hadiths:", error);
     return [];
   }
 }

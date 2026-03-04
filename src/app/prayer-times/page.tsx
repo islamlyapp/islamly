@@ -2,7 +2,7 @@
 
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Clock, MapPin, Settings2, Bell, Info, ShieldCheck, Loader2, Navigation, Search, X, Compass } from "lucide-react";
+import { Clock, MapPin, Settings2, Bell, Info, ShieldCheck, Loader2, Navigation, Search, X, Compass, Globe } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useState, useEffect, useMemo } from "react";
 import {
@@ -13,7 +13,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { fetchPrayerTimesByCoords, fetchQibla, type PrayerTimings } from "@/services/islamic-data-service";
+import { fetchPrayerTimesByCoords, fetchQibla, fetchCityCoordinates, fetchHijriDate, type PrayerTimings } from "@/services/islamic-data-service";
 
 const methods = [
   { id: 1, name: "University of Islamic Sciences, Karachi" },
@@ -33,6 +33,7 @@ export default function PrayerTimesPage() {
   const [searchQuery, setSearchQuery] = useState("");
   const [currentTimeStr, setCurrentTimeStr] = useState("");
   const [qibla, setQibla] = useState<number | null>(null);
+  const [hijri, setHijri] = useState<any>(null);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -45,13 +46,20 @@ export default function PrayerTimesPage() {
   const loadTimesByCity = async (city: string) => {
     setLoading(true);
     try {
-      const response = await fetch(`https://api.aladhan.com/v1/timingsByCity?city=${encodeURIComponent(city)}&country=&method=${method.id}`);
-      const data = await response.json();
-      if (data.code === 200) {
-        setTimings(data.data.timings);
-        setLocationName(city);
+      const coords = await fetchCityCoordinates(city);
+      if (coords) {
+        const data = await fetchPrayerTimesByCoords(coords.lat, coords.lon, method.id);
+        setTimings(data.timings);
+        setLocationName(coords.display_name.split(',')[0]);
         setIsAutoLocation(false);
         setShowSearch(false);
+        
+        const qData = await fetchQibla(coords.lat, coords.lon);
+        setQibla(qData.direction);
+
+        const dateStr = new Date().toLocaleDateString('en-GB').replace(/\//g, '-');
+        const hData = await fetchHijriDate(dateStr);
+        setHijri(hData);
       } else {
         throw new Error("City not found");
       }
@@ -65,10 +73,9 @@ export default function PrayerTimesPage() {
 
   const loadDefaultTimes = async () => {
     try {
-      const response = await fetch(`https://api.aladhan.com/v1/timingsByCity?city=London&country=UK&method=${method.id}`);
-      const data = await response.json();
-      setTimings(data.data.timings);
-      setLocationName("London, United Kingdom");
+      const data = await fetchPrayerTimesByCoords(51.5074, -0.1278, method.id);
+      setTimings(data.timings);
+      setLocationName("London, UK");
       setIsAutoLocation(false);
     } catch (err) {
       console.error(err);
@@ -86,12 +93,16 @@ export default function PrayerTimesPage() {
           try {
             const data = await fetchPrayerTimesByCoords(latitude, longitude, method.id);
             setTimings(data.timings);
-            setLocationName(`Detected (${latitude.toFixed(2)}, ${longitude.toFixed(2)})`);
+            setLocationName(`GPS Detected`);
             setIsAutoLocation(true);
             setShowSearch(false);
             
             const qiblaData = await fetchQibla(latitude, longitude);
             setQibla(qiblaData.direction);
+
+            const dateStr = new Date().toLocaleDateString('en-GB').replace(/\//g, '-');
+            const hData = await fetchHijriDate(dateStr);
+            setHijri(hData);
           } catch (err) {
             loadDefaultTimes();
           } finally {
@@ -153,7 +164,7 @@ export default function PrayerTimesPage() {
                   <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-3 h-3 text-muted-foreground" />
                   <Input 
                     autoFocus
-                    placeholder="Enter City..." 
+                    placeholder="Search City (Nominatim)..." 
                     className="h-8 pl-8 bg-secondary/30 text-xs"
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
@@ -167,6 +178,11 @@ export default function PrayerTimesPage() {
             )}
           </div>
           <div className="flex gap-2">
+            {hijri && (
+              <Badge variant="secondary" className="hidden sm:flex bg-primary/5 text-primary border-primary/10">
+                {hijri.day} {hijri.month.en} {hijri.year} AH
+              </Badge>
+            )}
             <button 
               onClick={handleAutoDetect}
               className={cn(
@@ -198,8 +214,8 @@ export default function PrayerTimesPage() {
 
       {loading ? (
         <div className="h-[300px] flex flex-col items-center justify-center gap-4">
-          <Loader2 className="w-10 h-10 animate-spin text-primary" />
-          <p className="text-sm text-muted-foreground italic">Updating schedule...</p>
+          <Loader2 className="w-10 h-10 animate-spin text-primary opacity-20" />
+          <p className="text-[10px] uppercase tracking-[0.3em] text-muted-foreground">Universal Sync...</p>
         </div>
       ) : (
         <>
@@ -212,11 +228,7 @@ export default function PrayerTimesPage() {
                 <p className="text-primary uppercase tracking-[0.2em] font-headline font-bold text-xs">Verified Timing</p>
                 <h2 className="text-5xl font-headline font-bold">{nextPrayer.name}</h2>
                 <p className="text-muted-foreground">{locationName}</p>
-                <div className="pt-4 flex justify-center gap-2">
-                  <Badge variant="outline" className="border-primary/50 text-primary">
-                    <Bell className="w-3 h-3 mr-1" /> Alerts Active
-                  </Badge>
-                </div>
+                {hijri && <p className="text-[10px] text-primary/60 font-bold uppercase mt-2">{hijri.day} {hijri.month.en} {hijri.year}</p>}
               </CardContent>
             </Card>
 
@@ -252,7 +264,7 @@ export default function PrayerTimesPage() {
                       </span>
                     </div>
                     <div className="flex items-center gap-4">
-                      {isNext && <Badge variant="outline" className="text-[10px] uppercase h-5">Next</Badge>}
+                      {isNext && <Badge variant="outline" className="text-[9px] uppercase h-5">Next</Badge>}
                       <div className="font-headline font-bold text-lg">
                         {prayer.time}
                       </div>
@@ -267,17 +279,17 @@ export default function PrayerTimesPage() {
 
       <section className="bg-secondary/20 p-6 rounded-xl border border-border space-y-4">
         <div className="flex items-center gap-2">
-          <Info className="w-4 h-4 text-accent" />
+          <Globe className="w-4 h-4 text-accent" />
           <h3 className="font-headline font-bold text-sm uppercase tracking-widest">Global Standards</h3>
         </div>
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-[10px] uppercase font-bold tracking-widest text-muted-foreground">
           <div className="space-y-1">
-            <span className="text-muted-foreground block">Precision Method</span>
-            <span className="font-bold text-primary">{method.name}</span>
+            <span className="block opacity-50">Precision Method</span>
+            <span className="text-primary">{method.name}</span>
           </div>
           <div className="space-y-1">
-            <span className="text-muted-foreground block">API Source</span>
-            <span className="font-bold">AlAdhan.com (Free)</span>
+            <span className="block opacity-50">API Stack</span>
+            <span className="text-white">AlAdhan + Nominatim</span>
           </div>
         </div>
       </section>
