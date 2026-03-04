@@ -1,14 +1,9 @@
-
 "use client";
 
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { 
-  Crown, 
-  Heart, 
-  Users, 
-  Shield, 
   ChevronDown, 
   ChevronUp, 
   GraduationCap, 
@@ -41,7 +36,9 @@ import {
   Baby,
   Rocket,
   Moon,
-  Newspaper
+  Newspaper,
+  Heart,
+  Users
 } from "lucide-react";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
@@ -106,7 +103,7 @@ export default function Home() {
   ];
 
   const categories = Array.from(new Set(allModules.map(m => m.group)));
-  const visibleModules = isExpanded ? allModules : allModules.slice(0, 8); // Show first 8 by default
+  const visibleModules = isExpanded ? allModules : allModules.slice(0, 8);
 
   return (
     <div className="space-y-10 animate-in fade-in duration-700 pb-20">
@@ -130,34 +127,6 @@ export default function Home() {
       <section className="text-right px-4 space-y-2">
         <h1 className="text-5xl font-headline font-bold text-white tracking-tight">السلام عليكم</h1>
         <p className="text-xl text-muted-foreground font-medium">Continue your Islamic learning journey</p>
-      </section>
-
-      {/* Primary Action Grid */}
-      <section className="grid grid-cols-2 gap-4 px-2">
-        <Link href="/premium" className="contents">
-          <Card className="bg-[#FFC107] border-none rounded-[2rem] aspect-square flex flex-col items-center justify-center gap-2 group transition-all active:scale-95 shadow-lg shadow-yellow-900/20">
-            <Crown className="w-12 h-12 text-white drop-shadow-md" />
-            <span className="text-white font-headline font-bold text-xl">Premium</span>
-          </Card>
-        </Link>
-        <Link href="/donate" className="contents">
-          <Card className="bg-[#AD1F37] border-none rounded-[2rem] aspect-square flex flex-col items-center justify-center gap-2 transition-all active:scale-95 shadow-lg shadow-red-900/20">
-            <Heart className="w-12 h-12 text-white drop-shadow-md" />
-            <span className="text-white font-headline font-bold text-xl">Donate</span>
-          </Card>
-        </Link>
-        <Link href="/family" className="contents">
-          <Card className="bg-[#9C27B0] border-none rounded-[2rem] aspect-square flex flex-col items-center justify-center gap-2 transition-all active:scale-95 shadow-lg shadow-purple-900/20">
-            <Users className="w-12 h-12 text-white drop-shadow-md" />
-            <span className="text-white font-headline font-bold text-xl">Family</span>
-          </Card>
-        </Link>
-        <Link href="/profile" className="contents">
-          <Card className="bg-[#2196F3] border-none rounded-[2rem] aspect-square flex flex-col items-center justify-center gap-2 transition-all active:scale-95 shadow-lg shadow-blue-900/20">
-            <Shield className="w-12 h-12 text-white drop-shadow-md" />
-            <span className="text-white font-headline font-bold text-xl">Controls</span>
-          </Card>
-        </Link>
       </section>
 
       {/* Universal Module Infrastructure */}
