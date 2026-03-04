@@ -14,45 +14,32 @@ Islamly is a high-fidelity scholarly infrastructure designed to provide authenti
 - **UI System**: Tailwind CSS + Shadcn/UI (Mobile-first, dark-themed)
 - **Scale Target**: 11.7 Quadrillion scholarly features per data cluster.
 
-## 🚀 Implementation Roadmap
+## 🚀 GitHub & Deployment Workflow
 
-### Phase 1: Foundation (Completed)
-- [x] Unified Authentication (Email, Social, Anonymous)
-- [x] Global Language Infrastructure (7,709+ language support)
-- [x] High-fidelity Quran Reader with 10 Authentic Qira'at
-- [x] GPS-aware Prayer Schedule & Calculation Methods
+### 1. Initialize GitHub Repository
+Since I cannot directly access your GitHub account, follow these steps to put your project online:
+1. Create a new repository on [GitHub](https://github.com/new).
+2. Open your terminal in this project folder.
+3. Run the following commands:
+   ```bash
+   git init
+   git add .
+   git commit -m "Initial commit: Universal Scholarly Infrastructure"
+   git branch -M main
+   git remote add origin https://github.com/YOUR_USERNAME/YOUR_REPO_NAME.git
+   git push -u origin main
+   ```
 
-### Phase 2: Al-Mualim AI Infrastructure (Completed)
-- [x] **Quran Hifz Teacher**: Real-time feedback on Tajweed/Accuracy
-- [x] **Hadith & Mutoon Support**: Expanded feedback for classical texts
-- [x] **Passage Simplifier**: AI-driven explanation of complex scholarly quotes
-- [x] **Knowledge Assistant**: RAG-based search over verified scholarly modules
-
-### Phase 3: Scholarly Breadth & Quadrillion Scale (Completed)
-- [x] **11.7 Quadrillion Features**: Infrastructure upgrade for massive scholarly indexing.
-- [x] **Manuscript Archives**: Digitized access to early Mushafs (Topkapi, Sana'a)
-- [x] **Scholarly Astronomy**: High-precision Hilal sighting calculations
-- [x] **Cloud Monitoring Dashboard**: Real-time telemetry for universal nodes.
-
-### Phase 4: Practical & Community (Completed)
-- [x] **Family & Youth Hubs**: Specialized portals for different demographics
-- [x] **Halal & Masjid Locators**: Real-time discovery services (OSM integration)
-- [x] **Ruqyah Shari'ah**: Authentic healing and protection guide
-
-### Phase 5: Universal Cloud Deployment (In Progress)
-- [x] **Cloud Node Sync**: Integrated Vercel Edge infrastructure
-- [x] **Ethical Sponsor Infrastructure**: Integrated Scholarly Sponsor nodes (Google AdSense)
-- [x] **PWA Universal Support**: High-fidelity mobile manifest and performance optimization
-
-## 🛠️ Deployment Instructions (Vercel)
+### 2. Deploy to Vercel (Free Cloud Hosting)
 Vercel is the designated free cloud provider for the Islamly Infrastructure.
-
-1. **GitHub Sync**: Connect your repository to Vercel via the dashboard.
-2. **Environment Variables**:
+1. Go to [Vercel](https://vercel.com) and sign in with GitHub.
+2. Click **"Add New"** > **"Project"**.
+3. Import your `Islamly` repository.
+4. **Environment Variables**: Add these in the Vercel dashboard:
    - `NEXT_PUBLIC_HADITH_API_KEY`: [Your Key]
    - `GOOGLE_GENAI_API_KEY`: [Your Gemini Key]
-3. **Runtime Config**: Ensure Vercel is set to **Node.js 20+**. Vercel will automatically detect Next.js 15 and use Server Actions.
-4. **Deploy**: Your app will be live at `*.vercel.app` with global edge caching active.
+5. **Framework Preset**: Ensure it is set to **Next.js**.
+6. **Deploy**: Your app will be live at `*.vercel.app` with global edge caching active.
 
 ## 🛡️ Scholarly Standards (Strict Policy)
 1. **Methodology**: Strictly following the Salaf-us-Salih (Ahlus-Sunnah).
