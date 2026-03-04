@@ -1,3 +1,4 @@
+
 "use client";
 
 import { Input } from "@/components/ui/input";
@@ -7,6 +8,7 @@ import { Search, Filter, BookOpen, User, BookCheck, Shield } from "lucide-react"
 import Link from "next/link";
 import { useState } from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { AdNode } from "@/components/ad-node";
 
 const categories = ["All", "Aqidah", "Hadith", "Fiqh", "Tafsir", "Manhaj", "History"];
 
@@ -67,7 +69,7 @@ export default function LibraryPage() {
           </div>
 
           <div className="grid gap-4">
-            {filteredBooks.map((book) => (
+            {filteredBooks.slice(0, 3).map((book) => (
               <Link key={book.id} href={`/library/${book.id}`}>
                 <Card className="glass-card hover:border-primary/50 transition-all group overflow-hidden">
                   <CardContent className="p-5 flex items-start gap-4">
@@ -86,6 +88,34 @@ export default function LibraryPage() {
                 </Card>
               </Link>
             ))}
+
+            <AdNode 
+              title="Study the Three Principles"
+              description="Deepen your understanding of the fundamentals of faith with our verified commentary nodes."
+              cta="Explore Course"
+              image="https://images.unsplash.com/photo-1544640808-32ca72ac7f37?auto=format&fit=crop&q=80&w=400"
+            />
+
+            {filteredBooks.slice(3).map((book) => (
+              <Link key={book.id} href={`/library/${book.id}`}>
+                <Card className="glass-card hover:border-primary/50 transition-all group overflow-hidden">
+                  <CardContent className="p-5 flex items-start gap-4">
+                    <div className="w-12 h-16 bg-primary/10 rounded-lg flex items-center justify-center shrink-0 group-hover:bg-primary/20 transition-colors">
+                      <BookCheck className="text-primary w-6 h-6" />
+                    </div>
+                    <div className="space-y-1 flex-1">
+                      <div className="flex items-center justify-between">
+                        <h3 className="font-headline font-bold text-lg group-hover:text-primary transition-colors">{book.title}</h3>
+                        <Badge variant="outline" className="text-[8px] uppercase py-0 border-primary/20 text-primary">{book.category}</Badge>
+                      </div>
+                      <p className="text-xs text-accent font-medium italic">{book.author}</p>
+                      <p className="text-[11px] text-muted-foreground line-clamp-2 leading-relaxed">{book.description}</p>
+                    </div>
+                  </CardContent>
+                </Card>
+              </Link>
+            ))}
+
             {filteredBooks.length === 0 && (
               <div className="text-center py-20 text-muted-foreground">
                 <Search className="w-10 h-10 mx-auto mb-4 opacity-20" />

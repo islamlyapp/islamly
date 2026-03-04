@@ -48,6 +48,7 @@ import { useState, useEffect } from "react";
 import Image from "next/image";
 import { PlaceHolderImages } from "@/lib/placeholder-images";
 import { calculateCurrentFeatures, formatFeatureCount } from "@/lib/feature-counter";
+import { AdNode } from "@/components/ad-node";
 
 export default function Home() {
   const [isExpanded, setIsExpanded] = useState(false);
@@ -148,11 +149,21 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Greeting Section */}
-      <section className="text-right px-6 space-y-2" aria-label="Welcome Greeting">
-        <h1 className="text-5xl font-headline font-bold text-white tracking-tight">السلام عليكم</h1>
-        <p className="text-xl text-muted-foreground font-medium">Continue your scholarly journey</p>
-      </section>
+      {/* Greeting & Ad Section */}
+      <div className="px-6 space-y-6">
+        <section className="text-right space-y-2" aria-label="Welcome Greeting">
+          <h1 className="text-5xl font-headline font-bold text-white tracking-tight">السلام عليكم</h1>
+          <p className="text-xl text-muted-foreground font-medium">Continue your scholarly journey</p>
+        </section>
+
+        <AdNode 
+          title="Support Authentic Knowledge"
+          description="Contribute to the 11.7 Quadrillion feature indexing project and help preserve the Sunnah for future generations."
+          cta="Become a Patron"
+          type="Support"
+          image="https://images.unsplash.com/photo-1532012197267-da84d127e765?auto=format&fit=crop&q=80&w=400"
+        />
+      </div>
 
       {/* Module Navigation */}
       <section className="flex flex-col items-center gap-8 pt-4" aria-label="Application Modules">

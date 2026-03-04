@@ -1,7 +1,8 @@
+
 "use client";
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Lock, EyeOff, Globe, MapPin, ChevronLeft, Shield, Database, ShieldAlert } from "lucide-react";
+import { Lock, EyeOff, Globe, MapPin, ChevronLeft, Shield, Database, ShieldAlert, Megaphone } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { Badge } from "@/components/ui/badge";
@@ -47,16 +48,19 @@ export default function PrivacyPage() {
           </CardContent>
         </Card>
 
-        <Card className="glass-card border-accent/20 bg-accent/5">
+        <Card className="glass-card border-primary/20 bg-primary/5">
           <CardHeader>
-            <CardTitle className="text-lg font-headline flex items-center gap-2 text-accent uppercase tracking-widest">
-              <Shield className="w-5 h-5" />
-              Universal Commitment
+            <CardTitle className="text-lg font-headline flex items-center gap-2 text-primary uppercase tracking-widest">
+              <Megaphone className="w-5 h-5" />
+              Ethical Promotion Nodes
             </CardTitle>
           </CardHeader>
-          <CardContent>
+          <CardContent className="space-y-4">
             <p>
-              In accordance with Islamic principles of privacy and trust, Islamly is committed to protecting your personal information across our entire high-density infrastructure. Our billion-node framework ensures your data is never accessed by unauthorized entities.
+              To sustain our infrastructure, we display contextual **Ethical Promotion Nodes**. These ads are strictly related to scholarly resources, Islamic education, or community benefits. 
+            </p>
+            <p className="font-medium text-foreground">
+              Critical Policy: We do not share your unique identifier or behavioral telemetry with advertisers. All promotions are served based on the context of the page being viewed, maintaining 100% privacy node integrity.
             </p>
           </CardContent>
         </Card>

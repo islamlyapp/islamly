@@ -1,3 +1,4 @@
+
 "use client";
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -6,6 +7,7 @@ import { Input } from "@/components/ui/input";
 import { Search, ScrollText, Book, Info, Bookmark, Share2, Quote, Loader2, Database, ShieldCheck } from "lucide-react";
 import { useState, useEffect } from "react";
 import { fetchHadiths } from "@/services/islamic-data-service";
+import { AdNode } from "@/components/ad-node";
 
 export default function HadithPage() {
   const [search, setSearch] = useState("");
@@ -75,6 +77,13 @@ export default function HadithPage() {
           onChange={(e) => setSearch(e.target.value)}
         />
       </div>
+
+      <AdNode 
+        title="Authentic Hadith Collections"
+        description="Access high-fidelity digital prints of the Sahihayn and the Sunan, verified by the Muhaddithin of our era."
+        cta="Browse Collection"
+        image="https://images.unsplash.com/photo-1585036156171-383f64baad32?auto=format&fit=crop&q=80&w=400"
+      />
 
       {loading ? (
         <div className="flex flex-col items-center py-20 gap-4">
