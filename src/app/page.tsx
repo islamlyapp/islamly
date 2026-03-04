@@ -1,3 +1,4 @@
+
 "use client";
 
 import { Card, CardContent } from "@/components/ui/card";
@@ -44,9 +45,12 @@ import Link from "next/link";
 import { cn } from "@/lib/utils";
 import { useState } from "react";
 import Image from "next/image";
+import { PlaceHolderImages } from "@/lib/placeholder-images";
 
 export default function Home() {
   const [isExpanded, setIsExpanded] = useState(false);
+
+  const brandHero = PlaceHolderImages.find(img => img.id === 'brand-hero')!;
 
   const allModules = [
     // Cluster 1: AI Infrastructure
@@ -107,19 +111,27 @@ export default function Home() {
 
   return (
     <div className="space-y-10 animate-in fade-in duration-700 pb-20">
-      {/* Hero Section */}
+      {/* Hero Section - Matching New Logo Aesthetic */}
       <section className="flex flex-col items-center pt-4">
-        <div className="relative w-72 h-72 rounded-2xl overflow-hidden shadow-2xl shadow-black/50 border border-white/5">
+        <div className="relative w-full max-w-lg aspect-square md:aspect-video rounded-3xl overflow-hidden shadow-2xl shadow-black/80 border border-white/10 group">
           <Image 
-            src="https://images.unsplash.com/photo-1720701575003-51dafcf39cb4?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw1fHxxdXJhbiUyMGNhbGxpZ3JhcGh5fGVufDB8fHx8MTc3MjQ0OTEzMHww&ixlib=rb-4.1.0&q=80&w=1080" 
-            alt="Islamly Calligraphy Hero" 
+            src={brandHero.imageUrl} 
+            alt="Islamly Calligraphy Logo" 
             fill 
-            className="object-cover"
+            className="object-cover group-hover:scale-105 transition-transform duration-1000"
+            data-ai-hint={brandHero.imageHint}
             priority
           />
-          <div className="absolute inset-0 bg-black/40 flex items-center justify-center">
-            <span className="text-6xl font-serif text-white drop-shadow-lg" dir="rtl">إسلامي</span>
+          <div className="absolute inset-0 bg-gradient-to-br from-black/60 via-black/40 to-transparent flex items-center justify-center">
+            {/* Visual simulation of the red swooshes using absolute positioned elements if possible, 
+                but primarily relying on the text drop shadow and contrast */}
+            <span className="text-7xl md:text-9xl font-serif text-white drop-shadow-[0_10px_20px_rgba(173,31,55,0.8)]" dir="rtl">
+              إسلامي
+            </span>
           </div>
+          {/* Subtle Crimson Swoosh Overlay Simulation */}
+          <div className="absolute top-0 left-0 w-full h-full pointer-events-none opacity-20 bg-[radial-gradient(ellipse_at_top_left,_var(--tw-gradient-stops))] from-primary via-transparent to-transparent" />
+          <div className="absolute bottom-0 right-0 w-full h-full pointer-events-none opacity-20 bg-[radial-gradient(ellipse_at_bottom_right,_var(--tw-gradient-stops))] from-primary via-transparent to-transparent" />
         </div>
       </section>
 

@@ -1,3 +1,4 @@
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -10,7 +11,8 @@
     --card-foreground: 0 0% 98%;
     --popover: 0 18% 6%;
     --popover-foreground: 0 0% 98%;
-    --primary: 350 70% 40%;
+    /* Updated Primary Crimson Red to match Logo accents (#AD1F37) */
+    --primary: 350 56% 40%;
     --primary-foreground: 0 0% 100%;
     --secondary: 0 10% 15%;
     --secondary-foreground: 0 0% 98%;
@@ -22,7 +24,7 @@
     --destructive-foreground: 0 0% 98%;
     --border: 0 10% 20%;
     --input: 0 10% 20%;
-    --ring: 350 70% 40%;
+    --ring: 350 56% 40%;
     --radius: 0.75rem;
   }
 }
@@ -34,7 +36,8 @@
   }
   body {
     @apply bg-background text-foreground font-body antialiased selection:bg-primary/30;
-    background-image: radial-gradient(circle at 50% 0%, rgba(173, 31, 55, 0.1) 0%, transparent 50%);
+    /* Red-accented gradient overlay matching brand logo theme */
+    background-image: radial-gradient(circle at 50% 0%, rgba(173, 31, 55, 0.15) 0%, transparent 50%);
     touch-action: manipulation;
   }
   h1, h2, h3, h4, h5, h6 {
