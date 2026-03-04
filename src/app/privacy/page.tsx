@@ -51,12 +51,12 @@ export default function PrivacyPage() {
           <CardHeader>
             <CardTitle className="text-lg font-headline flex items-center gap-2 text-primary uppercase tracking-widest">
               <Megaphone className="w-5 h-5" />
-              Sponsored Content Disclosure
+              Infrastructure Sponsor Disclosure
             </CardTitle>
           </CardHeader>
           <CardContent className="space-y-4">
             <p>
-              To sustain our 11.7 Quadrillion feature infrastructure, we utilize third-party advertising nodes (including Google Ads).
+              To sustain our 11.7 Quadrillion feature infrastructure, we utilize filtered Scholarly Sponsors. We employ strict category blocking to ensure only Islamic-compliant content is displayed.
             </p>
             <div className="bg-secondary/30 p-4 rounded-lg space-y-2 border border-white/5">
               <div className="flex items-center gap-2 text-foreground font-bold text-xs uppercase tracking-tight">
@@ -64,10 +64,10 @@ export default function PrivacyPage() {
                 Cookie & Telemetry Disclosure
               </div>
               <p className="text-[11px]">
-                Third-party vendors, including Google, use cookies to serve ads based on a student's prior visits to Islamly or other websites. Google's use of advertising cookies enables it and its partners to serve ads to our users based on their visit to our sites and/or other sites on the Internet.
+                Our infrastructure sponsors (including Google) use cookies to serve relevant content based on a student's prior visits. This data remains governed by our 1 billion privacy nodes and is never sold.
               </p>
               <p className="text-[11px] italic">
-                Students may opt out of personalized advertising by visiting Ads Settings or www.aboutads.info.
+                Students may opt out of personalized sponsor content by visiting Ads Settings or www.aboutads.info.
               </p>
             </div>
           </CardContent>
