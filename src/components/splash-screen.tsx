@@ -9,7 +9,7 @@ import { PlaceHolderImages } from "@/lib/placeholder-images";
 
 /**
  * High-fidelity Splash Screen for Islamly.
- * Features white calligraphy, crimson accents, and 11.7 Quadrillion feature confirmation.
+ * Features إسلاملي calligraphy, crimson accents, and 11.7 Quadrillion feature confirmation.
  */
 export function SplashScreen() {
   const [show, setShow] = useState(false);
@@ -48,7 +48,7 @@ export function SplashScreen() {
       {/* Content Container */}
       <div className={`relative z-10 flex flex-col items-center transition-all duration-1000 ease-out ${show ? 'opacity-100 scale-100 translate-y-0' : 'opacity-0 scale-95 translate-y-4'}`}>
         
-        {/* Central Calligraphy Logo - Refined phonetic brand name */}
+        {/* Central Calligraphy Logo - إسلاملي */}
         <div className="relative mb-12 flex flex-col items-center group">
           <span 
             className="text-8xl md:text-9xl font-serif text-white drop-shadow-[0_0_30px_rgba(173,31,55,0.8)] select-none transition-transform duration-700 group-hover:scale-105" 
