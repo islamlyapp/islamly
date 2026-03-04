@@ -1,86 +1,53 @@
 
 "use client";
 
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { 
-  BookMarked, 
-  ArrowRight, 
-  Moon, 
-  Sparkles, 
-  Scale, 
+  Crown, 
+  Heart, 
+  Users, 
+  Shield, 
+  ChevronDown, 
+  ChevronUp, 
+  GraduationCap, 
+  Mic, 
   MessageCircle, 
-  ShieldAlert, 
+  Sparkles, 
+  BookMarked, 
+  ScrollText, 
+  History, 
+  Scale, 
   Clock, 
   MapPin, 
   Utensils, 
-  Home as HomeIcon, 
   Zap, 
-  Newspaper, 
+  Home as HomeIcon, 
+  Globe, 
+  Database, 
+  Compass, 
+  Library, 
+  Video, 
+  Volume2, 
   Trophy, 
-  ShieldCheck, 
-  Loader2, 
-  History, 
-  ScrollText, 
-  Mic, 
-  GraduationCap,
-  Globe,
-  Database,
-  Rocket,
-  Compass,
-  Search,
-  BookOpen,
-  UserCheck,
-  ChevronRight,
-  Shield,
-  Heart,
-  Baby,
-  Library,
-  Video,
-  Volume2,
-  Target,
-  Flame,
+  Target, 
+  Flame, 
   Star,
-  ChevronDown,
-  ChevronUp,
-  Users,
-  Activity
+  UserCheck,
+  ShieldCheck,
+  ShieldAlert,
+  BookOpen,
+  Baby,
+  Rocket
 } from "lucide-react";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
-import { useEffect, useState } from "react";
-import { generateDailyReflection, type DailyReflectionOutput } from "@/ai/flows/daily-reflection-flow";
-import { useUser, useFirestore, useDoc, useMemoFirebase } from "@/firebase";
-import { doc } from "firebase/firestore";
+import { useState } from "react";
+import Image from "next/image";
 
 export default function Home() {
-  const { user } = useUser();
-  const db = useFirestore();
-  const [reflection, setReflection] = useState<DailyReflectionOutput | null>(null);
-  const [loadingReflection, setLoadingReflection] = useState(true);
   const [isExpanded, setIsExpanded] = useState(false);
-
-  const profileRef = useMemoFirebase(() => {
-    if (!db || !user?.uid) return null;
-    return doc(db, "users", user.uid);
-  }, [db, user?.uid]);
-
-  const { data: profile } = useDoc(profileRef);
-
-  useEffect(() => {
-    async function loadReflection() {
-      try {
-        const data = await generateDailyReflection();
-        setReflection(data);
-      } catch (err) {
-        console.error("Failed to load daily reflection:", err);
-      } finally {
-        setLoadingReflection(false);
-      }
-    }
-    loadReflection();
-  }, []);
 
   const allModules = [
     // Cluster 1: AI Infrastructure
@@ -137,204 +104,120 @@ export default function Home() {
   ];
 
   const categories = Array.from(new Set(allModules.map(m => m.group)));
-  const visibleModules = isExpanded ? allModules : allModules.filter(m => m.essential);
+  const visibleModules = isExpanded ? allModules : [];
 
   return (
-    <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500 pb-20">
-      <header className="flex flex-col gap-2">
-        <div className="flex items-center justify-between">
-          <h1 className="text-4xl font-headline font-bold tracking-tight text-foreground flex items-center gap-3">
-            Assalamu Alaikum
-            <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center shadow-lg animate-bounce">
-              <GraduationCap className="w-5 h-5 text-white" />
-            </div>
-          </h1>
-          <div className="flex items-center gap-2">
-            <Badge variant="outline" className="border-emerald-500/30 text-emerald-500 gap-1 bg-emerald-500/5">
-              <ShieldCheck className="w-3 h-3" /> No Shirk or Bid'ah
-            </Badge>
-            <Badge variant="secondary" className="bg-primary/10 text-primary border-primary/20 gap-1 h-6">
-              <Database className="w-3 h-3" /> 10,000+ Features
-            </Badge>
+    <div className="space-y-10 animate-in fade-in duration-700 pb-20">
+      {/* Hero Section */}
+      <section className="flex flex-col items-center pt-4">
+        <div className="relative w-72 h-72 rounded-2xl overflow-hidden shadow-2xl shadow-black/50 border border-white/5">
+          <Image 
+            src="https://images.unsplash.com/photo-1720701575003-51dafcf39cb4?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw1fHxxdXJhbiUyMGNhbGxpZ3JhcGh5fGVufDB8fHx8MTc3MjQ0OTEzMHww&ixlib=rb-4.1.0&q=80&w=1080" 
+            alt="Islamly Calligraphy Hero" 
+            fill 
+            className="object-cover"
+            priority
+          />
+          <div className="absolute inset-0 bg-black/40 flex items-center justify-center">
+            <span className="text-6xl font-serif text-white drop-shadow-lg" dir="rtl">إسلامي</span>
           </div>
         </div>
-        <div className="flex items-center gap-2">
-          <p className="text-muted-foreground text-lg italic">
-            Authentic Scholarly Infrastructure.
-          </p>
-          {profile?.preferredLanguage && (
-            <Badge variant="outline" className="text-[10px] gap-1 py-0 border-accent/30 text-accent">
-              <Globe className="w-3 h-3" />
-              {profile.preferredLanguage}
-            </Badge>
-          )}
-        </div>
-      </header>
-
-      {/* Global Scale Statistics */}
-      <section className="grid grid-cols-1 md:grid-cols-3 gap-4">
-        <Card className="bg-secondary/10 border-white/5 p-4 flex items-center gap-4">
-          <div className="p-2 bg-primary/20 rounded-lg">
-            <Activity className="w-5 h-5 text-primary" />
-          </div>
-          <div>
-            <p className="text-[10px] uppercase font-bold text-muted-foreground">Indexing Status</p>
-            <p className="text-sm font-headline font-bold">10,000+ Active Features</p>
-          </div>
-        </Card>
-        <Card className="bg-secondary/10 border-white/5 p-4 flex items-center gap-4">
-          <div className="p-2 bg-emerald-500/20 rounded-lg">
-            <ShieldCheck className="w-5 h-5 text-emerald-500" />
-          </div>
-          <div>
-            <p className="text-[10px] uppercase font-bold text-muted-foreground">Verified Modules</p>
-            <p className="text-sm font-headline font-bold">500+ Pure Sunnah</p>
-          </div>
-        </Card>
-        <Card className="bg-secondary/10 border-white/5 p-4 flex items-center gap-4">
-          <div className="p-2 bg-blue-500/20 rounded-lg">
-            <Globe className="w-5 h-5 text-blue-500" />
-          </div>
-          <div>
-            <p className="text-[10px] uppercase font-bold text-muted-foreground">Language Nodes</p>
-            <p className="text-sm font-headline font-bold">7,709+ Global Routes</p>
-          </div>
-        </Card>
       </section>
 
-      {/* Flagship: Al-Mualim */}
-      <section>
-        <Link href="/mualim">
-          <Card className="bg-primary/5 border-2 border-primary/20 hover:border-primary/50 transition-all group overflow-hidden relative">
-            <div className="absolute top-0 right-0 p-8 opacity-5 group-hover:opacity-10 transition-opacity">
-              <Mic className="w-40 h-40 rotate-12" />
-            </div>
-            <CardContent className="p-8 space-y-4 relative z-10">
-              <div className="flex items-center gap-3 mb-2">
-                <div className="p-3 bg-primary rounded-xl shadow-lg">
-                  <Mic className="w-6 h-6 text-white" />
-                </div>
-                <div>
-                  <h2 className="text-2xl font-headline font-bold">Recite to Al-Mualim</h2>
-                  <p className="text-sm text-muted-foreground">AI-powered Recitation & Memorization Infrastructure.</p>
-                </div>
-              </div>
-              <Button className="w-full h-12 gap-2 text-md font-headline shadow-xl shadow-primary/20 group-hover:scale-[1.02] transition-transform">
-                Open AI Teacher <ArrowRight className="w-4 h-4" />
-              </Button>
-            </CardContent>
+      {/* Greeting Section */}
+      <section className="text-right px-4 space-y-2">
+        <h1 className="text-5xl font-headline font-bold text-white tracking-tight">السلام عليكم</h1>
+        <p className="text-xl text-muted-foreground font-medium">Continue your Islamic learning journey</p>
+      </section>
+
+      {/* Primary Action Grid */}
+      <section className="grid grid-cols-2 gap-4 px-2">
+        <Link href="/premium" className="contents">
+          <Card className="bg-[#FFC107] border-none rounded-[2rem] aspect-square flex flex-col items-center justify-center gap-2 group transition-all active:scale-95 shadow-lg shadow-yellow-900/20">
+            <Crown className="w-12 h-12 text-white drop-shadow-md" />
+            <span className="text-white font-headline font-bold text-xl">Premium</span>
+          </Card>
+        </Link>
+        <Link href="/donate" className="contents">
+          <Card className="bg-[#AD1F37] border-none rounded-[2rem] aspect-square flex flex-col items-center justify-center gap-2 transition-all active:scale-95 shadow-lg shadow-red-900/20">
+            <Heart className="w-12 h-12 text-white drop-shadow-md" />
+            <span className="text-white font-headline font-bold text-xl">Donate</span>
+          </Card>
+        </Link>
+        <Link href="/family" className="contents">
+          <Card className="bg-[#9C27B0] border-none rounded-[2rem] aspect-square flex flex-col items-center justify-center gap-2 transition-all active:scale-95 shadow-lg shadow-purple-900/20">
+            <Users className="w-12 h-12 text-white drop-shadow-md" />
+            <span className="text-white font-headline font-bold text-xl">Family</span>
+          </Card>
+        </Link>
+        <Link href="/profile" className="contents">
+          <Card className="bg-[#2196F3] border-none rounded-[2rem] aspect-square flex flex-col items-center justify-center gap-2 transition-all active:scale-95 shadow-lg shadow-blue-900/20">
+            <Shield className="w-12 h-12 text-white drop-shadow-md" />
+            <span className="text-white font-headline font-bold text-xl">Controls</span>
           </Card>
         </Link>
       </section>
 
-      {/* Categorized Module Grid */}
-      <div className="space-y-10">
-        {categories.map((group) => {
-          const groupModules = visibleModules.filter(m => m.group === group);
-          if (groupModules.length === 0) return null;
-
-          return (
-            <section key={group} className="space-y-4">
-              <h3 className="text-xs font-headline font-bold uppercase tracking-widest text-muted-foreground/80 pl-1 border-l-2 border-primary/30 ml-1">
-                {group}
-              </h3>
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                {groupModules.map((item) => (
-                  <Link key={item.title} href={item.href}>
-                    <Card className={cn(
-                      "glass-card hover:scale-[1.03] transition-all group h-full border-2",
-                      item.border,
-                      "hover:shadow-lg hover:shadow-primary/5"
-                    )}>
-                      <CardContent className="flex flex-col items-center justify-center p-6 text-center gap-4">
-                        <div className={cn(
-                          "p-4 rounded-2xl transition-all duration-300 group-hover:scale-110 shadow-inner",
-                          item.bg,
-                          item.color
-                        )}>
-                          <item.icon className="w-6 h-6" />
-                        </div>
-                        <span className="font-headline font-bold text-xs uppercase tracking-widest block group-hover:text-primary transition-colors">
-                          {item.title}
-                        </span>
-                      </CardContent>
-                    </Card>
-                  </Link>
-                ))}
-              </div>
-            </section>
-          );
-        })}
-      </div>
-
-      {/* Universal "More" Button */}
-      <div className="flex justify-center pt-4">
+      {/* Universal Toggle for Full Infrastructure */}
+      <div className="flex flex-col items-center gap-6 pt-4">
         <Button 
-          variant="outline" 
-          className="rounded-full h-12 px-10 gap-2 font-headline border-primary/30 text-primary hover:bg-primary/5"
+          variant="ghost" 
+          className="rounded-full h-14 px-10 gap-3 font-headline font-bold border border-white/10 text-white bg-white/5 hover:bg-white/10"
           onClick={() => setIsExpanded(!isExpanded)}
         >
           {isExpanded ? (
-            <>Show Essentials <ChevronUp className="w-4 h-4" /></>
+            <>Show Featured Modules <ChevronUp className="w-5 h-5" /></>
           ) : (
-            <>Explore All 40+ Modules <ChevronDown className="w-4 h-4" /></>
+            <>Explore Full Infrastructure <ChevronDown className="w-5 h-5" /></>
           )}
         </Button>
+
+        {isExpanded && (
+          <div className="w-full space-y-12 animate-in slide-in-from-bottom-8 duration-500 px-4">
+            {categories.map((group) => {
+              const groupModules = visibleModules.filter(m => m.group === group);
+              if (groupModules.length === 0) return null;
+
+              return (
+                <section key={group} className="space-y-4">
+                  <h3 className="text-xs font-headline font-bold uppercase tracking-widest text-muted-foreground/80 pl-1 border-l-2 border-[#AD1F37]/30 ml-1">
+                    {group}
+                  </h3>
+                  <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                    {groupModules.map((item) => (
+                      <Link key={item.title} href={item.href}>
+                        <Card className={cn(
+                          "glass-card hover:scale-[1.03] transition-all group h-full border-2",
+                          item.border,
+                          "hover:shadow-lg hover:shadow-primary/5"
+                        )}>
+                          <CardContent className="flex flex-col items-center justify-center p-6 text-center gap-4">
+                            <div className={cn(
+                              "p-4 rounded-2xl transition-all duration-300 group-hover:scale-110 shadow-inner",
+                              item.bg,
+                              item.color
+                            )}>
+                              <item.icon className="w-6 h-6" />
+                            </div>
+                            <span className="font-headline font-bold text-xs uppercase tracking-widest block group-hover:text-primary transition-colors">
+                              {item.title}
+                            </span>
+                          </CardContent>
+                        </Card>
+                      </Link>
+                    ))}
+                  </div>
+                </section>
+              );
+            })}
+          </div>
+        )}
       </div>
 
-      {/* AI Daily Reflection Section */}
-      <section className="py-4">
-        <Card className="bg-accent/5 border-accent/20 overflow-hidden relative group">
-          <CardHeader className="pb-2">
-            <CardTitle className="text-xs font-bold uppercase tracking-widest text-accent flex items-center gap-2">
-              <Sparkles className="w-4 h-4" />
-              Daily Scholarly Insight
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            {loadingReflection ? (
-              <div className="flex items-center gap-2 py-4 text-muted-foreground italic text-sm">
-                <Loader2 className="w-4 h-4 animate-spin text-primary" />
-                Synthesizing knowledge...
-              </div>
-            ) : reflection && (
-              <div className="space-y-4 animate-in fade-in duration-700">
-                {reflection.arabicText && (
-                  <p className="text-2xl font-serif text-literata text-right leading-loose" dir="rtl">
-                    {reflection.arabicText}
-                  </p>
-                )}
-                <p className="text-lg text-foreground/90 font-medium italic leading-relaxed">
-                  "{reflection.reflection}"
-                </p>
-                <div className="flex items-center justify-between">
-                  <p className="text-[10px] uppercase tracking-widest text-accent font-bold">
-                    Source: {reflection.source}
-                  </p>
-                  <Button variant="ghost" size="sm" className="h-6 text-[9px] uppercase tracking-widest">
-                    Study Context <ChevronRight className="w-3 h-3" />
-                  </Button>
-                </div>
-              </div>
-            )}
-          </CardContent>
-        </Card>
-      </section>
-
-      <footer className="py-10 text-center space-y-4">
-        <div className="flex flex-col items-center gap-2">
-          <div className="flex items-center gap-2 mb-2">
-             <Shield className="w-4 h-4 text-emerald-500" />
-             <span className="text-[10px] uppercase tracking-widest font-bold text-emerald-500">Pure Monotheism (Tawhid) Only</span>
-          </div>
-          <Badge variant="outline" className="text-[10px] uppercase tracking-widest text-primary font-headline">
-            Islamly Unified Infrastructure
-          </Badge>
-          <span className="text-[9px] text-muted-foreground uppercase tracking-widest flex items-center gap-1">
-            <Globe className="w-2 h-2" />
-            Authenticated Scholarly Content (Ahlus-Sunnah)
-          </span>
-        </div>
+      <footer className="py-10 text-center space-y-4 opacity-50">
+        <Badge variant="outline" className="text-[10px] uppercase tracking-widest text-white/60 font-headline border-white/10">
+          Islamly Universal Platform v2.5
+        </Badge>
       </footer>
     </div>
   );
