@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useRouter } from "next/navigation";
@@ -26,7 +27,9 @@ import {
   Lock,
   Library,
   Clock,
-  Heart
+  Heart,
+  LayoutDashboard,
+  ShieldCheck
 } from "lucide-react";
 import { useUser, useAuth, useFirestore, useDoc, useMemoFirebase, setDocumentNonBlocking } from "@/firebase";
 import { signOut } from "firebase/auth";
@@ -143,6 +146,8 @@ export default function ProfilePage() {
     { label: "Personal Notes", icon: BookOpen, count: "5" },
   ];
 
+  const isAdmin = profile?.role === 'admin';
+
   return (
     <div className="space-y-8 animate-in fade-in duration-500 pb-20">
       <header className="flex flex-col items-center text-center gap-4">
@@ -151,10 +156,10 @@ export default function ProfilePage() {
         </div>
         <div className="space-y-1">
           <h1 className="text-2xl font-headline font-bold">{user.email || "Guest Student"}</h1>
-          <div className="flex items-center justify-center gap-2">
+          <div className="flex flex-col items-center justify-center gap-2">
             <Badge variant="secondary" className="bg-primary/10 text-primary border-primary/20">
               <Shield className="w-3 h-3 mr-1" />
-              {user.isAnonymous ? "Guest Access" : "Verified Student"}
+              {isAdmin ? "Verified Admin" : user.isAnonymous ? "Guest Access" : "Verified Student"}
             </Badge>
           </div>
           {profile?.preferredLanguage && (
@@ -167,6 +172,25 @@ export default function ProfilePage() {
       </header>
 
       <section className="grid gap-4">
+        {isAdmin && (
+          <Link href="/admin">
+            <Card className="border-primary/30 bg-primary/10 overflow-hidden hover:bg-primary/20 transition-all group">
+              <CardContent className="p-4 flex items-center justify-between">
+                <div className="flex items-center gap-3">
+                  <div className="p-2 bg-primary rounded-lg group-hover:scale-110 transition-transform">
+                    <LayoutDashboard className="w-5 h-5 text-white" />
+                  </div>
+                  <div className="text-left">
+                    <span className="font-headline font-bold text-sm block">Universal Admin Access</span>
+                    <span className="text-[10px] text-primary uppercase font-bold tracking-widest">Publish & Manage Content</span>
+                  </div>
+                </div>
+                <ChevronRight className="w-4 h-4 text-primary" />
+              </CardContent>
+            </Card>
+          </Link>
+        )}
+
         <Card className="border-blue-500/20 bg-blue-500/5 overflow-hidden">
           <CardHeader className="pb-3">
             <div className="flex items-center justify-between">
