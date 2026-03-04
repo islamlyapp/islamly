@@ -1,9 +1,8 @@
-
 "use client";
 
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Clock, MapPin, Settings2, Bell, Info, ShieldCheck, Loader2, Navigation, Search, X } from "lucide-react";
+import { Clock, MapPin, Settings2, Bell, Info, ShieldCheck, Loader2, Navigation, Search, X, Compass } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useState, useEffect, useMemo } from "react";
 import {
@@ -14,7 +13,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { fetchPrayerTimesByCoords, type PrayerTimings } from "@/services/islamic-data-service";
+import { fetchPrayerTimesByCoords, fetchQibla, type PrayerTimings } from "@/services/islamic-data-service";
 
 const methods = [
   { id: 1, name: "University of Islamic Sciences, Karachi" },
@@ -33,9 +32,9 @@ export default function PrayerTimesPage() {
   const [showSearch, setShowSearch] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [currentTimeStr, setCurrentTimeStr] = useState("");
+  const [qibla, setQibla] = useState<number | null>(null);
 
   useEffect(() => {
-    // Update current time for "Next Prayer" logic, preventing hydration mismatch
     const interval = setInterval(() => {
       const now = new Date();
       setCurrentTimeStr(now.getHours().toString().padStart(2, '0') + ":" + now.getMinutes().toString().padStart(2, '0'));
@@ -90,6 +89,9 @@ export default function PrayerTimesPage() {
             setLocationName(`Detected (${latitude.toFixed(2)}, ${longitude.toFixed(2)})`);
             setIsAutoLocation(true);
             setShowSearch(false);
+            
+            const qiblaData = await fetchQibla(latitude, longitude);
+            setQibla(qiblaData.direction);
           } catch (err) {
             loadDefaultTimes();
           } finally {
@@ -201,26 +203,32 @@ export default function PrayerTimesPage() {
         </div>
       ) : (
         <>
-          <Card className="bg-primary/10 border-primary/20 overflow-hidden shadow-2xl relative">
-            <div className="absolute top-0 right-0 p-4 opacity-10">
-              <Clock className="w-24 h-24" />
-            </div>
-            <CardContent className="p-8 text-center space-y-2 relative z-10">
-              <p className="text-primary uppercase tracking-[0.2em] font-headline font-bold text-xs">Verified Timing</p>
-              <h2 className="text-5xl font-headline font-bold">{nextPrayer.name}</h2>
-              <p className="text-muted-foreground">{locationName}</p>
-              <div className="pt-4 flex justify-center gap-2">
-                <Badge variant="outline" className="border-primary/50 text-primary">
-                  <Bell className="w-3 h-3 mr-1" />
-                  Alerts Active
-                </Badge>
-                <Badge variant="secondary" className="bg-secondary/50">
-                  <ShieldCheck className="w-3 h-3 mr-1" />
-                  {method.name.split(',')[0]}
-                </Badge>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <Card className="bg-primary/10 border-primary/20 overflow-hidden shadow-2xl relative">
+              <div className="absolute top-0 right-0 p-4 opacity-10">
+                <Clock className="w-24 h-24" />
               </div>
-            </CardContent>
-          </Card>
+              <CardContent className="p-8 text-center space-y-2 relative z-10">
+                <p className="text-primary uppercase tracking-[0.2em] font-headline font-bold text-xs">Verified Timing</p>
+                <h2 className="text-5xl font-headline font-bold">{nextPrayer.name}</h2>
+                <p className="text-muted-foreground">{locationName}</p>
+                <div className="pt-4 flex justify-center gap-2">
+                  <Badge variant="outline" className="border-primary/50 text-primary">
+                    <Bell className="w-3 h-3 mr-1" /> Alerts Active
+                  </Badge>
+                </div>
+              </CardContent>
+            </Card>
+
+            {qibla && (
+              <Card className="glass-card border-accent/20 flex flex-col items-center justify-center p-6 text-center">
+                <Compass className="w-12 h-12 text-accent mb-4 animate-pulse" style={{ transform: `rotate(${qibla}deg)` }} />
+                <h3 className="font-headline font-bold text-lg">Qibla Direction</h3>
+                <p className="text-2xl font-bold text-accent">{Math.round(qibla)}°</p>
+                <p className="text-[10px] uppercase text-muted-foreground mt-2 tracking-widest">From True North</p>
+              </Card>
+            )}
+          </div>
 
           <div className="grid gap-2">
             {prayers.map((prayer) => {
@@ -268,8 +276,8 @@ export default function PrayerTimesPage() {
             <span className="font-bold text-primary">{method.name}</span>
           </div>
           <div className="space-y-1">
-            <span className="text-muted-foreground block">Detection Mode</span>
-            <span className="font-bold">{isAutoLocation ? "Automatic GPS" : "Manual/Static Fallback"}</span>
+            <span className="text-muted-foreground block">API Source</span>
+            <span className="font-bold">AlAdhan.com (Free)</span>
           </div>
         </div>
       </section>
