@@ -22,10 +22,12 @@ export function GlobalHeader() {
           <Link href="/" className="flex items-center gap-2 group" aria-label="Islamly Home">
             <span className="font-headline font-bold text-2xl tracking-tight text-white">Islamly</span>
           </Link>
-          <div className="hidden sm:flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-blue-500/5 border border-blue-500/10">
-            <Cloud className="w-3 h-3 text-blue-400" />
-            <span className="text-[8px] uppercase tracking-widest text-blue-400 font-bold">Cloud Sync Active</span>
-          </div>
+          <Link href="/cloud">
+            <div className="hidden sm:flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-blue-500/5 border border-blue-500/10 hover:bg-blue-500/10 transition-colors cursor-pointer">
+              <Cloud className="w-3 h-3 text-blue-400" />
+              <span className="text-[8px] uppercase tracking-widest text-blue-400 font-bold">Cloud Sync Active</span>
+            </div>
+          </Link>
         </div>
 
         <div className="flex items-center gap-4">

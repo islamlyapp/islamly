@@ -101,7 +101,7 @@ export default function Home() {
 
     // Cluster 5: Research & Heritage
     { title: "Archive", href: "/manuscripts", icon: ScrollText, color: "text-yellow-400", bg: "bg-yellow-500/10", border: "border-yellow-500/20", group: "Heritage" },
-    { title: "Settings", href: "/profile", icon: Settings, color: "text-blue-400", bg: "bg-blue-500/10", border: "border-blue-500/20", group: "Heritage" },
+    { title: "Cloud", href: "/cloud", icon: Cloud, color: "text-blue-400", bg: "bg-blue-500/10", border: "border-blue-500/20", group: "Heritage" },
     { title: "Astronomy", href: "/astronomy", icon: Compass, color: "text-blue-400", bg: "bg-blue-500/10", border: "border-blue-500/20", group: "Heritage" },
     { title: "Scholars", href: "/scholars", icon: UserCheck, color: "text-orange-400", bg: "bg-orange-500/10", border: "border-orange-500/20", group: "Heritage" },
     { title: "Defense", href: "/refutation", icon: ShieldAlert, color: "text-red-400", bg: "bg-red-500/10", border: "border-red-500/20", group: "Heritage" },
@@ -262,9 +262,11 @@ export default function Home() {
           <Badge variant="outline" className="text-[9px] uppercase tracking-[0.2em] text-white/70 font-bold border-white/5 bg-white/5 py-1.5 px-4 rounded-full">
             {featureCount} Features
           </Badge>
-          <Badge variant="outline" className="hidden sm:flex text-[9px] uppercase tracking-[0.2em] text-blue-400 font-bold border-blue-500/10 bg-blue-500/5 py-1.5 px-4 rounded-full gap-2">
-            <Cloud className="w-3 h-3" /> Universal Cloud Active
-          </Badge>
+          <Link href="/cloud">
+            <Badge variant="outline" className="hidden sm:flex text-[9px] uppercase tracking-[0.2em] text-blue-400 font-bold border-blue-500/10 bg-blue-500/5 py-1.5 px-4 rounded-full gap-2 hover:bg-blue-500/10 cursor-pointer transition-colors">
+              <Cloud className="w-3 h-3" /> Universal Cloud Active
+            </Badge>
+          </Link>
         </div>
         <div className="space-y-1">
           <p className="text-[10px] text-muted-foreground uppercase tracking-[0.4em] font-bold">
