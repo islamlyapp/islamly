@@ -8,7 +8,7 @@ Islamly is a high-fidelity scholarly infrastructure designed to provide authenti
 - **Framework**: Next.js 15 (App Router)
 - **AI Engine**: Genkit 1.x with Google Gemini 2.5 Flash Online
 - **Backend**: Firebase (Authentication & Cloud Firestore)
-- **Cloud Infrastructure**: Universal Node Deployment
+- **Cloud Infrastructure**: Universal Node Deployment (Vercel)
 - **Primary Free Cloud Host**: Vercel (Optimized for SSR & Node.js)
 - **Project ID**: `studio-7199214099-199f4`
 - **UI System**: Tailwind CSS + Shadcn/UI (Mobile-first, dark-themed)
@@ -17,14 +17,14 @@ Islamly is a high-fidelity scholarly infrastructure designed to provide authenti
 ## 🚀 GitHub & Deployment Workflow
 
 ### 1. Initialize GitHub Repository
-Since I cannot directly access your GitHub account, follow these steps to put your project online:
+Execute these commands in your local terminal to push this project to GitHub:
 1. Create a new repository on [GitHub](https://github.com/new).
 2. Open your terminal in this project folder.
-3. Run the following commands:
+3. Run the following sequence:
    ```bash
    git init
    git add .
-   git commit -m "Initial commit: Universal Scholarly Infrastructure"
+   git commit -m "feat: Initialize Universal Scholarly Infrastructure"
    git branch -M main
    git remote add origin https://github.com/YOUR_USERNAME/YOUR_REPO_NAME.git
    git push -u origin main
