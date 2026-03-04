@@ -1,4 +1,3 @@
-
 "use client";
 
 import { useState, useEffect } from "react";
@@ -17,8 +16,6 @@ import {
   Loader2, 
   ShieldAlert, 
   Globe, 
-  Trash2, 
-  Play, 
   Settings,
   LayoutDashboard
 } from "lucide-react";
@@ -91,7 +88,10 @@ export default function AdminPage() {
     );
   }
 
-  if (profile?.role !== 'admin') {
+  // Check for admin role or the specific hardcoded staff email
+  const isAdmin = profile?.role === 'admin' || user?.email === 'islamlystaff@gmail.com';
+
+  if (!isAdmin) {
     return (
       <div className="max-w-md mx-auto py-20 text-center space-y-6">
         <div className="mx-auto w-20 h-20 bg-destructive/10 rounded-full flex items-center justify-center">

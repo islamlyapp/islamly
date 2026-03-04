@@ -1,4 +1,3 @@
-
 "use client";
 
 import { useRouter } from "next/navigation";
@@ -18,9 +17,6 @@ import {
   Search, 
   Globe, 
   Loader2, 
-  Rocket, 
-  CheckCircle2, 
-  AlertCircle,
   Bell,
   Database,
   Scale,
@@ -28,8 +24,7 @@ import {
   Library,
   Clock,
   Heart,
-  LayoutDashboard,
-  ShieldCheck
+  LayoutDashboard
 } from "lucide-react";
 import { useUser, useAuth, useFirestore, useDoc, useMemoFirebase, setDocumentNonBlocking } from "@/firebase";
 import { signOut } from "firebase/auth";
@@ -102,6 +97,13 @@ export default function ProfilePage() {
     setCurrentFeatures(formatFeatureCount(calculateCurrentFeatures()));
   }, [user, isUserLoading, router]);
 
+  // Auto-upgrade staff account to admin role if needed
+  useEffect(() => {
+    if (user?.email === 'islamlystaff@gmail.com' && profile && profile.role !== 'admin') {
+      updateProfile({ role: 'admin' });
+    }
+  }, [user, profile]);
+
   useEffect(() => {
     async function loadLangs() {
       const langs = await fetchAvailableTranslations();
@@ -146,7 +148,7 @@ export default function ProfilePage() {
     { label: "Personal Notes", icon: BookOpen, count: "5" },
   ];
 
-  const isAdmin = profile?.role === 'admin';
+  const isAdmin = profile?.role === 'admin' || user?.email === 'islamlystaff@gmail.com';
 
   return (
     <div className="space-y-8 animate-in fade-in duration-500 pb-20">
