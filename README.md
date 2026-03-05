@@ -1,10 +1,10 @@
 
 # Islamly - Universal Quadrillion-Scale Infrastructure
-**Deployment Target: Universal Node Deployment (Vercel)**
+**Deployment Target: Vercel (Global Edge Network)**
 
 This NextJS platform is a comprehensive portal for authentic Islamic knowledge, aligned with the Salafi/Athari methodology, featuring the Al-Mualim AI Teacher and a scale of **11.7 Quadrillion verified features**.
 
-## 🚀 Quick Start: Put on GitHub
+## 🚀 Quick Start: Deploy to Vercel
 1. Create a repository on GitHub.
 2. Run `git init`, `git add .`, and `git commit`.
 3. Link your remote and run `git push -u origin main`.
@@ -35,7 +35,7 @@ This NextJS platform is a comprehensive portal for authentic Islamic knowledge, 
 - **Framework**: Next.js 15 (App Router)
 - **AI**: Genkit (Google Gemini 2.5 Flash Online)
 - **Backend**: Firebase (Auth, Firestore)
-- **Cloud Hosting**: Vercel (Global Edge Network)
+- **Cloud Hosting**: Vercel (Free Optimized Hosting)
 - **Sponsors**: Google AdSense (Filtered Scholarly Infrastructure)
 
 ## Scholarly Standards

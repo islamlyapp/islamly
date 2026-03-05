@@ -8,30 +8,28 @@ Islamly is a high-fidelity scholarly infrastructure designed to provide authenti
 - **Framework**: Next.js 15 (App Router)
 - **AI Engine**: Genkit 1.x with Google Gemini 2.5 Flash Online
 - **Backend**: Firebase (Authentication & Cloud Firestore)
-- **Cloud Infrastructure**: Universal Node Deployment (Vercel)
+- **Cloud Infrastructure**: Vercel (Global Edge Network)
 - **Primary Free Cloud Host**: Vercel (Optimized for SSR & Node.js)
 - **Project ID**: `studio-7199214099-199f4`
 - **UI System**: Tailwind CSS + Shadcn/UI (Mobile-first, dark-themed)
 - **Scale Target**: 11.7 Quadrillion scholarly features per data cluster.
 
-## 🚀 GitHub & Deployment Workflow (If you don't see a terminal)
+## 🚀 GitHub & Vercel Deployment Workflow
 
-If the terminal is not visible in your browser, you can follow these steps:
-1. **Download Code**: Export or download your project files to your computer.
-2. **Open Local Terminal**: Open your computer's terminal (Command Prompt, PowerShell, or Terminal app).
-3. **Navigate to Folder**: Use `cd path/to/your/folder`.
-4. **Initialize & Push**:
-   ```bash
-   git init
-   git add .
-   git commit -m "feat: Initialize Universal Scholarly Infrastructure"
-   git branch -M main
-   git remote add origin https://github.com/YOUR_USERNAME/YOUR_REPO_NAME.git
-   git push -u origin main
-   ```
+To host your "Universal Node Infrastructure" for free on Vercel, follow these steps:
 
-## ☁️ Vercel Deployment (Free Hosting)
-Vercel is the designated free cloud provider for the Islamly Infrastructure.
+### 1. Push to GitHub
+If you don't see a terminal in your browser, download the code and run these in your local terminal:
+```bash
+git init
+git add .
+git commit -m "feat: Initialize Universal Scholarly Infrastructure"
+git branch -M main
+git remote add origin https://github.com/YOUR_USERNAME/YOUR_REPO_NAME.git
+git push -u origin main
+```
+
+### 2. Connect to Vercel (Free Hosting)
 1. Go to [Vercel](https://vercel.com) and sign in with GitHub.
 2. Click **"Add New"** > **"Project"**.
 3. Import your `Islamly` repository.
@@ -44,4 +42,4 @@ Vercel is the designated free cloud provider for the Islamly Infrastructure.
 ## 🛡️ Scholarly Standards (Strict Policy)
 1. **Methodology**: Strictly following the Salaf-us-Salih (Ahlus-Sunnah).
 2. **Safety**: Zero tolerance for Shirk, Bid'ah, or extremist ideologies.
-3. **Amanah**: User data is never sold or commodified.
+3. **Amanah**: User data is never sold or commodified. Protected by 1 Billion Privacy Nodes.
