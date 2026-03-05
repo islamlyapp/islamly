@@ -1,4 +1,3 @@
-
 "use client";
 
 import { useState, useEffect, use } from "react";
@@ -261,7 +260,7 @@ export default function SurahReadingPage({ params }: { params: Promise<{ id: str
           <div className="space-y-1">
             <p className="text-xs font-bold uppercase tracking-tight text-primary">Global Setting Active</p>
             <p className="text-[11px] text-muted-foreground leading-relaxed italic">
-              Currently viewing translation in {currentLangName}.
+              Currently viewing translation in {currentLangName} using the canonical reading of {selectedQiraah.name}.
             </p>
           </div>
         </CardContent>
@@ -293,6 +292,7 @@ export default function SurahReadingPage({ params }: { params: Promise<{ id: str
                       <PopoverContent className="w-80 glass-card">
                         <div className="space-y-3">
                           <h4 className="font-headline font-bold text-xs uppercase tracking-widest text-primary">Add Study Note</h4>
+                          <span className="text-[9px] text-muted-foreground italic">Context: {selectedQiraah.name}</span>
                           <Textarea 
                             placeholder="Record your thoughts or scholarly context..." 
                             className="text-xs h-20 bg-secondary/20"
