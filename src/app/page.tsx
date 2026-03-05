@@ -272,7 +272,7 @@ export default function Home() {
             إسلاملي Universal Scholarly Platform v3.0
           </p>
           <p className="text-[8px] text-muted-foreground/50 uppercase tracking-[0.2em]">
-            Verified for Global Deployment • Optimized Infrastructure Active
+            © 2025 Islamly • All Rights Reserved • Authorized Infrastructure Node
           </p>
         </div>
       </footer>

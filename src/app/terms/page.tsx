@@ -105,7 +105,7 @@ export default function TermsPage() {
 
       <footer className="text-center pt-8 border-t border-white/5">
         <p className="text-[10px] uppercase tracking-[0.3em] text-muted-foreground">
-          Islamly Universal Legal Infrastructure v3.5
+          © 2025 Islamly Universal Legal Infrastructure v3.5 • All Rights Reserved
         </p>
       </footer>
     </div>

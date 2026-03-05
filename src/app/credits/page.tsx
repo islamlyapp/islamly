@@ -84,7 +84,7 @@ export default function CreditsPage() {
         <div className="flex flex-col items-center gap-2">
           <Globe className="w-4 h-4 text-muted-foreground" />
           <p className="text-[10px] uppercase tracking-[0.4em]">
-            إسلاملي Universal Recognition Node
+            © 2025 Islamly • Universal Recognition Node
           </p>
         </div>
       </footer>

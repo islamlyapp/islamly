@@ -122,7 +122,7 @@ export default function PrivacyPage() {
 
       <footer className="text-center pt-8 border-t border-white/5">
         <p className="text-[10px] uppercase tracking-[0.3em] text-muted-foreground">
-          Islamly Universal Privacy Infrastructure v3.5 • Verified for 1 Billion+ Individual Privacy Nodes
+          © 2025 Islamly Universal Privacy Infrastructure v3.5 • All Rights Reserved
         </p>
       </footer>
     </div>

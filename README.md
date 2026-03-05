@@ -42,3 +42,6 @@ This NextJS platform is a comprehensive portal for authentic Islamic knowledge, 
 - Strictly following the methodology of the Salaf-us-Salih.
 - Zero tolerance for Shirk or Bid'ah.
 - **Amanah Guarantee**: 1 Billion privacy nodes protect student data; we NEVER sell data.
+
+## ⚖️ Legal & Copyright
+© 2025 Islamly. All Rights Reserved. The "Universal Node" architecture and all curated scholarly data are protected under international copyright law.

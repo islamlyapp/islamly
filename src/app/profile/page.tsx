@@ -418,6 +418,7 @@ export default function ProfilePage() {
 
       <footer className="text-center text-[10px] text-muted-foreground uppercase tracking-widest pt-8 flex flex-col items-center gap-2">
         <span className="opacity-50 tracking-[0.3em]">Islamly Scholarly Guard</span>
+        <span className="opacity-40">© 2025 Islamly • All Rights Reserved</span>
         <span>Member since {creationDate || 'N/A'}</span>
       </footer>
     </div>
