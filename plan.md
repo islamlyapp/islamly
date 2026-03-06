@@ -8,6 +8,7 @@ Islamly is a high-fidelity scholarly infrastructure designed to provide authenti
 - **Framework**: Next.js 15 (App Router)
 - **AI Engine**: Genkit 1.x with Google Gemini 2.5 Flash Online
 - **Backend**: Firebase (Authentication & Cloud Firestore)
+- **Email Node**: Resend (Professional OTP Delivery)
 - **Primary Cloud Host**: Vercel (Optimized for Edge SSR)
 - **Scale Target**: 11.7 Quadrillion scholarly features per data cluster.
 
@@ -22,19 +23,16 @@ Islamly is a high-fidelity scholarly infrastructure designed to provide authenti
 | **City Indexing** | Nominatim (OSM) | Global coordinate transformations for search. |
 | **Hadith Search** | HadithAPI.com | Access to the 6 major authentic collections. |
 | **AI Teacher** | Genkit (Gemini) | Real-time recitation analysis and feedback. |
-| **Identity (OTP)** | Internal Service | Secure email verification via 6-digit tokens. |
+| **Identity (OTP)** | Resend | Secure email verification via 6-digit tokens. |
 | **Identity (Auth)** | Firebase Auth | Verified student node authentication with OTP. |
 | **Scholarly Store** | Cloud Firestore | Bookmarks, notes, and admin video data. |
 
 ## 📧 Email Infrastructure (OTP Delivery)
 
-Currently, the system uses a **Simulated Scholarly Mail Node** for development:
-1. **Trigger**: Account registration initiates the dispatch.
-2. **Logic**: A 6-digit code is generated and logged to the **Browser Console**.
-3. **Verification**: Students retrieve the code from the console to activate their node.
-
-**Production Roadmap**: 
-To enable real email delivery to inboxes, integrate **Resend** or **SendGrid** within `src/services/otp-service.ts`.
+The platform uses **Resend** for production email delivery:
+1. **Mode**: Hybrid (Real delivery if `RESEND_API_KEY` exists, otherwise Console Simulation).
+2. **Branding**: Professional HTML templates with crimson accents and Arabic calligraphy.
+3. **Setup**: Add your Resend API key to Vercel environment variables to enable live delivery.
 
 ## 🚀 GitHub & Vercel Deployment Workflow
 
@@ -57,6 +55,7 @@ git push -u origin main
 3. **Environment Variables**: Add these in the Vercel dashboard:
    - `NEXT_PUBLIC_HADITH_API_KEY`: [Your Key]
    - `GOOGLE_GENAI_API_KEY`: [Your Gemini Key]
+   - `RESEND_API_KEY`: [Your Resend Key for real emails]
 4. **Deploy**: Your app will be live at `*.vercel.app`.
 
 ## 🛡️ Scholarly Standards (Strict Policy)
