@@ -27,36 +27,42 @@ Islamly is a high-fidelity scholarly infrastructure designed to provide authenti
 | **Identity (Auth)** | Firebase Auth | Verified student node authentication with OTP. |
 | **Scholarly Store** | Cloud Firestore | Bookmarks, notes, and admin video data. |
 
-## 📧 Email Infrastructure (OTP Delivery)
+## 📧 Email Infrastructure & Domain Verification
 
-The platform uses **Resend** for production email delivery:
-1. **Mode**: Hybrid (Real delivery if `RESEND_API_KEY` exists, otherwise Console Simulation).
-2. **Branding**: Professional HTML templates with crimson accents and Arabic calligraphy.
-3. **Setup**: Add your Resend API key to Vercel environment variables to enable live delivery.
+The platform is configured to send verification emails from `verification@islamly.uk`. To enable this in production:
+
+### 1. Resend Setup
+1. Sign up at [Resend.com](https://resend.com).
+2. Go to **Domains** > **Add New Domain** (`islamly.uk`).
+3. **DNS Configuration**: Resend will provide 3-5 DNS records (MX, TXT). You must add these to your domain provider's dashboard (e.g., Namecheap, Cloudflare, or GoDaddy).
+4. Wait for the status to show **"Verified"**.
+
+### 2. Vercel Environment Variables
+**DO NOT** share your API keys in chat or commit them to GitHub. Add them directly to Vercel:
+1. Go to your project in the [Vercel Dashboard](https://vercel.com).
+2. Navigate to **Settings** > **Environment Variables**.
+3. Add `RESEND_API_KEY` with your production key from Resend.
+4. Add `NEXT_PUBLIC_HADITH_API_KEY` for Hadith search.
+5. Add `GOOGLE_GENAI_API_KEY` for the Al-Mualim AI.
 
 ## 🚀 GitHub & Vercel Deployment Workflow
 
 To host your "Universal Node Infrastructure" for free on Vercel:
 
-### 1. Push to GitHub
-If you don't see a terminal in your browser, download the code and run these in your local terminal:
-```bash
-git init
-git add .
-git commit -m "feat: Initialize Universal Scholarly Infrastructure"
-git branch -M main
-git remote add origin https://github.com/YOUR_USERNAME/YOUR_REPO_NAME.git
-git push -u origin main
-```
+1. **Push to GitHub**:
+   ```bash
+   git init
+   git add .
+   git commit -m "feat: Initialize Universal Scholarly Infrastructure"
+   git branch -M main
+   git remote add origin https://github.com/YOUR_USERNAME/YOUR_REPO_NAME.git
+   git push -u origin main
+   ```
 
-### 2. Connect to Vercel (Free Hosting)
-1. Go to [Vercel](https://vercel.com) and sign in with GitHub.
-2. Click **"Add New"** > **"Project"** and import your repo.
-3. **Environment Variables**: Add these in the Vercel dashboard:
-   - `NEXT_PUBLIC_HADITH_API_KEY`: [Your Key]
-   - `GOOGLE_GENAI_API_KEY`: [Your Gemini Key]
-   - `RESEND_API_KEY`: [Your Resend Key for real emails]
-4. **Deploy**: Your app will be live at `*.vercel.app`.
+2. **Connect to Vercel**:
+   - Import the repository.
+   - Vercel will auto-detect Next.js and deploy.
+   - The app will be live at `*.vercel.app` or your custom domain.
 
 ## 🛡️ Scholarly Standards (Strict Policy)
 1. **Methodology**: Strictly following the Salaf-us-Salih (Ahlus-Sunnah).
