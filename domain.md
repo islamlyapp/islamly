@@ -2,18 +2,7 @@
 
 This document outlines the technical steps required to verify the `islamly.uk` domain and deploy the platform to **Vercel** for global scholarly access.
 
-## 1. Domain Verification (Resend) - STATUS: KEY INTEGRATED
-
-The API Key `re_8Fw...` is now integrated. To complete the handshake and send authorized emails from `verification@islamly.uk`, you must:
-
-### Required DNS Records (Add these in your Domain Provider Dashboard)
-Log in to your domain provider (e.g., Namecheap, Cloudflare) and add the records provided in your [Resend Dashboard](https://resend.com/domains):
-
-- **DKIM (TXT)**: Verifies that the email was actually sent by Islamly.
-- **SPF (TXT)**: Authorizes Resend to send emails on your behalf.
-- **DMARC (TXT)**: Provides instructions to receiving servers.
-
-## 2. Vercel Terminal Deployment Workflow
+## 1. Vercel Terminal Deployment Workflow
 
 If you encounter `bash: vercel: command not found`, install the CLI first:
 ```bash
@@ -24,9 +13,11 @@ To anchor the "Universal Node" to Vercel via CLI:
 
 1. **Push to Official Repo**:
    ```bash
+   git init
+   git remote add origin https://github.com/islamlyapp/islamly.git
    git add .
    git commit -m "chore: prepare for production"
-   git push origin main
+   git push -u origin main
    ```
 
 2. **Configure Node Keys**:
@@ -39,6 +30,14 @@ To anchor the "Universal Node" to Vercel via CLI:
    ```bash
    vercel --prod
    ```
+
+## 2. Domain Verification (Resend)
+
+Log in to your domain provider (e.g., Namecheap, Cloudflare) and add the records provided in your [Resend Dashboard](https://resend.com/domains):
+
+- **DKIM (TXT)**: Verifies that the email was actually sent by Islamly.
+- **SPF (TXT)**: Authorizes Resend to send emails on your behalf.
+- **DMARC (TXT)**: Provides instructions to receiving servers.
 
 ## 3. Custom Domain on Vercel
 
