@@ -7,7 +7,12 @@ This platform is a high-density portal for authentic Islamic knowledge, aligned 
 
 To take the "Universal Node" live on `islamly.uk` using the terminal:
 
-1. **Initialize & Push to GitHub**:
+1. **Install Vercel CLI**:
+   ```bash
+   npm i -g vercel
+   ```
+
+2. **Initialize & Push to GitHub**:
    ```bash
    git init
    git add .
@@ -17,11 +22,8 @@ To take the "Universal Node" live on `islamly.uk` using the terminal:
    git push -u origin main
    ```
 
-2. **Deploy via Vercel CLI**:
+3. **Deploy via Vercel CLI**:
    ```bash
-   # Install Vercel CLI if you haven't
-   npm i -g vercel
-
    # Login and Link
    vercel login
    vercel link
@@ -33,7 +35,7 @@ To take the "Universal Node" live on `islamly.uk` using the terminal:
    vercel --prod
    ```
 
-3. **DNS Handshake**:
+4. **DNS Handshake**:
    - Go to your Resend Dashboard and add the SPF/DKIM records to your domain provider to authorize `verification@islamly.uk`.
 
 ## Core Features

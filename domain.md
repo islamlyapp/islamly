@@ -15,6 +15,11 @@ Log in to your domain provider (e.g., Namecheap, Cloudflare) and add the records
 
 ## 2. Vercel Terminal Deployment Workflow
 
+If you encounter `bash: vercel: command not found`, install the CLI first:
+```bash
+npm i -g vercel
+```
+
 To anchor the "Universal Node" to Vercel via CLI:
 
 1. **Push to Official Repo**:
