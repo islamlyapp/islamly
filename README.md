@@ -1,4 +1,3 @@
-
 # Islamly - Universal Quadrillion-Scale Infrastructure
 **Deployment Target: Vercel (Global Edge Network)**
 
