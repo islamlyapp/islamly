@@ -27,6 +27,7 @@ export default function LoginPage() {
   const [email, setEmail] = useState("");
   const [fullName, setFullName] = useState("");
   const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
   const [otp, setOtp] = useState(["", "", "", "", "", ""]);
   const [isLoading, setIsLoading] = useState(false);
   const [resendTimer, setResendTimer] = useState(0);
@@ -55,6 +56,10 @@ export default function LoginPage() {
     }
     if (password.length < 6) {
       toast({ variant: "destructive", title: "Weak Access Key", description: "Password must be at least 6 characters." });
+      return;
+    }
+    if (password !== confirmPassword) {
+      toast({ variant: "destructive", title: "Key Mismatch", description: "Passwords do not match. Please verify your access key." });
       return;
     }
     setStep("confirm_send");
@@ -94,14 +99,7 @@ export default function LoginPage() {
     const isValid = await verifyOtp(email, fullOtp);
     if (isValid) {
       try {
-        // Sign up user
         await initiateEmailSignUp(auth, email, password);
-        
-        // Profiles are handled by Auth listeners or manual triggers. 
-        // We'll trust the non-blocking firestore sync if we had a ref, 
-        // but here we wait for the auth state to resolve in AuthGuard.
-        // The display name will be synced via the user metadata in profile page.
-        
         toast({
           title: "Infrastructure Initialized",
           description: `Welcome, ${fullName}. Your scholarly node is now active.`,
@@ -218,6 +216,17 @@ export default function LoginPage() {
                     className="pl-10 bg-secondary/20 h-12 border-white/5"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
+                    required
+                  />
+                </div>
+                <div className="relative">
+                  <Lock className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground w-4 h-4" />
+                  <Input
+                    type="password"
+                    placeholder="Confirm Access Password"
+                    className="pl-10 bg-secondary/20 h-12 border-white/5"
+                    value={confirmPassword}
+                    onChange={(e) => setConfirmPassword(e.target.value)}
                     required
                   />
                 </div>
