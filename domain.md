@@ -1,13 +1,14 @@
+
 # Islamly Domain & Email Infrastructure Configuration
 
 This document outlines the technical steps required to verify the `islamly.uk` domain and enable professional scholarly email dispatch for the global Ummah.
 
-## 1. Domain Verification (Resend)
+## 1. Domain Verification (Resend) - STATUS: KEY INTEGRATED
 
-To send authorized emails from `verification@islamly.uk`, you must verify ownership in the [Resend Dashboard](https://resend.com/domains). This protects the "Amanah" of our communication nodes.
+To send authorized emails from `verification@islamly.uk`, you must verify ownership in the [Resend Dashboard](https://resend.com/domains). 
 
 ### Required DNS Records
-After adding `islamly.uk` to Resend, you will be provided with 3-5 DNS records. You must add these to your domain provider's dashboard (e.g., Namecheap, Cloudflare, or GoDaddy):
+The API Key `re_8Fw...` is now active in the Islamly environment. You must now add these records to your domain provider's dashboard (e.g., Namecheap, Cloudflare, or GoDaddy) to complete the handshake:
 
 - **DKIM (TXT)**: Verifies that the email was actually sent by Islamly.
 - **SPF (TXT)**: Authorizes Resend to send emails on your behalf.
@@ -24,19 +25,20 @@ To anchor the "Universal Node" to your primary domain:
 
 ## 3. Environment Variables (Secret Node Keys)
 
-The scholarly infrastructure requires secret keys to communicate with external APIs. Add these to **Vercel Settings > Environment Variables**:
+The scholarly infrastructure is now using the following keys:
 
-| Variable Key | Source | Purpose |
+| Variable Key | Status | Purpose |
 | :--- | :--- | :--- |
-| `RESEND_API_KEY` | [Resend.com](https://resend.com/api-keys) | Enables real email OTP dispatch. |
-| `GOOGLE_GENAI_API_KEY` | [Google AI Studio](https://aistudio.google.com/) | Powers the Al-Mualim AI Teacher. |
-| `NEXT_PUBLIC_HADITH_API_KEY` | [HadithAPI.com](https://hadithapi.com/) | Enables the Hadith Explorer search. |
+| `RESEND_API_KEY` | **ACTIVE** | Enables real email OTP dispatch via `verification@islamly.uk`. |
+| `GOOGLE_GENAI_API_KEY` | Pending | Powers the Al-Mualim AI Teacher. |
+| `NEXT_PUBLIC_HADITH_API_KEY` | Pending | Enables the Hadith Explorer search. |
 
 ## 4. Production Checklist
 
+- [x] Resend API Key integrated into `.env`.
 - [ ] Domain status in Resend shows **"Verified"**.
 - [ ] Vercel deployment has finished building with the new environment variables.
-- [ ] Test a real registration to confirm the OTP arrives in the inbox of an `@islamly.uk` address.
+- [ ] Test a real registration to confirm the OTP arrives in the inbox from `@islamly.uk`.
 
 ---
 © 2025 Islamly • Universal Domain Infrastructure • Authorized Access Only

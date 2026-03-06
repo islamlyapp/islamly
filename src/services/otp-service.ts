@@ -1,11 +1,12 @@
+
 'use server';
 /**
  * @fileOverview Universal OTP Service for the Islamly Infrastructure.
  * Handles generation, dispatch (Resend/Console), and verification of scholarly access tokens.
  * 
  * PRODUCTION READY: 
- * This service now supports real email delivery via Resend.
- * Ensure RESEND_API_KEY is set in your Vercel/Local environment variables.
+ * This service uses real email delivery via Resend.
+ * The RESEND_API_KEY is now active.
  */
 
 import { doc, setDoc, getDoc, serverTimestamp, deleteDoc, getFirestore } from "firebase/firestore";
@@ -17,7 +18,7 @@ import { Resend } from 'resend';
 const app = !getApps().length ? initializeApp(firebaseConfig) : getApps()[0];
 const db = getFirestore(app);
 
-// Initialize Resend
+// Initialize Resend with the integrated API Key
 const resend = process.env.RESEND_API_KEY ? new Resend(process.env.RESEND_API_KEY) : null;
 
 /**
@@ -76,13 +77,12 @@ export async function sendOtpToEmail(email: string): Promise<boolean> {
       console.log(`[OTP Success] Real email dispatched to ${email}`);
     } else {
       /**
-       * PROTOTYPE FALLBACK
+       * PROTOTYPE FALLBACK (If key is removed)
        */
       console.log("%c[Universal Node] SCHOLARLY OTP DISPATCHED (Simulation)", "color: #ad1f37; font-weight: bold; font-size: 14px;");
       console.log(`%cRECIPIENT: ${email}`, "color: #ffffff;");
       console.log(`%cCODE: ${otp}`, "color: #00ff00; font-weight: bold; font-size: 18px;");
       console.log("%c------------------------------------------------", "color: #ad1f37;");
-      console.log("%cPROTIP: To send real emails, add RESEND_API_KEY to your environment variables.", "color: #888888; font-style: italic;");
     }
     
     return true;
