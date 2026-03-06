@@ -14,6 +14,20 @@ Islamly is a high-fidelity scholarly infrastructure designed to provide authenti
 - **UI System**: Tailwind CSS + Shadcn/UI (Mobile-first, dark-themed)
 - **Scale Target**: 11.7 Quadrillion scholarly features per data cluster.
 
+## 📡 Universal API Map (Infrastructure Data Nodes)
+
+| Service Cluster | Provider | Purpose |
+| :--- | :--- | :--- |
+| **Prayer & Qibla** | AlAdhan API | Solar calculations, Hijri dates, and direction sync. |
+| **Quran Reader** | Quran.com v4 | Uthmani text, translations, and Surah list. |
+| **Recitations** | MP3Quran / Quran.com | High-fidelity audio streams for all Qira'at. |
+| **Live Masjids** | Overpass (OSM) | Geospatial search for physical scholarly nodes. |
+| **City Indexing** | Nominatim (OSM) | Global coordinate transformations for search. |
+| **Hadith Search** | HadithAPI.com | Access to the 6 major authentic collections. |
+| **AI Teacher** | Genkit (Gemini) | Real-time recitation analysis and feedback. |
+| **Identity** | Firebase Auth | Verified student node authentication. |
+| **Scholarly Store** | Cloud Firestore | Bookmarks, notes, and admin video data. |
+
 ## 🚀 GitHub & Vercel Deployment Workflow
 
 To host your "Universal Node Infrastructure" for free on Vercel, follow these steps:
