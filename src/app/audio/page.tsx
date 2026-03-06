@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useState, useEffect } from "react";
@@ -28,6 +29,7 @@ export default function AudioPage() {
   const [surahs, setSurahs] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState("");
+  const [hasMounted, setHasMounted] = useState(false);
   
   // Playback State
   const [currentReciter, setCurrentReciter] = useState<any>(null);
@@ -38,6 +40,7 @@ export default function AudioPage() {
   const [isBuffering, setIsBuffering] = useState(false);
 
   useEffect(() => {
+    setHasMounted(true);
     async function init() {
       try {
         const [r, s] = await Promise.all([fetchReciters(), fetchSurahList()]);
@@ -198,9 +201,9 @@ export default function AudioPage() {
                         <p className="text-[10px] text-muted-foreground">{surah.verses_count} Verses</p>
                       </div>
                     </div>
-                    {currentSurah?.id === surah.id && isPlaying ? (
+                    {currentSurah?.id === surah.id && isPlaying && hasMounted ? (
                       <div className="flex gap-0.5 items-end h-3">
-                        {[1, 2, 3].map(i => <div key={i} className="w-1 bg-emerald-400 animate-bounce" style={{ height: `${Math.random()*100}%`, animationDelay: `${i*0.1}s` }} />)}
+                        {[1, 2, 3].map(i => <div key={i} className="w-1 bg-emerald-400 animate-bounce" style={{ height: `${Math.floor(Math.random()*100)}%`, animationDelay: `${i*0.1}s` }} />)}
                       </div>
                     ) : (
                       <Play className="w-3 h-3 text-muted-foreground group-hover:text-emerald-400 transition-colors" />

@@ -88,7 +88,7 @@ export default function ManuscriptsPage() {
             </div>
             <CardContent className="p-6 space-y-4">
               <div className="space-y-2">
-                h3 className="text-xl font-headline font-bold group-hover:text-yellow-500 transition-colors">{m.title}</h3>
+                <h3 className="text-xl font-headline font-bold group-hover:text-yellow-500 transition-colors">{m.title}</h3>
                 <p className="text-sm text-muted-foreground leading-relaxed">{m.desc}</p>
               </div>
               

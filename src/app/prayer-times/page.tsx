@@ -1,3 +1,4 @@
+
 "use client";
 
 import { Card, CardContent } from "@/components/ui/card";
@@ -189,7 +190,7 @@ export default function PrayerTimesPage() {
   }, [timings]);
 
   const nextPrayer = useMemo(() => {
-    if (!prayers.length || !currentTimeStr) return prayers[0];
+    if (!prayers.length || !currentTimeStr) return null;
     const found = prayers.find(p => p.time > currentTimeStr);
     return found || prayers[0];
   }, [prayers, currentTimeStr]);
@@ -266,7 +267,7 @@ export default function PrayerTimesPage() {
         </div>
       </header>
 
-      {loading ? (
+      {loading || !nextPrayer ? (
         <div className="h-[300px] flex flex-col items-center justify-center gap-4" aria-live="polite" aria-busy="true">
           <Loader2 className="w-10 h-10 animate-spin text-primary opacity-20" aria-hidden="true" />
           <p className="text-[10px] uppercase tracking-[0.3em] text-muted-foreground">Universal Sync...</p>

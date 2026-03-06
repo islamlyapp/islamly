@@ -1,6 +1,7 @@
+
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Mic, MicOff, Waves, Sparkles, Loader2, CheckCircle2, AlertCircle, RotateCcw, Volume2, BookOpen, ScrollText, Library, ChevronRight } from "lucide-react";
@@ -36,6 +37,11 @@ export default function MualimPage() {
   const [isAnalyzing, setIsAnalyzing] = useState(false);
   const [result, setResult] = useState<MualimFeedbackOutput | null>(null);
   const [transcription, setTranscription] = useState("");
+  const [hasMounted, setHasMounted] = useState(false);
+
+  useEffect(() => {
+    setHasMounted(true);
+  }, []);
 
   const startReciting = () => {
     setIsRecording(true);
@@ -118,7 +124,7 @@ export default function MualimPage() {
         <Card className="w-full glass-card border-none shadow-2xl overflow-hidden">
           <CardContent className="p-8 flex flex-col items-center gap-6">
             <div className="h-24 w-full flex items-center justify-center gap-1">
-              {isRecording ? (
+              {isRecording && hasMounted ? (
                 Array.from({ length: 12 }).map((_, i) => (
                   <div 
                     key={i} 
