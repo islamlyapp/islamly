@@ -22,8 +22,19 @@ Islamly is a high-fidelity scholarly infrastructure designed to provide authenti
 | **City Indexing** | Nominatim (OSM) | Global coordinate transformations for search. |
 | **Hadith Search** | HadithAPI.com | Access to the 6 major authentic collections. |
 | **AI Teacher** | Genkit (Gemini) | Real-time recitation analysis and feedback. |
-| **Identity** | Firebase Auth | Verified student node authentication with OTP. |
+| **Identity (OTP)** | Internal Service | Secure email verification via 6-digit tokens. |
+| **Identity (Auth)** | Firebase Auth | Verified student node authentication with OTP. |
 | **Scholarly Store** | Cloud Firestore | Bookmarks, notes, and admin video data. |
+
+## 📧 Email Infrastructure (OTP Delivery)
+
+Currently, the system uses a **Simulated Scholarly Mail Node** for development:
+1. **Trigger**: Account registration initiates the dispatch.
+2. **Logic**: A 6-digit code is generated and logged to the **Browser Console**.
+3. **Verification**: Students retrieve the code from the console to activate their node.
+
+**Production Roadmap**: 
+To enable real email delivery to inboxes, integrate **Resend** or **SendGrid** within `src/services/otp-service.ts`.
 
 ## 🚀 GitHub & Vercel Deployment Workflow
 
