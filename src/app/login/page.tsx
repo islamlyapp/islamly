@@ -5,7 +5,20 @@ import { useState, useRef, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
-import { ShieldCheck, Mail, Lock, Loader2, Apple, ChevronRight, ArrowLeft, CheckCircle2, RefreshCcw, User, UserPlus } from "lucide-react";
+import { 
+  ShieldCheck, 
+  Mail, 
+  Lock, 
+  Loader2, 
+  Apple, 
+  ChevronRight, 
+  ArrowLeft, 
+  CheckCircle2, 
+  RefreshCcw, 
+  User, 
+  UserPlus,
+  Scale
+} from "lucide-react";
 import { 
   useAuth, 
   initiateEmailSignIn, 
@@ -19,6 +32,9 @@ import {
 import { doc, serverTimestamp } from "firebase/firestore";
 import { toast } from "@/hooks/use-toast";
 import { sendOtpToEmail, verifyOtp } from "@/services/otp-service";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Label } from "@/components/ui/label";
+import Link from "next/link";
 
 type AuthStep = "register" | "confirm_send" | "otp" | "login";
 
@@ -28,6 +44,7 @@ export default function LoginPage() {
   const [fullName, setFullName] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [agreed, setAgreed] = useState(false);
   const [otp, setOtp] = useState(["", "", "", "", "", ""]);
   const [isLoading, setIsLoading] = useState(false);
   const [resendTimer, setResendTimer] = useState(0);
@@ -46,6 +63,10 @@ export default function LoginPage() {
 
   const handleRegisterDetailsSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    if (!agreed) {
+      toast({ variant: "destructive", title: "Policy Agreement Required", description: "You must agree to the Terms and Privacy Policy to create an account." });
+      return;
+    }
     if (!email.includes('@')) {
       toast({ variant: "destructive", title: "Invalid Email", description: "Please enter a valid scholarly address." });
       return;
@@ -230,8 +251,29 @@ export default function LoginPage() {
                     required
                   />
                 </div>
+
+                <div className="flex items-start gap-3 p-4 bg-secondary/10 rounded-xl border border-white/5 group">
+                  <Checkbox 
+                    id="terms" 
+                    checked={agreed} 
+                    onCheckedChange={(checked) => setAgreed(checked as boolean)}
+                    className="mt-1 border-white/20 data-[state=checked]:bg-primary data-[state=checked]:border-primary"
+                  />
+                  <div className="space-y-1">
+                    <Label htmlFor="terms" className="text-xs font-medium leading-relaxed cursor-pointer select-none">
+                      I agree to the <Link href="/terms" className="text-primary hover:underline font-bold">Terms of Service</Link> and <Link href="/privacy" className="text-primary hover:underline font-bold">Privacy Infrastructure</Link> protocols.
+                    </Label>
+                    <p className="text-[10px] text-muted-foreground italic">
+                      My data is an Amanah governed by 1 billion privacy nodes.
+                    </p>
+                  </div>
+                </div>
               </div>
-              <Button type="submit" className="w-full h-12 text-md font-headline gap-2 bg-primary hover:bg-primary/90 uppercase tracking-widest">
+              <Button 
+                type="submit" 
+                className="w-full h-12 text-md font-headline gap-2 bg-primary hover:bg-primary/90 uppercase tracking-widest disabled:opacity-50 disabled:grayscale"
+                disabled={!agreed}
+              >
                 Continue Registration <ChevronRight className="w-4 h-4" />
               </Button>
               <div className="text-center pt-2">
