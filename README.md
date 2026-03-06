@@ -8,7 +8,7 @@ This platform is a high-density portal for authentic Islamic knowledge, aligned 
 1. **Push to GitHub**: Initialize a Git repo and push this codebase.
 2. **Import to Vercel**: Connect your repo at [vercel.com](https://vercel.com).
 3. **Set Environment Variables**:
-   - `RESEND_API_KEY`: `re_8FwBzPCV_N6qrnm1m2Js7sMRpuTF8Sx5w`
+   - `RESEND_API_KEY`: `re_8FwBzPCV_N6qrnm1m2Js7sMRpuTF8Sx5w` (Integrated)
    - `NEXT_PUBLIC_HADITH_API_KEY`: (Your key from HadithAPI.com)
    - `GOOGLE_GENAI_API_KEY`: (Your Google AI Studio key)
 4. **Go Live**: Vercel will automatically build and serve the infrastructure via the Global Edge Network.
