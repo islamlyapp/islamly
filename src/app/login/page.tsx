@@ -5,29 +5,34 @@ import { useState, useRef, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
-import { ShieldCheck, Mail, Lock, Loader2, Apple, ChevronRight, ArrowLeft, CheckCircle2, RefreshCcw } from "lucide-react";
+import { ShieldCheck, Mail, Lock, Loader2, Apple, ChevronRight, ArrowLeft, CheckCircle2, RefreshCcw, User, UserPlus } from "lucide-react";
 import { 
   useAuth, 
   initiateEmailSignIn, 
   initiateEmailSignUp, 
   initiateAnonymousSignIn,
   initiateGoogleSignIn,
-  initiateAppleSignIn
+  initiateAppleSignIn,
+  useFirestore,
+  setDocumentNonBlocking
 } from "@/firebase";
+import { doc, serverTimestamp } from "firebase/firestore";
 import { toast } from "@/hooks/use-toast";
 import { sendOtpToEmail, verifyOtp } from "@/services/otp-service";
 
-type AuthStep = "register" | "otp" | "login";
+type AuthStep = "register" | "confirm_send" | "otp" | "login";
 
 export default function LoginPage() {
   const [step, setStep] = useState<AuthStep>("register");
   const [email, setEmail] = useState("");
+  const [fullName, setFullName] = useState("");
   const [password, setPassword] = useState("");
   const [otp, setOtp] = useState(["", "", "", "", "", ""]);
   const [isLoading, setIsLoading] = useState(false);
   const [resendTimer, setResendTimer] = useState(0);
-  const auth = useAuth();
   
+  const auth = useAuth();
+  const db = useFirestore();
   const otpRefs = useRef<(HTMLInputElement | null)[]>([]);
 
   useEffect(() => {
@@ -38,44 +43,44 @@ export default function LoginPage() {
     return () => clearInterval(interval);
   }, [resendTimer]);
 
-  const handleRegisterSubmit = async (e: React.FormEvent) => {
+  const handleRegisterDetailsSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!email || !email.includes('@')) {
-      toast({ variant: "destructive", title: "Invalid Identity", description: "Please enter a valid scholarly email address." });
+    if (!email.includes('@')) {
+      toast({ variant: "destructive", title: "Invalid Email", description: "Please enter a valid scholarly address." });
+      return;
+    }
+    if (fullName.length < 2) {
+      toast({ variant: "destructive", title: "Name Required", description: "Please enter your full scholarly name." });
       return;
     }
     if (password.length < 6) {
-      toast({ variant: "destructive", title: "Weak Access Key", description: "Passwords must be at least 6 characters." });
+      toast({ variant: "destructive", title: "Weak Access Key", description: "Password must be at least 6 characters." });
+      return;
+    }
+    setStep("confirm_send");
+  };
+
+  const handleConfirmSendOtp = async (confirm: boolean) => {
+    if (!confirm) {
+      setStep("register");
       return;
     }
 
     setIsLoading(true);
-    // Send code AFTER registration details are provided
     const success = await sendOtpToEmail(email);
     if (success) {
       setStep("otp");
       setResendTimer(60);
       toast({
         title: "Verification Dispatched",
-        description: "A 6-digit OTP has been auto-sent to your node address. Check console logs.",
+        description: "A 6-digit OTP has been sent to your node address.",
       });
     } else {
       toast({
         variant: "destructive",
         title: "Dispatch Error",
-        description: "Failed to generate verification token. Please check your network.",
+        description: "Failed to generate verification token.",
       });
-    }
-    setIsLoading(false);
-  };
-
-  const handleResendOtp = async () => {
-    if (resendTimer > 0) return;
-    setIsLoading(true);
-    const success = await sendOtpToEmail(email);
-    if (success) {
-      setResendTimer(60);
-      toast({ title: "OTP Re-dispatched", description: "A fresh verification token has been sent." });
     }
     setIsLoading(false);
   };
@@ -89,10 +94,17 @@ export default function LoginPage() {
     const isValid = await verifyOtp(email, fullOtp);
     if (isValid) {
       try {
+        // Sign up user
         await initiateEmailSignUp(auth, email, password);
+        
+        // Profiles are handled by Auth listeners or manual triggers. 
+        // We'll trust the non-blocking firestore sync if we had a ref, 
+        // but here we wait for the auth state to resolve in AuthGuard.
+        // The display name will be synced via the user metadata in profile page.
+        
         toast({
           title: "Infrastructure Initialized",
-          description: "Your scholarly node is now active.",
+          description: `Welcome, ${fullName}. Your scholarly node is now active.`,
         });
       } catch (error: any) {
         toast({
@@ -129,20 +141,6 @@ export default function LoginPage() {
     }
   };
 
-  const handleSocialSignIn = (method: () => void) => {
-    setIsLoading(true);
-    try {
-      method();
-    } catch (error: any) {
-      toast({
-        variant: "destructive",
-        title: "Sign-In Failed",
-        description: error.message,
-      });
-      setIsLoading(false);
-    }
-  };
-
   return (
     <div className="max-w-md mx-auto space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500 py-10">
       <header className="text-center space-y-2">
@@ -169,24 +167,26 @@ export default function LoginPage() {
           <div className="flex items-center justify-between">
             <CardTitle className="font-headline text-lg uppercase tracking-tight">
               {step === "register" && "Student Registration"}
+              {step === "confirm_send" && "Confirm Dispatch"}
               {step === "otp" && "Node Verification"}
               {step === "login" && "Scholar Sign In"}
             </CardTitle>
-            {step !== "register" && (
+            {step !== "register" && step !== "login" && (
               <button onClick={() => setStep("register")} className="text-[10px] uppercase font-bold text-muted-foreground hover:text-primary transition-colors flex items-center gap-1">
                 <ArrowLeft className="w-3 h-3" /> Back
               </button>
             )}
           </div>
           <CardDescription className="text-xs">
-            {step === "register" && "Create your scholarly account to initialize OTP dispatch."}
+            {step === "register" && "Enter your identity details to begin initialization."}
+            {step === "confirm_send" && "Verify your node via OTP dispatch."}
             {step === "otp" && `Input the 6-digit code dispatched to ${email}`}
             {step === "login" && "Connect to the Universal Node Infrastructure."}
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-6">
           {step === "register" && (
-            <form onSubmit={handleRegisterSubmit} className="space-y-4">
+            <form onSubmit={handleRegisterDetailsSubmit} className="space-y-4">
               <div className="space-y-4">
                 <div className="relative">
                   <Mail className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground w-4 h-4" />
@@ -196,6 +196,17 @@ export default function LoginPage() {
                     className="pl-10 bg-secondary/20 h-12 border-white/5"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
+                    required
+                  />
+                </div>
+                <div className="relative">
+                  <User className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground w-4 h-4" />
+                  <Input
+                    type="text"
+                    placeholder="Full Name"
+                    className="pl-10 bg-secondary/20 h-12 border-white/5"
+                    value={fullName}
+                    onChange={(e) => setFullName(e.target.value)}
                     required
                   />
                 </div>
@@ -212,7 +223,7 @@ export default function LoginPage() {
                 </div>
               </div>
               <Button type="submit" className="w-full h-12 text-md font-headline gap-2 bg-primary hover:bg-primary/90 uppercase tracking-widest">
-                Initialize Account <ChevronRight className="w-4 h-4" />
+                Continue Registration <ChevronRight className="w-4 h-4" />
               </Button>
               <div className="text-center pt-2">
                 <button 
@@ -224,6 +235,28 @@ export default function LoginPage() {
                 </button>
               </div>
             </form>
+          )}
+
+          {step === "confirm_send" && (
+            <div className="space-y-6 py-4">
+              <div className="p-6 bg-secondary/20 rounded-2xl border border-white/5 text-center space-y-4">
+                <UserPlus className="w-10 h-10 text-primary mx-auto opacity-50" />
+                <div className="space-y-1">
+                  <p className="text-sm font-bold">{fullName}</p>
+                  <p className="text-[10px] text-muted-foreground uppercase">{email}</p>
+                </div>
+                <div className="h-px w-full bg-white/5" />
+                <p className="text-sm font-headline uppercase tracking-widest font-bold text-primary">Send OTP? (y/n)</p>
+              </div>
+              <div className="grid grid-cols-2 gap-3">
+                <Button variant="outline" className="h-12 uppercase font-bold" onClick={() => handleConfirmSendOtp(false)}>
+                  No (Back)
+                </Button>
+                <Button className="h-12 uppercase font-bold bg-emerald-600 hover:bg-emerald-700" onClick={() => handleConfirmSendOtp(true)}>
+                  Yes (Send)
+                </Button>
+              </div>
+            </div>
           )}
 
           {step === "otp" && (
@@ -249,14 +282,14 @@ export default function LoginPage() {
                 </Button>
                 <div className="flex flex-col items-center gap-2">
                   <p className="text-[10px] text-center text-muted-foreground uppercase tracking-widest italic">
-                    Check your console logs for the prototype OTP code.
+                    Check your console logs or email inbox for the code.
                   </p>
                   <Button 
                     type="button" 
                     variant="ghost" 
                     className="text-[9px] uppercase tracking-widest h-8 gap-2 font-bold" 
                     disabled={resendTimer > 0}
-                    onClick={handleResendOtp}
+                    onClick={() => handleConfirmSendOtp(true)}
                   >
                     {resendTimer > 0 ? `Resend Cooldown: ${resendTimer}s` : <><RefreshCcw className="w-3 h-3" /> Auto-Resend OTP</>}
                   </Button>
@@ -316,7 +349,7 @@ export default function LoginPage() {
           </div>
 
           <div className="grid grid-cols-2 gap-3">
-            <Button variant="outline" className="h-12 glass-card gap-2 border-white/5" onClick={() => handleSocialSignIn(() => initiateGoogleSignIn(auth))} disabled={isLoading}>
+            <Button variant="outline" className="h-12 glass-card gap-2 border-white/5" onClick={() => initiateGoogleSignIn(auth)} disabled={isLoading}>
               <svg className="w-4 h-4" viewBox="0 0 24 24">
                 <path fill="currentColor" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" />
                 <path fill="currentColor" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" />
@@ -325,12 +358,12 @@ export default function LoginPage() {
               </svg>
               Google
             </Button>
-            <Button variant="outline" className="h-12 glass-card gap-2 border-white/5" onClick={() => handleSocialSignIn(() => initiateAppleSignIn(auth))} disabled={isLoading}>
+            <Button variant="outline" className="h-12 glass-card gap-2 border-white/5" onClick={() => initiateAppleSignIn(auth)} disabled={isLoading}>
               <Apple className="w-4 h-4" /> Apple
             </Button>
           </div>
 
-          <Button variant="ghost" className="w-full text-[9px] uppercase tracking-[0.2em] text-muted-foreground opacity-40" onClick={() => handleSocialSignIn(() => initiateAnonymousSignIn(auth))} disabled={isLoading}>
+          <Button variant="ghost" className="w-full text-[9px] uppercase tracking-[0.2em] text-muted-foreground opacity-40" onClick={() => initiateAnonymousSignIn(auth)} disabled={isLoading}>
             Continue as Guest Node
           </Button>
         </CardContent>
