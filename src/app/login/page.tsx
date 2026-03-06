@@ -1,10 +1,11 @@
+
 "use client";
 
 import { useState, useRef, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
-import { ShieldCheck, Mail, Lock, Loader2, Apple, ChevronRight, ArrowLeft, CheckCircle2, Send, RefreshCcw, UserPlus } from "lucide-react";
+import { ShieldCheck, Mail, Lock, Loader2, Apple, ChevronRight, ArrowLeft, CheckCircle2, RefreshCcw } from "lucide-react";
 import { 
   useAuth, 
   initiateEmailSignIn, 
@@ -15,7 +16,6 @@ import {
 } from "@/firebase";
 import { toast } from "@/hooks/use-toast";
 import { sendOtpToEmail, verifyOtp } from "@/services/otp-service";
-import { cn } from "@/lib/utils";
 
 type AuthStep = "register" | "otp" | "login";
 
@@ -30,7 +30,6 @@ export default function LoginPage() {
   
   const otpRefs = useRef<(HTMLInputElement | null)[]>([]);
 
-  // Timer for OTP resend capability
   useEffect(() => {
     let interval: any;
     if (resendTimer > 0) {
@@ -51,14 +50,14 @@ export default function LoginPage() {
     }
 
     setIsLoading(true);
-    // Send code ONLY after registration details are provided
+    // Send code AFTER registration details are provided
     const success = await sendOtpToEmail(email);
     if (success) {
       setStep("otp");
       setResendTimer(60);
       toast({
         title: "Verification Dispatched",
-        description: "A 6-digit OTP has been auto-sent to your node address.",
+        description: "A 6-digit OTP has been auto-sent to your node address. Check console logs.",
       });
     } else {
       toast({
@@ -90,7 +89,6 @@ export default function LoginPage() {
     const isValid = await verifyOtp(email, fullOtp);
     if (isValid) {
       try {
-        // Identity verified, now create the account
         await initiateEmailSignUp(auth, email, password);
         toast({
           title: "Infrastructure Initialized",
@@ -108,7 +106,7 @@ export default function LoginPage() {
       toast({
         variant: "destructive",
         title: "Verification Failed",
-        description: "The provided OTP does not match our scholarly records.",
+        description: "The provided OTP does not match our records.",
       });
       setIsLoading(false);
     }
@@ -187,7 +185,6 @@ export default function LoginPage() {
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-6">
-          {/* STEP 1: REGISTER (Email + Password) */}
           {step === "register" && (
             <form onSubmit={handleRegisterSubmit} className="space-y-4">
               <div className="space-y-4">
@@ -229,7 +226,6 @@ export default function LoginPage() {
             </form>
           )}
 
-          {/* STEP 2: OTP VERIFICATION */}
           {step === "otp" && (
             <form onSubmit={handleOtpVerifyAndSignUp} className="space-y-6">
               <div className="flex justify-between gap-2">
@@ -269,7 +265,6 @@ export default function LoginPage() {
             </form>
           )}
 
-          {/* LOGIN FLOW */}
           {step === "login" && (
             <form onSubmit={(e) => {
               e.preventDefault();
@@ -342,7 +337,7 @@ export default function LoginPage() {
       </Card>
 
       <footer className="text-center opacity-30">
-        <p className="text-[9px] text-muted-foreground uppercase tracking-[0.4em]">Universal Security Hub v3.8</p>
+        <p className="text-[9px] text-muted-foreground uppercase tracking-[0.4em]">© 2025 Islamly Universal Security Hub</p>
       </footer>
     </div>
   );
