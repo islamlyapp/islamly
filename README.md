@@ -3,31 +3,37 @@
 
 This platform is a high-density portal for authentic Islamic knowledge, aligned with the Salafi/Athari methodology, featuring the Al-Mualim AI Teacher and a scale of **11.7 Quadrillion verified features**.
 
-## 🚀 Final Deployment to Vercel
+## 🚀 Deployment to Vercel (Terminal Workflow)
 
-To take the "Universal Node" live on the `islamly.uk` domain:
+To take the "Universal Node" live on `islamly.uk` using the terminal:
 
-1. **Initialize Git**:
+1. **Initialize & Push to GitHub**:
    ```bash
    git init
    git add .
-   git commit -m "feat: Initialize Universal Scholarly Infrastructure"
-   ```
-
-2. **Push to GitHub**:
-   Create a repository on GitHub, then link and push:
-   ```bash
-   git remote add origin https://github.com/YOUR_USERNAME/islamly-infrastructure.git
+   git commit -m "feat: Initialize Production Infrastructure"
+   git remote add origin https://github.com/islamlyapp/islamly.git
    git branch -M main
    git push -u origin main
    ```
 
-3. **Connect to Vercel**:
-   - Go to [vercel.com](https://vercel.com).
-   - Import your GitHub repo.
-   - **Crucial**: Add the Environment Variable `RESEND_API_KEY` with the value `re_8FwBzPCV_N6qrnm1m2Js7sMRpuTF8Sx5w`.
+2. **Deploy via Vercel CLI**:
+   ```bash
+   # Install Vercel CLI if you haven't
+   npm i -g vercel
 
-4. **DNS Handshake**:
+   # Login and Link
+   vercel login
+   vercel link
+
+   # Add Scholarly Secret Node Keys
+   vercel env add RESEND_API_KEY re_8FwBzPCV_N6qrnm1m2Js7sMRpuTF8Sx5w
+
+   # Deploy to Production
+   vercel --prod
+   ```
+
+3. **DNS Handshake**:
    - Go to your Resend Dashboard and add the SPF/DKIM records to your domain provider to authorize `verification@islamly.uk`.
 
 ## Core Features
