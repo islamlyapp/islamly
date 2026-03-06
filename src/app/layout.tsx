@@ -10,8 +10,8 @@ import Script from 'next/script';
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://islamly.uk'),
-  title: 'Islamly - Authentic Scholarly Infrastructure',
-  description: 'AI-powered recitation correction, memorization tracking, and a curated collection of classical Islamic texts. Built for the global Ummah.',
+  title: 'Islamly - Universal Scholarly Infrastructure',
+  description: 'AI-powered recitation correction, authentic scholarly index, and the 10 canonical Qira\'at. Built for the global Ummah upon the methodology of the Salaf.',
   applicationName: 'Islamly',
   appleWebApp: {
     capable: true,
@@ -80,6 +80,11 @@ export default function RootLayout({
             <Toaster />
           </AuthGuard>
         </FirebaseClientProvider>
+        <footer className="hidden md:block py-6 text-center border-t border-white/5 opacity-40">
+          <p className="text-[10px] uppercase tracking-[0.4em] font-bold">
+            © 2025 Islamly • Universal Scholarly Infrastructure • All Rights Reserved
+          </p>
+        </footer>
       </body>
     </html>
   );
