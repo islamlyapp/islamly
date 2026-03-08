@@ -1,10 +1,9 @@
-
 "use client";
 
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Mic, MicOff, Waves, Sparkles, Loader2, CheckCircle2, AlertCircle, RotateCcw, Volume2, BookOpen, ScrollText, Library, ChevronRight } from "lucide-react";
+import { Mic, MicOff, Waves, Sparkles, Loader2, CheckCircle2, AlertCircle, RotateCcw, Volume2, BookOpen, ScrollText, Library } from "lucide-react";
 import { provideRecitationFeedback, type MualimFeedbackOutput } from "@/ai/flows/mualim-feedback-flow";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -38,16 +37,18 @@ export default function MualimPage() {
   const [result, setResult] = useState<MualimFeedbackOutput | null>(null);
   const [transcription, setTranscription] = useState("");
   const [hasMounted, setHasMounted] = useState(false);
+  const [randomHeights, setRandomHeights] = useState<number[]>([]);
 
   useEffect(() => {
     setHasMounted(true);
+    // Initialize random heights for the waveform on the client
+    setRandomHeights(Array.from({ length: 12 }).map(() => 20 + Math.random() * 60));
   }, []);
 
   const startReciting = () => {
     setIsRecording(true);
     setResult(null);
     setTranscription("Bismillah...");
-    // Simulated transcription growth
     const timer = setInterval(() => {
       setTranscription(prev => prev + " .");
     }, 1000);
@@ -125,12 +126,12 @@ export default function MualimPage() {
           <CardContent className="p-8 flex flex-col items-center gap-6">
             <div className="h-24 w-full flex items-center justify-center gap-1">
               {isRecording && hasMounted ? (
-                Array.from({ length: 12 }).map((_, i) => (
+                randomHeights.map((h, i) => (
                   <div 
                     key={i} 
                     className="w-1.5 bg-primary rounded-full animate-bounce"
                     style={{ 
-                      height: `${20 + Math.random() * 60}%`,
+                      height: `${h}%`,
                       animationDelay: `${i * 0.1}s`,
                       animationDuration: '0.6s'
                     }}

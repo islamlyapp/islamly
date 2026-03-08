@@ -115,10 +115,7 @@ export default function PrayerTimesPage() {
         setQibla(qData.direction);
 
         const now = new Date();
-        const dd = now.getDate().toString().padStart(2, '0');
-        const mm = (now.getMonth() + 1).toString().padStart(2, '0');
-        const yy = now.getFullYear();
-        const dateStr = `${dd}-${mm}-${yy}`;
+        const dateStr = `${now.getDate().toString().padStart(2, '0')}-${(now.getMonth() + 1).toString().padStart(2, '0')}-${now.getFullYear()}`;
         const hData = await fetchHijriDate(dateStr);
         setHijri(hData);
       }
@@ -165,10 +162,7 @@ export default function PrayerTimesPage() {
           setQibla(qiblaData.direction);
 
           const now = new Date();
-          const dd = now.getDate().toString().padStart(2, '0');
-          const mm = (now.getMonth() + 1).toString().padStart(2, '0');
-          const yy = now.getFullYear();
-          const dateStr = `${dd}-${mm}-${yy}`;
+          const dateStr = `${now.getDate().toString().padStart(2, '0')}-${(now.getMonth() + 1).toString().padStart(2, '0')}-${now.getFullYear()}`;
           const hData = await fetchHijriDate(dateStr);
           setHijri(hData);
         } catch (err) {
@@ -300,7 +294,7 @@ export default function PrayerTimesPage() {
               </div>
               <CardContent className="p-8 text-center space-y-4 relative z-10">
                 <p className="text-primary uppercase tracking-[0.2em] font-headline font-bold text-xs">Next Prayer</p>
-                <h2 className="text-5xl font-headline font-bold">{nextPrayer.name}</h2>
+                <h2 className="text-5xl font-headline font-bold">{nextPrayer?.name || '---'}</h2>
                 <p className="text-muted-foreground">{locationName}</p>
                 
                 <div className="pt-4 flex flex-col items-center gap-3">
