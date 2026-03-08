@@ -33,7 +33,7 @@ import { fetchPrayerTimesByCoords, fetchQibla, fetchCityCoordinates, fetchHijriD
 
 const methods = [
   { id: 1, name: "University of Islamic Sciences, Karachi" },
-  { id: 2, name: "Islamic Society of North America (ISNA)" },
+  { id: 2, name: "ISNA (North America)" },
   { id: 3, name: "Muslim World League (MWL)" },
   { id: 4, name: "Umm Al-Qura University, Makkah" },
   { id: 5, name: "Egyptian General Authority of Survey" }

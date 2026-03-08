@@ -12,7 +12,6 @@ import {
   Apple, 
   ChevronRight, 
   ArrowLeft, 
-  CheckCircle2, 
   RefreshCcw, 
   User, 
   UserPlus,

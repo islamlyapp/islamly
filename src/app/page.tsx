@@ -94,7 +94,7 @@ export default function Home() {
     { title: "Teens", href: "/teens", icon: Flame, color: "text-violet-400", bg: "bg-violet-500/10", border: "border-violet-500/20", group: "Community" },
     { title: "Reverts", href: "/reverts", icon: UserCheck, color: "text-emerald-400", bg: "bg-emerald-500/10", border: "border-emerald-500/20", group: "Community" },
     { title: "Parenting", href: "/parenting", icon: Baby, color: "text-rose-400", bg: "bg-rose-500/10", border: "border-rose-500/20", group: "Community" },
-    { title: "Dawah", href: "/dawah", icon: Globe, color: "text-blue-400", bg: "bg-blue-500/10", border: "border-border-blue-500/20", group: "Community" },
+    { title: "Dawah", href: "/dawah", icon: Globe, color: "text-blue-400", bg: "bg-blue-500/10", border: "border-blue-500/20", group: "Community" },
     { title: "Circles", href: "/circles", icon: Users, color: "text-purple-500", bg: "bg-purple-500/10", border: "border-purple-500/20", group: "Community" },
     { title: "Elderly", href: "/family", icon: Users, color: "text-amber-400", bg: "bg-amber-500/10", border: "border-amber-500/20", group: "Community" },
 
