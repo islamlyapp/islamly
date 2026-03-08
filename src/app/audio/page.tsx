@@ -43,10 +43,12 @@ export default function AudioPage() {
     async function init() {
       try {
         const [r, s] = await Promise.all([fetchReciters(), fetchSurahList()]);
-        setReciters(r);
-        setSurahs(s);
-        const defaultReciter = r.find((rec: any) => rec.id === 7) || r[0];
-        setCurrentReciter(defaultReciter); 
+        setReciters(r || []);
+        setSurahs(s || []);
+        if (r && r.length > 0) {
+          const defaultReciter = r.find((rec: any) => rec.id === 7) || r[0];
+          setCurrentReciter(defaultReciter); 
+        }
       } catch (err) {
         console.error(err);
       } finally {
@@ -73,10 +75,14 @@ export default function AudioPage() {
     
     try {
       const audioData = await fetchSurahAudio(surah.id, currentReciter.id);
+      if (!audioData?.audio_url) throw new Error("No audio URL found");
+      
       const audio = new Audio(audioData.audio_url);
       
       audio.addEventListener('timeupdate', () => {
-        setProgress((audio.currentTime / audio.duration) * 100);
+        if (audio.duration) {
+          setProgress((audio.currentTime / audio.duration) * 100);
+        }
       });
       
       audio.addEventListener('ended', () => {
@@ -102,12 +108,12 @@ export default function AudioPage() {
     if (isPlaying) {
       audioElement.pause();
     } else {
-      audioElement.play();
+      audioElement.play().catch(console.error);
     }
     setIsPlaying(!isPlaying);
   };
 
-  const filteredReciters = reciters.filter(r => 
+  const filteredReciters = (reciters || []).filter(r => 
     (r.reciter_name || '').toLowerCase().includes(search.toLowerCase()) ||
     (r.style || '').toLowerCase().includes(search.toLowerCase())
   );

@@ -67,7 +67,9 @@ export default function PrayerTimesPage() {
     setHasMounted(true);
     const interval = setInterval(() => {
       const now = new Date();
-      setCurrentTimeStr(now.getHours().toString().padStart(2, '0') + ":" + now.getMinutes().toString().padStart(2, '0'));
+      const hh = now.getHours().toString().padStart(2, '0');
+      const mm = now.getMinutes().toString().padStart(2, '0');
+      setCurrentTimeStr(`${hh}:${mm}`);
     }, 1000);
     return () => clearInterval(interval);
   }, []);
@@ -113,7 +115,10 @@ export default function PrayerTimesPage() {
         setQibla(qData.direction);
 
         const now = new Date();
-        const dateStr = `${now.getDate().toString().padStart(2, '0')}-${(now.getMonth() + 1).toString().padStart(2, '0')}-${now.getFullYear()}`;
+        const dd = now.getDate().toString().padStart(2, '0');
+        const mm = (now.getMonth() + 1).toString().padStart(2, '0');
+        const yy = now.getFullYear();
+        const dateStr = `${dd}-${mm}-${yy}`;
         const hData = await fetchHijriDate(dateStr);
         setHijri(hData);
       }
@@ -139,40 +144,44 @@ export default function PrayerTimesPage() {
   };
 
   const handleAutoDetect = () => {
-    setLoading(true);
-    if (typeof window !== 'undefined' && "geolocation" in navigator) {
-      navigator.geolocation.getCurrentPosition(
-        async (position) => {
-          const { latitude, longitude } = position.coords;
-          try {
-            const data = await fetchPrayerTimesByCoords(latitude, longitude, method.id);
-            setTimings(data.timings);
-            setLocationName(`GPS Detected`);
-            setIsAutoLocation(true);
-            setShowSearch(false);
-            
-            const qiblaData = await fetchQibla(latitude, longitude);
-            setQibla(qiblaData.direction);
-
-            const now = new Date();
-            const dateStr = `${now.getDate().toString().padStart(2, '0')}-${(now.getMonth() + 1).toString().padStart(2, '0')}-${now.getFullYear()}`;
-            const hData = await fetchHijriDate(dateStr);
-            setHijri(hData);
-          } catch (err) {
-            loadDefaultTimes();
-          } finally {
-            setLoading(false);
-          }
-        },
-        () => {
-          setShowSearch(true);
-          loadDefaultTimes();
-        }
-      );
-    } else {
+    if (typeof window === 'undefined' || !("geolocation" in navigator)) {
       setShowSearch(true);
       loadDefaultTimes();
+      return;
     }
+
+    setLoading(true);
+    navigator.geolocation.getCurrentPosition(
+      async (position) => {
+        const { latitude, longitude } = position.coords;
+        try {
+          const data = await fetchPrayerTimesByCoords(latitude, longitude, method.id);
+          setTimings(data.timings);
+          setLocationName(`GPS Detected`);
+          setIsAutoLocation(true);
+          setShowSearch(false);
+          
+          const qiblaData = await fetchQibla(latitude, longitude);
+          setQibla(qiblaData.direction);
+
+          const now = new Date();
+          const dd = now.getDate().toString().padStart(2, '0');
+          const mm = (now.getMonth() + 1).toString().padStart(2, '0');
+          const yy = now.getFullYear();
+          const dateStr = `${dd}-${mm}-${yy}`;
+          const hData = await fetchHijriDate(dateStr);
+          setHijri(hData);
+        } catch (err) {
+          loadDefaultTimes();
+        } finally {
+          setLoading(false);
+        }
+      },
+      () => {
+        setShowSearch(true);
+        loadDefaultTimes();
+      }
+    );
   };
 
   useEffect(() => {
@@ -247,7 +256,7 @@ export default function PrayerTimesPage() {
           <div className="flex gap-2">
             {hijri?.month && (
               <Badge variant="secondary" className="hidden sm:flex bg-primary/5 text-primary border-primary/10" aria-label={`Hijri Date: ${hijri?.day || ''} ${hijri?.month?.en || ''} ${hijri?.year || ''} AH`}>
-                {hijri?.day} {hijri?.month?.en} {hijri?.year} AH
+                {hijri.day} {hijri.month.en} {hijri.year} AH
               </Badge>
             )}
             <button 
@@ -294,7 +303,7 @@ export default function PrayerTimesPage() {
               </div>
               <CardContent className="p-8 text-center space-y-4 relative z-10">
                 <p id="next-prayer-title" className="text-primary uppercase tracking-[0.2em] font-headline font-bold text-xs">Next Prayer</p>
-                <h2 className="text-5xl font-headline font-bold">{nextPrayer?.name || "Loading"}</h2>
+                <h2 className="text-5xl font-headline font-bold">{nextPrayer.name}</h2>
                 <p className="text-muted-foreground">{locationName}</p>
                 
                 <div className="pt-4 flex flex-col items-center gap-3">
