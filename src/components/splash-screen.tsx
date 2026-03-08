@@ -1,3 +1,4 @@
+
 "use client";
 
 import { ShieldCheck, ChevronRight, Loader2 } from "lucide-react";
@@ -16,7 +17,7 @@ export function SplashScreen() {
   const [showSkip, setShowSkip] = useState(false);
   const [featureCount, setFeatureCount] = useState<string>("2.5 Billion");
   
-  const brandHero = PlaceHolderImages.find(img => img.id === 'brand-hero')!;
+  const brandHero = PlaceHolderImages?.find(img => img.id === 'brand-hero');
 
   useEffect(() => {
     const timer = setTimeout(() => setShow(true), 100);
@@ -24,8 +25,12 @@ export function SplashScreen() {
     const skipTimer = setTimeout(() => setShowSkip(true), 1500);
     
     // Set dynamic feature count
-    const count = calculateCurrentFeatures();
-    setFeatureCount(formatFeatureCount(count));
+    try {
+      const count = calculateCurrentFeatures();
+      setFeatureCount(formatFeatureCount(count));
+    } catch (e) {
+      console.warn("Feature count calculation failed");
+    }
     
     return () => {
       clearTimeout(timer);
@@ -34,21 +39,25 @@ export function SplashScreen() {
   }, []);
 
   const handleManualEnter = () => {
-    window.location.reload();
+    if (typeof window !== 'undefined') {
+      window.location.reload();
+    }
   };
 
   return (
     <div className="fixed inset-0 z-[100] flex flex-col items-center justify-center bg-[#0a0304] overflow-hidden">
       {/* Background Image Matching Logo Vibe */}
       <div className="absolute inset-0 opacity-30">
-        <Image 
-          src={brandHero.imageUrl}
-          alt="Library Background"
-          fill
-          className="object-cover"
-          priority
-          data-ai-hint="dark library"
-        />
+        {brandHero && (
+          <Image 
+            src={brandHero.imageUrl}
+            alt="Library Background"
+            fill
+            className="object-cover"
+            priority
+            data-ai-hint="dark library"
+          />
+        )}
         <div className="absolute inset-0 bg-gradient-to-b from-[#0a0304] via-transparent to-[#0a0304]" />
       </div>
 

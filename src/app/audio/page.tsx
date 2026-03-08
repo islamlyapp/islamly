@@ -1,4 +1,3 @@
-
 "use client";
 
 import { useState, useEffect } from "react";
@@ -46,7 +45,8 @@ export default function AudioPage() {
         const [r, s] = await Promise.all([fetchReciters(), fetchSurahList()]);
         setReciters(r);
         setSurahs(s);
-        setCurrentReciter(r.find((rec: any) => rec.id === 7) || r[0]); // Default to Mishary
+        const defaultReciter = r.find((rec: any) => rec.id === 7) || r[0];
+        setCurrentReciter(defaultReciter); 
       } catch (err) {
         console.error(err);
       } finally {
@@ -57,6 +57,8 @@ export default function AudioPage() {
   }, []);
 
   const playSurah = async (surah: any) => {
+    if (!currentReciter) return;
+    
     if (currentSurah?.id === surah.id && audioElement) {
       togglePlayback();
       return;
@@ -106,8 +108,8 @@ export default function AudioPage() {
   };
 
   const filteredReciters = reciters.filter(r => 
-    r.reciter_name.toLowerCase().includes(search.toLowerCase()) ||
-    r.style?.toLowerCase().includes(search.toLowerCase())
+    (r.reciter_name || '').toLowerCase().includes(search.toLowerCase()) ||
+    (r.style || '').toLowerCase().includes(search.toLowerCase())
   );
 
   return (
@@ -203,7 +205,17 @@ export default function AudioPage() {
                     </div>
                     {currentSurah?.id === surah.id && isPlaying && hasMounted ? (
                       <div className="flex gap-0.5 items-end h-3">
-                        {[1, 2, 3].map(i => <div key={i} className="w-1 bg-emerald-400 animate-bounce" style={{ height: `${Math.floor(Math.random()*100)}%`, animationDelay: `${i*0.1}s` }} />)}
+                        {[1, 2, 3].map(i => (
+                          <div 
+                            key={i} 
+                            className="w-1 bg-emerald-400 animate-bounce" 
+                            style={{ 
+                              height: `${40 + (i * 15)}%`, 
+                              animationDelay: `${i*0.1}s`,
+                              animationDuration: '0.5s'
+                            }} 
+                          />
+                        ))}
                       </div>
                     ) : (
                       <Play className="w-3 h-3 text-muted-foreground group-hover:text-emerald-400 transition-colors" />

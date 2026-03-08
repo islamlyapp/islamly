@@ -1,7 +1,6 @@
-
 "use client";
 
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { ScrollText, Search, History, BookOpen, ExternalLink, ShieldCheck, Database, FileDown } from "lucide-react";
 import { Input } from "@/components/ui/input";
@@ -93,7 +92,7 @@ export default function ManuscriptsPage() {
               </div>
               
               <div className="grid grid-cols-2 gap-3 pt-2">
-                <Button variant="outline" className="h-9 text-[10px] uppercase font-bold gap-2" onClick={() => window.open(m.teraBoxUrl, '_blank')}>
+                <Button variant="outline" className="h-9 text-[10px] uppercase font-bold gap-2" onClick={() => typeof window !== 'undefined' && window.open(m.teraBoxUrl, '_blank')}>
                   <FileDown className="w-3.5 h-3.5 text-blue-400" /> High-Res Scans
                 </Button>
                 <Button variant="ghost" className="h-9 text-[10px] uppercase font-bold gap-2 text-yellow-500 hover:text-yellow-400">

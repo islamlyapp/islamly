@@ -1,4 +1,3 @@
-
 "use client";
 
 import { Card, CardContent } from "@/components/ui/card";
@@ -58,12 +57,14 @@ export default function PrayerTimesPage() {
   const [currentTimeStr, setCurrentTimeStr] = useState("");
   const [qibla, setQibla] = useState<number | null>(null);
   const [hijri, setHijri] = useState<any>(null);
+  const [hasMounted, setHasMounted] = useState(false);
 
   const [isPlayingAdhan, setIsPlayingAdhan] = useState(false);
   const [currentAdhanStyle, setCurrentAdhanStyle] = useState(ADHAN_STYLES[0]);
   const audioRef = useRef<HTMLAudioElement | null>(null);
 
   useEffect(() => {
+    setHasMounted(true);
     const interval = setInterval(() => {
       const now = new Date();
       setCurrentTimeStr(now.getHours().toString().padStart(2, '0') + ":" + now.getMinutes().toString().padStart(2, '0'));
@@ -72,6 +73,7 @@ export default function PrayerTimesPage() {
   }, []);
 
   const toggleAdhan = () => {
+    if (typeof window === 'undefined') return;
     if (!audioRef.current) {
       audioRef.current = new Audio(currentAdhanStyle.url);
       audioRef.current.onended = () => setIsPlayingAdhan(false);
@@ -138,7 +140,7 @@ export default function PrayerTimesPage() {
 
   const handleAutoDetect = () => {
     setLoading(true);
-    if ("geolocation" in navigator) {
+    if (typeof window !== 'undefined' && "geolocation" in navigator) {
       navigator.geolocation.getCurrentPosition(
         async (position) => {
           const { latitude, longitude } = position.coords;
@@ -174,8 +176,10 @@ export default function PrayerTimesPage() {
   };
 
   useEffect(() => {
-    handleAutoDetect();
-  }, [method]);
+    if (hasMounted) {
+      handleAutoDetect();
+    }
+  }, [method, hasMounted]);
 
   const prayers = useMemo(() => {
     if (!timings) return [];
@@ -232,9 +236,9 @@ export default function PrayerTimesPage() {
             )}
           </div>
           <div className="flex gap-2">
-            {hijri && (
-              <Badge variant="secondary" className="hidden sm:flex bg-primary/5 text-primary border-primary/10" aria-label={`Hijri Date: ${hijri.day} ${hijri.month.en} ${hijri.year} AH`}>
-                {hijri.day} {hijri.month.en} {hijri.year} AH
+            {hijri?.month && (
+              <Badge variant="secondary" className="hidden sm:flex bg-primary/5 text-primary border-primary/10" aria-label={`Hijri Date: ${hijri.day} ${hijri.month?.en || ''} ${hijri.year} AH`}>
+                {hijri.day} {hijri.month?.en} {hijri.year} AH
               </Badge>
             )}
             <button 
@@ -281,7 +285,7 @@ export default function PrayerTimesPage() {
               </div>
               <CardContent className="p-8 text-center space-y-4 relative z-10">
                 <p id="next-prayer-title" className="text-primary uppercase tracking-[0.2em] font-headline font-bold text-xs">Next Prayer</p>
-                <h2 className="text-5xl font-headline font-bold">{nextPrayer.name}</h2>
+                <h2 className="text-5xl font-headline font-bold">{nextPrayer?.name || "Loading"}</h2>
                 <p className="text-muted-foreground">{locationName}</p>
                 
                 <div className="pt-4 flex flex-col items-center gap-3">
@@ -333,7 +337,7 @@ export default function PrayerTimesPage() {
 
           <div className="grid gap-2" role="list" aria-label="Daily Prayer Times">
             {prayers.map((prayer) => {
-              const isNext = prayer.name === nextPrayer.name;
+              const isNext = prayer.name === nextPrayer?.name;
               return (
                 <Card key={prayer.name} role="listitem" className={cn(
                   "glass-card border-none transition-all hover:translate-x-1",
