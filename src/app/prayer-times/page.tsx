@@ -98,6 +98,7 @@ export default function PrayerTimesPage() {
   };
 
   const loadTimesByCity = async (city: string) => {
+    if (!city.trim()) return;
     setLoading(true);
     try {
       const coords = await fetchCityCoordinates(city);
@@ -111,11 +112,10 @@ export default function PrayerTimesPage() {
         const qData = await fetchQibla(coords.lat, coords.lon);
         setQibla(qData.direction);
 
-        const dateStr = new Date().toLocaleDateString('en-GB').replace(/\//g, '-');
+        const now = new Date();
+        const dateStr = `${now.getDate().toString().padStart(2, '0')}-${(now.getMonth() + 1).toString().padStart(2, '0')}-${now.getFullYear()}`;
         const hData = await fetchHijriDate(dateStr);
         setHijri(hData);
-      } else {
-        throw new Error("City not found");
       }
     } catch (err) {
       console.error(err);
@@ -154,7 +154,8 @@ export default function PrayerTimesPage() {
             const qiblaData = await fetchQibla(latitude, longitude);
             setQibla(qiblaData.direction);
 
-            const dateStr = new Date().toLocaleDateString('en-GB').replace(/\//g, '-');
+            const now = new Date();
+            const dateStr = `${now.getDate().toString().padStart(2, '0')}-${(now.getMonth() + 1).toString().padStart(2, '0')}-${now.getFullYear()}`;
             const hData = await fetchHijriDate(dateStr);
             setHijri(hData);
           } catch (err) {
@@ -163,8 +164,7 @@ export default function PrayerTimesPage() {
             setLoading(false);
           }
         },
-        (error) => {
-          console.warn("Location denied", error);
+        () => {
           setShowSearch(true);
           loadDefaultTimes();
         }
@@ -190,7 +190,7 @@ export default function PrayerTimesPage() {
       { name: "Asr", time: timings.Asr },
       { name: "Maghrib", time: timings.Maghrib },
       { name: "Isha", time: timings.Isha },
-    ];
+    ].filter(p => !!p.time);
   }, [timings]);
 
   const nextPrayer = useMemo(() => {
@@ -237,8 +237,8 @@ export default function PrayerTimesPage() {
           </div>
           <div className="flex gap-2">
             {hijri?.month && (
-              <Badge variant="secondary" className="hidden sm:flex bg-primary/5 text-primary border-primary/10" aria-label={`Hijri Date: ${hijri.day} ${hijri.month?.en || ''} ${hijri.year} AH`}>
-                {hijri.day} {hijri.month?.en} {hijri.year} AH
+              <Badge variant="secondary" className="hidden sm:flex bg-primary/5 text-primary border-primary/10" aria-label={`Hijri Date: ${hijri?.day || ''} ${hijri?.month?.en || ''} ${hijri?.year || ''} AH`}>
+                {hijri?.day} {hijri?.month?.en} {hijri?.year} AH
               </Badge>
             )}
             <button 
@@ -325,7 +325,7 @@ export default function PrayerTimesPage() {
               </CardContent>
             </Card>
 
-            {qibla && (
+            {qibla !== null && (
               <Card className="glass-card border-accent/20 flex flex-col items-center justify-center p-6 text-center" aria-label={`Qibla direction: ${Math.round(qibla)} degrees from North`}>
                 <Compass className="w-12 h-12 text-accent mb-4 animate-pulse" style={{ transform: `rotate(${qibla}deg)` }} aria-hidden="true" />
                 <h3 className="font-headline font-bold text-lg">Qibla Direction</h3>
@@ -378,7 +378,7 @@ export default function PrayerTimesPage() {
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-[10px] uppercase font-bold tracking-widest text-muted-foreground">
           <div className="space-y-1">
             <span className="block opacity-50">Precision Method</span>
-            <span className="text-primary">{method.name}</span>
+            <span className="text-primary">{method?.name || 'Standard'}</span>
           </div>
           <div className="space-y-1">
             <span className="block opacity-50">Audio Source</span>

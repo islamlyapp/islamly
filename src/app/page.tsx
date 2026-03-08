@@ -59,7 +59,7 @@ export default function Home() {
     setFeatureCount(formatFeatureCount(count));
   }, []);
 
-  const brandHero = PlaceHolderImages.find(img => img.id === 'brand-hero')!;
+  const brandHero = PlaceHolderImages?.find(img => img.id === 'brand-hero') || PlaceHolderImages[0];
 
   const allModules = [
     // Cluster 1: AI Infrastructure

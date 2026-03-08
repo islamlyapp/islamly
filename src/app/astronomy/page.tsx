@@ -10,7 +10,8 @@ export default function AstronomyPage() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    setTimeout(() => setLoading(false), 1500);
+    const timer = setTimeout(() => setLoading(false), 1500);
+    return () => clearTimeout(timer);
   }, []);
 
   return (
@@ -77,7 +78,7 @@ export default function AstronomyPage() {
             </div>
           ) : (
             <>
-              <div className="absolute inset-0 opacity-20 bg-[url('https://picsum.photos/seed/worldmap/800/400')] bg-cover" />
+              <div className="absolute inset-0 opacity-20 bg-cover bg-center" style={{ backgroundImage: "url(https://picsum.photos/seed/worldmap/800/400)" }} />
               <div className="relative z-10 text-center space-y-2">
                 <Sparkles className="w-10 h-10 text-blue-400 mx-auto" />
                 <p className="text-sm font-headline font-bold">Interactive Projection Active</p>

@@ -1,4 +1,3 @@
-
 "use client";
 
 import { Card, CardContent } from "@/components/ui/card";
@@ -18,7 +17,6 @@ export default function QuranPage() {
   const [surahs, setSurahs] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
 
-  // Get user profile for language preference
   const profileRef = useMemoFirebase(() => {
     if (!db || !user?.uid) return null;
     return doc(db, "users", user.uid);
@@ -29,10 +27,8 @@ export default function QuranPage() {
   useEffect(() => {
     async function loadSurahs() {
       try {
-        // Fetch Surah list. The API will be in English by default, 
-        // but we can display the preferred language if available in the profile.
         const data = await fetchSurahList();
-        setSurahs(data);
+        setSurahs(data || []);
       } catch (err) {
         console.error(err);
       } finally {
@@ -42,10 +38,12 @@ export default function QuranPage() {
     loadSurahs();
   }, []);
 
-  const filteredSurahs = surahs.filter(s => 
-    s.name_simple.toLowerCase().includes(search.toLowerCase()) || 
-    s.translated_name.name.toLowerCase().includes(search.toLowerCase())
-  );
+  const filteredSurahs = surahs.filter(s => {
+    const searchLower = search.toLowerCase();
+    const nameSimple = (s.name_simple || "").toLowerCase();
+    const translatedName = (s.translated_name?.name || "").toLowerCase();
+    return nameSimple.includes(searchLower) || translatedName.includes(searchLower);
+  });
 
   return (
     <div className="space-y-6 animate-in fade-in duration-500 pb-20">
@@ -102,8 +100,7 @@ export default function QuranPage() {
                   <div className="text-right">
                     <p className="text-xl font-serif text-literata" dir="rtl">{surah.name_arabic}</p>
                     <p className="text-[9px] text-muted-foreground">
-                      {/* Show English meaning as fallback if needed */}
-                      {surah.translated_name.name}
+                      {surah.translated_name?.name || "Standard Translation"}
                     </p>
                   </div>
                 </CardContent>

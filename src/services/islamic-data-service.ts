@@ -65,7 +65,7 @@ export async function fetchMasjids(lat: number, lng: number, radius: number = 50
     const query = `[out:json];node["amenity"="place_of_worship"]["religion"="muslim"](around:${radius},${lat},${lng});out;`;
     const response = await fetch(`https://overpass-api.de/api/interpreter?data=${encodeURIComponent(query)}`);
     const data = await response.json();
-    return data.elements.map((node: any) => ({
+    return (data.elements || []).map((node: any) => ({
       id: node.id,
       name: node.tags.name || "Unnamed Masjid",
       address: node.tags["addr:street"] ? `${node.tags["addr:street"]} ${node.tags["addr:housenumber"] || ""}` : "Address not listed",
@@ -84,7 +84,11 @@ export async function fetchMasjids(lat: number, lng: number, radius: number = 50
  */
 export async function fetchCityCoordinates(query: string) {
   try {
-    const response = await fetch(`https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(query)}&format=json&limit=1`);
+    const response = await fetch(`https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(query)}&format=json&limit=1`, {
+      headers: {
+        'User-Agent': 'IslamlyApp/1.0 (contact@islamly.uk)'
+      }
+    });
     const data = await response.json();
     if (data && data.length > 0) {
       return {
@@ -175,11 +179,9 @@ export async function fetchReciters() {
 
 /**
  * Hadith API integration
- * Note: HadithAPI.com usually requires a free key. Placeholder logic included.
  */
 export async function fetchHadiths(query: string = '', book: string = 'bukhari') {
   try {
-    // Note: For a real app, the API key should be in .env.local
     const apiKey = process.env.NEXT_PUBLIC_HADITH_API_KEY || 'no-key-provided';
     const response = await fetch(`https://hadithapi.com/api/hadiths?apiKey=${apiKey}&book=${book}&paginate=10`);
     const data = await response.json();

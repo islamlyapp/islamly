@@ -53,12 +53,12 @@ export default function ManuscriptsPage() {
           <div className="p-2 bg-blue-500/10 rounded-lg">
             <Database className="w-5 h-5 text-blue-400" />
           </div>
-          <div>
+          <div className="space-y-0.5">
             <p className="text-xs font-bold text-blue-400 uppercase tracking-tight">Internal Data Infrastructure</p>
-            <p className="text-[10px] text-muted-foreground">High-resolution scans are served via the universal scholarly node.</p>
+            <p className="text-[10px] text-muted-foreground leading-tight">High-resolution scans are served via the universal scholarly node.</p>
           </div>
         </div>
-        <Badge variant="outline" className="text-[9px] border-blue-500/30 text-blue-400">1TB Node Capacity Active</Badge>
+        <Badge variant="outline" className="text-[9px] border-blue-500/30 text-blue-400 shrink-0">1TB Node Active</Badge>
       </section>
 
       <div className="relative">
