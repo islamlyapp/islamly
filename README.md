@@ -15,9 +15,9 @@ To take the "Universal Node" live on `islamly.uk` using the terminal:
 2. **Initialize & Push to GitHub**:
    ```bash
    git init
+   git remote add origin https://github.com/islamlyapp/islamly.git
    git add .
    git commit -m "feat: Initialize Production Infrastructure"
-   git remote add origin https://github.com/islamlyapp/islamly.git
    git branch -M main
    git push -u origin main
    ```
