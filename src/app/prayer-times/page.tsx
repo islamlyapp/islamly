@@ -32,11 +32,11 @@ import { Button } from "@/components/ui/button";
 import { fetchPrayerTimesByCoords, fetchQibla, fetchCityCoordinates, fetchHijriDate, type PrayerTimings } from "@/services/islamic-data-service";
 
 const methods = [
-  { id: 1, name: "University of Islamic Sciences, Karachi" },
+  { id: 1, name: "Karachi (UIS)" },
   { id: 2, name: "ISNA (North America)" },
-  { id: 3, name: "Muslim World League (MWL)" },
-  { id: 4, name: "Umm Al-Qura University, Makkah" },
-  { id: 5, name: "Egyptian General Authority of Survey" }
+  { id: 3, name: "MWL (World League)" },
+  { id: 4, name: "Umm Al-Qura (Makkah)" },
+  { id: 5, name: "Egyptian Survey" }
 ];
 
 const ADHAN_STYLES = [
@@ -47,7 +47,7 @@ const ADHAN_STYLES = [
 ];
 
 export default function PrayerTimesPage() {
-  const [method, setMethod] = useState(methods[3]); // Default to Makkah
+  const [method, setMethod] = useState(methods[3]);
   const [timings, setTimings] = useState<PrayerTimings | null>(null);
   const [loading, setLoading] = useState(true);
   const [locationName, setLocationName] = useState("Detecting...");
@@ -199,6 +199,15 @@ export default function PrayerTimesPage() {
     return found || prayers[0];
   }, [prayers, currentTimeStr]);
 
+  if (!hasMounted) {
+    return (
+      <div className="h-[60vh] flex flex-col items-center justify-center gap-4">
+        <Loader2 className="w-10 h-10 animate-spin text-primary opacity-20" />
+        <p className="text-[10px] uppercase tracking-[0.3em] text-muted-foreground">Universal Sync...</p>
+      </div>
+    );
+  }
+
   return (
     <div className="space-y-8 animate-in fade-in duration-500 pb-20">
       <header className="space-y-4" aria-labelledby="prayer-header">
@@ -221,7 +230,7 @@ export default function PrayerTimesPage() {
                   <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-3 h-3 text-muted-foreground" aria-hidden="true" />
                   <Input 
                     autoFocus
-                    placeholder="Search City (Universal Index)..." 
+                    placeholder="Search City..." 
                     className="h-8 pl-8 bg-secondary/30 text-xs"
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
@@ -274,7 +283,7 @@ export default function PrayerTimesPage() {
       {loading || !nextPrayer ? (
         <div className="h-[300px] flex flex-col items-center justify-center gap-4" aria-live="polite" aria-busy="true">
           <Loader2 className="w-10 h-10 animate-spin text-primary opacity-20" aria-hidden="true" />
-          <p className="text-[10px] uppercase tracking-[0.3em] text-muted-foreground">Universal Sync...</p>
+          <p className="text-[10px] uppercase tracking-[0.3em] text-muted-foreground">Updating Times...</p>
         </div>
       ) : (
         <>

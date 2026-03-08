@@ -104,7 +104,7 @@ export default function ManuscriptsPage() {
                 <span className="flex items-center gap-1 text-[10px] uppercase tracking-widest font-bold text-muted-foreground">
                   <ShieldCheck className="w-3 h-3" /> Verified Edition
                 </span>
-                <button className="text-yellow-500 text-xs flex items-center gap-1 font-bold hover:underline">
+                <button className="text-yellow-500 text-xs flex items-center gap-1 font-bold hover:underline" onClick={() => typeof window !== 'undefined' && window.open('#', '_blank')}>
                   View Web Reader <ExternalLink className="w-3 h-3" />
                 </button>
               </div>

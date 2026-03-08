@@ -38,8 +38,8 @@ export default function QuranPage() {
     loadSurahs();
   }, []);
 
-  const filteredSurahs = surahs.filter(s => {
-    const searchLower = search.toLowerCase();
+  const filteredSurahs = (surahs || []).filter(s => {
+    const searchLower = (search || "").toLowerCase();
     const nameSimple = (s.name_simple || "").toLowerCase();
     const translatedName = (s.translated_name?.name || "").toLowerCase();
     return nameSimple.includes(searchLower) || translatedName.includes(searchLower);
