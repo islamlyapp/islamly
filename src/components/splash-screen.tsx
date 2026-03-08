@@ -7,10 +7,6 @@ import Image from "next/image";
 import { PlaceHolderImages } from "@/lib/placeholder-images";
 import { calculateCurrentFeatures, formatFeatureCount } from "@/lib/feature-counter";
 
-/**
- * High-fidelity Splash Screen for Islamly.
- * Features إسلاملي calligraphy, crimson accents, and dynamic feature confirmation.
- */
 export function SplashScreen() {
   const [show, setShow] = useState(false);
   const [showSkip, setShowSkip] = useState(false);
@@ -20,10 +16,8 @@ export function SplashScreen() {
 
   useEffect(() => {
     const timer = setTimeout(() => setShow(true), 100);
-    // Show skip button very early (after 1.5 seconds) to guarantee the user is never stuck
     const skipTimer = setTimeout(() => setShowSkip(true), 1500);
     
-    // Set dynamic feature count
     try {
       const count = calculateCurrentFeatures();
       setFeatureCount(formatFeatureCount(count));
@@ -45,7 +39,6 @@ export function SplashScreen() {
 
   return (
     <div className="fixed inset-0 z-[100] flex flex-col items-center justify-center bg-[#0a0304] overflow-hidden">
-      {/* Background Image Matching Logo Vibe */}
       <div className="absolute inset-0 opacity-30">
         {brandHero && (
           <Image 
@@ -60,13 +53,10 @@ export function SplashScreen() {
         <div className="absolute inset-0 bg-gradient-to-b from-[#0a0304] via-transparent to-[#0a0304]" />
       </div>
 
-      {/* Dynamic Crimson Glow */}
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,_rgba(173,31,55,0.2),_transparent_70%)] animate-pulse duration-3000" />
       
-      {/* Content Container */}
       <div className={`relative z-10 flex flex-col items-center transition-all duration-1000 ease-out ${show ? 'opacity-100 scale-100 translate-y-0' : 'opacity-0 scale-95 translate-y-4'}`}>
         
-        {/* Central Calligraphy Logo - إسلاملي */}
         <div className="relative mb-12 flex flex-col items-center group">
           <span 
             className="text-8xl md:text-9xl font-serif text-white drop-shadow-[0_0_30px_rgba(173,31,55,0.8)] select-none transition-transform duration-700 group-hover:scale-105" 
@@ -77,7 +67,6 @@ export function SplashScreen() {
           <div className="absolute -inset-10 bg-primary/20 blur-3xl rounded-full opacity-50" />
         </div>
 
-        {/* Brand Title & Status */}
         <div className="flex flex-col items-center gap-4">
           <div className="flex items-center gap-4">
             <div className="h-px w-12 bg-gradient-to-r from-transparent to-primary/60" />
@@ -93,7 +82,6 @@ export function SplashScreen() {
         </div>
       </div>
 
-      {/* Loading & Action Area */}
       <div className="absolute bottom-24 flex flex-col items-center gap-6 w-full px-10 max-w-sm">
         <div className="w-full h-0.5 bg-white/10 rounded-full overflow-hidden">
           <div className="h-full bg-primary animate-progress-shimmer shadow-[0_0_15px_rgba(173,31,55,0.8)]" />
@@ -117,7 +105,6 @@ export function SplashScreen() {
         </div>
       </div>
 
-      {/* Methodology Tagline */}
       <div className="absolute bottom-10 opacity-30">
         <p className="text-[9px] uppercase tracking-[0.6em] text-white font-bold">Ahlus-Sunnah wal-Jama'ah • Dynamic Infrastructure</p>
       </div>

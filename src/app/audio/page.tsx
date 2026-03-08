@@ -134,7 +134,6 @@ export default function AudioPage() {
       </header>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        {/* Reciters List */}
         <section className="md:col-span-1 space-y-4">
           <div className="relative">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
@@ -182,7 +181,6 @@ export default function AudioPage() {
           </ScrollArea>
         </section>
 
-        {/* Surahs List */}
         <section className="md:col-span-2 space-y-4">
           <div className="flex items-center justify-between px-1">
             <h3 className="font-headline font-bold text-sm uppercase tracking-widest text-muted-foreground">Select Surah</h3>
@@ -234,7 +232,6 @@ export default function AudioPage() {
         </section>
       </div>
 
-      {/* Global Player Controller */}
       {currentSurah && (
         <div className="fixed bottom-24 left-4 right-4 md:left-auto md:right-8 md:w-[400px] z-50 animate-in slide-in-from-bottom-8 duration-500">
           <Card className="glass-card bg-background/80 backdrop-blur-2xl border-emerald-500/20 shadow-[0_20px_50px_rgba(0,0,0,0.5)] overflow-hidden">

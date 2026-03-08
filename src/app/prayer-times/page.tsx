@@ -211,7 +211,7 @@ export default function PrayerTimesPage() {
   if (!hasMounted) {
     return (
       <div className="h-[60vh] flex flex-col items-center justify-center gap-4">
-        <Loader2 className="w-10 h-10 animate-spin text-primary opacity-20" aria-hidden="true" />
+        <Loader2 className="w-10 h-10 animate-spin text-primary opacity-20" />
         <p className="text-[10px] uppercase tracking-[0.3em] text-muted-foreground">Universal Sync...</p>
       </div>
     );
@@ -219,24 +219,23 @@ export default function PrayerTimesPage() {
 
   return (
     <div className="space-y-8 animate-in fade-in duration-500 pb-20">
-      <header className="space-y-4" aria-labelledby="prayer-header">
+      <header className="space-y-4">
         <div className="flex items-center justify-between">
           <div className="space-y-1">
-            <h1 id="prayer-header" className="text-3xl font-headline font-bold">Prayer Schedule</h1>
+            <h1 className="text-3xl font-headline font-bold">Prayer Schedule</h1>
             {!showSearch ? (
               <button 
                 onClick={() => setShowSearch(true)}
                 className="flex items-center gap-2 text-muted-foreground text-sm hover:text-primary transition-colors group"
-                aria-label={`Current location: ${locationName}. Click to search another city.`}
               >
-                <MapPin className={cn("w-4 h-4", isAutoLocation && "text-primary")} aria-hidden="true" />
+                <MapPin className={cn("w-4 h-4", isAutoLocation && "text-primary")} />
                 <span className={cn(isAutoLocation && "text-primary font-medium")}>{locationName}</span>
-                <Search className="w-3 h-3 opacity-0 group-hover:opacity-100" aria-hidden="true" />
+                <Search className="w-3 h-3 opacity-0 group-hover:opacity-100" />
               </button>
             ) : (
               <div className="flex gap-2 items-center animate-in slide-in-from-left-2 duration-300">
                 <div className="relative flex-1 max-w-[240px]">
-                  <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-3 h-3 text-muted-foreground" aria-hidden="true" />
+                  <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-3 h-3 text-muted-foreground" />
                   <Input 
                     autoFocus
                     placeholder="Search City..." 
@@ -244,19 +243,18 @@ export default function PrayerTimesPage() {
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
                     onKeyDown={(e) => e.key === 'Enter' && loadTimesByCity(searchQuery)}
-                    aria-label="Enter city name for prayer times"
                   />
                 </div>
-                <Button size="icon" variant="ghost" className="h-8 w-8" onClick={() => setShowSearch(false)} aria-label="Cancel search">
+                <Button size="icon" variant="ghost" className="h-8 w-8" onClick={() => setShowSearch(false)}>
                   <X className="w-4 h-4" />
                 </Button>
               </div>
             )}
           </div>
           <div className="flex gap-2">
-            {hijri?.month && (
-              <Badge variant="secondary" className="hidden sm:flex bg-primary/5 text-primary border-primary/10" aria-label={`Hijri Date: ${hijri?.day || ''} ${hijri?.month?.en || ''} ${hijri?.year || ''} AH`}>
-                {hijri.day} {hijri.month.en} {hijri.year} AH
+            {hijri?.day && (
+              <Badge variant="secondary" className="hidden sm:flex bg-primary/5 text-primary border-primary/10">
+                {hijri.day} {hijri.month?.en || ''} {hijri.year} AH
               </Badge>
             )}
             <button 
@@ -265,13 +263,12 @@ export default function PrayerTimesPage() {
                 "p-2 rounded-full transition-all ring-1 ring-border hover:bg-secondary",
                 isAutoLocation && "bg-primary/10 ring-primary/30 text-primary"
               )}
-              aria-label="Use current GPS location"
             >
               <Navigation className="w-4 h-4" />
             </button>
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <button className="p-2 rounded-full hover:bg-secondary transition-colors ring-1 ring-border" aria-label="Calculation Settings">
+                <button className="p-2 rounded-full hover:bg-secondary transition-colors ring-1 ring-border">
                   <Settings2 className="w-4 h-4 text-muted-foreground" />
                 </button>
               </DropdownMenuTrigger>
@@ -290,19 +287,19 @@ export default function PrayerTimesPage() {
       </header>
 
       {loading || !nextPrayer ? (
-        <div className="h-[300px] flex flex-col items-center justify-center gap-4" aria-live="polite" aria-busy="true">
-          <Loader2 className="w-10 h-10 animate-spin text-primary opacity-20" aria-hidden="true" />
+        <div className="h-[300px] flex flex-col items-center justify-center gap-4">
+          <Loader2 className="w-10 h-10 animate-spin text-primary opacity-20" />
           <p className="text-[10px] uppercase tracking-[0.3em] text-muted-foreground">Updating Times...</p>
         </div>
       ) : (
         <>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <Card className="bg-primary/10 border-primary/20 overflow-hidden shadow-2xl relative" aria-labelledby="next-prayer-title">
-              <div className="absolute top-0 right-0 p-4 opacity-10" aria-hidden="true">
+            <Card className="bg-primary/10 border-primary/20 overflow-hidden shadow-2xl relative">
+              <div className="absolute top-0 right-0 p-4 opacity-10">
                 <Clock className="w-24 h-24" />
               </div>
               <CardContent className="p-8 text-center space-y-4 relative z-10">
-                <p id="next-prayer-title" className="text-primary uppercase tracking-[0.2em] font-headline font-bold text-xs">Next Prayer</p>
+                <p className="text-primary uppercase tracking-[0.2em] font-headline font-bold text-xs">Next Prayer</p>
                 <h2 className="text-5xl font-headline font-bold">{nextPrayer.name}</h2>
                 <p className="text-muted-foreground">{locationName}</p>
                 
@@ -313,7 +310,6 @@ export default function PrayerTimesPage() {
                       "rounded-full px-8 gap-3 h-12 font-headline transition-all shadow-xl shadow-primary/20",
                       isPlayingAdhan ? "bg-emerald-500 hover:bg-emerald-600" : "bg-primary hover:bg-primary/90"
                     )}
-                    aria-label={isPlayingAdhan ? "Stop Adhan audio" : "Play Adhan audio"}
                   >
                     {isPlayingAdhan ? <Pause className="w-5 h-5" /> : <Play className="w-5 h-5 fill-white" />}
                     {isPlayingAdhan ? "Playing Adhan" : "Play Adhan"}
@@ -321,8 +317,8 @@ export default function PrayerTimesPage() {
                   
                   <DropdownMenu>
                     <DropdownMenuTrigger asChild>
-                      <Button variant="ghost" size="sm" className="text-[10px] uppercase tracking-widest text-muted-foreground h-auto p-1 hover:text-white" aria-label={`Current Adhan style: ${currentAdhanStyle.name}. Click to change.`}>
-                        Style: {currentAdhanStyle.name} <ListMusic className="w-3 h-3 ml-2" aria-hidden="true" />
+                      <Button variant="ghost" size="sm" className="text-[10px] uppercase tracking-widest text-muted-foreground h-auto p-1 hover:text-white">
+                        Style: {currentAdhanStyle.name} <ListMusic className="w-3 h-3 ml-2" />
                       </Button>
                     </DropdownMenuTrigger>
                     <DropdownMenuContent className="glass-card">
@@ -332,7 +328,7 @@ export default function PrayerTimesPage() {
                           onClick={() => changeAdhanStyle(style)}
                           className="text-xs flex items-center gap-2"
                         >
-                          <Music className="w-3 h-3" aria-hidden="true" />
+                          <Music className="w-3 h-3" />
                           {style.name}
                           {currentAdhanStyle.name === style.name && <ShieldCheck className="w-3 h-3 ml-auto text-primary" />}
                         </DropdownMenuItem>
@@ -344,8 +340,8 @@ export default function PrayerTimesPage() {
             </Card>
 
             {qibla !== null && (
-              <Card className="glass-card border-accent/20 flex flex-col items-center justify-center p-6 text-center" aria-label={`Qibla direction: ${Math.round(qibla)} degrees from North`}>
-                <Compass className="w-12 h-12 text-accent mb-4 animate-pulse" style={{ transform: `rotate(${qibla}deg)` }} aria-hidden="true" />
+              <Card className="glass-card border-accent/20 flex flex-col items-center justify-center p-6 text-center">
+                <Compass className="w-12 h-12 text-accent mb-4 animate-pulse" style={{ transform: `rotate(${qibla}deg)` }} />
                 <h3 className="font-headline font-bold text-lg">Qibla Direction</h3>
                 <p className="text-2xl font-bold text-accent">{Math.round(qibla)}°</p>
                 <p className="text-[10px] uppercase text-muted-foreground mt-2 tracking-widest">From True North</p>
@@ -353,11 +349,11 @@ export default function PrayerTimesPage() {
             )}
           </div>
 
-          <div className="grid gap-2" role="list" aria-label="Daily Prayer Times">
+          <div className="grid gap-2">
             {prayers.map((prayer) => {
               const isNext = prayer.name === nextPrayer?.name;
               return (
-                <Card key={prayer.name} role="listitem" className={cn(
+                <Card key={prayer.name} className={cn(
                   "glass-card border-none transition-all hover:translate-x-1",
                   isNext && "bg-white/5 border-l-4 border-primary shadow-lg"
                 )}>
@@ -366,7 +362,7 @@ export default function PrayerTimesPage() {
                       <div className={cn(
                         "w-2 h-2 rounded-full",
                         isNext ? "bg-primary animate-pulse" : "bg-muted"
-                      )} aria-hidden="true" />
+                      )} />
                       <span className={cn(
                         "font-headline font-semibold",
                         isNext ? "text-primary" : "text-foreground"
@@ -375,7 +371,7 @@ export default function PrayerTimesPage() {
                       </span>
                     </div>
                     <div className="flex items-center gap-4">
-                      {isNext && <Badge variant="outline" className="text-[9px] uppercase h-5" aria-hidden="true">Next</Badge>}
+                      {isNext && <Badge variant="outline" className="text-[9px] uppercase h-5">Next</Badge>}
                       <div className="font-headline font-bold text-lg text-literata">
                         {prayer.time}
                       </div>
@@ -388,10 +384,10 @@ export default function PrayerTimesPage() {
         </>
       )}
 
-      <section className="bg-secondary/20 p-6 rounded-xl border border-border space-y-4" aria-labelledby="standards-title">
+      <section className="bg-secondary/20 p-6 rounded-xl border border-border space-y-4">
         <div className="flex items-center gap-2">
-          <Globe className="w-4 h-4 text-accent" aria-hidden="true" />
-          <h3 id="standards-title" className="font-headline font-bold text-sm uppercase tracking-widest">Global Standards</h3>
+          <Globe className="w-4 h-4 text-accent" />
+          <h3 className="font-headline font-bold text-sm uppercase tracking-widest">Global Standards</h3>
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-[10px] uppercase font-bold tracking-widest text-muted-foreground">
           <div className="space-y-1">
