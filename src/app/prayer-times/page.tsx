@@ -202,7 +202,7 @@ export default function PrayerTimesPage() {
   if (!hasMounted) {
     return (
       <div className="h-[60vh] flex flex-col items-center justify-center gap-4">
-        <Loader2 className="w-10 h-10 animate-spin text-primary opacity-20" />
+        <Loader2 className="w-10 h-10 animate-spin text-primary opacity-20" aria-hidden="true" />
         <p className="text-[10px] uppercase tracking-[0.3em] text-muted-foreground">Universal Sync...</p>
       </div>
     );

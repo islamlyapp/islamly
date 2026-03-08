@@ -20,8 +20,8 @@ export async function fetchPrayerTimesByCoords(lat: number, lng: number, method:
     const response = await fetch(`https://api.aladhan.com/v1/timings?latitude=${lat}&longitude=${lng}&method=${method}`);
     const data = await response.json();
     return {
-      timings: data.data.timings,
-      meta: data.data.meta
+      timings: data?.data?.timings || {},
+      meta: data?.data?.meta || {}
     };
   } catch (error) {
     console.error("Error fetching prayer times by coords:", error);
@@ -36,7 +36,7 @@ export async function fetchQibla(lat: number, lng: number) {
   try {
     const response = await fetch(`https://api.aladhan.com/v1/qibla/${lat}/${lng}`);
     const data = await response.json();
-    return data.data;
+    return data?.data || { direction: 0 };
   } catch (error) {
     console.error("Error fetching Qibla:", error);
     throw error;
@@ -50,7 +50,7 @@ export async function fetchHijriDate(date: string) {
   try {
     const response = await fetch(`https://api.aladhan.com/v1/gToH?date=${date}`);
     const data = await response.json();
-    return data.data.hijri;
+    return data?.data?.hijri || null;
   } catch (error) {
     console.error("Error fetching Hijri date:", error);
     return null;
@@ -67,11 +67,11 @@ export async function fetchMasjids(lat: number, lng: number, radius: number = 50
     const data = await response.json();
     return (data.elements || []).map((node: any) => ({
       id: node.id,
-      name: node.tags.name || "Unnamed Masjid",
-      address: node.tags["addr:street"] ? `${node.tags["addr:street"]} ${node.tags["addr:housenumber"] || ""}` : "Address not listed",
+      name: node.tags?.name || "Unnamed Masjid",
+      address: node.tags?.["addr:street"] ? `${node.tags["addr:street"]} ${node.tags["addr:housenumber"] || ""}` : "Address not listed",
       lat: node.lat,
       lon: node.lon,
-      tags: node.tags
+      tags: node.tags || {}
     }));
   } catch (error) {
     console.error("Error fetching masjids from Overpass:", error);
