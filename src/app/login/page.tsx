@@ -14,8 +14,7 @@ import {
   ArrowLeft, 
   RefreshCcw, 
   User, 
-  UserPlus,
-  Scale
+  UserPlus
 } from "lucide-react";
 import { 
   useAuth, 
@@ -43,9 +42,14 @@ export default function LoginPage() {
   const [otp, setOtp] = useState(["", "", "", "", "", ""]);
   const [isLoading, setIsLoading] = useState(false);
   const [resendTimer, setResendTimer] = useState(0);
+  const [hasMounted, setHasMounted] = useState(false);
   
   const auth = useAuth();
   const otpRefs = useRef<(HTMLInputElement | null)[]>([]);
+
+  useEffect(() => {
+    setHasMounted(true);
+  }, []);
 
   useEffect(() => {
     let interval: any;
@@ -114,7 +118,7 @@ export default function LoginPage() {
     const isValid = await verifyOtp(email, fullOtp);
     if (isValid) {
       try {
-        await initiateEmailSignUp(auth, email, password);
+        initiateEmailSignUp(auth, email, password);
         toast({
           title: "Infrastructure Initialized",
           description: `Welcome, ${fullName}. Your account is now active.`,
@@ -131,7 +135,7 @@ export default function LoginPage() {
       toast({
         variant: "destructive",
         title: "Verification Failed",
-        description: "Invalid OTP code. Please check your email or console.",
+        description: "Invalid OTP code. Please check your email node.",
       });
       setIsLoading(false);
     }
@@ -153,6 +157,16 @@ export default function LoginPage() {
       otpRefs.current[index - 1]?.focus();
     }
   };
+
+  const handleSocialSignIn = (type: 'google' | 'apple') => {
+    setIsLoading(true);
+    if (type === 'google') initiateGoogleSignIn(auth);
+    else initiateAppleSignIn(auth);
+    
+    setTimeout(() => setIsLoading(false), 2000);
+  };
+
+  if (!hasMounted) return null;
 
   return (
     <div className="max-w-md mx-auto space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500 py-10">
@@ -312,7 +326,7 @@ export default function LoginPage() {
                 </Button>
                 <div className="flex flex-col items-center gap-2">
                   <p className="text-[10px] text-center text-muted-foreground uppercase italic">
-                    Check your email node (or console logs) for the code.
+                    Check your email node for the code.
                   </p>
                   <Button 
                     type="button" 
@@ -375,7 +389,12 @@ export default function LoginPage() {
           </div>
 
           <div className="grid grid-cols-2 gap-3">
-            <Button variant="outline" className="h-12 glass-card gap-2 border-white/5" onClick={() => initiateGoogleSignIn(auth)} disabled={isLoading}>
+            <Button 
+              variant="outline" 
+              className="h-12 glass-card gap-2 border-white/5" 
+              onClick={() => handleSocialSignIn('google')} 
+              disabled={isLoading}
+            >
               <svg className="w-4 h-4" viewBox="0 0 24 24">
                 <path fill="currentColor" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" />
                 <path fill="currentColor" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" />
@@ -384,7 +403,12 @@ export default function LoginPage() {
               </svg>
               Google
             </Button>
-            <Button variant="outline" className="h-12 glass-card gap-2 border-white/5" onClick={() => initiateAppleSignIn(auth)} disabled={isLoading}>
+            <Button 
+              variant="outline" 
+              className="h-12 glass-card gap-2 border-white/5" 
+              onClick={() => handleSocialSignIn('apple')} 
+              disabled={isLoading}
+            >
               <Apple className="w-4 h-4" /> Apple
             </Button>
           </div>

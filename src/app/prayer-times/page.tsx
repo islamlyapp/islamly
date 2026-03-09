@@ -247,7 +247,7 @@ export default function PrayerTimesPage() {
           </div>
           <div className="flex gap-2">
             {hijri?.day && (
-              <Badge variant="secondary" className="hidden sm:flex bg-primary/5 text-primary border-primary/10">
+              <Badge variant="secondary" className="hidden sm:flex bg-primary/5 text-primary border-primary/20">
                 {hijri.day} {hijri.month?.en || ''} {hijri.year} AH
               </Badge>
             )}

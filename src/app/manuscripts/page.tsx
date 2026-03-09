@@ -2,10 +2,11 @@
 
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { ScrollText, Search, History, BookOpen, ExternalLink, ShieldCheck, Database, FileDown } from "lucide-react";
+import { ScrollText, Search, History, BookOpen, ExternalLink, ShieldCheck, Database, FileDown, Loader2 } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
+import { useState, useEffect } from "react";
 
 const manuscripts = [
   { 
@@ -38,6 +39,21 @@ const manuscripts = [
 ];
 
 export default function ManuscriptsPage() {
+  const [hasMounted, setHasMounted] = useState(false);
+
+  useEffect(() => {
+    setHasMounted(true);
+  }, []);
+
+  if (!hasMounted) {
+    return (
+      <div className="h-[60vh] flex flex-col items-center justify-center gap-4">
+        <Loader2 className="w-10 h-10 animate-spin text-primary opacity-20" />
+        <p className="text-[10px] uppercase tracking-[0.3em] text-muted-foreground">Loading Archives...</p>
+      </div>
+    );
+  }
+
   return (
     <div className="space-y-8 animate-in fade-in duration-500 pb-20">
       <header className="space-y-2">
