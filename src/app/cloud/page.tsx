@@ -18,6 +18,7 @@ import {
 import { useState, useEffect } from "react";
 import { Progress } from "@/components/ui/progress";
 import { calculateCurrentFeatures, formatFeatureCount } from "@/lib/feature-counter";
+import { Button } from "@/components/ui/button";
 
 export default function CloudDashboardPage() {
   const [featureCount, setFeatureCount] = useState("");
