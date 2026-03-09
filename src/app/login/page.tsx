@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import { useState, useRef, useEffect } from "react";
 import { Button } from "@/components/ui/button";
@@ -9,7 +9,6 @@ import {
   Mail, 
   Lock, 
   Loader2, 
-  Apple, 
   ChevronRight, 
   ArrowLeft, 
   RefreshCcw, 
@@ -22,7 +21,7 @@ import {
   initiateEmailSignUp, 
   initiateAnonymousSignIn,
   initiateGoogleSignIn,
-  initiateAppleSignIn,
+  initiateDiscordSignIn,
 } from "@/firebase";
 import { toast } from "@/hooks/use-toast";
 import { sendOtpToEmail, verifyOtp } from "@/services/otp-service";
@@ -158,10 +157,10 @@ export default function LoginPage() {
     }
   };
 
-  const handleSocialSignIn = (type: 'google' | 'apple') => {
+  const handleSocialSignIn = (type: 'google' | 'discord') => {
     setIsLoading(true);
     if (type === 'google') initiateGoogleSignIn(auth);
-    else initiateAppleSignIn(auth);
+    if (type === 'discord') initiateDiscordSignIn(auth);
     
     setTimeout(() => setIsLoading(false), 2000);
   };
@@ -406,10 +405,13 @@ export default function LoginPage() {
             <Button 
               variant="outline" 
               className="h-12 glass-card gap-2 border-white/5" 
-              onClick={() => handleSocialSignIn('apple')} 
+              onClick={() => handleSocialSignIn('discord')} 
               disabled={isLoading}
             >
-              <Apple className="w-4 h-4" /> Apple
+              <svg className="w-4 h-4" viewBox="0 0 24 24">
+                <path fill="currentColor" d="M20.32,3.37a2.1,2.1,0,0,0-1.89-.37L15.42,4.2a1,1,0,0,1-1-.13,12,12,0,0,0-6.82,0,1,1,0,0,1-1,.13L3.57,3A2.1,2.1,0,0,0,1.68,3.37,2,2,0,0,0,1,5.21l1.5,9.48a2.1,2.1,0,0,0,2.09,1.81H17.4a2.1,2.1,0,0,0,2.09-1.81L21,5.21A2,2,0,0,0,20.32,3.37ZM8.43,12.44a1.71,1.71,0,0,1-1.79-1.82,1.74,1.74,0,0,1,1.82-1.78,1.77,1.77,0,0,1,0,3.6Zm7.14,0a1.77,1.77,0,0,1,0-3.6,1.74,1.74,0,0,1,1.82,1.78,1.71,1.71,0,0,1-1.79,1.82Z"/>
+              </svg>
+              Discord
             </Button>
           </div>
 

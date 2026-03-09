@@ -18,3 +18,5 @@ runConfig:
 env:
   - variable: NEXT_PUBLIC_HADITH_API_KEY
     value: "no-key-provided"
+  - variable: GOOGLE_API_KEY
+    value: "AIzaSyATW-9PmJFYw3bInQfCItblGIS6iekZeWY"

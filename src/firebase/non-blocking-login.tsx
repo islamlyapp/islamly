@@ -55,14 +55,14 @@ export function initiateGoogleSignIn(authInstance: Auth): void {
 }
 
 /** 
- * Initiate Apple sign-in (non-blocking). 
+ * Initiate Discord sign-in (non-blocking). 
  */
-export function initiateAppleSignIn(authInstance: Auth): void {
-  const provider = new OAuthProvider('apple.com');
+export function initiateDiscordSignIn(authInstance: Auth): void {
+  const provider = new OAuthProvider('discord.com');
   signInWithPopup(authInstance, provider).catch((error) => {
     if (error.code !== 'auth/popup-closed-by-user') {
-      console.error("Apple Sign-In Error:", error);
-      toast({ variant: "destructive", title: "Auth Error", description: "Failed to sync with Apple node." });
+      console.error("Discord Sign-In Error:", error);
+      toast({ variant: "destructive", title: "Auth Error", description: "Failed to sync with Discord node." });
     }
   });
 }
