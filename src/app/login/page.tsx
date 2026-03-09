@@ -21,6 +21,7 @@ import {
   initiateEmailSignUp, 
   initiateAnonymousSignIn,
   initiateGoogleSignIn,
+  initiateAppleSignIn,
   initiateDiscordSignIn,
 } from "@/firebase";
 import { toast } from "@/hooks/use-toast";
@@ -157,9 +158,10 @@ export default function LoginPage() {
     }
   };
 
-  const handleSocialSignIn = (type: 'google' | 'discord') => {
+  const handleSocialSignIn = (type: 'google' | 'apple' | 'discord') => {
     setIsLoading(true);
     if (type === 'google') initiateGoogleSignIn(auth);
+    if (type === 'apple') initiateAppleSignIn(auth);
     if (type === 'discord') initiateDiscordSignIn(auth);
     
     setTimeout(() => setIsLoading(false), 2000);
@@ -387,12 +389,13 @@ export default function LoginPage() {
             <div className="relative flex justify-center text-[10px] uppercase font-bold tracking-widest"><span className="bg-[#0a0304] px-2 text-muted-foreground opacity-40">External Nodes</span></div>
           </div>
 
-          <div className="grid grid-cols-2 gap-3">
+          <div className="grid grid-cols-3 gap-3">
             <Button 
               variant="outline" 
-              className="h-12 glass-card gap-2 border-white/5" 
+              className="h-12 glass-card gap-2 border-white/5 p-0" 
               onClick={() => handleSocialSignIn('google')} 
               disabled={isLoading}
+              title="Sign in with Google"
             >
               <svg className="w-4 h-4" viewBox="0 0 24 24">
                 <path fill="currentColor" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" />
@@ -400,18 +403,28 @@ export default function LoginPage() {
                 <path fill="currentColor" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" />
                 <path fill="currentColor" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" />
               </svg>
-              Google
             </Button>
             <Button 
               variant="outline" 
-              className="h-12 glass-card gap-2 border-white/5" 
+              className="h-12 glass-card gap-2 border-white/5 p-0" 
+              onClick={() => handleSocialSignIn('apple')} 
+              disabled={isLoading}
+              title="Sign in with Apple"
+            >
+              <svg className="w-4 h-4" viewBox="0 0 24 24">
+                <path fill="currentColor" d="M17.05,20.28c-0.96,0.95-2.05,1.72-3.33,1.72c-1.25,0-1.65-0.76-3.12-0.76c-1.47,0-1.92,0.74-3.12,0.76 c-1.23,0.02-2.43-0.85-3.4-2.25C2.1,17.08,1.3,13.35,3.3,10.15c1-1.6,2.62-2.6,4.4-2.63c1.35-0.02,2.62,0.9,3.45,0.9 c0.82,0,2.35-1.1,3.95-0.95c0.68,0.03,2.58,0.28,3.8,3.05c-0.1,0.05-2.25,1.32-2.22,3.92c0.03,3.12,2.7,4.2,2.72,4.22 C19.38,18.65,18.02,19.33,17.05,20.28L17.05,20.28z M12.02,7.52c-0.07-1.9,1.58-3.53,3.42-3.68c0.18,2.15-2.05,3.82-3.42,3.68z" />
+              </svg>
+            </Button>
+            <Button 
+              variant="outline" 
+              className="h-12 glass-card gap-2 border-white/5 p-0" 
               onClick={() => handleSocialSignIn('discord')} 
               disabled={isLoading}
+              title="Sign in with Discord"
             >
               <svg className="w-4 h-4" viewBox="0 0 24 24">
                 <path fill="currentColor" d="M20.32,3.37a2.1,2.1,0,0,0-1.89-.37L15.42,4.2a1,1,0,0,1-1-.13,12,12,0,0,0-6.82,0,1,1,0,0,1-1,.13L3.57,3A2.1,2.1,0,0,0,1.68,3.37,2,2,0,0,0,1,5.21l1.5,9.48a2.1,2.1,0,0,0,2.09,1.81H17.4a2.1,2.1,0,0,0,2.09-1.81L21,5.21A2,2,0,0,0,20.32,3.37ZM8.43,12.44a1.71,1.71,0,0,1-1.79-1.82,1.74,1.74,0,0,1,1.82-1.78,1.77,1.77,0,0,1,0,3.6Zm7.14,0a1.77,1.77,0,0,1,0-3.6,1.74,1.74,0,0,1,1.82,1.78,1.71,1.71,0,0,1-1.79,1.82Z"/>
               </svg>
-              Discord
             </Button>
           </div>
 

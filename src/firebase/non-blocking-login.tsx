@@ -46,10 +46,22 @@ export function initiateEmailSignIn(authInstance: Auth, email: string, password:
 export function initiateGoogleSignIn(authInstance: Auth): void {
   const provider = new GoogleAuthProvider();
   signInWithPopup(authInstance, provider).catch((error) => {
-    // Only alert if it's not a user-cancelled popup
     if (error.code !== 'auth/popup-closed-by-user') {
       console.error("Google Sign-In Error:", error);
       toast({ variant: "destructive", title: "Auth Error", description: "Failed to sync with Google node." });
+    }
+  });
+}
+
+/** 
+ * Initiate Apple sign-in (non-blocking). 
+ */
+export function initiateAppleSignIn(authInstance: Auth): void {
+  const provider = new OAuthProvider('apple.com');
+  signInWithPopup(authInstance, provider).catch((error) => {
+    if (error.code !== 'auth/popup-closed-by-user') {
+      console.error("Apple Sign-In Error:", error);
+      toast({ variant: "destructive", title: "Auth Error", description: "Failed to sync with Apple node." });
     }
   });
 }

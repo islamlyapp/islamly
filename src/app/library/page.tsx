@@ -3,34 +3,41 @@
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
-import { Search, Filter, BookOpen, User, BookCheck, Shield } from "lucide-react";
+import { Search, Filter, BookOpen, User, BookCheck, Shield, ChevronRight } from "lucide-react";
 import Link from "next/link";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { GoogleAd } from "@/components/google-ad";
 
 const categories = ["All", "Aqidah", "Hadith", "Fiqh", "Tafsir", "Manhaj", "History"];
 
-const books = [
-  { id: 1, title: "Kitab At-Tawhid", author: "Sheikh Muhammad ibn Abdul Wahhab", category: "Aqidah", description: "The core text on Islamic monotheism." },
-  { id: 2, title: "Al-Aqidah Al-Wasitiyyah", author: "Ibn Taymiyyah", category: "Aqidah", description: "A concise statement of the belief of Ahlus-Sunnah wal-Jama'ah." },
-  { id: 3, title: "The Three Fundamental Principles", author: "Sheikh Muhammad ibn Abdul Wahhab", category: "Aqidah", description: "Essentials every Muslim must know." },
-  { id: 4, title: "Bulugh Al-Maram", author: "Ibn Hajar al-Asqalani", category: "Hadith", description: "A collection of hadith for legal rulings." },
-  { id: 5, title: "Umdat al-Ahkam", author: "Abdul-Ghani al-Maqdisi", category: "Hadith", description: "Authentic hadiths related to religious rulings." },
-  { id: 6, title: "Tafsir Ibn Kathir", author: "Ibn Kathir", category: "Tafsir", description: "The most famous exegesis of the Quran." },
-  { id: 7, title: "Foundations of the Sunnah", author: "Imam Ahmad ibn Hanbal", category: "Manhaj", description: "Crucial principles of belief for the early generations." },
+export const LIBRARY_BOOKS = [
+  { id: "kitab-at-tawhid", title: "Kitab At-Tawhid", author: "Sheikh Muhammad ibn Abdul Wahhab", category: "Aqidah", description: "The core text on Islamic monotheism and the obligation of directing all worship to Allah alone.", content: "This fundamental work clarifies the essence of Tawhid and warns against the various forms of Shirk." },
+  { id: "wasitiyyah", title: "Al-Aqidah Al-Wasitiyyah", author: "Ibn Taymiyyah", category: "Aqidah", description: "A concise statement of the belief of Ahlus-Sunnah wal-Jama'ah regarding the names and attributes of Allah.", content: "Ibn Taymiyyah outlines the middle path between various deviant sects." },
+  { id: "three-principles", title: "The Three Fundamental Principles", author: "Sheikh Muhammad ibn Abdul Wahhab", category: "Aqidah", description: "The essential knowledge every Muslim will be asked about in the grave.", content: "Focuses on knowledge of Allah, His Religion, and His Prophet." },
+  { id: "bulugh-al-maram", title: "Bulugh Al-Maram", author: "Ibn Hajar al-Asqalani", category: "Hadith", description: "A famous collection of hadith used primarily for extracting legal rulings (Ahkam).", content: "Categorized by Fiqh topics, making it a staple for students of knowledge." },
+  { id: "umdat-al-ahkam", title: "Umdat al-Ahkam", author: "Abdul-Ghani al-Maqdisi", category: "Hadith", description: "Authentic hadiths related to religious rulings, mostly from Bukhari and Muslim.", content: "A concise reference for the most authentic rulings in worship and transactions." },
+  { id: "tafsir-ibn-kathir", title: "Tafsir Ibn Kathir", author: "Ibn Kathir", category: "Tafsir", description: "The most famous and reliable exegesis of the Quran based on authentic transmissions.", content: "Provides context, linguistic depth, and related hadiths for every Surah." },
+  { id: "usul-as-sunnah", title: "Foundations of the Sunnah", author: "Imam Ahmad ibn Hanbal", category: "Manhaj", description: "Crucial principles of belief and methodology for the early generations of Islam.", content: "A primary source for understanding the Creed of the Salaf." },
 ];
 
 export default function LibraryPage() {
   const [activeCategory, setActiveCategory] = useState("All");
   const [searchQuery, setSearchQuery] = useState("");
+  const [hasMounted, setHasMounted] = useState(false);
 
-  const filteredBooks = books.filter(book => {
+  useEffect(() => {
+    setHasMounted(true);
+  }, []);
+
+  const filteredBooks = LIBRARY_BOOKS.filter(book => {
     const matchesCategory = activeCategory === "All" || book.category === activeCategory;
     const matchesSearch = book.title.toLowerCase().includes(searchQuery.toLowerCase()) || 
                           book.author.toLowerCase().includes(searchQuery.toLowerCase());
     return matchesCategory && matchesSearch;
   });
+
+  if (!hasMounted) return null;
 
   return (
     <div className="space-y-6 animate-in fade-in duration-500 pb-20">
@@ -70,7 +77,7 @@ export default function LibraryPage() {
           <div className="grid gap-4">
             {filteredBooks.slice(0, 3).map((book) => (
               <Link key={book.id} href={`/library/${book.id}`}>
-                <Card className="glass-card hover:border-primary/50 transition-all group overflow-hidden">
+                <Card className="glass-card hover:border-primary/50 transition-all group overflow-hidden border-2 border-transparent">
                   <CardContent className="p-5 flex items-start gap-4">
                     <div className="w-12 h-16 bg-primary/10 rounded-lg flex items-center justify-center shrink-0 group-hover:bg-primary/20 transition-colors">
                       <BookCheck className="text-primary w-6 h-6" />
@@ -83,6 +90,7 @@ export default function LibraryPage() {
                       <p className="text-xs text-accent font-medium italic">{book.author}</p>
                       <p className="text-[11px] text-muted-foreground line-clamp-2 leading-relaxed">{book.description}</p>
                     </div>
+                    <ChevronRight className="w-4 h-4 text-muted-foreground/30 self-center group-hover:text-primary transition-colors" />
                   </CardContent>
                 </Card>
               </Link>
@@ -92,7 +100,7 @@ export default function LibraryPage() {
 
             {filteredBooks.slice(3).map((book) => (
               <Link key={book.id} href={`/library/${book.id}`}>
-                <Card className="glass-card hover:border-primary/50 transition-all group overflow-hidden">
+                <Card className="glass-card hover:border-primary/50 transition-all group overflow-hidden border-2 border-transparent">
                   <CardContent className="p-5 flex items-start gap-4">
                     <div className="w-12 h-16 bg-primary/10 rounded-lg flex items-center justify-center shrink-0 group-hover:bg-primary/20 transition-colors">
                       <BookCheck className="text-primary w-6 h-6" />
@@ -105,6 +113,7 @@ export default function LibraryPage() {
                       <p className="text-xs text-accent font-medium italic">{book.author}</p>
                       <p className="text-[11px] text-muted-foreground line-clamp-2 leading-relaxed">{book.description}</p>
                     </div>
+                    <ChevronRight className="w-4 h-4 text-muted-foreground/30 self-center group-hover:text-primary transition-colors" />
                   </CardContent>
                 </Card>
               </Link>
