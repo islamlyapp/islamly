@@ -1,6 +1,7 @@
+
 "use client";
 
-import { Card, CardContent } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { 
@@ -40,7 +41,9 @@ import {
   Heart,
   Users,
   Settings,
-  Cloud
+  Cloud,
+  Loader2,
+  Quote
 } from "lucide-react";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
@@ -49,14 +52,31 @@ import Image from "next/image";
 import { PlaceHolderImages } from "@/lib/placeholder-images";
 import { calculateCurrentFeatures, formatFeatureCount } from "@/lib/feature-counter";
 import { GoogleAd } from "@/components/google-ad";
+import { generateDailyReflection, type DailyReflectionOutput } from "@/ai/flows/daily-reflection-flow";
 
 export default function Home() {
   const [isExpanded, setIsExpanded] = useState(false);
-  const [featureCount, setFeatureCount] = useState<string>("2.5 Billion");
+  const [featureCount, setFeatureCount] = useState<string>("");
+  const [hasMounted, setHasMounted] = useState(false);
+  const [reflection, setReflection] = useState<DailyReflectionOutput | null>(null);
+  const [isLoadingReflection, setIsLoadingReflection] = useState(true);
 
   useEffect(() => {
+    setHasMounted(true);
     const count = calculateCurrentFeatures();
     setFeatureCount(formatFeatureCount(count));
+
+    async function loadReflection() {
+      try {
+        const data = await generateDailyReflection();
+        setReflection(data);
+      } catch (err) {
+        console.error("Reflection node failed to sync:", err);
+      } finally {
+        setIsLoadingReflection(false);
+      }
+    }
+    loadReflection();
   }, []);
 
   const brandHero = PlaceHolderImages?.find(img => img.id === 'brand-hero') || PlaceHolderImages[0];
@@ -119,6 +139,8 @@ export default function Home() {
   const categories = Array.from(new Set(allModules.map(m => m.group)));
   const visibleModules = isExpanded ? allModules : allModules.slice(0, 8);
 
+  if (!hasMounted) return null;
+
   return (
     <div className="space-y-10 animate-in fade-in duration-700 pb-20">
       {/* Hero Section */}
@@ -149,11 +171,46 @@ export default function Home() {
         </div>
       </section>
 
+      {/* Daily Reflection Node */}
+      <section className="px-6">
+        <Card className="glass-card border-primary/20 bg-primary/5 overflow-hidden">
+          <CardHeader className="pb-2">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-2 text-primary">
+                <Quote className="w-4 h-4" />
+                <span className="text-[10px] uppercase font-bold tracking-widest">Scholarly Reflection</span>
+              </div>
+              <Badge variant="outline" className="text-[8px] uppercase border-primary/30 text-primary">Daily Sync Active</Badge>
+            </div>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            {isLoadingReflection ? (
+              <div className="flex items-center gap-2 text-muted-foreground animate-pulse">
+                <Loader2 className="w-3 h-3 animate-spin" />
+                <span className="text-xs italic">Syncing spiritual node...</span>
+              </div>
+            ) : (
+              <div className="space-y-3">
+                <p className="text-literata text-lg leading-relaxed italic text-foreground">
+                  "{reflection?.reflection}"
+                </p>
+                <div className="flex flex-col gap-1 border-t border-white/5 pt-3">
+                  <p className="text-[10px] text-primary font-bold uppercase tracking-tight">{reflection?.source}</p>
+                  {reflection?.arabicText && (
+                    <p className="text-xl font-serif text-right text-muted-foreground/60" dir="rtl">{reflection.arabicText}</p>
+                  )}
+                </div>
+              </div>
+            )}
+          </CardContent>
+        </Card>
+      </section>
+
       {/* Greeting & Ad Section */}
       <div className="px-6 space-y-6">
         <section className="text-right space-y-2" aria-label="Welcome Greeting">
           <h1 className="text-5xl font-headline font-bold text-white tracking-tight">السلام عليكم</h1>
-          <p className="text-xl text-muted-foreground font-medium">Continue your scholarly journey</p>
+          <p className="text-xl text-muted-foreground font-medium">Your scholarly journey continues</p>
         </section>
 
         <GoogleAd slot="home-top-responsive" />
@@ -198,9 +255,9 @@ export default function Home() {
           aria-controls="expanded-modules"
         >
           {isExpanded ? (
-            <>Show Featured Modules <ChevronUp className="w-5 h-5" /></>
+            <>Collapse Infrastructure <ChevronUp className="w-5 h-5" /></>
           ) : (
-            <>Explore All Modules <ChevronDown className="w-5 h-5" /></>
+            <>Explore All 11.7Q Modules <ChevronDown className="w-5 h-5" /></>
           )}
         </Button>
 
