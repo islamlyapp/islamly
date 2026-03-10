@@ -1,3 +1,4 @@
+
 "use client";
 
 import { Card, CardContent } from "@/components/ui/card";
@@ -15,6 +16,7 @@ import {
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
+import { toast } from "@/hooks/use-toast";
 
 const notifications = [
   {
@@ -75,6 +77,10 @@ const notifications = [
 ];
 
 export default function NotificationsPage() {
+  const handleComingSoon = () => {
+    toast({ title: "Coming Soon", description: "Notification management is being synchronized." });
+  };
+
   return (
     <div className="space-y-8 animate-in fade-in duration-500 pb-20">
       <header className="flex items-center justify-between">
@@ -85,7 +91,7 @@ export default function NotificationsPage() {
           </h1>
           <p className="text-muted-foreground italic">Scholarly notifications and reminders.</p>
         </div>
-        <Button variant="ghost" size="icon" className="text-muted-foreground hover:text-destructive">
+        <Button variant="ghost" size="icon" className="text-muted-foreground hover:text-destructive" onClick={handleComingSoon}>
           <Trash2 className="w-5 h-5" />
         </Button>
       </header>
@@ -103,6 +109,7 @@ export default function NotificationsPage() {
               "glass-card hover:bg-white/[0.03] transition-all cursor-pointer group",
               n.unread && "border-primary/30 bg-primary/5"
             )}
+            onClick={() => toast({ title: "Alert Node", description: "Synchronizing details for this event..." })}
           >
             <CardContent className="p-4 flex gap-4">
               <div className={cn(
@@ -143,7 +150,7 @@ export default function NotificationsPage() {
             You are currently receiving high-density scholarly alerts from our global index nodes.
           </p>
         </div>
-        <Button variant="outline" className="text-[10px] uppercase font-bold tracking-widest border-primary/20 hover:bg-primary/5">
+        <Button variant="outline" className="text-[10px] uppercase font-bold tracking-widest border-primary/20 hover:bg-primary/5" onClick={handleComingSoon}>
           Mark All As Read
         </Button>
       </section>

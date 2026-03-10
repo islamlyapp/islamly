@@ -65,6 +65,10 @@ export default function HadithPage() {
     toast({ title: "Copied to Clipboard", description: "Hadith text node ready for dispatch." });
   };
 
+  const handleComingSoon = (feature: string) => {
+    toast({ title: "Coming Soon", description: `${feature} node is currently undergoing verification.` });
+  };
+
   if (!hasMounted) return null;
 
   return (
@@ -140,7 +144,7 @@ export default function HadithPage() {
                     <Button variant="ghost" size="icon" className="h-8 w-8" onClick={() => copyHadith(h.hadithArabic || h.hadithEnglish)}>
                       <Copy className="w-3.5 h-3.5" />
                     </Button>
-                    <Button variant="ghost" size="icon" className="h-8 w-8">
+                    <Button variant="ghost" size="icon" className="h-8 w-8" onClick={() => handleComingSoon("Share")}>
                       <Share2 className="w-3.5 h-3.5" />
                     </Button>
                   </div>
@@ -164,7 +168,7 @@ export default function HadithPage() {
                     </div>
                     <span className="text-[9px] uppercase tracking-widest text-muted-foreground">Node: {h.bookName || activeCollection.name}</span>
                   </div>
-                  <Button variant="ghost" className="text-[10px] uppercase font-black text-amber-500 gap-1 hover:bg-amber-500/5">
+                  <Button variant="ghost" className="text-[10px] uppercase font-black text-amber-500 gap-1 hover:bg-amber-500/5" onClick={() => handleComingSoon("Contextual Search")}>
                     Explore Context <ChevronRight className="w-3 h-3" />
                   </Button>
                 </div>

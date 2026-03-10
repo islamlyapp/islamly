@@ -20,6 +20,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import Image from "next/image";
+import { toast } from "@/hooks/use-toast";
 
 const historicalEras = [
   { id: 1, title: "Prophetic Era", era: "0-11 AH", desc: "The foundation of the Ummah and the final revelation.", image: "https://picsum.photos/seed/prophetic/600/400" },
@@ -34,6 +35,10 @@ export default function HistoryPage() {
   useEffect(() => {
     setHasMounted(true);
   }, []);
+
+  const handleComingSoon = () => {
+    toast({ title: "Coming Soon", description: "The Interactive Geospatial Heritage Map is being rendered." });
+  };
 
   if (!hasMounted) return null;
 
@@ -74,7 +79,7 @@ export default function HistoryPage() {
 
       <div className="grid gap-6">
         {historicalEras.map((era) => (
-          <Card key={era.id} className="glass-card overflow-hidden group border-white/5 hover:border-primary/30 transition-all cursor-pointer">
+          <Card key={era.id} className="glass-card overflow-hidden group border-white/5 hover:border-primary/30 transition-all cursor-pointer" onClick={() => toast({ title: "Path Locked", description: "Select this era to initialize your learning path." })}>
             <div className="flex flex-col sm:flex-row h-full">
               <div className="relative w-full sm:w-48 h-48 sm:h-auto overflow-hidden shrink-0">
                 <Image 
@@ -110,7 +115,7 @@ export default function HistoryPage() {
             Visualise the spread of the Sunnah across global coordinates in real-time.
           </p>
         </div>
-        <Button className="w-full h-14 rounded-2xl bg-primary shadow-xl shadow-primary/20 font-headline font-black uppercase tracking-widest text-sm">
+        <Button className="w-full h-14 rounded-2xl bg-primary shadow-xl shadow-primary/20 font-headline font-black uppercase tracking-widest text-sm" onClick={handleComingSoon}>
           Initialize Geospatial Map
         </Button>
       </section>

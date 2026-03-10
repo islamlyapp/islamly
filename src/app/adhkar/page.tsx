@@ -20,6 +20,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { cn } from "@/lib/utils";
+import { toast } from "@/hooks/use-toast";
 
 const adhkars = {
   morning: [
@@ -58,6 +59,10 @@ export default function AdhkarPage() {
 
   const resetCount = (id: string) => {
     setCompleted(prev => ({ ...prev, [id]: 0 }));
+  };
+
+  const handleComingSoon = () => {
+    toast({ title: "Coming Soon", description: "This scholarly audio node is currently being indexed." });
   };
 
   if (!hasMounted) return null;
@@ -158,7 +163,7 @@ export default function AdhkarPage() {
             <p className="text-[10px] text-muted-foreground">These adhkars are compiled from Hisnul Muslim based on authentic sources.</p>
           </div>
         </div>
-        <Button variant="outline" size="sm" className="h-8 text-[9px] uppercase font-black">
+        <Button variant="outline" size="sm" className="h-8 text-[9px] uppercase font-black" onClick={handleComingSoon}>
           <Volume2 className="w-3 h-3 mr-1" /> Audio Node
         </Button>
       </section>

@@ -19,6 +19,7 @@ import {
 import { explainScholarlyPassage, type ExplainScholarlyPassageOutput } from "@/ai/flows/explain-scholarly-passage-flow";
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
+import { toast } from "@/hooks/use-toast";
 
 export default function SimplifierPage() {
   const [passage, setPassage] = useState("");
@@ -42,6 +43,10 @@ export default function SimplifierPage() {
     } finally {
       setIsLoading(false);
     }
+  };
+
+  const handleSaveNote = () => {
+    toast({ title: "Coming Soon", description: "Scholarly Note archiving is being indexed." });
   };
 
   if (!hasMounted) return null;
@@ -117,7 +122,7 @@ export default function SimplifierPage() {
               </div>
               <div className="flex gap-2">
                 <Button variant="ghost" size="sm" className="text-[10px] font-black uppercase tracking-widest h-8" onClick={() => setPassage("")}>Clear</Button>
-                <Button variant="outline" size="sm" className="text-[10px] font-black uppercase tracking-widest h-8 gap-2">
+                <Button variant="outline" size="sm" className="text-[10px] font-black uppercase tracking-widest h-8 gap-2" onClick={handleSaveNote}>
                   <ScrollText className="w-3 h-3" /> Save Note
                 </Button>
               </div>

@@ -25,6 +25,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Progress } from "@/components/ui/progress";
 import { cn } from "@/lib/utils";
+import { toast } from "@/hooks/use-toast";
 
 const playlists = [
   { id: 1, title: "Scholarly Biographies", speaker: "Dr. Ali", duration: "45:20", category: "History" },
@@ -41,6 +42,10 @@ export default function AudioHubPage() {
   useEffect(() => {
     setHasMounted(true);
   }, []);
+
+  const handleComingSoon = (feature: string) => {
+    toast({ title: "Coming Soon", description: `${feature} is currently being calibrated.` });
+  };
 
   if (!hasMounted) return null;
 
@@ -87,8 +92,12 @@ export default function AudioHubPage() {
                 <p className="text-lg text-muted-foreground font-medium italic">{currentTrack.speaker}</p>
               </div>
               <div className="flex flex-wrap justify-center sm:justify-start gap-2">
-                <Button size="sm" variant="outline" className="gap-2 text-[10px] font-black uppercase border-white/10"><Download className="w-3 h-3" /> Offline Node</Button>
-                <Button size="sm" variant="outline" className="gap-2 text-[10px] font-black uppercase border-white/10"><Share2 className="w-3 h-3" /> Dispatch</Button>
+                <Button size="sm" variant="outline" className="gap-2 text-[10px] font-black uppercase border-white/10" onClick={() => handleComingSoon("Offline Node")}>
+                  <Download className="w-3 h-3" /> Offline Node
+                </Button>
+                <Button size="sm" variant="outline" className="gap-2 text-[10px] font-black uppercase border-white/10" onClick={() => handleComingSoon("Dispatch")}>
+                  <Share2 className="w-3 h-3" /> Dispatch
+                </Button>
               </div>
             </div>
           </div>
@@ -100,14 +109,14 @@ export default function AudioHubPage() {
             </div>
             <Progress value={35} className="h-1.5 bg-black/20" />
             <div className="flex items-center justify-center gap-8 pt-2">
-              <button className="text-muted-foreground hover:text-white transition-colors"><SkipBack className="w-6 h-6" /></button>
+              <button className="text-muted-foreground hover:text-white transition-colors" onClick={() => handleComingSoon("Prev Track")}><SkipBack className="w-6 h-6" /></button>
               <Button 
                 onClick={() => setIsPlaying(!isPlaying)}
                 className="w-16 h-16 rounded-full bg-primary hover:bg-primary/90 shadow-xl shadow-primary/20 scale-110"
               >
                 {isPlaying ? <Pause className="w-8 h-8" /> : <Play className="w-8 h-8 fill-white" />}
               </Button>
-              <button className="text-muted-foreground hover:text-white transition-colors"><SkipForward className="w-6 h-6" /></button>
+              <button className="text-muted-foreground hover:text-white transition-colors" onClick={() => handleComingSoon("Next Track")}><SkipForward className="w-6 h-6" /></button>
             </div>
           </div>
         </CardContent>

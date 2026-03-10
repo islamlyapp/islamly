@@ -18,6 +18,8 @@ import {
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { toast } from "@/hooks/use-toast";
+import { cn } from "@/lib/utils";
 
 const activeCircles = [
   { id: 1, name: "Aqidah Essentials", members: 1240, region: "Global", status: "Active" },
@@ -32,6 +34,10 @@ export default function CirclesPage() {
   useEffect(() => {
     setHasMounted(true);
   }, []);
+
+  const handleComingSoon = () => {
+    toast({ title: "Coming Soon", description: "Private Circle Nodes are currently undergoing scholarly audit." });
+  };
 
   if (!hasMounted) return null;
 
@@ -75,7 +81,7 @@ export default function CirclesPage() {
       <div className="grid gap-4">
         <h3 className="text-[10px] font-bold uppercase tracking-[0.3em] text-muted-foreground pl-1">Join a Scholarly Network</h3>
         {activeCircles.map((circle) => (
-          <Card key={circle.id} className="glass-card group hover:border-primary/50 transition-all border-2 border-transparent">
+          <Card key={circle.id} className="glass-card group hover:border-primary/50 transition-all border-2 border-transparent" onClick={() => toast({ title: "Halaqa Active", description: "Joining sequence initiated..." })}>
             <CardContent className="p-6 flex items-center justify-between">
               <div className="flex items-center gap-5">
                 <div className="w-14 h-14 bg-secondary rounded-2xl flex items-center justify-center group-hover:bg-primary/10 transition-colors">
@@ -111,7 +117,7 @@ export default function CirclesPage() {
           <h4 className="font-headline font-bold text-sm text-foreground">Private Circle Node</h4>
           <p className="text-xs text-muted-foreground italic">Authenticated students can initialize private study groups for focused research.</p>
         </div>
-        <Button variant="outline" className="text-[10px] uppercase font-black tracking-widest border-white/10 hover:bg-white/5 px-8">
+        <Button variant="outline" className="text-[10px] uppercase font-black tracking-widest border-white/10 hover:bg-white/5 px-8" onClick={handleComingSoon}>
           Request Private Node
         </Button>
       </footer>

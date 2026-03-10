@@ -1,3 +1,4 @@
+
 "use client";
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -5,6 +6,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { ShieldCheck, Heart, BookOpen, Info, Zap, AlertTriangle, PlayCircle } from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { toast } from "@/hooks/use-toast";
 
 const ruqyahData = {
   protection: [
@@ -38,6 +40,10 @@ const ruqyahData = {
 };
 
 export default function RuqyahPage() {
+  const handleComingSoon = () => {
+    toast({ title: "Coming Soon", description: "Scholarly audio recitations for Shifa are being verified." });
+  };
+
   return (
     <div className="space-y-8 animate-in fade-in duration-500 pb-20">
       <header className="space-y-4">
@@ -92,7 +98,7 @@ export default function RuqyahPage() {
       </section>
 
       <footer className="pt-8 flex flex-col items-center gap-4">
-        <Button className="w-full gap-2 bg-accent text-accent-foreground hover:bg-accent/90">
+        <Button className="w-full gap-2 bg-accent text-accent-foreground hover:bg-accent/90" onClick={handleComingSoon}>
           <PlayCircle className="w-4 h-4" /> Listen to Ruqyah Recitation
         </Button>
         <p className="text-[10px] text-muted-foreground uppercase tracking-[0.3em]">Verified Scholarly Resource</p>

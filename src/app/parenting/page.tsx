@@ -5,6 +5,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Heart, Baby, BookOpen, Star, Sparkles, MessageCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { toast } from "@/hooks/use-toast";
 
 const articles = [
   { title: "Nurturing Love for Allah", cat: "Aqidah", icon: Star },
@@ -13,6 +14,10 @@ const articles = [
 ];
 
 export default function ParentingPage() {
+  const handleComingSoon = () => {
+    toast({ title: "Coming Soon", description: "Raising children upon the Sunnah is our top priority. This node is being indexed." });
+  };
+
   return (
     <div className="space-y-8 animate-in fade-in duration-500 pb-20">
       <header className="text-center space-y-4 pt-4">
@@ -30,7 +35,7 @@ export default function ParentingPage() {
           <h3 className="text-xs font-bold uppercase tracking-widest text-muted-foreground pl-1">Recent Guides</h3>
           <div className="grid gap-3">
             {articles.map((art) => (
-              <Card key={art.title} className="glass-card hover:bg-primary/5 transition-all cursor-pointer group">
+              <Card key={art.title} className="glass-card hover:bg-primary/5 transition-all cursor-pointer group" onClick={handleComingSoon}>
                 <CardContent className="p-4 flex items-center gap-4">
                   <div className="w-10 h-10 rounded-lg bg-secondary flex items-center justify-center group-hover:bg-primary/20">
                     <art.icon className="w-5 h-5 text-primary" />
@@ -56,7 +61,7 @@ export default function ParentingPage() {
             <p className="text-sm text-muted-foreground leading-relaxed">
               Join our circles to discuss challenges and share wisdom with other Muslim parents.
             </p>
-            <Button className="w-full bg-primary font-headline">Join Circle</Button>
+            <Button className="w-full bg-primary font-headline" onClick={handleComingSoon}>Join Circle</Button>
           </CardContent>
         </Card>
       </div>
