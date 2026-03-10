@@ -64,6 +64,7 @@ export default function Home() {
 
   useEffect(() => {
     setHasMounted(true);
+    // Calculation must be inside useEffect to prevent hydration mismatch
     const count = calculateCurrentFeatures();
     setFeatureCount(formatFeatureCount(count));
 
@@ -101,8 +102,8 @@ export default function Home() {
     { title: "Adhkar", href: "/adhkar", icon: Zap, color: "text-yellow-400", bg: "bg-yellow-500/10", border: "border-yellow-500/20", group: "Practical Living" },
     { title: "Ruqyah", href: "/ruqyah", icon: ShieldCheck, color: "text-sky-400", bg: "bg-sky-500/10", border: "border-sky-500/20", group: "Practical Living" },
     { title: "Dua", href: "/adhkar", icon: Heart, color: "text-rose-400", bg: "bg-rose-500/10", border: "border-rose-500/20", group: "Practical Living" },
-    { title: "Zakat", href: "/fiqh", icon: Database, color: "text-teal-400", bg: "bg-teal-500/10", border: "border-teal-500/20", group: "Practical Living" },
-    { title: "Ramadan", href: "/prayer-times", icon: Moon, color: "text-indigo-400", bg: "bg-indigo-500/10", border: "border-indigo-500/20", group: "Practical Living" },
+    { title: "Zakat", href: "/zakat", icon: Database, color: "text-teal-400", bg: "bg-teal-500/10", border: "border-teal-500/20", group: "Practical Living" },
+    { title: "Ramadan", href: "/ramadan", icon: Moon, color: "text-indigo-400", bg: "bg-indigo-500/10", border: "border-indigo-500/20", group: "Practical Living" },
     { title: "Quizzes", href: "/quiz", icon: Trophy, color: "text-yellow-500", bg: "bg-yellow-500/10", border: "border-yellow-500/20", group: "Interactive" },
     { title: "Goals", href: "/goals", icon: Target, color: "text-blue-500", bg: "bg-blue-500/10", border: "border-blue-500/20", group: "Interactive" },
     { title: "Badges", href: "/goals", icon: ShieldCheck, color: "text-amber-500", bg: "bg-amber-500/10", border: "border-amber-500/20", group: "Interactive" },
@@ -207,7 +208,7 @@ export default function Home() {
       <div className="px-6 space-y-6">
         <section className="text-right space-y-2">
           <h1 className="text-5xl font-headline font-bold text-white tracking-tight">السلام عليكم</h1>
-          <p className="text-xl text-muted-foreground font-medium">11.7Q Features Active</p>
+          <p className="text-xl text-muted-foreground font-medium">{featureCount} Features Active</p>
         </section>
         <GoogleAd slot="home-top-responsive" />
       </div>
@@ -247,7 +248,7 @@ export default function Home() {
           {isExpanded ? (
             <>Collapse Infrastructure <ChevronUp className="w-5 h-5" /></>
           ) : (
-            <>Explore All 11.7Q Modules <ChevronDown className="w-5 h-5" /></>
+            <>Explore All {featureCount} Modules <ChevronDown className="w-5 h-5" /></>
           )}
         </Button>
 
