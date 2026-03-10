@@ -31,7 +31,8 @@ import {
   Quote,
   Loader2,
   Fingerprint,
-  RotateCcw
+  RotateCcw,
+  Star
 } from "lucide-react";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
