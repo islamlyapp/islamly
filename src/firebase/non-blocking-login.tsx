@@ -1,3 +1,4 @@
+
 'use client';
 import {
   Auth,
@@ -49,19 +50,6 @@ export function initiateGoogleSignIn(authInstance: Auth): void {
     if (error.code !== 'auth/popup-closed-by-user') {
       console.error("Google Sign-In Error:", error);
       toast({ variant: "destructive", title: "Auth Error", description: "Failed to sync with Google node." });
-    }
-  });
-}
-
-/** 
- * Initiate Apple sign-in (non-blocking). 
- */
-export function initiateAppleSignIn(authInstance: Auth): void {
-  const provider = new OAuthProvider('apple.com');
-  signInWithPopup(authInstance, provider).catch((error) => {
-    if (error.code !== 'auth/popup-closed-by-user') {
-      console.error("Apple Sign-In Error:", error);
-      toast({ variant: "destructive", title: "Auth Error", description: "Failed to sync with Apple node." });
     }
   });
 }
