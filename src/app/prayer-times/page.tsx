@@ -203,14 +203,7 @@ export default function PrayerTimesPage() {
     return found || prayers[0];
   }, [prayers, currentTimeStr]);
 
-  if (!hasMounted) {
-    return (
-      <div className="h-[60vh] flex flex-col items-center justify-center gap-4">
-        <Loader2 className="w-10 h-10 animate-spin text-primary opacity-20" />
-        <p className="text-[10px] uppercase tracking-[0.3em] text-muted-foreground">Universal Sync...</p>
-      </div>
-    );
-  }
+  if (!hasMounted) return null;
 
   return (
     <div className="space-y-8 animate-in fade-in duration-500 pb-20">

@@ -8,6 +8,9 @@ import {
   GoogleAuthProvider,
   OAuthProvider,
   signInWithPopup,
+  RecaptchaVerifier,
+  signInWithPhoneNumber,
+  ConfirmationResult
 } from 'firebase/auth';
 import { toast } from '@/hooks/use-toast';
 
@@ -65,4 +68,35 @@ export function initiateDiscordSignIn(authInstance: Auth): void {
       toast({ variant: "destructive", title: "Auth Error", description: "Failed to sync with Discord node." });
     }
   });
+}
+
+/** 
+ * Initiate Microsoft sign-in (non-blocking). 
+ */
+export function initiateMicrosoftSignIn(authInstance: Auth): void {
+  const provider = new OAuthProvider('microsoft.com');
+  signInWithPopup(authInstance, provider).catch((error) => {
+    if (error.code !== 'auth/popup-closed-by-user') {
+      console.error("Microsoft Sign-In Error:", error);
+      toast({ variant: "destructive", title: "Auth Error", description: "Failed to sync with Microsoft node." });
+    }
+  });
+}
+
+/** 
+ * Initiate Phone sign-in (non-blocking). 
+ * Note: Requires a container element with id "phone-sign-in-container" for Recaptcha.
+ */
+export async function initiatePhoneSignIn(authInstance: Auth, phoneNumber: string): Promise<ConfirmationResult | null> {
+  try {
+    const recaptchaVerifier = new RecaptchaVerifier(authInstance, 'phone-sign-in-container', {
+      size: 'invisible'
+    });
+    const result = await signInWithPhoneNumber(authInstance, phoneNumber, recaptchaVerifier);
+    return result;
+  } catch (error: any) {
+    console.error("Phone Sign-In Error:", error);
+    toast({ variant: "destructive", title: "Phone Error", description: error.message });
+    return null;
+  }
 }
