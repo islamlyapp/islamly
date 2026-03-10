@@ -1,9 +1,8 @@
-
 "use client";
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { User, Globe, LogIn, Bell, Cloud } from "lucide-react";
+import { User, Globe, LogIn, Bell } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useUser } from "@/firebase";
 import { Button } from "@/components/ui/button";
@@ -22,12 +21,10 @@ export function GlobalHeader() {
           <Link href="/" className="flex items-center gap-2 group" aria-label="Islamly Home">
             <span className="font-headline font-bold text-2xl tracking-tight text-white">Islamly</span>
           </Link>
-          <Link href="/cloud">
-            <div className="hidden sm:flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-blue-500/5 border border-blue-500/10 hover:bg-blue-500/10 transition-colors cursor-pointer">
-              <Cloud className="w-3 h-3 text-blue-400" />
-              <span className="text-[8px] uppercase tracking-widest text-blue-400 font-bold">Cloud Sync Active</span>
-            </div>
-          </Link>
+          <div className="hidden sm:flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-primary/5 border border-primary/10 transition-colors">
+            <div className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+            <span className="text-[8px] uppercase tracking-widest text-muted-foreground font-bold">Network Active</span>
+          </div>
         </div>
 
         <div className="flex items-center gap-4">

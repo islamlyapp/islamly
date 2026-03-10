@@ -1,4 +1,3 @@
-
 "use client";
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -19,27 +18,16 @@ import {
   MapPin, 
   Utensils, 
   Zap, 
-  Home as HomeIcon, 
   Globe, 
   Database, 
   Compass, 
   Library, 
-  Video, 
-  Volume2, 
   Trophy, 
   Target, 
-  Flame, 
-  Star,
-  UserCheck,
   ShieldCheck,
-  ShieldAlert,
   BookOpen,
-  Baby,
-  Rocket,
   Moon,
-  Newspaper,
   Heart,
-  Users,
   Quote,
   Loader2,
   Fingerprint,
@@ -64,7 +52,6 @@ export default function Home() {
 
   useEffect(() => {
     setHasMounted(true);
-    // Calculation must be inside useEffect to prevent hydration mismatch
     const count = calculateCurrentFeatures();
     setFeatureCount(formatFeatureCount(count));
 
@@ -142,7 +129,7 @@ export default function Home() {
               إسلاملي
             </span>
             <div className="h-px w-24 bg-primary/40 mt-2" />
-            <p className="text-[10px] uppercase tracking-[0.5em] text-white/60 font-bold mt-4">Universal Cloud Infrastructure</p>
+            <p className="text-[10px] uppercase tracking-[0.5em] text-white/60 font-bold mt-4">Universal Scholarly Infrastructure</p>
           </div>
         </div>
       </section>
@@ -301,9 +288,11 @@ export default function Home() {
           <Badge variant="outline" className="text-[9px] uppercase tracking-[0.2em] font-bold border-white/5 bg-white/5 py-1.5 px-4 rounded-full">
             No Shirk or Bid'ah
           </Badge>
-          <Badge variant="outline" className="text-[9px] uppercase tracking-[0.2em] font-bold border-white/5 bg-white/5 py-1.5 px-4 rounded-full">
-            {featureCount} Features
-          </Badge>
+          <Link href="/credits">
+            <Badge variant="outline" className="text-[9px] uppercase tracking-[0.2em] font-bold border-white/5 bg-white/5 py-1.5 px-4 rounded-full hover:bg-white/10 transition-colors">
+              Scholarly Credits
+            </Badge>
+          </Link>
         </div>
         <p className="text-[10px] text-muted-foreground uppercase tracking-[0.4em] font-bold">
           إسلاملي Universal Scholarly Platform v3.5
