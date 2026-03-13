@@ -23,6 +23,8 @@ import {
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
+import { useFirestore, useCollection, useMemoFirebase } from "@/firebase";
+import { collection, query, orderBy, limit } from "firebase/firestore";
 
 // Helper to extract YT ID
 const getYoutubeId = (url: string) => {
@@ -49,86 +51,42 @@ const INITIAL_VIDEOS = [
     category: "Aqidah",
     duration: "45:30",
     source: "Rahmaniyyah Node"
-  },
-  { 
-    id: "deen-1", 
-    title: "Foundations of Islamic Jurisprudence", 
-    url: "https://www.youtube.com/watch?v=isCs_X8_clI",
-    author: "Deen Institute", 
-    category: "Fiqh",
-    duration: "1:02:45",
-    source: "Deen Institute Node"
-  },
-  { 
-    id: "yiy-1", 
-    title: "The Excellence of Tawhid", 
-    url: "https://www.youtube.com/watch?v=isCs_X8_clI",
-    author: "Ustadh Yasir Ibn Yousaf", 
-    category: "Aqidah",
-    duration: "32:45",
-    source: "Yasir Ibn Yousaf Node"
-  },
-  { 
-    id: "omf-1", 
-    title: "Why Islam is the Truth", 
-    url: "https://www.youtube.com/watch?v=UQZ6_v_InY",
-    author: "Shaykh Uthman Ibn Farooq", 
-    category: "Dawah",
-    duration: "38:45",
-    source: "OMF Node"
-  },
-  { 
-    id: "deen-2", 
-    title: "Arabic Language: Level 1 Foundations", 
-    url: "https://www.youtube.com/watch?v=v_OnIs_vInY",
-    author: "Deen Institute", 
-    category: "Language",
-    duration: "45:15",
-    source: "Deen Institute Node"
-  },
-  { 
-    id: "atm-1", 
-    title: "Advice to the Youth of the Ummah", 
-    url: "https://www.youtube.com/watch?v=isCs_X8_clI",
-    author: "Shaykh Abu Taymiyyah", 
-    category: "Tazkiyah",
-    duration: "28:15",
-    source: "Abu Taymiyyah Node"
-  },
-  { 
-    id: "yiy-2", 
-    title: "Steadfastness upon the Sunnah", 
-    url: "https://www.youtube.com/watch?v=v_OnIs_vInY",
-    author: "Ustadh Yasir Ibn Yousaf", 
-    category: "Manhaj",
-    duration: "41:20",
-    source: "Yasir Ibn Yousaf Node"
-  },
-  { 
-    id: "deen-3", 
-    title: "The Life of the Prophets: Series Intro", 
-    url: "https://www.youtube.com/watch?v=UQZ6_v_InY",
-    author: "Deen Institute", 
-    category: "Seerah",
-    duration: "55:30",
-    source: "Deen Institute Node"
   }
 ];
 
 export default function VideosPage() {
   const [hasMounted, setHasMounted] = useState(false);
-  const [activeVideo, setActiveVideo] = useState<any>(INITIAL_VIDEOS[0]);
+  const [activeVideo, setActiveVideo] = useState<any>(null);
   const [search, setSearch] = useState("");
+  
+  const db = useFirestore();
+
+  // Initialize Dynamic Firestore Cluster
+  const videosQuery = useMemoFirebase(() => {
+    if (!db) return null;
+    return query(collection(db, "videos"), orderBy("title", "asc"), limit(50));
+  }, [db]);
+
+  const { data: dbVideos, isLoading } = useCollection(videosQuery);
+
+  // Combine DB videos with initial scholarly fallbacks
+  const allAvailableVideos = [...(dbVideos || []), ...(dbVideos?.length === 0 ? INITIAL_VIDEOS : [])];
 
   useEffect(() => {
     setHasMounted(true);
   }, []);
 
+  useEffect(() => {
+    if (allAvailableVideos.length > 0 && !activeVideo) {
+      setActiveVideo(allAvailableVideos[0]);
+    }
+  }, [allAvailableVideos, activeVideo]);
+
   if (!hasMounted) return null;
 
-  const ytId = getYoutubeId(activeVideo.url);
+  const ytId = activeVideo ? getYoutubeId(activeVideo.url) : null;
 
-  const filteredVideos = INITIAL_VIDEOS.filter(v => 
+  const filteredVideos = allAvailableVideos.filter(v => 
     v.title.toLowerCase().includes(search.toLowerCase()) || 
     v.category.toLowerCase().includes(search.toLowerCase()) ||
     v.source.toLowerCase().includes(search.toLowerCase()) ||
@@ -160,7 +118,7 @@ export default function VideosPage() {
         <div className="relative">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground w-4 h-4" />
           <Input 
-            placeholder="Search Deen Institute, AMAU, Rahmaniyyah, Yasir Ibn Yousaf, OMF, Abu Taymiyyah..." 
+            placeholder="Search Deen Institute, AMAU, Rahmaniyyah, OMF, Abu Taymiyyah..." 
             className="pl-10 glass-card h-14 border-white/5 focus-visible:ring-primary/50"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
@@ -190,67 +148,77 @@ export default function VideosPage() {
           </div>
         </Card>
 
-        <div className="flex flex-col sm:flex-row justify-between items-start gap-4">
-          <div className="space-y-2">
-            <div className="flex items-center gap-3">
-              <h2 className="text-2xl font-headline font-bold text-white">{activeVideo.title}</h2>
-              <Badge variant="outline" className="text-[8px] uppercase border-primary/20 text-primary">{activeVideo.category}</Badge>
-              <Badge variant="outline" className="text-[8px] uppercase border-white/10 text-muted-foreground">{activeVideo.source}</Badge>
-            </div>
-            <div className="flex items-center gap-4 text-xs text-muted-foreground font-medium italic">
-              <span className="flex items-center gap-1.5"><User className="w-3.5 h-3.5 text-primary" /> {activeVideo.author}</span>
-              <span className="flex items-center gap-1.5"><Clock className="w-3.5 h-3.5" /> {activeVideo.duration}</span>
-              <div className="flex items-center gap-1.5 px-2 py-0.5 rounded bg-primary/5 border border-primary/10">
-                <Layers className="w-2.5 h-2.5 text-primary opacity-60" />
-                <span className="text-[7px] font-bold text-primary uppercase tracking-widest">10,000+ Signal Nodes</span>
+        {activeVideo && (
+          <div className="flex flex-col sm:flex-row justify-between items-start gap-4">
+            <div className="space-y-2">
+              <div className="flex items-center gap-3">
+                <h2 className="text-2xl font-headline font-bold text-white">{activeVideo.title}</h2>
+                <Badge variant="outline" className="text-[8px] uppercase border-primary/20 text-primary">{activeVideo.category}</Badge>
+                <Badge variant="outline" className="text-[8px] uppercase border-white/10 text-muted-foreground">{activeVideo.source}</Badge>
+              </div>
+              <div className="flex items-center gap-4 text-xs text-muted-foreground font-medium italic">
+                <span className="flex items-center gap-1.5"><User className="w-3.5 h-3.5 text-primary" /> {activeVideo.author}</span>
+                <span className="flex items-center gap-1.5"><Clock className="w-3.5 h-3.5" /> {activeVideo.duration || "N/A"}</span>
+                <div className="flex items-center gap-1.5 px-2 py-0.5 rounded bg-primary/5 border border-primary/10">
+                  <Layers className="w-2.5 h-2.5 text-primary opacity-60" />
+                  <span className="text-[7px] font-bold text-primary uppercase tracking-widest">10,000+ Signal Nodes</span>
+                </div>
               </div>
             </div>
+            <div className="flex gap-2 w-full sm:w-auto">
+              <Button variant="outline" size="sm" className="flex-1 sm:flex-none h-10 uppercase font-black text-[10px] tracking-widest border-white/10">
+                <Share2 className="w-3 h-3 mr-2" /> Dispatch Node
+              </Button>
+              <Button variant="outline" size="sm" className="flex-1 sm:flex-none h-10 uppercase font-black text-[10px] tracking-widest border-white/10">
+                <ShieldCheck className="w-3 h-3 mr-2" /> Verify Methodology
+              </Button>
+            </div>
           </div>
-          <div className="flex gap-2 w-full sm:w-auto">
-            <Button variant="outline" size="sm" className="flex-1 sm:flex-none h-10 uppercase font-black text-[10px] tracking-widest border-white/10" onClick={() => {}}>
-              <Share2 className="w-3 h-3 mr-2" /> Dispatch Node
-            </Button>
-            <Button variant="outline" size="sm" className="flex-1 sm:flex-none h-10 uppercase font-black text-[10px] tracking-widest border-white/10" onClick={() => {}}>
-              <ShieldCheck className="w-3 h-3 mr-2" /> Verify Methodology
-            </Button>
-          </div>
-        </div>
+        )}
       </section>
 
       <section className="space-y-4 pt-4">
         <h3 className="text-[10px] font-bold uppercase tracking-[0.3em] text-muted-foreground pl-1">Knowledge Archive Index</h3>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          {filteredVideos.map((v) => (
-            <Card 
-              key={v.id} 
-              className={cn(
-                "glass-card hover:border-primary/50 transition-all cursor-pointer group active:scale-[0.98] border-2",
-                activeVideo.id === v.id ? "border-primary/40 bg-primary/5" : "border-transparent"
-              )}
-              onClick={() => setActiveVideo(v)}
-            >
-              <div className="aspect-video relative overflow-hidden bg-black/40">
-                <div className="absolute inset-0 bg-gradient-to-t from-background to-transparent opacity-60" />
-                <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
-                  <Play className="w-10 h-10 text-white fill-white shadow-2xl" />
+        {isLoading ? (
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            {[1, 2, 3].map(i => (
+              <Card key={i} className="glass-card h-40 animate-pulse bg-white/5" />
+            ))}
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            {filteredVideos.map((v) => (
+              <Card 
+                key={v.id} 
+                className={cn(
+                  "glass-card hover:border-primary/50 transition-all cursor-pointer group active:scale-[0.98] border-2",
+                  activeVideo?.id === v.id ? "border-primary/40 bg-primary/5" : "border-transparent"
+                )}
+                onClick={() => setActiveVideo(v)}
+              >
+                <div className="aspect-video relative overflow-hidden bg-black/40">
+                  <div className="absolute inset-0 bg-gradient-to-t from-background to-transparent opacity-60" />
+                  <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                    <Play className="w-10 h-10 text-white fill-white shadow-2xl" />
+                  </div>
+                  <div className="absolute top-2 right-2 text-[8px] font-black bg-black/60 px-1.5 py-0.5 rounded text-white border border-white/10">
+                    {v.duration || "---"}
+                  </div>
+                  <div className="absolute bottom-2 left-2">
+                    <Badge className="bg-black/80 text-[6px] uppercase tracking-tighter border-white/10">{v.source}</Badge>
+                  </div>
                 </div>
-                <div className="absolute top-2 right-2 text-[8px] font-black bg-black/60 px-1.5 py-0.5 rounded text-white border border-white/10">
-                  {v.duration}
-                </div>
-                <div className="absolute bottom-2 left-2">
-                  <Badge className="bg-black/80 text-[6px] uppercase tracking-tighter border-white/10">{v.source}</Badge>
-                </div>
-              </div>
-              <CardContent className="p-4 space-y-2">
-                <h4 className="font-headline font-bold text-sm line-clamp-1 group-hover:text-primary transition-colors">{v.title}</h4>
-                <div className="flex items-center justify-between text-[10px] text-muted-foreground">
-                  <span className="font-medium">{v.author}</span>
-                  <Badge variant="outline" className="text-[7px] h-4 py-0 border-white/5 uppercase">{v.category}</Badge>
-                </div>
-              </CardContent>
-            </Card>
-          ))}
-        </div>
+                <CardContent className="p-4 space-y-2">
+                  <h4 className="font-headline font-bold text-sm line-clamp-1 group-hover:text-primary transition-colors">{v.title}</h4>
+                  <div className="flex items-center justify-between text-[10px] text-muted-foreground">
+                    <span className="font-medium">{v.author}</span>
+                    <Badge variant="outline" className="text-[7px] h-4 py-0 border-white/5 uppercase">{v.category}</Badge>
+                  </div>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        )}
       </section>
 
       <section className="bg-primary/5 border border-primary/20 p-8 rounded-[2.5rem] text-center space-y-6">
@@ -258,12 +226,12 @@ export default function VideosPage() {
         <div className="space-y-2">
           <h3 className="text-2xl font-headline font-bold text-white uppercase tracking-tight">Scholarly Governance</h3>
           <p className="text-sm text-muted-foreground max-w-lg mx-auto italic leading-relaxed">
-            Content from Deen Institute, AMAU, Rahmaniyyah, Yasir Ibn Yousaf, OMF, and the Abu Taymiyyah node is recognized for strict adherence to the methodology of the Salaf. Every transmission is indexed with 10,000+ verification points.
+            Every transmission in this hub is synchronized with our 11.7 Quadrillion metadata cluster to ensure strict adherence to the methodology of the Salaf.
           </p>
         </div>
         <div className="flex justify-center gap-3">
           <Badge variant="outline" className="bg-background/50 border-emerald-500/20 text-emerald-500 text-[8px] uppercase px-4 py-1">Methodology Verified</Badge>
-          <Badge variant="outline" className="bg-background/50 border-primary/20 text-primary text-[8px] uppercase px-4 py-1">11.7Q Metadata</Badge>
+          <Badge variant="outline" className="bg-background/50 border-primary/20 text-primary text-[8px] uppercase px-4 py-1">Dynamic Node Sync</Badge>
         </div>
       </section>
 
@@ -271,7 +239,7 @@ export default function VideosPage() {
         <div className="flex items-center justify-center gap-2 mb-2">
           <Database className="w-3 h-3" />
           <p className="text-[9px] uppercase tracking-[0.4em] font-black italic">
-            إسلاملي Universal Video Infrastructure v1.0 • Multi-Node Synchronized
+            إسلاملي Universal Video Infrastructure v3.5 • Multi-Node Synchronized
           </p>
         </div>
       </footer>

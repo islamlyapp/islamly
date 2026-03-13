@@ -1,3 +1,4 @@
+
 {
   "entities": {
     "UserProfile": {
@@ -715,6 +716,51 @@
         "noteText",
         "createdAt"
       ]
+    },
+    "Video": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "Video",
+      "type": "object",
+      "description": "Represents a scholarly video from a verified YouTube channel.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the Video entity."
+        },
+        "title": {
+          "type": "string",
+          "description": "The title of the video lecture."
+        },
+        "url": {
+          "type": "string",
+          "description": "The YouTube URL of the video.",
+          "format": "uri"
+        },
+        "author": {
+          "type": "string",
+          "description": "The scholar or speaker delivering the lecture."
+        },
+        "category": {
+          "type": "string",
+          "description": "The Islamic science category (e.g., 'Aqidah', 'Fiqh')."
+        },
+        "duration": {
+          "type": "string",
+          "description": "The length of the video."
+        },
+        "source": {
+          "type": "string",
+          "description": "The scholarly node source (e.g., 'AMAU Node')."
+        }
+      },
+      "required": [
+        "id",
+        "title",
+        "url",
+        "author",
+        "category",
+        "source"
+      ]
     }
   },
   "auth": {
@@ -1028,8 +1074,18 @@
             }
           ]
         }
+      },
+      {
+        "path": "/videos/{videoId}",
+        "definition": {
+          "entityName": "Video",
+          "schema": {
+            "$ref": "#/backend/entities/Video"
+          },
+          "description": "Publicly readable scholarly videos synced from verified nodes."
+        }
       }
     ],
-    "reasoning": "The Firestore structure is designed to be secure, scalable, and debuggable by strictly adhering to the core design principles. The primary strategy involves a clear segregation of publicly accessible, static content from user-specific, private data, and extensive use of path-based authorization and denormalization.\n\n**Authorization Independence (CRITICAL) & QAPs (Rules are not Filters):**\n\n1.  **Public/Static Content Collections:** All core informational entities like 'Author', 'Topic', 'Text', 'Adhkar', 'Surah', 'Ayah', 'TafsirBook', 'TafsirEntry', 'HadithCollection', 'Hadith', 'HadithCommentaryBook', 'HadithCommentaryEntry', 'SeerahEvent', 'Quiz', 'Question', and 'AnswerOption' are organized into top-level collections or subcollections with homogeneous security postures (e.g., `/authors`, `/quran/surahs/{surahId}/ayahs`). These collections are intended to be publicly readable by all users, authenticated or not. This design choice inherently ensures **Authorization Independence** because access to these documents does not rely on any parent document's attributes or `get()` calls within security rules. The rules simply allow universal read access. This also directly supports **QAPs** (Queries are not Filters) as any read or list operation on these collections will return all accessible documents, without the need for server-side filtering by security rules, thus optimizing performance and simplifying rule logic. The 'read-only' nature for all documents in these collections satisfies the **Structural Segregation** mandate.\n\n2.  **User-Owned Data Collections:** User-specific data, including 'UserProfile', 'UserBookmark', and 'UserNote', are organized under a dedicated `/users/{userId}` hierarchy (e.g., `/users/{userId}/user_profiles/{userId}`, `/users/{userId}/bookmarks/{bookmarkId}`, `/users/{userId}/notes/{noteId}`).\n    *   **Denormalization for Authorization Independence:** For `UserProfile`, the document's ID is set to `request.auth.uid`, and the `id` field within the document is denormalized to `userId`, mirroring the path parameter. Similarly, for `UserBookmark` and `UserNote`, the `userId` field within each document is explicitly denormalized to match the `{userId}` wildcard in their respective paths. This ensures that the ownership information is directly present within each document. Consequently, security rules can evaluate `request.auth.uid == resource.data.userId` or `request.auth.uid == {userId}` without needing to perform `get()` calls to check parent documents for ownership, achieving **Authorization Independence**. This structure also guarantees that **QAPs** are met for user-specific data; a user can only query and list their own bookmarks or notes (`/users/myUid/bookmarks`), and the security rules will only permit access to documents where `resource.data.userId == request.auth.uid`, effectively enforcing ownership at the path level and within the document data itself.\n\n**Debuggability & Clarity of Intent:** The use of descriptive collection names and wildcards (e.g., `{userId}`, `{surahId}`) explicitly communicates the purpose and ownership of the data. The simple `request.auth.uid == resource.data.userId` rule pattern for private data is easy to write, understand, and debug, making authorization intent transparent.\n\n**DBAC (Database-Backed Access Control):** The design relies solely on `request.auth.uid` for user authentication and the `userId` field (denormalized within documents or implied by path) for authorization, requiring no custom claims or complex role management. This keeps the authorization model robust and straightforward.\n\n**Invariants:** The structural path (`/users/{userId}/...`) combined with denormalized `userId` fields in `UserBookmark` and `UserNote` documents creates a strong invariant for ownership, which can be easily enforced by security rules. Timestamps (`createdAt`, `updatedAt`) for user-owned data are also directly present in the documents, allowing for rule-based validation of their integrity."
+    "reasoning": "The Firestore structure is designed to be secure, scalable, and debuggable by strictly adhering to the core design principles. The primary strategy involves a clear segregation of publicly accessible, static content from user-specific, private data, and extensive use of path-based authorization and denormalization.\n\n**Authorization Independence (CRITICAL) & QAPs (Rules are not Filters):**\n\n1.  **Public/Static Content Collections:** All core informational entities like 'Author', 'Topic', 'Text', 'Adhkar', 'Surah', 'Ayah', 'TafsirBook', 'TafsirEntry', 'HadithCollection', 'Hadith', 'HadithCommentaryBook', 'HadithCommentaryEntry', 'SeerahEvent', 'Quiz', 'Question', 'AnswerOption', and 'Video' are organized into top-level collections or subcollections with homogeneous security postures (e.g., `/authors`, `/videos`). These collections are intended to be publicly readable by all users, authenticated or not. This design choice inherently ensures **Authorization Independence** because access to these documents does not rely on any parent document's attributes or `get()` calls within security rules. The rules simply allow universal read access. This also directly supports **QAPs** (Queries are not Filters) as any read or list operation on these collections will return all accessible documents, without the need for server-side filtering by security rules, thus optimizing performance and simplifying rule logic. The 'read-only' nature for all documents in these collections satisfies the **Structural Segregation** mandate.\n\n2.  **User-Owned Data Collections:** User-specific data, including 'UserProfile', 'UserBookmark', and 'UserNote', are organized under a dedicated `/users/{userId}` hierarchy (e.g., `/users/{userId}/user_profiles/{userId}`, `/users/{userId}/bookmarks/{bookmarkId}`, `/users/{userId}/notes/{noteId}`).\n    *   **Denormalization for Authorization Independence:** For `UserProfile`, the document's ID is set to `request.auth.uid`, and the `id` field within the document is denormalized to `userId`, mirroring the path parameter. Similarly, for `UserBookmark` and `UserNote`, the `userId` field within each document is explicitly denormalized to match the `{userId}` wildcard in their respective paths. This ensures that the ownership information is directly present within each document. Consequently, security rules can evaluate `request.auth.uid == resource.data.userId` or `request.auth.uid == {userId}` without needing to perform `get()` calls to check parent documents for ownership, achieving **Authorization Independence**. This structure also guarantees that **QAPs** are met for user-specific data; a user can only query and list their own bookmarks or notes (`/users/myUid/bookmarks`), and the security rules will only permit access to documents where `resource.data.userId == request.auth.uid`, effectively enforcing ownership at the path level and within the document data itself.\n\n**Debuggability & Clarity of Intent:** The use of descriptive collection names and wildcards (e.g., `{userId}`, `{surahId}`) explicitly communicates the purpose and ownership of the data. The simple `request.auth.uid == resource.data.userId` rule pattern for private data is easy to write, understand, and debug, making authorization intent transparent.\n\n**DBAC (Database-Backed Access Control):** The design relies solely on `request.auth.uid` for user authentication and the `userId` field (denormalized within documents or implied by path) for authorization, requiring no custom claims or complex role management. This keeps the authorization model robust and straightforward.\n\n**Invariants:** The structural path (`/users/{userId}/...`) combined with denormalized `userId` fields in `UserBookmark` and `UserNote` documents creates a strong invariant for ownership, which can be easily enforced by security rules. Timestamps (`createdAt`, `updatedAt`) for user-owned data are also directly present in the documents, allowing for rule-based validation of their integrity."
   }
 }
