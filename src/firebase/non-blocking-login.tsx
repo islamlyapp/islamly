@@ -1,10 +1,15 @@
 'use client';
 import {
-  Auth, // Import Auth type for type hinting
+  Auth,
   signInAnonymously,
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
-  // Assume getAuth and app are initialized elsewhere
+  GoogleAuthProvider,
+  OAuthProvider,
+  signInWithRedirect,
+  signInWithPhoneNumber,
+  RecaptchaVerifier,
+  type ConfirmationResult
 } from 'firebase/auth';
 
 /** Initiate anonymous sign-in (non-blocking). */
@@ -26,4 +31,40 @@ export function initiateEmailSignIn(authInstance: Auth, email: string, password:
   // CRITICAL: Call signInWithEmailAndPassword directly. Do NOT use 'await signInWithEmailAndPassword(...)'.
   signInWithEmailAndPassword(authInstance, email, password);
   // Code continues immediately. Auth state change is handled by onAuthStateChanged listener.
+}
+
+/** Initiate Google sign-in (non-blocking redirect). */
+export function initiateGoogleSignIn(authInstance: Auth): void {
+  const provider = new GoogleAuthProvider();
+  signInWithRedirect(authInstance, provider);
+}
+
+/** Initiate Discord sign-in (non-blocking redirect). */
+export function initiateDiscordSignIn(authInstance: Auth): void {
+  const provider = new OAuthProvider('discord.com');
+  signInWithRedirect(authInstance, provider);
+}
+
+/** Initiate Microsoft sign-in (non-blocking redirect). */
+export function initiateMicrosoftSignIn(authInstance: Auth): void {
+  const provider = new OAuthProvider('microsoft.com');
+  signInWithRedirect(authInstance, provider);
+}
+
+/** Initiate Phone sign-in (returns a promise for confirmation). */
+export async function initiatePhoneSignIn(authInstance: Auth, phoneNumber: string): Promise<ConfirmationResult | null> {
+  try {
+    const container = document.getElementById('phone-sign-in-container');
+    if (!container) {
+      console.error("Phone sign-in container not found.");
+      return null;
+    }
+    const recaptchaVerifier = new RecaptchaVerifier(authInstance, 'phone-sign-in-container', {
+      size: 'invisible'
+    });
+    return await signInWithPhoneNumber(authInstance, phoneNumber, recaptchaVerifier);
+  } catch (error) {
+    console.error("Phone sign-in error:", error);
+    return null;
+  }
 }
