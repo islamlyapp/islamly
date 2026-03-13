@@ -1,3 +1,4 @@
-import ComingSoonPage from '@/app/coming-soon/page';
 
-export default ComingSoonPage;
+import MasjidLocatorPage from '@/app/masjid-locator/page';
+
+export default MasjidLocatorPage;

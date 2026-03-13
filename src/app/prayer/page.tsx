@@ -1,3 +1,4 @@
-import ComingSoonPage from '@/app/coming-soon/page';
 
-export default ComingSoonPage;
+import PrayerTimesPage from '@/app/prayer-times/page';
+
+export default PrayerTimesPage;

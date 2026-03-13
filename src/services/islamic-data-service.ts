@@ -80,6 +80,29 @@ export async function fetchMasjids(lat: number, lng: number, radius: number = 50
 }
 
 /**
+ * Fetches Halal Establishments using Overpass API.
+ */
+export async function fetchHalalPlaces(lat: number, lng: number, radius: number = 5000) {
+  try {
+    const query = `[out:json];node["amenity"~"restaurant|cafe|fast_food"]["diet:halal"="yes"](around:${radius},${lat},${lng});out;`;
+    const response = await fetch(`https://overpass-api.de/api/interpreter?data=${encodeURIComponent(query)}`);
+    const data = await response.json();
+    return (data.elements || []).map((node: any) => ({
+      id: node.id,
+      name: node.tags?.name || "Unnamed Establishment",
+      address: node.tags?.["addr:street"] ? `${node.tags["addr:street"]} ${node.tags["addr:housenumber"] || ""}` : "Address not listed",
+      type: node.tags?.amenity || "Restaurant",
+      lat: node.lat,
+      lon: node.lon,
+      tags: node.tags || {}
+    }));
+  } catch (error) {
+    console.error("Error fetching halal places:", error);
+    return [];
+  }
+}
+
+/**
  * Geocoding: Search for coordinates by city name using Nominatim (OSM).
  */
 export async function fetchCityCoordinates(query: string) {
@@ -132,7 +155,7 @@ export async function fetchSurahVerses(surahId: number, translationId?: number) 
 
 export async function fetchVerseTranslations(surahId: number, translationId: number) {
   try {
-    const response = await fetch(`https://api.quran.com/api/v4/quran/translations/${translationId}?chapter_number=${surahId}`);
+    const response = await fetch(`https://api.quran.com/api/v4/translations/${translationId}?chapter_number=${surahId}`);
     const data = await response.json();
     return data.translations;
   } catch (error) {
