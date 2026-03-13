@@ -1,3 +1,4 @@
+
 "use client";
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -36,7 +37,8 @@ import {
   HandCoins,
   Megaphone,
   Tent,
-  Calendar as CalendarIcon
+  Calendar as CalendarIcon,
+  ShieldAlert
 } from "lucide-react";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
@@ -77,9 +79,9 @@ export default function Home() {
 
   const allModules = [
     { title: "AI Teacher", href: "/mualim", icon: GraduationCap, color: "text-primary", bg: "bg-primary/10", border: "border-primary/20", group: "AI Infrastructure" },
-    { title: "Recitation", href: "/mualim", icon: Mic, color: "text-emerald-400", bg: "bg-emerald-500/10", border: "border-emerald-500/20", group: "AI Infrastructure" },
     { title: "Ask AI", href: "/ask", icon: MessageCircle, color: "text-rose-400", bg: "bg-rose-500/10", border: "border-rose-500/20", group: "AI Infrastructure" },
     { title: "Simplifier", href: "/explain", icon: Sparkles, color: "text-purple-400", bg: "bg-purple-500/10", border: "border-purple-500/20", group: "AI Infrastructure" },
+    { title: "Defense", href: "/refutation", icon: ShieldAlert, color: "text-red-500", bg: "bg-red-500/10", border: "border-red-500/20", group: "AI Infrastructure" },
     { title: "Quran", href: "/quran", icon: BookMarked, color: "text-emerald-400", bg: "bg-emerald-500/10", border: "border-emerald-500/20", group: "Core Knowledge" },
     { title: "Hadith", href: "/hadith", icon: ScrollText, color: "text-amber-400", bg: "bg-amber-500/10", border: "border-amber-500/20", group: "Core Knowledge" },
     { title: "Seerah", href: "/seerah", icon: History, color: "text-cyan-400", bg: "bg-cyan-500/10", border: "border-cyan-500/20", group: "Core Knowledge" },
@@ -87,10 +89,8 @@ export default function Home() {
     { title: "Dawah Hub", href: "/dawah", icon: Megaphone, color: "text-rose-500", bg: "bg-rose-500/10", border: "border-rose-500/20", group: "Core Knowledge" },
     { title: "Aqidah", href: "/ask", icon: ShieldCheck, color: "text-red-400", bg: "bg-red-500/10", border: "border-red-500/20", group: "Core Knowledge" },
     { title: "Tafsir", href: "/library", icon: BookOpen, color: "text-emerald-500", bg: "bg-emerald-500/10", border: "border-emerald-500/20", group: "Core Knowledge" },
-    { title: "Manhaj", href: "/ask", icon: Compass, color: "text-orange-500", bg: "bg-orange-500/10", border: "border-orange-500/20", group: "Core Knowledge" },
     { title: "Salah", href: "/prayer-times", icon: Clock, color: "text-blue-400", bg: "bg-blue-500/10", border: "border-blue-500/20", group: "Practical Living" },
     { title: "Masjid", href: "/masjid-locator", icon: MapPin, color: "text-emerald-400", bg: "bg-emerald-500/10", border: "border-emerald-500/20", group: "Practical Living" },
-    { title: "Halal", href: "/halal-locator", icon: Utensils, color: "text-orange-400", bg: "bg-orange-500/10", border: "border-orange-500/20", group: "Practical Living" },
     { title: "Adhkar", href: "/adhkar", icon: Zap, color: "text-yellow-400", bg: "bg-yellow-500/10", border: "border-yellow-500/20", group: "Practical Living" },
     { title: "Zakat", href: "/zakat", icon: HandCoins, color: "text-teal-400", bg: "bg-teal-500/10", border: "border-teal-500/20", group: "Practical Living" },
     { title: "Ramadan", href: "/ramadan", icon: Moon, color: "text-indigo-400", bg: "bg-indigo-500/10", border: "border-indigo-500/20", group: "Practical Living" },
@@ -290,8 +290,8 @@ export default function Home() {
 
       <footer className="py-12 text-center space-y-6 opacity-60">
         <div className="flex justify-center gap-3">
-          <Badge variant="outline" className="text-[9px] uppercase tracking-[0.2em] font-bold border-white/5 bg-white/5 py-1.5 px-4 rounded-full">
-            No Shirk or Bid'ah
+          <Badge variant="outline" className="text-[9px] uppercase tracking-[0.2em] font-bold border-red-500/20 bg-red-500/5 py-1.5 px-4 rounded-full text-red-500">
+            Strictly No Bid'ah
           </Badge>
           <Link href="/credits">
             <Badge variant="outline" className="text-[9px] uppercase tracking-[0.2em] font-bold border-white/5 bg-white/5 py-1.5 px-4 rounded-full hover:bg-white/10 transition-colors">
@@ -299,7 +299,7 @@ export default function Home() {
             </Badge>
           </Link>
         </div>
-        <p className="text-[10px] text-muted-foreground uppercase tracking-[0.4em] font-bold">
+        <p className="text-[10px] text-muted-foreground uppercase tracking-[0.4em] font-black">
           إسلاملي Universal Scholarly Platform v3.5
         </p>
       </footer>

@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useState, useEffect, useMemo } from "react";
@@ -15,12 +16,14 @@ import {
   Filter,
   CheckCircle2,
   AlertTriangle,
-  Database
+  Database,
+  ShieldAlert
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { fetchHijriDate } from "@/services/islamic-data-service";
 import { format, addMonths, subMonths, startOfMonth, endOfMonth, eachDayOfInterval, isSameDay, isToday } from "date-fns";
+import Link from "next/link";
 
 const SUNNAH_EVENTS = [
   { day: "Monday", title: "Sunnah Fast", desc: "The Prophet (PBUH) used to fast on Mondays." },
@@ -34,7 +37,6 @@ const SUNNAH_EVENTS = [
 export default function CalendarPage() {
   const [currentMonth, setCurrentMonth] = useState(new Date());
   const [hasMounted, setHasMounted] = useState(false);
-  const [hijriInfo, setHijriInfo] = useState<Record<string, any>>({});
 
   useEffect(() => {
     setHasMounted(true);
@@ -63,14 +65,17 @@ export default function CalendarPage() {
         </div>
       </header>
 
-      <section className="bg-emerald-500/5 border border-emerald-500/20 p-4 rounded-xl flex items-start gap-3">
-        <ShieldCheck className="w-5 h-5 text-emerald-500 shrink-0 mt-0.5" />
-        <div className="space-y-1">
-          <p className="text-xs font-bold uppercase tracking-tight text-emerald-500">Methodology Node: No Bid'ah</p>
-          <p className="text-[11px] text-muted-foreground leading-relaxed">
-            This infrastructure strictly excludes all non-authentic celebrations (e.g., Mawlid, 15th Sha'ban rituals). Only events established by the Quran and Sahih Sunnah are indexed.
-          </p>
+      <section className="bg-emerald-500/10 border border-emerald-500/20 p-6 rounded-3xl space-y-4">
+        <div className="flex items-center gap-3">
+          <ShieldCheck className="w-6 h-6 text-emerald-500" />
+          <h3 className="font-headline font-bold text-lg text-emerald-500 uppercase tracking-widest">No Bid'ah Protocol</h3>
         </div>
+        <p className="text-xs text-muted-foreground leading-relaxed">
+          This digital infrastructure strictly excludes all non-authentic celebrations. Events such as **Mawlid**, the **Night of 15th Sha'ban**, or any other innovated 'holidays' are not indexed here as they were not practiced by the Prophet (PBUH) or his companions.
+        </p>
+        <Button asChild variant="outline" size="sm" className="h-8 text-[9px] uppercase font-black border-emerald-500/20 text-emerald-500">
+          <Link href="/refutation"><ShieldAlert className="w-3 h-3 mr-1" /> View Refutations</Link>
+        </Button>
       </section>
 
       <Card className="glass-card border-none shadow-2xl overflow-hidden">
@@ -97,7 +102,7 @@ export default function CalendarPage() {
             ))}
           </div>
           <div className="grid grid-cols-7 gap-2">
-            {/* Simple padding for start of month - purely visual for this MVP */}
+            {/* Padding for start of month */}
             {Array.from({ length: new Date(currentMonth.getFullYear(), currentMonth.getMonth(), 1).getDay() }).map((_, i) => (
               <div key={`pad-${i}`} className="aspect-square opacity-0" />
             ))}
@@ -123,11 +128,6 @@ export default function CalendarPage() {
                   {isJumuah && (
                     <div className="absolute -top-1 -right-1 w-2 h-2 bg-emerald-500 rounded-full" />
                   )}
-                  
-                  {/* Tooltip-like hover info */}
-                  <div className="absolute -bottom-12 left-1/2 -translate-x-1/2 bg-black text-white text-[8px] px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity z-50 whitespace-nowrap pointer-events-none">
-                    {isSunnahFast ? "Sunnah Fasting" : isJumuah ? "Yaum al-Jumu'ah" : "Standard Day"}
-                  </div>
                 </div>
               );
             })}
@@ -136,7 +136,7 @@ export default function CalendarPage() {
       </Card>
 
       <section className="space-y-4">
-        <h3 className="text-[10px] font-bold uppercase tracking-[0.3em] text-muted-foreground pl-1">Upcoming Sunnah Protocols</h3>
+        <h3 className="text-[10px] font-bold uppercase tracking-[0.3em] text-muted-foreground pl-1">Authentic Sunnah Cycles</h3>
         <div className="grid gap-3">
           {SUNNAH_EVENTS.map((event, i) => (
             <Card key={i} className="glass-card hover:bg-white/[0.02] transition-all">
@@ -157,21 +157,11 @@ export default function CalendarPage() {
         </div>
       </section>
 
-      <section className="bg-amber-500/5 p-6 rounded-2xl border border-amber-500/20 flex gap-4">
-        <AlertTriangle className="w-6 h-6 text-amber-500 shrink-0" />
-        <div className="space-y-1">
-          <h4 className="font-headline font-bold text-sm text-amber-500 uppercase tracking-widest">Verification Node</h4>
-          <p className="text-xs text-muted-foreground leading-relaxed italic">
-            This calendar uses solar calculations verified by global astronomical clusters. For specific Hijri dates, always cross-reference with local moon sighting committees of the Sunnah.
-          </p>
-        </div>
-      </section>
-
       <footer className="text-center pt-8 opacity-40">
         <div className="flex items-center justify-center gap-2 mb-2">
           <Database className="w-3 h-3" />
           <p className="text-[9px] uppercase tracking-[0.4em] font-black italic">
-            Universal Scholarly Schedule v1.0
+            Universal Scholarly Schedule v1.0 • Strictly No Bid'ah
           </p>
         </div>
       </footer>
