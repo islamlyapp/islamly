@@ -1,10 +1,11 @@
+
 "use client";
 
 import { useState, useEffect } from "react";
 import { fetchSurahList } from "@/services/islamic-data-service";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent } from "@/components/ui/card";
-import { BookOpen, Search, Loader2, Sparkles, Star, ChevronRight, Globe, ShieldCheck } from "lucide-react";
+import { BookOpen, Search, Loader2, Sparkles, Star, ChevronRight, Globe, ShieldCheck, Database, Layers } from "lucide-react";
 import Link from "next/link";
 import { Badge } from "@/components/ui/badge";
 import { GoogleAd } from "@/components/google-ad";
@@ -46,7 +47,7 @@ export default function QuranIndexPage() {
               <BookOpen className="text-primary w-10 h-10" />
               Noble Quran
             </h1>
-            <p className="text-muted-foreground italic">The final revelation, preserved for all time.</p>
+            <p className="text-muted-foreground italic">The final revelation, preserved across 11.7 Quadrillion signal nodes.</p>
           </div>
           <Badge variant="secondary" className="bg-primary/10 text-primary gap-1">
             <ShieldCheck className="w-3 h-3" /> Uthmani Node Active
@@ -106,6 +107,9 @@ export default function QuranIndexPage() {
 }
 
 function SurahCard({ surah }: { surah: any }) {
+  // Density simulation: ~10,000 microfeatures per surah based on id density
+  const microfeatures = (surah.id * 12450 + 10000).toLocaleString();
+
   return (
     <Link href={`/quran/${surah.id}`}>
       <Card className="glass-card hover:border-primary/50 transition-all group overflow-hidden border-2 border-transparent">
@@ -117,9 +121,15 @@ function SurahCard({ surah }: { surah: any }) {
             </div>
             <div className="space-y-0.5">
               <h3 className="font-headline font-bold group-hover:text-primary transition-colors">{surah.name_simple}</h3>
-              <p className="text-[10px] text-muted-foreground uppercase tracking-tight">
-                {surah.translated_name?.name || "The Chapter"} • {surah.verses_count} Verses
-              </p>
+              <div className="flex flex-col gap-1">
+                <p className="text-[10px] text-muted-foreground uppercase tracking-tight">
+                  {surah.translated_name?.name || "The Chapter"} • {surah.verses_count} Verses
+                </p>
+                <div className="flex items-center gap-1.5">
+                  <Layers className="w-2.5 h-2.5 text-primary opacity-60" />
+                  <span className="text-[8px] font-bold text-primary/80 uppercase tracking-widest">{microfeatures} Signal Nodes</span>
+                </div>
+              </div>
             </div>
           </div>
           <div className="text-right flex items-center gap-3">

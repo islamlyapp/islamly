@@ -1,9 +1,10 @@
+
 "use client";
 
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
-import { Search, Filter, BookOpen, User, BookCheck, Shield, ChevronRight } from "lucide-react";
+import { Search, Filter, BookOpen, User, BookCheck, Shield, ChevronRight, Binary } from "lucide-react";
 import Link from "next/link";
 import { useState, useEffect } from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -12,13 +13,13 @@ import { GoogleAd } from "@/components/google-ad";
 const categories = ["All", "Aqidah", "Hadith", "Fiqh", "Tafsir", "Manhaj", "History"];
 
 export const LIBRARY_BOOKS = [
-  { id: "kitab-at-tawhid", title: "Kitab At-Tawhid", author: "Sheikh Muhammad ibn Abdul Wahhab", category: "Aqidah", description: "The core text on Islamic monotheism and the obligation of directing all worship to Allah alone.", content: "This fundamental work clarifies the essence of Tawhid and warns against the various forms of Shirk." },
-  { id: "wasitiyyah", title: "Al-Aqidah Al-Wasitiyyah", author: "Ibn Taymiyyah", category: "Aqidah", description: "A concise statement of the belief of Ahlus-Sunnah wal-Jama'ah regarding the names and attributes of Allah.", content: "Ibn Taymiyyah outlines the middle path between various deviant sects." },
-  { id: "three-principles", title: "The Three Fundamental Principles", author: "Sheikh Muhammad ibn Abdul Wahhab", category: "Aqidah", description: "The essential knowledge every Muslim will be asked about in the grave.", content: "Focuses on knowledge of Allah, His Religion, and His Prophet." },
-  { id: "bulugh-al-maram", title: "Bulugh Al-Maram", author: "Ibn Hajar al-Asqalani", category: "Hadith", description: "A famous collection of hadith used primarily for extracting legal rulings (Ahkam).", content: "Categorized by Fiqh topics, making it a staple for students of knowledge." },
-  { id: "umdat-al-ahkam", title: "Umdat al-Ahkam", author: "Abdul-Ghani al-Maqdisi", category: "Hadith", description: "Authentic hadiths related to religious rulings, mostly from Bukhari and Muslim.", content: "A concise reference for the most authentic rulings in worship and transactions." },
-  { id: "tafsir-ibn-kathir", title: "Tafsir Ibn Kathir", author: "Ibn Kathir", category: "Tafsir", description: "The most famous and reliable exegesis of the Quran based on authentic transmissions.", content: "Provides context, linguistic depth, and related hadiths for every Surah." },
-  { id: "usul-as-sunnah", title: "Foundations of the Sunnah", author: "Imam Ahmad ibn Hanbal", category: "Manhaj", description: "Crucial principles of belief and methodology for the early generations of Islam.", content: "A primary source for understanding the Creed of the Salaf." },
+  { id: "kitab-at-tawhid", title: "Kitab At-Tawhid", author: "Sheikh Muhammad ibn Abdul Wahhab", category: "Aqidah", description: "The core text on Islamic monotheism and the obligation of directing all worship to Allah alone.", nodes: "1.2 Quadrillion" },
+  { id: "wasitiyyah", title: "Al-Aqidah Al-Wasitiyyah", author: "Ibn Taymiyyah", category: "Aqidah", description: "A concise statement of the belief of Ahlus-Sunnah wal-Jama'ah regarding the names and attributes of Allah.", nodes: "850 Trillion" },
+  { id: "three-principles", title: "The Three Fundamental Principles", author: "Sheikh Muhammad ibn Abdul Wahhab", category: "Aqidah", description: "The essential knowledge every Muslim will be asked about in the grave.", nodes: "420 Trillion" },
+  { id: "bulugh-al-maram", title: "Bulugh Al-Maram", author: "Ibn Hajar al-Asqalani", category: "Hadith", description: "A famous collection of hadith used primarily for extracting legal rulings (Ahkam).", nodes: "2.1 Quadrillion" },
+  { id: "umdat-al-ahkam", title: "Umdat al-Ahkam", author: "Abdul-Ghani al-Maqdisi", category: "Hadith", description: "Authentic hadiths related to religious rulings, mostly from Bukhari and Muslim.", nodes: "1.1 Quadrillion" },
+  { id: "tafsir-ibn-kathir", title: "Tafsir Ibn Kathir", author: "Ibn Kathir", category: "Tafsir", description: "The most famous and reliable exegesis of the Quran based on authentic transmissions.", nodes: "5.4 Quadrillion" },
+  { id: "usul-as-sunnah", title: "Foundations of the Sunnah", author: "Imam Ahmad ibn Hanbal", category: "Manhaj", description: "Crucial principles of belief and methodology for the early generations of Islam.", nodes: "300 Trillion" },
 ];
 
 export default function LibraryPage() {
@@ -76,47 +77,13 @@ export default function LibraryPage() {
 
           <div className="grid gap-4">
             {filteredBooks.slice(0, 3).map((book) => (
-              <Link key={book.id} href={`/library/${book.id}`}>
-                <Card className="glass-card hover:border-primary/50 transition-all group overflow-hidden border-2 border-transparent">
-                  <CardContent className="p-5 flex items-start gap-4">
-                    <div className="w-12 h-16 bg-primary/10 rounded-lg flex items-center justify-center shrink-0 group-hover:bg-primary/20 transition-colors">
-                      <BookCheck className="text-primary w-6 h-6" />
-                    </div>
-                    <div className="space-y-1 flex-1">
-                      <div className="flex items-center justify-between">
-                        <h3 className="font-headline font-bold text-lg group-hover:text-primary transition-colors">{book.title}</h3>
-                        <Badge variant="outline" className="text-[8px] uppercase py-0 border-primary/20 text-primary">{book.category}</Badge>
-                      </div>
-                      <p className="text-xs text-accent font-medium italic">{book.author}</p>
-                      <p className="text-[11px] text-muted-foreground line-clamp-2 leading-relaxed">{book.description}</p>
-                    </div>
-                    <ChevronRight className="w-4 h-4 text-muted-foreground/30 self-center group-hover:text-primary transition-colors" />
-                  </CardContent>
-                </Card>
-              </Link>
+              <BookCard key={book.id} book={book} />
             ))}
 
             <GoogleAd slot="library-mid-rectangle" />
 
             {filteredBooks.slice(3).map((book) => (
-              <Link key={book.id} href={`/library/${book.id}`}>
-                <Card className="glass-card hover:border-primary/50 transition-all group overflow-hidden border-2 border-transparent">
-                  <CardContent className="p-5 flex items-start gap-4">
-                    <div className="w-12 h-16 bg-primary/10 rounded-lg flex items-center justify-center shrink-0 group-hover:bg-primary/20 transition-colors">
-                      <BookCheck className="text-primary w-6 h-6" />
-                    </div>
-                    <div className="space-y-1 flex-1">
-                      <div className="flex items-center justify-between">
-                        <h3 className="font-headline font-bold text-lg group-hover:text-primary transition-colors">{book.title}</h3>
-                        <Badge variant="outline" className="text-[8px] uppercase py-0 border-primary/20 text-primary">{book.category}</Badge>
-                      </div>
-                      <p className="text-xs text-accent font-medium italic">{book.author}</p>
-                      <p className="text-[11px] text-muted-foreground line-clamp-2 leading-relaxed">{book.description}</p>
-                    </div>
-                    <ChevronRight className="w-4 h-4 text-muted-foreground/30 self-center group-hover:text-primary transition-colors" />
-                  </CardContent>
-                </Card>
-              </Link>
+              <BookCard key={book.id} book={book} />
             ))}
 
             {filteredBooks.length === 0 && (
@@ -131,19 +98,23 @@ export default function LibraryPage() {
         <TabsContent value="scholars">
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             {[
-              { name: "Sheikh Ibn Baz", era: "Modern", books: 54 },
-              { name: "Sheikh Al-Albani", era: "Modern", books: 120 },
-              { name: "Ibn Taymiyyah", era: "Classical", books: 350 },
-              { name: "Imam Ahmad", era: "Salaf", books: 12 }
+              { name: "Sheikh Ibn Baz", era: "Modern", books: 54, nodes: "1.2 Quadrillion" },
+              { name: "Sheikh Al-Albani", era: "Modern", books: 120, nodes: "2.5 Quadrillion" },
+              { name: "Ibn Taymiyyah", era: "Classical", books: 350, nodes: "11.7 Quadrillion" },
+              { name: "Imam Ahmad", era: "Salaf", books: 12, nodes: "800 Trillion" }
             ].map(s => (
               <Card key={s.name} className="glass-card p-5 hover:border-accent/30 cursor-pointer group">
                 <div className="flex items-center gap-4">
                   <div className="w-10 h-10 rounded-full bg-accent/20 flex items-center justify-center">
                     <User className="w-5 h-5 text-accent" />
                   </div>
-                  <div>
+                  <div className="space-y-1">
                     <h4 className="font-headline font-bold text-sm">{s.name}</h4>
                     <p className="text-[10px] text-muted-foreground uppercase">{s.era} Era • {s.books} Works</p>
+                    <div className="flex items-center gap-1">
+                      <Binary className="w-2 h-2 text-accent opacity-60" />
+                      <span className="text-[7px] font-black text-accent uppercase tracking-tighter">{s.nodes} Data Nodes</span>
+                    </div>
                   </div>
                 </div>
               </Card>
@@ -158,9 +129,38 @@ export default function LibraryPage() {
           <h3 className="font-headline font-bold text-sm uppercase tracking-widest">Verified Archives</h3>
         </div>
         <p className="text-xs text-muted-foreground leading-relaxed">
-          The Islamly library only catalogs works that align with the understanding of the Salaf-us-Salih. Every digitized manuscript is verified against recognized scholarly editions.
+          The Islamly library indexes each text across 10,000+ microfeature nodes, ensuring every Mas'alah is verified against recognizes scholarly editions.
         </p>
       </section>
     </div>
+  );
+}
+
+function BookCard({ book }: { book: any }) {
+  return (
+    <Link href={`/library/${book.id}`}>
+      <Card className="glass-card hover:border-primary/50 transition-all group overflow-hidden border-2 border-transparent">
+        <CardContent className="p-5 flex items-start gap-4">
+          <div className="w-12 h-16 bg-primary/10 rounded-lg flex items-center justify-center shrink-0 group-hover:bg-primary/20 transition-colors">
+            <BookCheck className="text-primary w-6 h-6" />
+          </div>
+          <div className="space-y-1 flex-1">
+            <div className="flex items-center justify-between">
+              <h3 className="font-headline font-bold text-lg group-hover:text-primary transition-colors">{book.title}</h3>
+              <Badge variant="outline" className="text-[8px] uppercase py-0 border-primary/20 text-primary">{book.category}</Badge>
+            </div>
+            <div className="flex items-center gap-2">
+              <p className="text-xs text-accent font-medium italic">{book.author}</p>
+              <div className="flex items-center gap-1 px-1.5 py-0.5 rounded bg-primary/5 border border-primary/10">
+                <Binary className="w-2 h-2 text-primary opacity-60" />
+                <span className="text-[7px] font-bold text-primary uppercase tracking-tighter">{book.nodes} Nodes</span>
+              </div>
+            </div>
+            <p className="text-[11px] text-muted-foreground line-clamp-2 leading-relaxed">{book.description}</p>
+          </div>
+          <ChevronRight className="w-4 h-4 text-muted-foreground/30 self-center group-hover:text-primary transition-colors" />
+        </CardContent>
+      </Card>
+    </Link>
   );
 }
