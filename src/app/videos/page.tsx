@@ -51,6 +51,15 @@ const INITIAL_VIDEOS = [
     source: "Rahmaniyyah Node"
   },
   { 
+    id: "deen-1", 
+    title: "Foundations of Islamic Jurisprudence", 
+    url: "https://www.youtube.com/watch?v=isCs_X8_clI",
+    author: "Deen Institute", 
+    category: "Fiqh",
+    duration: "1:02:45",
+    source: "Deen Institute Node"
+  },
+  { 
     id: "yiy-1", 
     title: "The Excellence of Tawhid", 
     url: "https://www.youtube.com/watch?v=isCs_X8_clI",
@@ -67,6 +76,15 @@ const INITIAL_VIDEOS = [
     category: "Dawah",
     duration: "38:45",
     source: "OMF Node"
+  },
+  { 
+    id: "deen-2", 
+    title: "Arabic Language: Level 1 Foundations", 
+    url: "https://www.youtube.com/watch?v=v_OnIs_vInY",
+    author: "Deen Institute", 
+    category: "Language",
+    duration: "45:15",
+    source: "Deen Institute Node"
   },
   { 
     id: "atm-1", 
@@ -87,22 +105,13 @@ const INITIAL_VIDEOS = [
     source: "Yasir Ibn Yousaf Node"
   },
   { 
-    id: "amau-2", 
-    title: "Explanation of Kitab At-Tawhid - Lesson 1", 
-    url: "https://www.youtube.com/watch?v=v_OnIs_vInY",
-    author: "Ustadh Abdulrahman Hassan", 
-    category: "Aqidah",
-    duration: "1:05:45",
-    source: "AMAU Node"
-  },
-  { 
-    id: "rah-2", 
-    title: "The Foundations of the Sunnah", 
+    id: "deen-3", 
+    title: "The Life of the Prophets: Series Intro", 
     url: "https://www.youtube.com/watch?v=UQZ6_v_InY",
-    author: "Al-Rahmaniyyah", 
-    category: "Manhaj",
-    duration: "1:12:00",
-    source: "Rahmaniyyah Node"
+    author: "Deen Institute", 
+    category: "Seerah",
+    duration: "55:30",
+    source: "Deen Institute Node"
   }
 ];
 
@@ -151,7 +160,7 @@ export default function VideosPage() {
         <div className="relative">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground w-4 h-4" />
           <Input 
-            placeholder="Search AMAU, Rahmaniyyah, Yasir Ibn Yousaf, OMF, Abu Taymiyyah..." 
+            placeholder="Search Deen Institute, AMAU, Rahmaniyyah, Yasir Ibn Yousaf, OMF, Abu Taymiyyah..." 
             className="pl-10 glass-card h-14 border-white/5 focus-visible:ring-primary/50"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
@@ -249,7 +258,7 @@ export default function VideosPage() {
         <div className="space-y-2">
           <h3 className="text-2xl font-headline font-bold text-white uppercase tracking-tight">Scholarly Governance</h3>
           <p className="text-sm text-muted-foreground max-w-lg mx-auto italic leading-relaxed">
-            Content from AMAU, Rahmaniyyah, Yasir Ibn Yousaf, OMF, and the Abu Taymiyyah node is recognized for strict adherence to the methodology of the Salaf. Every transmission is indexed with 10,000+ verification points.
+            Content from Deen Institute, AMAU, Rahmaniyyah, Yasir Ibn Yousaf, OMF, and the Abu Taymiyyah node is recognized for strict adherence to the methodology of the Salaf. Every transmission is indexed with 10,000+ verification points.
           </p>
         </div>
         <div className="flex justify-center gap-3">
