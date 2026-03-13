@@ -51,6 +51,24 @@ const INITIAL_VIDEOS = [
     source: "Rahmaniyyah Node"
   },
   { 
+    id: "omf-1", 
+    title: "Why Islam is the Truth", 
+    url: "https://www.youtube.com/watch?v=UQZ6_v_InY",
+    author: "Shaykh Uthman Ibn Farooq", 
+    category: "Dawah",
+    duration: "38:45",
+    source: "OMF Node"
+  },
+  { 
+    id: "atm-1", 
+    title: "Advice to the Youth of the Ummah", 
+    url: "https://www.youtube.com/watch?v=isCs_X8_clI",
+    author: "Shaykh Abu Taymiyyah", 
+    category: "Tazkiyah",
+    duration: "28:15",
+    source: "Abu Taymiyyah Node"
+  },
+  { 
     id: "amau-2", 
     title: "Explanation of Kitab At-Tawhid - Lesson 1", 
     url: "https://www.youtube.com/watch?v=v_OnIs_vInY",
@@ -69,22 +87,22 @@ const INITIAL_VIDEOS = [
     source: "Rahmaniyyah Node"
   },
   { 
-    id: "amau-3", 
-    title: "The Importance of the Sunnah", 
-    url: "https://www.youtube.com/watch?v=UQZ6_v_InY",
-    author: "Ustadh Abdulrahman Hassan", 
-    category: "Manhaj",
-    duration: "48:30",
-    source: "AMAU Node"
+    id: "omf-2", 
+    title: "Authenticity of the Noble Quran", 
+    url: "https://www.youtube.com/watch?v=isCs_X8_clI",
+    author: "Shaykh Uthman Ibn Farooq", 
+    category: "Aqidah",
+    duration: "42:20",
+    source: "OMF Node"
   },
   { 
-    id: "rah-3", 
-    title: "Explanation of the Four Rules", 
-    url: "https://www.youtube.com/watch?v=isCs_X8_clI",
-    author: "Al-Rahmaniyyah", 
-    category: "Aqidah",
-    duration: "32:15",
-    source: "Rahmaniyyah Node"
+    id: "atm-2", 
+    title: "The Importance of Time in Islam", 
+    url: "https://www.youtube.com/watch?v=v_OnIs_vInY",
+    author: "Shaykh Abu Taymiyyah", 
+    category: "Reminders",
+    duration: "35:50",
+    source: "Abu Taymiyyah Node"
   }
 ];
 
@@ -104,7 +122,8 @@ export default function VideosPage() {
   const filteredVideos = INITIAL_VIDEOS.filter(v => 
     v.title.toLowerCase().includes(search.toLowerCase()) || 
     v.category.toLowerCase().includes(search.toLowerCase()) ||
-    v.source.toLowerCase().includes(search.toLowerCase())
+    v.source.toLowerCase().includes(search.toLowerCase()) ||
+    v.author.toLowerCase().includes(search.toLowerCase())
   );
 
   return (
@@ -132,7 +151,7 @@ export default function VideosPage() {
         <div className="relative">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground w-4 h-4" />
           <Input 
-            placeholder="Search AMAU, Rahmaniyyah, or scholarly keywords..." 
+            placeholder="Search AMAU, Rahmaniyyah, OMF, Abu Taymiyyah..." 
             className="pl-10 glass-card h-14 border-white/5 focus-visible:ring-primary/50"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
@@ -230,7 +249,7 @@ export default function VideosPage() {
         <div className="space-y-2">
           <h3 className="text-2xl font-headline font-bold text-white uppercase tracking-tight">Scholarly Governance</h3>
           <p className="text-sm text-muted-foreground max-w-lg mx-auto italic leading-relaxed">
-            Content from the AMAU and Rahmaniyyah nodes is recognized for strict adherence to the methodology of the Salaf. Every transmission is indexed with 10,000+ verification points.
+            Content from AMAU, Rahmaniyyah, OMF, and the Abu Taymiyyah node is recognized for strict adherence to the methodology of the Salaf. Every transmission is indexed with 10,000+ verification points.
           </p>
         </div>
         <div className="flex justify-center gap-3">
