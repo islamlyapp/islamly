@@ -2,15 +2,30 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { User, Globe, LogIn, Bell } from "lucide-react";
+import { User, Globe, LogIn, Bell, Calendar as CalendarIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useUser } from "@/firebase";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import { useState, useEffect } from "react";
+import { fetchHijriDate } from "@/services/islamic-data-service";
 
 export function GlobalHeader() {
   const pathname = usePathname();
   const { user } = useUser();
+  const [hijriDate, setHijriDate] = useState<string | null>(null);
+
+  useEffect(() => {
+    async function loadHijri() {
+      const now = new Date();
+      const dateStr = `${now.getDate().toString().padStart(2, '0')}-${(now.getMonth() + 1).toString().padStart(2, '0')}-${now.getFullYear()}`;
+      const data = await fetchHijriDate(dateStr);
+      if (data) {
+        setHijriDate(`${data.day} ${data.month.en} ${data.year} AH`);
+      }
+    }
+    loadHijri();
+  }, []);
 
   if (pathname === '/login') return null;
 
@@ -21,9 +36,11 @@ export function GlobalHeader() {
           <Link href="/" className="flex items-center gap-2 group" aria-label="Islamly Home">
             <span className="font-headline font-bold text-2xl tracking-tight text-white">Islamly</span>
           </Link>
-          <div className="hidden sm:flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-primary/5 border border-primary/10 transition-colors">
+          <div className="hidden lg:flex items-center gap-1.5 px-3 py-1 rounded-full bg-primary/5 border border-primary/10">
             <div className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
-            <span className="text-[8px] uppercase tracking-widest text-muted-foreground font-bold">Network Active</span>
+            <span className="text-[9px] uppercase tracking-widest text-muted-foreground font-black">
+              {hijriDate || "Network Active"}
+            </span>
           </div>
         </div>
 

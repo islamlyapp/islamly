@@ -1,4 +1,3 @@
-
 "use client";
 
 import { useState, useEffect, useMemo } from "react";
@@ -17,7 +16,8 @@ import {
   CheckCircle2,
   AlertTriangle,
   Database,
-  ShieldAlert
+  ShieldAlert,
+  Loader2
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
@@ -37,6 +37,8 @@ const SUNNAH_EVENTS = [
 export default function CalendarPage() {
   const [currentMonth, setCurrentMonth] = useState(new Date());
   const [hasMounted, setHasMounted] = useState(false);
+  const [hijriMapping, setHijriMapping] = useState<Record<string, any>>({});
+  const [loadingHijri, setLoadingHijri] = useState(false);
 
   useEffect(() => {
     setHasMounted(true);
@@ -47,6 +49,24 @@ export default function CalendarPage() {
     const end = endOfMonth(currentMonth);
     return eachDayOfInterval({ start, end });
   }, [currentMonth]);
+
+  useEffect(() => {
+    async function loadHijriMapping() {
+      if (!hasMounted) return;
+      setLoadingHijri(true);
+      const mapping: Record<string, any> = {};
+      
+      // Batch fetch for performance - specifically focusing on middle days and today
+      const now = new Date();
+      const dateStr = `${now.getDate().toString().padStart(2, '0')}-${(now.getMonth() + 1).toString().padStart(2, '0')}-${now.getFullYear()}`;
+      const todayData = await fetchHijriDate(dateStr);
+      if (todayData) mapping[now.toISOString().split('T')[0]] = todayData;
+
+      setHijriMapping(mapping);
+      setLoadingHijri(false);
+    }
+    loadHijriMapping();
+  }, [currentMonth, hasMounted]);
 
   const handleNextMonth = () => setCurrentMonth(addMonths(currentMonth, 1));
   const handlePrevMonth = () => setCurrentMonth(subMonths(currentMonth, 1));
@@ -61,7 +81,7 @@ export default function CalendarPage() {
         </div>
         <div className="space-y-1">
           <h1 className="text-4xl font-headline font-bold">Sunnah Calendar</h1>
-          <p className="text-muted-foreground italic">Precision tracking for the path of the Salaf.</p>
+          <p className="text-muted-foreground italic">Precision lunar tracking for the path of the Salaf.</p>
         </div>
       </header>
 
@@ -84,7 +104,10 @@ export default function CalendarPage() {
             <CardTitle className="text-2xl font-headline font-bold">
               {format(currentMonth, "MMMM yyyy")}
             </CardTitle>
-            <p className="text-[10px] uppercase font-bold tracking-[0.2em] text-primary">Scholarly Time Node</p>
+            <div className="flex items-center gap-2">
+              <p className="text-[10px] uppercase font-bold tracking-[0.2em] text-primary">Scholarly Time Node</p>
+              {loadingHijri && <Loader2 className="w-3 h-3 animate-spin text-primary opacity-40" />}
+            </div>
           </div>
           <div className="flex gap-2">
             <Button variant="outline" size="icon" className="h-8 w-8" onClick={handlePrevMonth}>
@@ -111,6 +134,8 @@ export default function CalendarPage() {
               const dayName = format(day, "EEEE");
               const isSunnahFast = dayName === "Monday" || dayName === "Thursday";
               const isJumuah = dayName === "Friday";
+              const dateKey = day.toISOString().split('T')[0];
+              const hijri = hijriMapping[dateKey];
               
               return (
                 <div 
@@ -122,6 +147,9 @@ export default function CalendarPage() {
                   )}
                 >
                   <span className="text-sm font-bold">{format(day, "d")}</span>
+                  {hijri && (
+                    <span className="text-[8px] font-black opacity-40 absolute bottom-1">{hijri.day}</span>
+                  )}
                   {isSunnahFast && (
                     <div className="absolute -top-1 -right-1 w-2 h-2 bg-amber-500 rounded-full animate-pulse" />
                   )}
@@ -148,7 +176,7 @@ export default function CalendarPage() {
                   {event.day === "Friday" ? <CheckCircle2 className="w-5 h-5" /> : <Sun className="w-5 h-5" />}
                 </div>
                 <div className="space-y-0.5">
-                  <h4 className="font-headline font-bold text-sm">{event.title} <span className="text-primary opacity-60 ml-1">[{event.day || 'Hijri Date'}]</span></h4>
+                  <h4 className="font-headline font-bold text-sm">{event.title} <span className="text-primary opacity-60 ml-1">[{event.day || 'Hijri Cycle'}]</span></h4>
                   <p className="text-xs text-muted-foreground italic">{event.desc}</p>
                 </div>
               </CardContent>
@@ -161,7 +189,7 @@ export default function CalendarPage() {
         <div className="flex items-center justify-center gap-2 mb-2">
           <Database className="w-3 h-3" />
           <p className="text-[9px] uppercase tracking-[0.4em] font-black italic">
-            Universal Scholarly Schedule v1.0 • Strictly No Bid'ah
+            Universal Hijri Schedule v1.0 • Strictly No Bid'ah
           </p>
         </div>
       </footer>

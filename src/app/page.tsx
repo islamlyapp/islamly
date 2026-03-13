@@ -1,4 +1,3 @@
-
 "use client";
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -48,6 +47,7 @@ import { PlaceHolderImages } from "@/lib/placeholder-images";
 import { calculateCurrentFeatures, formatFeatureCount } from "@/lib/feature-counter";
 import { GoogleAd } from "@/components/google-ad";
 import { generateDailyReflection, type DailyReflectionOutput } from "@/ai/flows/daily-reflection-flow";
+import { fetchHijriDate } from "@/services/islamic-data-service";
 
 export default function Home() {
   const [isExpanded, setIsExpanded] = useState(false);
@@ -56,23 +56,31 @@ export default function Home() {
   const [reflection, setReflection] = useState<DailyReflectionOutput | null>(null);
   const [isLoadingReflection, setIsLoadingReflection] = useState(true);
   const [dhikrCount, setDhikrCount] = useState(0);
+  const [hijriDate, setHijriDate] = useState<string | null>(null);
 
   useEffect(() => {
     setHasMounted(true);
     const count = calculateCurrentFeatures();
     setFeatureCount(formatFeatureCount(count));
 
-    async function loadReflection() {
+    async function loadData() {
       try {
-        const data = await generateDailyReflection();
-        setReflection(data);
+        const refData = await generateDailyReflection();
+        setReflection(refData);
+        
+        const now = new Date();
+        const dateStr = `${now.getDate().toString().padStart(2, '0')}-${(now.getMonth() + 1).toString().padStart(2, '0')}-${now.getFullYear()}`;
+        const hData = await fetchHijriDate(dateStr);
+        if (hData) {
+          setHijriDate(`${hData.day} ${hData.month.en} ${hData.year} AH`);
+        }
       } catch (err) {
-        console.error("Reflection node failed to sync:", err);
+        console.error("Home node failed to sync:", err);
       } finally {
         setIsLoadingReflection(false);
       }
     }
-    loadReflection();
+    loadData();
   }, []);
 
   const brandHero = PlaceHolderImages?.find(img => img.id === 'brand-hero') || PlaceHolderImages[0];
@@ -182,9 +190,14 @@ export default function Home() {
               </div>
             ) : (
               <div className="space-y-3">
-                <div className="flex items-center gap-2 text-accent">
-                  <Quote className="w-3 h-3" />
-                  <span className="text-[9px] uppercase font-bold tracking-widest">Divine Reflection</span>
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-2 text-accent">
+                    <Quote className="w-3 h-3" />
+                    <span className="text-[9px] uppercase font-bold tracking-widest">Divine Reflection</span>
+                  </div>
+                  {hijriDate && (
+                    <Badge variant="outline" className="text-[8px] border-accent/20 text-accent uppercase font-black">{hijriDate}</Badge>
+                  )}
                 </div>
                 <p className="text-literata text-base leading-relaxed italic text-foreground line-clamp-3">
                   "{reflection?.reflection}"
@@ -200,7 +213,9 @@ export default function Home() {
       <div className="px-6 space-y-6">
         <section className="text-right space-y-2">
           <h1 className="text-5xl font-headline font-bold text-white tracking-tight">السلام عليكم</h1>
-          <p className="text-xl text-muted-foreground font-medium">{featureCount} Features Active</p>
+          <p className="text-xl text-muted-foreground font-medium">
+            {featureCount} Features Active {hijriDate && <span className="opacity-40 font-normal">| {hijriDate}</span>}
+          </p>
         </section>
         <GoogleAd slot="home-top-responsive" />
       </div>
