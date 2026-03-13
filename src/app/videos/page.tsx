@@ -17,7 +17,8 @@ import {
   Video as VideoIcon,
   Sparkles,
   Lock,
-  Loader2
+  Loader2,
+  Network
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -37,7 +38,17 @@ const INITIAL_VIDEOS = [
     url: "https://www.youtube.com/watch?v=isCs_X8_clI",
     author: "Ustadh Abdulrahman Hassan", 
     category: "Tazkiyah",
-    duration: "52:10"
+    duration: "52:10",
+    source: "AMAU Node"
+  },
+  { 
+    id: "rah-1", 
+    title: "The Three Fundamental Principles", 
+    url: "https://www.youtube.com/watch?v=v_OnIs_vInY",
+    author: "Al-Rahmaniyyah", 
+    category: "Aqidah",
+    duration: "45:30",
+    source: "Rahmaniyyah Node"
   },
   { 
     id: "amau-2", 
@@ -45,7 +56,17 @@ const INITIAL_VIDEOS = [
     url: "https://www.youtube.com/watch?v=v_OnIs_vInY",
     author: "Ustadh Abdulrahman Hassan", 
     category: "Aqidah",
-    duration: "1:05:45"
+    duration: "1:05:45",
+    source: "AMAU Node"
+  },
+  { 
+    id: "rah-2", 
+    title: "The Foundations of the Sunnah", 
+    url: "https://www.youtube.com/watch?v=UQZ6_v_InY",
+    author: "Al-Rahmaniyyah", 
+    category: "Manhaj",
+    duration: "1:12:00",
+    source: "Rahmaniyyah Node"
   },
   { 
     id: "amau-3", 
@@ -53,15 +74,17 @@ const INITIAL_VIDEOS = [
     url: "https://www.youtube.com/watch?v=UQZ6_v_InY",
     author: "Ustadh Abdulrahman Hassan", 
     category: "Manhaj",
-    duration: "48:30"
+    duration: "48:30",
+    source: "AMAU Node"
   },
   { 
-    id: "amau-4", 
-    title: "Conditions of the Shahada", 
+    id: "rah-3", 
+    title: "Explanation of the Four Rules", 
     url: "https://www.youtube.com/watch?v=isCs_X8_clI",
-    author: "Ustadh Abdulrahman Hassan", 
+    author: "Al-Rahmaniyyah", 
     category: "Aqidah",
-    duration: "38:15"
+    duration: "32:15",
+    source: "Rahmaniyyah Node"
   }
 ];
 
@@ -80,7 +103,8 @@ export default function VideosPage() {
 
   const filteredVideos = INITIAL_VIDEOS.filter(v => 
     v.title.toLowerCase().includes(search.toLowerCase()) || 
-    v.category.toLowerCase().includes(search.toLowerCase())
+    v.category.toLowerCase().includes(search.toLowerCase()) ||
+    v.source.toLowerCase().includes(search.toLowerCase())
   );
 
   return (
@@ -92,11 +116,11 @@ export default function VideosPage() {
               <VideoIcon className="text-primary w-10 h-10" />
               Scholarly Videos
             </h1>
-            <p className="text-muted-foreground italic">High-density transmissions from the AMAU Scholarly Node.</p>
+            <p className="text-muted-foreground italic">High-density transmissions from the Universal Scholarly Network.</p>
           </div>
           <div className="flex flex-col items-end gap-1">
             <Badge variant="secondary" className="bg-primary/10 text-primary border-primary/20">
-              <Database className="w-3 h-3 mr-1" /> AMAU Node Active
+              <Network className="w-3 h-3 mr-1" /> Multi-Node Stream
             </Badge>
             <div className="flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-emerald-500/10 border border-emerald-500/20">
               <Lock className="w-2.5 h-2.5 text-emerald-500" />
@@ -108,7 +132,7 @@ export default function VideosPage() {
         <div className="relative">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground w-4 h-4" />
           <Input 
-            placeholder="Search AMAU lectures, topics, or scholarly keywords..." 
+            placeholder="Search AMAU, Rahmaniyyah, or scholarly keywords..." 
             className="pl-10 glass-card h-14 border-white/5 focus-visible:ring-primary/50"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
@@ -133,7 +157,7 @@ export default function VideosPage() {
             </div>
           )}
           
-          <div className="absolute top-4 left-4 z-10 pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity">
+          <div className="absolute top-4 left-4 z-10 pointer-events-none opacity-0 group-hover:opacity-10 transition-opacity">
             <Badge className="bg-primary text-white text-[8px] uppercase tracking-widest px-3 py-1">Normalized Scholarly Stream</Badge>
           </div>
         </Card>
@@ -143,6 +167,7 @@ export default function VideosPage() {
             <div className="flex items-center gap-3">
               <h2 className="text-2xl font-headline font-bold text-white">{activeVideo.title}</h2>
               <Badge variant="outline" className="text-[8px] uppercase border-primary/20 text-primary">{activeVideo.category}</Badge>
+              <Badge variant="outline" className="text-[8px] uppercase border-white/10 text-muted-foreground">{activeVideo.source}</Badge>
             </div>
             <div className="flex items-center gap-4 text-xs text-muted-foreground font-medium italic">
               <span className="flex items-center gap-1.5"><User className="w-3.5 h-3.5 text-primary" /> {activeVideo.author}</span>
@@ -154,10 +179,10 @@ export default function VideosPage() {
             </div>
           </div>
           <div className="flex gap-2 w-full sm:w-auto">
-            <Button variant="outline" size="sm" className="flex-1 sm:flex-none h-10 uppercase font-black text-[10px] tracking-widest border-white/10">
+            <Button variant="outline" size="sm" className="flex-1 sm:flex-none h-10 uppercase font-black text-[10px] tracking-widest border-white/10" onClick={() => {}}>
               <Share2 className="w-3 h-3 mr-2" /> Dispatch Node
             </Button>
-            <Button variant="outline" size="sm" className="flex-1 sm:flex-none h-10 uppercase font-black text-[10px] tracking-widest border-white/10">
+            <Button variant="outline" size="sm" className="flex-1 sm:flex-none h-10 uppercase font-black text-[10px] tracking-widest border-white/10" onClick={() => {}}>
               <ShieldCheck className="w-3 h-3 mr-2" /> Verify Methodology
             </Button>
           </div>
@@ -165,7 +190,7 @@ export default function VideosPage() {
       </section>
 
       <section className="space-y-4 pt-4">
-        <h3 className="text-[10px] font-bold uppercase tracking-[0.3em] text-muted-foreground pl-1">AMAU Knowledge Archive</h3>
+        <h3 className="text-[10px] font-bold uppercase tracking-[0.3em] text-muted-foreground pl-1">Knowledge Archive Index</h3>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           {filteredVideos.map((v) => (
             <Card 
@@ -184,6 +209,9 @@ export default function VideosPage() {
                 <div className="absolute top-2 right-2 text-[8px] font-black bg-black/60 px-1.5 py-0.5 rounded text-white border border-white/10">
                   {v.duration}
                 </div>
+                <div className="absolute bottom-2 left-2">
+                  <Badge className="bg-black/80 text-[6px] uppercase tracking-tighter border-white/10">{v.source}</Badge>
+                </div>
               </div>
               <CardContent className="p-4 space-y-2">
                 <h4 className="font-headline font-bold text-sm line-clamp-1 group-hover:text-primary transition-colors">{v.title}</h4>
@@ -200,9 +228,9 @@ export default function VideosPage() {
       <section className="bg-primary/5 border border-primary/20 p-8 rounded-[2.5rem] text-center space-y-6">
         <Sparkles className="w-10 h-10 text-primary mx-auto animate-pulse" />
         <div className="space-y-2">
-          <h3 className="text-2xl font-headline font-bold text-white uppercase tracking-tight">AMAU Scholarly Governance</h3>
+          <h3 className="text-2xl font-headline font-bold text-white uppercase tracking-tight">Scholarly Governance</h3>
           <p className="text-sm text-muted-foreground max-w-lg mx-auto italic leading-relaxed">
-            Content from the Al-Madrasatu Al-Umariyyah node is recognized for its strict adherence to the methodology of the Salaf. Every transmission is indexed with 10,000+ verification points.
+            Content from the AMAU and Rahmaniyyah nodes is recognized for strict adherence to the methodology of the Salaf. Every transmission is indexed with 10,000+ verification points.
           </p>
         </div>
         <div className="flex justify-center gap-3">
@@ -215,7 +243,7 @@ export default function VideosPage() {
         <div className="flex items-center justify-center gap-2 mb-2">
           <Database className="w-3 h-3" />
           <p className="text-[9px] uppercase tracking-[0.4em] font-black italic">
-            إسلاملي Universal Video Infrastructure v1.0 • AMAU Node Synchronized
+            إسلاملي Universal Video Infrastructure v1.0 • Multi-Node Synchronized
           </p>
         </div>
       </footer>
