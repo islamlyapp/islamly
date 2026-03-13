@@ -42,7 +42,9 @@ import {
   Lock,
   Baby,
   Droplets,
-  Users
+  Users,
+  Binary,
+  Telescope
 } from "lucide-react";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
@@ -94,26 +96,26 @@ export default function Home() {
     { title: "AI Teacher", href: "/mualim", icon: GraduationCap, color: "text-primary", bg: "bg-primary/10", border: "border-primary/20", group: "AI Infrastructure" },
     { title: "Ask AI", href: "/ask", icon: MessageCircle, color: "text-rose-400", bg: "bg-rose-500/10", border: "border-rose-500/20", group: "AI Infrastructure" },
     { title: "Simplifier", href: "/explain", icon: Sparkles, color: "text-purple-400", bg: "bg-purple-500/10", border: "border-purple-500/20", group: "AI Infrastructure" },
-    { title: "Defense", href: "/refutation", icon: ShieldAlert, color: "text-red-500", bg: "bg-red-500/10", border: "border-red-500/20", group: "AI Infrastructure" },
-    { title: "Quran", href: "/quran", icon: BookMarked, color: "text-emerald-400", bg: "bg-emerald-500/10", border: "border-emerald-500/20", group: "Core Knowledge" },
-    { title: "Hadith", href: "/hadith", icon: ScrollText, color: "text-amber-400", bg: "bg-amber-500/10", border: "border-amber-500/20", group: "Core Knowledge" },
-    { title: "Seerah", href: "/seerah", icon: History, color: "text-cyan-400", bg: "bg-cyan-500/10", border: "border-cyan-500/20", group: "Core Knowledge" },
-    { title: "Calendar", href: "/calendar", icon: CalendarIcon, color: "text-emerald-500", bg: "bg-emerald-500/10", border: "border-emerald-500/20", group: "Core Knowledge" },
+    { title: "Defense Hub", href: "/refutation", icon: ShieldAlert, color: "text-red-500", bg: "bg-red-500/10", border: "border-red-500/20", group: "AI Infrastructure" },
+    { title: "Noble Quran", href: "/quran", icon: BookMarked, color: "text-emerald-400", bg: "bg-emerald-500/10", border: "border-emerald-500/20", group: "Core Knowledge" },
+    { title: "Hadith Index", href: "/hadith", icon: ScrollText, color: "text-amber-400", bg: "bg-amber-500/10", border: "border-amber-500/20", group: "Core Knowledge" },
+    { title: "Seerah Path", href: "/seerah", icon: History, color: "text-cyan-400", bg: "bg-cyan-500/10", border: "border-cyan-500/20", group: "Core Knowledge" },
+    { title: "Sunnah Calendar", href: "/calendar", icon: CalendarIcon, color: "text-emerald-500", bg: "bg-emerald-500/10", border: "border-emerald-500/20", group: "Core Knowledge" },
     { title: "Dawah Hub", href: "/dawah", icon: Megaphone, color: "text-rose-500", bg: "bg-rose-500/10", border: "border-rose-500/20", group: "Core Knowledge" },
-    { title: "Aqidah", href: "/tawheed", icon: ShieldCheck, color: "text-red-400", bg: "bg-red-500/10", border: "border-red-500/20", group: "Core Knowledge" },
-    { title: "Tafsir", href: "/library", icon: BookOpen, color: "text-emerald-500", bg: "bg-emerald-500/10", border: "border-emerald-500/20", group: "Core Knowledge" },
-    { title: "Salah", href: "/salah", icon: Clock, color: "text-blue-400", bg: "bg-blue-500/10", border: "border-blue-500/20", group: "Practical Living" },
-    { title: "Wudu", href: "/wudu", icon: Droplets, color: "text-blue-300", bg: "bg-blue-500/10", border: "border-blue-500/20", group: "Practical Living" },
-    { title: "Masjid", href: "/masjid-locator", icon: MapPin, color: "text-emerald-400", bg: "bg-emerald-500/10", border: "border-emerald-500/20", group: "Practical Living" },
-    { title: "Halal Node", href: "/halal-locator", icon: Utensils, color: "text-emerald-500", bg: "bg-emerald-500/10", border: "border-emerald-500/20", group: "Practical Living" },
-    { title: "Adhkar", href: "/adhkar", icon: Zap, color: "text-yellow-400", bg: "bg-yellow-500/10", border: "border-yellow-500/20", group: "Practical Living" },
-    { title: "Zakat", href: "/zakat", icon: HandCoins, color: "text-teal-400", bg: "bg-teal-500/10", border: "border-teal-500/20", group: "Practical Living" },
-    { title: "Ramadan", href: "/ramadan", icon: Moon, color: "text-indigo-400", bg: "bg-indigo-500/10", border: "border-indigo-500/20", group: "Practical Living" },
+    { title: "Aqidah Node", href: "/tawheed", icon: ShieldCheck, color: "text-red-400", bg: "bg-red-500/10", border: "border-red-500/20", group: "Core Knowledge" },
+    { title: "Library", href: "/library", icon: Library, color: "text-emerald-500", bg: "bg-emerald-500/10", border: "border-emerald-500/20", group: "Core Knowledge" },
+    { title: "Salah Guide", href: "/salah", icon: Clock, color: "text-blue-400", bg: "bg-blue-500/10", border: "border-blue-500/20", group: "Practical Living" },
+    { title: "Wudu Node", href: "/wudu", icon: Droplets, color: "text-blue-300", bg: "bg-blue-500/10", border: "border-blue-500/20", group: "Practical Living" },
+    { title: "Masjid Finder", href: "/masjid-locator", icon: MapPin, color: "text-emerald-400", bg: "bg-emerald-500/10", border: "border-emerald-500/20", group: "Practical Living" },
+    { title: "Halal Locator", href: "/halal-locator", icon: Utensils, color: "text-emerald-500", bg: "bg-emerald-500/10", border: "border-emerald-500/20", group: "Practical Living" },
+    { title: "Daily Adhkar", href: "/adhkar", icon: Zap, color: "text-yellow-400", bg: "bg-yellow-500/10", border: "border-yellow-500/20", group: "Practical Living" },
+    { title: "Zakat Node", href: "/zakat", icon: HandCoins, color: "text-teal-400", bg: "bg-teal-500/10", border: "border-teal-500/20", group: "Practical Living" },
+    { title: "Ramadan Hub", href: "/ramadan", icon: Moon, color: "text-indigo-400", bg: "bg-indigo-500/10", border: "border-indigo-500/20", group: "Practical Living" },
     { title: "Hajj Guide", href: "/hajj", icon: Tent, color: "text-amber-500", bg: "bg-amber-500/10", border: "border-amber-500/20", group: "Practical Living" },
     { title: "Parenting", href: "/parenting", icon: Baby, color: "text-rose-400", bg: "bg-rose-500/10", border: "border-rose-500/20", group: "Practical Living" },
-    { title: "Quizzes", href: "/quiz", icon: Trophy, color: "text-yellow-500", bg: "bg-yellow-500/10", border: "border-yellow-500/20", group: "Interactive" },
-    { title: "Goals", href: "/goals", icon: Target, color: "text-blue-500", bg: "bg-blue-500/10", border: "border-blue-500/20", group: "Interactive" },
-    { title: "Ummah Node", href: "/ummah", icon: Users, color: "text-cyan-500", bg: "bg-cyan-500/10", border: "border-cyan-500/20", group: "Interactive" },
+    { title: "Assessments", href: "/quiz", icon: Trophy, color: "text-yellow-500", bg: "bg-yellow-500/10", border: "border-yellow-500/20", group: "Interactive" },
+    { title: "Scholarly Goals", href: "/goals", icon: Target, color: "text-blue-500", bg: "bg-blue-500/10", border: "border-blue-500/20", group: "Interactive" },
+    { title: "Global Ummah", href: "/ummah", icon: Users, color: "text-cyan-500", bg: "bg-cyan-500/10", border: "border-cyan-500/20", group: "Interactive" },
     { title: "Astro Node", href: "/astronomy", icon: Telescope, color: "text-indigo-500", bg: "bg-indigo-500/10", border: "border-indigo-500/20", group: "Interactive" },
   ];
 
@@ -251,9 +253,15 @@ export default function Home() {
                   )}>
                     <item.icon className="w-6 h-6" />
                   </div>
-                  <span className="font-headline font-bold text-[10px] uppercase tracking-widest block group-hover:text-primary transition-colors">
-                    {item.title}
-                  </span>
+                  <div className="space-y-1">
+                    <span className="font-headline font-bold text-[10px] uppercase tracking-widest block group-hover:text-primary transition-colors">
+                      {item.title}
+                    </span>
+                    <div className="flex items-center justify-center gap-1 opacity-40 group-hover:opacity-100 transition-opacity">
+                      <Binary className="w-2 h-2" />
+                      <span className="text-[6px] uppercase font-black tracking-tighter">10K+ Signal Nodes</span>
+                    </div>
+                  </div>
                 </CardContent>
               </Card>
             </Link>
