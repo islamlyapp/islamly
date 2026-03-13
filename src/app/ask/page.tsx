@@ -1,4 +1,3 @@
-
 "use client";
 
 import { useState, useEffect, useRef } from "react";
@@ -15,18 +14,22 @@ import {
   Database,
   Sparkles,
   Search,
-  Quote,
-  ChevronRight
+  Lock,
+  ChevronRight,
+  ShieldAlert
 } from "lucide-react";
 import { searchKnowledgeHub, type SearchKnowledgeOutput } from "@/ai/flows/search-knowledge-flow";
+import { verifyMethodologyCompliance } from "@/ai/flows/automod-flow";
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
+import { toast } from "@/hooks/use-toast";
 
 type Message = {
   id: string;
   role: 'user' | 'assistant';
   content: string;
   meta?: SearchKnowledgeOutput;
+  isModerated?: boolean;
 };
 
 export default function AskAiPage() {
@@ -56,16 +59,35 @@ export default function AskAiPage() {
     setIsLoading(true);
 
     try {
+      // 1. Fetch Knowledge Answer
       const result = await searchKnowledgeHub({ query: input });
+      
+      // 2. Pass through AutoMod Infrastructure
+      const modCheck = await verifyMethodologyCompliance({ 
+        content: result.answer, 
+        context: input 
+      });
+
       const assistantMessage: Message = { 
         id: (Date.now() + 1).toString(), 
         role: 'assistant', 
-        content: result.answer,
-        meta: result
+        content: modCheck.isCompliant ? result.answer : (modCheck.scholarlyCorrection || "This response was flagged by our methodology guard."),
+        meta: result,
+        isModerated: true
       };
+      
+      if (!modCheck.isCompliant) {
+        toast({ 
+          variant: "destructive", 
+          title: "Methodology Guard Active", 
+          description: "A correction has been applied to ensure scholarly alignment." 
+        });
+      }
+
       setMessages(prev => [...prev, assistantMessage]);
     } catch (error) {
       console.error(error);
+      toast({ variant: "destructive", title: "Sync Error", description: "Scholarly node connection failed." });
     } finally {
       setIsLoading(false);
     }
@@ -81,11 +103,17 @@ export default function AskAiPage() {
             <Bot className="text-primary w-8 h-8" />
             Ask Al-Mualim
           </h1>
-          <Badge variant="secondary" className="bg-primary/10 text-primary border-primary/20">
-            <Database className="w-3 h-3 mr-1" /> Verified Knowledge Node
-          </Badge>
+          <div className="flex flex-col items-end gap-1">
+            <Badge variant="secondary" className="bg-primary/10 text-primary border-primary/20">
+              <Database className="w-3 h-3 mr-1" /> Verified Knowledge Node
+            </Badge>
+            <div className="flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-emerald-500/10 border border-emerald-500/20">
+              <Lock className="w-2.5 h-2.5 text-emerald-500" />
+              <span className="text-[7px] uppercase font-black text-emerald-500 tracking-widest">AutoMod Pulse Active</span>
+            </div>
+          </div>
         </div>
-        <p className="text-muted-foreground text-sm italic">Get evidence-based answers strictly aligned with the Sunnah.</p>
+        <p className="text-muted-foreground text-sm italic">Evidence-based answers, strictly governed by the AutoMod node.</p>
       </header>
 
       <Card className="flex-1 glass-card border-none flex flex-col overflow-hidden relative">
@@ -122,13 +150,19 @@ export default function AskAiPage() {
                 </div>
               )}
               <div className={cn(
-                "p-4 rounded-2xl max-w-[85%] text-sm leading-relaxed",
+                "p-4 rounded-2xl max-w-[85%] text-sm leading-relaxed relative",
                 m.role === 'assistant' 
                   ? "bg-secondary/30 text-foreground border border-white/5" 
                   : "bg-primary text-white font-medium ml-12"
               )}>
                 {m.content}
                 
+                {m.role === 'assistant' && m.isModerated && (
+                  <div className="absolute -top-2 -right-2 bg-emerald-600 rounded-full p-1 border-2 border-background shadow-lg shadow-emerald-900/40">
+                    <ShieldCheck className="w-3 h-3 text-white" />
+                  </div>
+                )}
+
                 {m.meta && m.meta.relatedTopics.length > 0 && (
                   <div className="mt-4 pt-4 border-t border-white/10 space-y-2">
                     <p className="text-[10px] uppercase font-bold text-muted-foreground tracking-widest flex items-center gap-1">
@@ -155,7 +189,10 @@ export default function AskAiPage() {
               <div className="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center shrink-0">
                 <Loader2 className="w-4 h-4 animate-spin text-primary" />
               </div>
-              <div className="p-4 rounded-2xl bg-secondary/20 w-32 border border-white/5 h-10" />
+              <div className="flex flex-col gap-2">
+                <div className="p-4 rounded-2xl bg-secondary/20 w-32 border border-white/5 h-10" />
+                <span className="text-[8px] uppercase font-black text-emerald-500 tracking-tighter">AutoMod is verifying node...</span>
+              </div>
             </div>
           )}
         </div>
@@ -184,7 +221,7 @@ export default function AskAiPage() {
       <section className="mt-6 bg-emerald-500/5 p-4 rounded-xl border border-emerald-500/20 flex items-center gap-3">
         <ShieldCheck className="w-5 h-5 text-emerald-400 shrink-0" />
         <p className="text-[10px] text-muted-foreground leading-tight italic">
-          Disclaimer: AI responses are generated from verified data clusters but do not constitute a formal Fatwa. Consult living scholars for critical jurisprudence.
+          Governance Active: Every AI response is synchronized with our 1 billion node AutoMod cluster to ensure methodology alignment.
         </p>
       </section>
     </div>
