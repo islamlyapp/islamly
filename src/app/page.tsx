@@ -1,3 +1,4 @@
+
 "use client";
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -38,7 +39,10 @@ import {
   Tent,
   Calendar as CalendarIcon,
   ShieldAlert,
-  Lock
+  Lock,
+  Baby,
+  Droplets,
+  Users
 } from "lucide-react";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
@@ -96,19 +100,21 @@ export default function Home() {
     { title: "Seerah", href: "/seerah", icon: History, color: "text-cyan-400", bg: "bg-cyan-500/10", border: "border-cyan-500/20", group: "Core Knowledge" },
     { title: "Calendar", href: "/calendar", icon: CalendarIcon, color: "text-emerald-500", bg: "bg-emerald-500/10", border: "border-emerald-500/20", group: "Core Knowledge" },
     { title: "Dawah Hub", href: "/dawah", icon: Megaphone, color: "text-rose-500", bg: "bg-rose-500/10", border: "border-rose-500/20", group: "Core Knowledge" },
-    { title: "Aqidah", href: "/ask", icon: ShieldCheck, color: "text-red-400", bg: "bg-red-500/10", border: "border-red-500/20", group: "Core Knowledge" },
+    { title: "Aqidah", href: "/tawheed", icon: ShieldCheck, color: "text-red-400", bg: "bg-red-500/10", border: "border-red-500/20", group: "Core Knowledge" },
     { title: "Tafsir", href: "/library", icon: BookOpen, color: "text-emerald-500", bg: "bg-emerald-500/10", border: "border-emerald-500/20", group: "Core Knowledge" },
-    { title: "Salah", href: "/prayer-times", icon: Clock, color: "text-blue-400", bg: "bg-blue-500/10", border: "border-blue-500/20", group: "Practical Living" },
+    { title: "Salah", href: "/salah", icon: Clock, color: "text-blue-400", bg: "bg-blue-500/10", border: "border-blue-500/20", group: "Practical Living" },
+    { title: "Wudu", href: "/wudu", icon: Droplets, color: "text-blue-300", bg: "bg-blue-500/10", border: "border-blue-500/20", group: "Practical Living" },
     { title: "Masjid", href: "/masjid-locator", icon: MapPin, color: "text-emerald-400", bg: "bg-emerald-500/10", border: "border-emerald-500/20", group: "Practical Living" },
+    { title: "Halal Node", href: "/halal-locator", icon: Utensils, color: "text-emerald-500", bg: "bg-emerald-500/10", border: "border-emerald-500/20", group: "Practical Living" },
     { title: "Adhkar", href: "/adhkar", icon: Zap, color: "text-yellow-400", bg: "bg-yellow-500/10", border: "border-yellow-500/20", group: "Practical Living" },
     { title: "Zakat", href: "/zakat", icon: HandCoins, color: "text-teal-400", bg: "bg-teal-500/10", border: "border-teal-500/20", group: "Practical Living" },
     { title: "Ramadan", href: "/ramadan", icon: Moon, color: "text-indigo-400", bg: "bg-indigo-500/10", border: "border-indigo-500/20", group: "Practical Living" },
     { title: "Hajj Guide", href: "/hajj", icon: Tent, color: "text-amber-500", bg: "bg-amber-500/10", border: "border-amber-500/20", group: "Practical Living" },
-    { title: "Ruqyah", href: "/ruqyah", icon: ShieldCheck, color: "text-sky-400", bg: "bg-sky-500/10", border: "border-sky-500/20", group: "Practical Living" },
+    { title: "Parenting", href: "/parenting", icon: Baby, color: "text-rose-400", bg: "bg-rose-500/10", border: "border-rose-500/20", group: "Practical Living" },
     { title: "Quizzes", href: "/quiz", icon: Trophy, color: "text-yellow-500", bg: "bg-yellow-500/10", border: "border-yellow-500/20", group: "Interactive" },
     { title: "Goals", href: "/goals", icon: Target, color: "text-blue-500", bg: "bg-blue-500/10", border: "border-blue-500/20", group: "Interactive" },
-    { title: "Badges", href: "/goals", icon: ShieldCheck, color: "text-amber-500", bg: "bg-amber-500/10", border: "border-amber-500/20", group: "Interactive" },
-    { title: "Challenges", href: "/kids", icon: Star, color: "text-purple-500", bg: "bg-purple-500/10", border: "border-purple-500/20", group: "Interactive" },
+    { title: "Ummah Node", href: "/ummah", icon: Users, color: "text-cyan-500", bg: "bg-cyan-500/10", border: "border-cyan-500/20", group: "Interactive" },
+    { title: "Astro Node", href: "/astronomy", icon: Telescope, color: "text-indigo-500", bg: "bg-indigo-500/10", border: "border-indigo-500/20", group: "Interactive" },
   ];
 
   const categories = Array.from(new Set(allModules.map(m => m.group)));
