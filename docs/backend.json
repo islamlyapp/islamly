@@ -1,210 +1,1035 @@
-
 {
   "entities": {
     "UserProfile": {
       "$schema": "http://json-schema.org/draft-07/schema#",
       "title": "UserProfile",
       "type": "object",
-      "description": "Represents a user's profile within the Islamly application, storing preferences and data associated with their unique identifier.",
+      "description": "Stores user-specific settings and preferences, linked to an external authentication system.",
       "properties": {
         "id": {
           "type": "string",
-          "description": "Unique identifier for the UserProfile entity."
+          "description": "Unique identifier for the UserProfile entity, typically provided by an external authentication system."
         },
-        "role": {
+        "prayerCalculationMethod": {
           "type": "string",
-          "description": "User role: 'student' or 'admin'.",
-          "default": "student"
-        },
-        "preferredCalculationMethod": {
-          "type": "string"
+          "description": "The preferred method for calculating daily prayer times (e.g., 'MuslimWorldLeague', 'ISNA')."
         },
         "madhab": {
-          "type": "string"
+          "type": "string",
+          "description": "The user's preferred Madhab (school of thought) for prayer time adjustments (e.g., 'Hanafi', 'Shafii')."
         },
         "latitude": {
-          "type": "number"
+          "type": "number",
+          "description": "The geographical latitude of the user's location, used for prayer time calculations."
         },
         "longitude": {
-          "type": "number"
+          "type": "number",
+          "description": "The geographical longitude of the user's location, used for prayer time calculations."
         },
-        "timeZone": {
-          "type": "string"
-        },
-        "preferredLanguage": {
-          "type": "string"
-        },
-        "preferredLanguageId": {
-          "type": "number"
-        },
-        "createdAt": {
+        "timezone": {
           "type": "string",
-          "format": "date-time"
-        },
-        "updatedAt": {
-          "type": "string",
-          "format": "date-time"
+          "description": "The user's local timezone (e.g., 'America/New_York'), crucial for displaying correct prayer times."
         }
       },
       "required": [
         "id",
-        "createdAt",
-        "updatedAt"
+        "prayerCalculationMethod",
+        "madhab",
+        "latitude",
+        "longitude",
+        "timezone"
       ]
     },
-    "Video": {
+    "Author": {
       "$schema": "http://json-schema.org/draft-07/schema#",
-      "title": "Video",
+      "title": "Author",
       "type": "object",
-      "description": "Represents a scholarly video posted by an admin.",
+      "description": "Represents an author of scholarly works, Tafsir, or Hadith commentaries.",
       "properties": {
         "id": {
-          "type": "string"
-        },
-        "title": {
-          "type": "string"
-        },
-        "description": {
-          "type": "string"
-        },
-        "url": {
           "type": "string",
-          "format": "uri"
+          "description": "Unique identifier for the Author entity."
         },
-        "thumbnail": {
-          "type": "string"
-        },
-        "category": {
-          "type": "string"
-        },
-        "isLive": {
-          "type": "boolean"
-        },
-        "postedAt": {
+        "name": {
           "type": "string",
-          "format": "date-time"
+          "description": "The full name of the author."
+        },
+        "biography": {
+          "type": "string",
+          "description": "A brief biographical summary of the author."
+        },
+        "era": {
+          "type": "string",
+          "description": "The historical era during which the author lived or was prominent (e.g., 'Classical', 'Contemporary')."
         }
       },
       "required": [
-        "title",
-        "url",
-        "postedAt"
+        "id",
+        "name"
+      ]
+    },
+    "Topic": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "Topic",
+      "type": "object",
+      "description": "Categorizes various Islamic subjects, used for organizing texts, quizzes, and other content.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the Topic entity."
+        },
+        "name": {
+          "type": "string",
+          "description": "The name of the topic (e.g., 'Aqidah', 'Fiqh', 'Hadith Sciences')."
+        },
+        "description": {
+          "type": "string",
+          "description": "A brief description of the topic."
+        },
+        "textIds": {
+          "type": "array",
+          "description": "References to Text entities associated with this topic. (Relationship: Topic N:N Text)",
+          "items": {
+            "type": "string"
+          }
+        },
+        "quizIds": {
+          "type": "array",
+          "description": "References to Quiz entities associated with this topic. (Relationship: Topic N:N Quiz)",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "required": [
+        "id",
+        "name"
       ]
     },
     "Text": {
       "$schema": "http://json-schema.org/draft-07/schema#",
       "title": "Text",
       "type": "object",
-      "description": "Represents a classical Islamic text, scholarly work, Hadith collection, or Quran.",
+      "description": "Represents a classical Islamic text or scholarly work in the library.",
       "properties": {
         "id": {
-          "type": "string"
+          "type": "string",
+          "description": "Unique identifier for the Text entity."
         },
         "title": {
-          "type": "string"
+          "type": "string",
+          "description": "The title of the scholarly text."
         },
-        "originalTitle": {
-          "type": "string"
-        },
-        "author": {
-          "type": "string"
-        },
-        "description": {
-          "type": "string"
-        },
-        "type": {
-          "type": "string"
+        "authorId": {
+          "type": "string",
+          "description": "Reference to the Author of the text. (Relationship: Author 1:N Text)"
         },
         "language": {
-          "type": "string"
+          "type": "string",
+          "description": "The primary language of the text (e.g., 'ar' for Arabic, 'en' for English)."
         },
         "publicationYear": {
-          "type": "number"
+          "type": "number",
+          "description": "The year the text was originally published or compiled."
         },
-        "sourceUrl": {
+        "contentUri": {
           "type": "string",
+          "description": "A URI pointing to the full content of the text, stored externally.",
           "format": "uri"
+        },
+        "description": {
+          "type": "string",
+          "description": "A brief summary or introduction to the text."
+        },
+        "methodology": {
+          "type": "string",
+          "description": "The theological or jurisprudential methodology associated with the text (e.g., 'Salafi/Athari')."
+        },
+        "topicIds": {
+          "type": "array",
+          "description": "References to Topic entities that categorize this text. (Relationship: Text N:N Topic)",
+          "items": {
+            "type": "string"
+          }
         }
       },
       "required": [
         "id",
         "title",
+        "authorId",
+        "language",
+        "contentUri",
+        "description",
+        "methodology"
+      ]
+    },
+    "Adhkar": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "Adhkar",
+      "type": "object",
+      "description": "Represents a daily supplication (dhikr) with Arabic text, transliteration, and translation.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the Adhkar entity."
+        },
+        "arabicText": {
+          "type": "string",
+          "description": "The supplication text in Arabic."
+        },
+        "transliteration": {
+          "type": "string",
+          "description": "Phonetic transliteration of the Arabic text."
+        },
+        "translationEnglish": {
+          "type": "string",
+          "description": "The English translation of the supplication."
+        },
+        "sourceReference": {
+          "type": "string",
+          "description": "The authentic source of the supplication (e.g., 'Sahih Muslim 123', 'Fortress of the Muslim')."
+        },
+        "category": {
+          "type": "string",
+          "description": "The category or time for the supplication (e.g., 'Morning', 'Evening', 'Before Sleep', 'After Prayer')."
+        }
+      },
+      "required": [
+        "id",
+        "arabicText",
+        "translationEnglish",
+        "sourceReference",
+        "category"
+      ]
+    },
+    "Surah": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "Surah",
+      "type": "object",
+      "description": "Represents a chapter (Surah) of the Holy Quran.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the Surah entity."
+        },
+        "number": {
+          "type": "number",
+          "description": "The ordinal number of the Surah in the Quran (1-114)."
+        },
+        "nameArabic": {
+          "type": "string",
+          "description": "The name of the Surah in Arabic."
+        },
+        "nameEnglish": {
+          "type": "string",
+          "description": "The English translation of the Surah's name."
+        },
+        "revelationPlace": {
+          "type": "string",
+          "description": "Indicates whether the Surah was revealed in Mecca or Medina ('Meccan' or 'Medinan')."
+        },
+        "ayahCount": {
+          "type": "number",
+          "description": "The total number of verses (Ayat) in the Surah."
+        }
+      },
+      "required": [
+        "id",
+        "number",
+        "nameArabic",
+        "nameEnglish",
+        "revelationPlace",
+        "ayahCount"
+      ]
+    },
+    "Ayah": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "Ayah",
+      "type": "object",
+      "description": "Represents a single verse (Ayah) of the Holy Quran.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the Ayah entity."
+        },
+        "surahId": {
+          "type": "string",
+          "description": "Reference to the Surah to which this Ayah belongs. (Relationship: Surah 1:N Ayah)"
+        },
+        "ayahNumber": {
+          "type": "number",
+          "description": "The verse number within its Surah."
+        },
+        "arabicText": {
+          "type": "string",
+          "description": "The Arabic text of the Ayah."
+        },
+        "translationEnglish": {
+          "type": "string",
+          "description": "The English translation of the Ayah."
+        }
+      },
+      "required": [
+        "id",
+        "surahId",
+        "ayahNumber",
+        "arabicText",
+        "translationEnglish"
+      ]
+    },
+    "TafsirBook": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "TafsirBook",
+      "type": "object",
+      "description": "Represents a complete book of Quranic exegesis (Tafsir).",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the TafsirBook entity."
+        },
+        "title": {
+          "type": "string",
+          "description": "The title of the Tafsir book."
+        },
+        "authorId": {
+          "type": "string",
+          "description": "Reference to the Author of the Tafsir book. (Relationship: Author 1:N TafsirBook)"
+        },
+        "language": {
+          "type": "string",
+          "description": "The primary language of the Tafsir book."
+        },
+        "description": {
+          "type": "string",
+          "description": "A brief description of the Tafsir book."
+        }
+      },
+      "required": [
+        "id",
+        "title",
+        "authorId",
+        "language"
+      ]
+    },
+    "TafsirEntry": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "TafsirEntry",
+      "type": "object",
+      "description": "Represents a specific commentary passage from a Tafsir book for an Ayah.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the TafsirEntry entity."
+        },
+        "tafsirBookId": {
+          "type": "string",
+          "description": "Reference to the TafsirBook from which this entry originates. (Relationship: TafsirBook 1:N TafsirEntry)"
+        },
+        "ayahId": {
+          "type": "string",
+          "description": "Reference to the Ayah that this tafsir entry explains. (Relationship: Ayah 1:N TafsirEntry)"
+        },
+        "commentaryText": {
+          "type": "string",
+          "description": "The actual text of the commentary for the Ayah."
+        },
+        "language": {
+          "type": "string",
+          "description": "The language of this specific commentary entry, which might differ from the book's primary language if translated."
+        }
+      },
+      "required": [
+        "id",
+        "tafsirBookId",
+        "ayahId",
+        "commentaryText",
+        "language"
+      ]
+    },
+    "HadithCollection": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "HadithCollection",
+      "type": "object",
+      "description": "Represents a compilation of Hadith, such as Sahih Bukhari or Sahih Muslim.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the HadithCollection entity."
+        },
+        "name": {
+          "type": "string",
+          "description": "The name of the Hadith collection (e.g., 'Sahih Bukhari')."
+        },
+        "compiler": {
+          "type": "string",
+          "description": "The name of the scholar who compiled this Hadith collection."
+        },
+        "description": {
+          "type": "string",
+          "description": "A brief description of the Hadith collection."
+        },
+        "language": {
+          "type": "string",
+          "description": "The original language of the Hadith collection (e.g., 'ar')."
+        }
+      },
+      "required": [
+        "id",
+        "name",
+        "compiler",
+        "language"
+      ]
+    },
+    "Hadith": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "Hadith",
+      "type": "object",
+      "description": "Represents a single Hadith (prophetic tradition).",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the Hadith entity."
+        },
+        "hadithCollectionId": {
+          "type": "string",
+          "description": "Reference to the HadithCollection this Hadith belongs to. (Relationship: HadithCollection 1:N Hadith)"
+        },
+        "hadithNumber": {
+          "type": "string",
+          "description": "The specific number or reference for the Hadith within its collection."
+        },
+        "arabicText": {
+          "type": "string",
+          "description": "The Arabic text of the Hadith."
+        },
+        "translationEnglish": {
+          "type": "string",
+          "description": "The English translation of the Hadith."
+        },
+        "grade": {
+          "type": "string",
+          "description": "The authenticity grade of the Hadith (e.g., 'Sahih', 'Hasan', 'Da'if')."
+        }
+      },
+      "required": [
+        "id",
+        "hadithCollectionId",
+        "hadithNumber",
+        "arabicText",
+        "translationEnglish",
+        "grade"
+      ]
+    },
+    "HadithCommentaryBook": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "HadithCommentaryBook",
+      "type": "object",
+      "description": "Represents a complete book of Hadith commentary.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the HadithCommentaryBook entity."
+        },
+        "title": {
+          "type": "string",
+          "description": "The title of the Hadith commentary book."
+        },
+        "authorId": {
+          "type": "string",
+          "description": "Reference to the Author of the commentary book. (Relationship: Author 1:N HadithCommentaryBook)"
+        },
+        "language": {
+          "type": "string",
+          "description": "The primary language of the Hadith commentary book."
+        },
+        "description": {
+          "type": "string",
+          "description": "A brief description of the Hadith commentary book."
+        }
+      },
+      "required": [
+        "id",
+        "title",
+        "authorId",
+        "language"
+      ]
+    },
+    "HadithCommentaryEntry": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "HadithCommentaryEntry",
+      "type": "object",
+      "description": "Represents a specific commentary passage from a Hadith commentary book for a Hadith.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the HadithCommentaryEntry entity."
+        },
+        "hadithCommentaryBookId": {
+          "type": "string",
+          "description": "Reference to the HadithCommentaryBook from which this entry originates. (Relationship: HadithCommentaryBook 1:N HadithCommentaryEntry)"
+        },
+        "hadithId": {
+          "type": "string",
+          "description": "Reference to the Hadith that this commentary entry explains. (Relationship: Hadith 1:N HadithCommentaryEntry)"
+        },
+        "commentaryText": {
+          "type": "string",
+          "description": "The actual text of the commentary for the Hadith."
+        },
+        "language": {
+          "type": "string",
+          "description": "The language of this specific commentary entry."
+        }
+      },
+      "required": [
+        "id",
+        "hadithCommentaryBookId",
+        "hadithId",
+        "commentaryText",
+        "language"
+      ]
+    },
+    "SeerahEvent": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "SeerahEvent",
+      "type": "object",
+      "description": "Represents an event from the biography (Seerah) of Prophet Muhammad (peace be upon him).",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the SeerahEvent entity."
+        },
+        "title": {
+          "type": "string",
+          "description": "The title or name of the event."
+        },
+        "description": {
+          "type": "string",
+          "description": "A detailed description of the event, its significance, and related narratives."
+        },
+        "eventDate": {
+          "type": "string",
+          "description": "The approximate date and time of the event.",
+          "format": "date-time"
+        },
+        "locationDescription": {
+          "type": "string",
+          "description": "A description of the geographical location where the event took place."
+        }
+      },
+      "required": [
+        "id",
+        "title",
+        "description",
+        "eventDate",
+        "locationDescription"
+      ]
+    },
+    "Quiz": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "Quiz",
+      "type": "object",
+      "description": "Represents an Islamic quiz on various topics.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the Quiz entity."
+        },
+        "title": {
+          "type": "string",
+          "description": "The title of the quiz."
+        },
+        "description": {
+          "type": "string",
+          "description": "A brief description or introduction to the quiz."
+        },
+        "topicIds": {
+          "type": "array",
+          "description": "References to Topic entities that categorize this quiz. (Relationship: Quiz N:N Topic)",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "required": [
+        "id",
+        "title",
+        "description"
+      ]
+    },
+    "Question": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "Question",
+      "type": "object",
+      "description": "Represents a single question within an Islamic quiz.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the Question entity."
+        },
+        "quizId": {
+          "type": "string",
+          "description": "Reference to the Quiz to which this question belongs. (Relationship: Quiz 1:N Question)"
+        },
+        "text": {
+          "type": "string",
+          "description": "The text of the quiz question."
+        },
+        "type": {
+          "type": "string",
+          "description": "The type of the question (e.g., 'multiple-choice', 'true-false')."
+        },
+        "explanation": {
+          "type": "string",
+          "description": "An explanation for the correct answer, displayed after the user attempts the question."
+        }
+      },
+      "required": [
+        "id",
+        "quizId",
+        "text",
         "type"
       ]
     },
-    "Chapter": {
+    "AnswerOption": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "AnswerOption",
       "type": "object",
+      "description": "Represents an answer option for a multiple-choice quiz question.",
       "properties": {
-        "id": { "type": "string" },
-        "textId": { "type": "string" },
-        "title": { "type": "string" },
-        "order": { "type": "number" }
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the AnswerOption entity."
+        },
+        "questionId": {
+          "type": "string",
+          "description": "Reference to the Question this answer option belongs to. (Relationship: Question 1:N AnswerOption)"
+        },
+        "text": {
+          "type": "string",
+          "description": "The text of the answer option."
+        },
+        "isCorrect": {
+          "type": "boolean",
+          "description": "Indicates whether this answer option is the correct one for the question."
+        }
       },
-      "required": ["id", "textId", "title", "order"]
+      "required": [
+        "id",
+        "questionId",
+        "text",
+        "isCorrect"
+      ]
     },
-    "Passage": {
+    "UserBookmark": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "UserBookmark",
       "type": "object",
+      "description": "Stores a user's bookmark for a specific piece of content.",
       "properties": {
-        "id": { "type": "string" },
-        "textId": { "type": "string" },
-        "type": { "type": "string" }
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the UserBookmark entity."
+        },
+        "userId": {
+          "type": "string",
+          "description": "Reference to the UserProfile who created the bookmark. (Relationship: UserProfile 1:N UserBookmark)"
+        },
+        "entityType": {
+          "type": "string",
+          "description": "The type of entity being bookmarked (e.g., 'Text', 'Ayah', 'Hadith', 'SeerahEvent', 'Adhkar')."
+        },
+        "entityId": {
+          "type": "string",
+          "description": "The unique identifier of the specific content entity being bookmarked."
+        },
+        "contextLocation": {
+          "type": "string",
+          "description": "A description of the specific location within the entity (e.g., 'Page 123', 'Ayah 3:15', 'Hadith 45', 'Specific paragraph')."
+        },
+        "createdAt": {
+          "type": "string",
+          "description": "The date and time when the bookmark was created.",
+          "format": "date-time"
+        }
       },
-      "required": ["id", "textId", "type"]
+      "required": [
+        "id",
+        "userId",
+        "entityType",
+        "entityId",
+        "createdAt"
+      ]
     },
-    "Bookmark": {
+    "UserNote": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "UserNote",
       "type": "object",
+      "description": "Stores personal notes added by a user to specific content passages.",
       "properties": {
-        "id": { "type": "string" },
-        "userId": { "type": "string" },
-        "targetType": { "type": "string" },
-        "targetId": { "type": "string" },
-        "createdAt": { "type": "string", "format": "date-time" }
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the UserNote entity."
+        },
+        "userId": {
+          "type": "string",
+          "description": "Reference to the UserProfile who created the note. (Relationship: UserProfile 1:N UserNote)"
+        },
+        "entityType": {
+          "type": "string",
+          "description": "The type of entity to which the note is attached (e.g., 'Text', 'Ayah', 'Hadith')."
+        },
+        "entityId": {
+          "type": "string",
+          "description": "The unique identifier of the specific content entity being noted."
+        },
+        "startContext": {
+          "type": "string",
+          "description": "Describes the starting point of the content selection associated with the note (e.g., 'Ayah 3:15, word 5', 'Paragraph 2, line 3')."
+        },
+        "endContext": {
+          "type": "string",
+          "description": "Describes the ending point of the content selection associated with the note (optional, for multi-word or multi-line selections)."
+        },
+        "noteText": {
+          "type": "string",
+          "description": "The actual text of the user's personal note."
+        },
+        "createdAt": {
+          "type": "string",
+          "description": "The date and time when the note was created.",
+          "format": "date-time"
+        },
+        "updatedAt": {
+          "type": "string",
+          "description": "The date and time when the note was last updated.",
+          "format": "date-time"
+        }
       },
-      "required": ["id", "userId", "targetType", "targetId", "createdAt"]
-    },
-    "Note": {
-      "type": "object",
-      "properties": {
-        "id": { "type": "string" },
-        "userId": { "type": "string" },
-        "passageId": { "type": "string" },
-        "content": { "type": "string" },
-        "createdAt": { "type": "string", "format": "date-time" }
-      },
-      "required": ["id", "userId", "passageId", "content", "createdAt"]
+      "required": [
+        "id",
+        "userId",
+        "entityType",
+        "entityId",
+        "startContext",
+        "noteText",
+        "createdAt"
+      ]
     }
   },
   "auth": {
     "providers": [
       "password",
-      "anonymous",
-      "google.com",
-      "discord.com",
-      "microsoft.com",
-      "phone"
+      "anonymous"
     ]
   },
   "firestore": {
     "structure": [
       {
-        "path": "/users/{userId}",
+        "path": "/users/{userId}/user_profiles/{userId}",
         "definition": {
-          "entityName": "UserProfile"
+          "entityName": "UserProfile",
+          "schema": {
+            "$ref": "#/backend/entities/UserProfile"
+          },
+          "description": "Stores user-specific settings and preferences. The document ID is the userId, and the 'id' field within the document is denormalized to match the userId for simplified authorization (owner-only access)."
         }
       },
       {
-        "path": "/videos/{videoId}",
+        "path": "/users/{userId}/bookmarks/{bookmarkId}",
         "definition": {
-          "entityName": "Video"
+          "entityName": "UserBookmark",
+          "schema": {
+            "$ref": "#/backend/entities/UserBookmark"
+          },
+          "description": "Stores user's bookmarks for various content. The 'userId' field in the document is denormalized to match the path parameter '{userId}' for authorization independence.",
+          "params": [
+            {
+              "name": "userId",
+              "description": "The unique identifier of the user who owns the bookmark."
+            },
+            {
+              "name": "bookmarkId",
+              "description": "The unique identifier for the specific user bookmark."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/users/{userId}/notes/{noteId}",
+        "definition": {
+          "entityName": "UserNote",
+          "schema": {
+            "$ref": "#/backend/entities/UserNote"
+          },
+          "description": "Stores user's personal notes on content. The 'userId' field in the document is denormalized to match the path parameter '{userId}' for authorization independence.",
+          "params": [
+            {
+              "name": "userId",
+              "description": "The unique identifier of the user who owns the note."
+            },
+            {
+              "name": "noteId",
+              "description": "The unique identifier for the specific user note."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/authors/{authorId}",
+        "definition": {
+          "entityName": "Author",
+          "schema": {
+            "$ref": "#/backend/entities/Author"
+          },
+          "description": "Stores metadata for authors of scholarly works. Publicly readable."
+        }
+      },
+      {
+        "path": "/topics/{topicId}",
+        "definition": {
+          "entityName": "Topic",
+          "schema": {
+            "$ref": "#/backend/entities/Topic"
+          },
+          "description": "Categorizes various Islamic subjects. Publicly readable."
         }
       },
       {
         "path": "/texts/{textId}",
         "definition": {
-          "entityName": "Text"
+          "entityName": "Text",
+          "schema": {
+            "$ref": "#/backend/entities/Text"
+          },
+          "description": "Represents a classical Islamic text or scholarly work. Publicly readable."
+        }
+      },
+      {
+        "path": "/adhkar/{adhkarId}",
+        "definition": {
+          "entityName": "Adhkar",
+          "schema": {
+            "$ref": "#/backend/entities/Adhkar"
+          },
+          "description": "Represents a daily supplication (dhikr). Publicly readable."
+        }
+      },
+      {
+        "path": "/quran/surahs/{surahId}",
+        "definition": {
+          "entityName": "Surah",
+          "schema": {
+            "$ref": "#/backend/entities/Surah"
+          },
+          "description": "Represents a chapter (Surah) of the Holy Quran. Publicly readable.",
+          "params": [
+            {
+              "name": "surahId",
+              "description": "The unique identifier for the Surah."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/quran/surahs/{surahId}/ayahs/{ayahId}",
+        "definition": {
+          "entityName": "Ayah",
+          "schema": {
+            "$ref": "#/backend/entities/Ayah"
+          },
+          "description": "Represents a single verse (Ayah) within a Surah. The 'surahId' field in the document is denormalized for efficient querying. Publicly readable.",
+          "params": [
+            {
+              "name": "surahId",
+              "description": "The unique identifier of the parent Surah."
+            },
+            {
+              "name": "ayahId",
+              "description": "The unique identifier for the Ayah."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/tafsir_books/{tafsirBookId}",
+        "definition": {
+          "entityName": "TafsirBook",
+          "schema": {
+            "$ref": "#/backend/entities/TafsirBook"
+          },
+          "description": "Represents a complete book of Quranic exegesis (Tafsir). Publicly readable.",
+          "params": [
+            {
+              "name": "tafsirBookId",
+              "description": "The unique identifier for the Tafsir book."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/tafsir_books/{tafsirBookId}/entries/{tafsirEntryId}",
+        "definition": {
+          "entityName": "TafsirEntry",
+          "schema": {
+            "$ref": "#/backend/entities/TafsirEntry"
+          },
+          "description": "Represents a specific commentary passage for an Ayah from a Tafsir book. 'tafsirBookId' and 'ayahId' fields are denormalized for efficient querying. Publicly readable.",
+          "params": [
+            {
+              "name": "tafsirBookId",
+              "description": "The unique identifier of the parent Tafsir book."
+            },
+            {
+              "name": "tafsirEntryId",
+              "description": "The unique identifier for the Tafsir entry."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/hadith_collections/{collectionId}",
+        "definition": {
+          "entityName": "HadithCollection",
+          "schema": {
+            "$ref": "#/backend/entities/HadithCollection"
+          },
+          "description": "Represents a compilation of Hadith. Publicly readable.",
+          "params": [
+            {
+              "name": "collectionId",
+              "description": "The unique identifier for the Hadith collection."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/hadith_collections/{collectionId}/hadiths/{hadithId}",
+        "definition": {
+          "entityName": "Hadith",
+          "schema": {
+            "$ref": "#/backend/entities/Hadith"
+          },
+          "description": "Represents a single Hadith within a collection. The 'hadithCollectionId' field is denormalized for efficient querying. Publicly readable.",
+          "params": [
+            {
+              "name": "collectionId",
+              "description": "The unique identifier of the parent Hadith collection."
+            },
+            {
+              "name": "hadithId",
+              "description": "The unique identifier for the Hadith."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/hadith_commentary_books/{commentaryBookId}",
+        "definition": {
+          "entityName": "HadithCommentaryBook",
+          "schema": {
+            "$ref": "#/backend/entities/HadithCommentaryBook"
+          },
+          "description": "Represents a complete book of Hadith commentary. Publicly readable.",
+          "params": [
+            {
+              "name": "commentaryBookId",
+              "description": "The unique identifier for the Hadith commentary book."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/hadith_commentary_books/{commentaryBookId}/entries/{commentaryEntryId}",
+        "definition": {
+          "entityName": "HadithCommentaryEntry",
+          "schema": {
+            "$ref": "#/backend/entities/HadithCommentaryEntry"
+          },
+          "description": "Represents a specific commentary passage for a Hadith. 'hadithCommentaryBookId' and 'hadithId' fields are denormalized for efficient querying. Publicly readable.",
+          "params": [
+            {
+              "name": "commentaryBookId",
+              "description": "The unique identifier of the parent Hadith commentary book."
+            },
+            {
+              "name": "commentaryEntryId",
+              "description": "The unique identifier for the Hadith commentary entry."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/seerah_events/{eventId}",
+        "definition": {
+          "entityName": "SeerahEvent",
+          "schema": {
+            "$ref": "#/backend/entities/SeerahEvent"
+          },
+          "description": "Represents an event from the biography (Seerah) of Prophet Muhammad (peace be upon him). Publicly readable."
+        }
+      },
+      {
+        "path": "/quizzes/{quizId}",
+        "definition": {
+          "entityName": "Quiz",
+          "schema": {
+            "$ref": "#/backend/entities/Quiz"
+          },
+          "description": "Represents an Islamic quiz on various topics. Publicly readable.",
+          "params": [
+            {
+              "name": "quizId",
+              "description": "The unique identifier for the Quiz."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/quizzes/{quizId}/questions/{questionId}",
+        "definition": {
+          "entityName": "Question",
+          "schema": {
+            "$ref": "#/backend/entities/Question"
+          },
+          "description": "Represents a single question within an Islamic quiz. The 'quizId' field is denormalized for efficient querying. Publicly readable.",
+          "params": [
+            {
+              "name": "quizId",
+              "description": "The unique identifier of the parent Quiz."
+            },
+            {
+              "name": "questionId",
+              "description": "The unique identifier for the Question."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/quizzes/{quizId}/questions/{questionId}/answer_options/{optionId}",
+        "definition": {
+          "entityName": "AnswerOption",
+          "schema": {
+            "$ref": "#/backend/entities/AnswerOption"
+          },
+          "description": "Represents an answer option for a multiple-choice quiz question. The 'questionId' field is denormalized for efficient querying. Publicly readable.",
+          "params": [
+            {
+              "name": "quizId",
+              "description": "The unique identifier of the parent Quiz."
+            },
+            {
+              "name": "questionId",
+              "description": "The unique identifier of the parent Question."
+            },
+            {
+              "name": "optionId",
+              "description": "The unique identifier for the Answer Option."
+            }
+          ]
         }
       }
     ],
-    "reasoning": "Admin-controlled videos and streams are stored at the root level for global visibility, while user roles govern publishing permissions."
+    "reasoning": "The Firestore structure is designed to be secure, scalable, and debuggable by strictly adhering to the core design principles. The primary strategy involves a clear segregation of publicly accessible, static content from user-specific, private data, and extensive use of path-based authorization and denormalization.\n\n**Authorization Independence (CRITICAL) & QAPs (Rules are not Filters):**\n\n1.  **Public/Static Content Collections:** All core informational entities like 'Author', 'Topic', 'Text', 'Adhkar', 'Surah', 'Ayah', 'TafsirBook', 'TafsirEntry', 'HadithCollection', 'Hadith', 'HadithCommentaryBook', 'HadithCommentaryEntry', 'SeerahEvent', 'Quiz', 'Question', and 'AnswerOption' are organized into top-level collections or subcollections with homogeneous security postures (e.g., `/authors`, `/quran/surahs/{surahId}/ayahs`). These collections are intended to be publicly readable by all users, authenticated or not. This design choice inherently ensures **Authorization Independence** because access to these documents does not rely on any parent document's attributes or `get()` calls within security rules. The rules simply allow universal read access. This also directly supports **QAPs** (Queries are not Filters) as any read or list operation on these collections will return all accessible documents, without the need for server-side filtering by security rules, thus optimizing performance and simplifying rule logic. The 'read-only' nature for all documents in these collections satisfies the **Structural Segregation** mandate.\n\n2.  **User-Owned Data Collections:** User-specific data, including 'UserProfile', 'UserBookmark', and 'UserNote', are organized under a dedicated `/users/{userId}` hierarchy (e.g., `/users/{userId}/user_profiles/{userId}`, `/users/{userId}/bookmarks/{bookmarkId}`, `/users/{userId}/notes/{noteId}`).\n    *   **Denormalization for Authorization Independence:** For `UserProfile`, the document's ID is set to `request.auth.uid`, and the `id` field within the document is denormalized to `userId`, mirroring the path parameter. Similarly, for `UserBookmark` and `UserNote`, the `userId` field within each document is explicitly denormalized to match the `{userId}` wildcard in their respective paths. This ensures that the ownership information is directly present within each document. Consequently, security rules can evaluate `request.auth.uid == resource.data.userId` or `request.auth.uid == {userId}` without needing to perform `get()` calls to check parent documents for ownership, achieving **Authorization Independence**. This structure also guarantees that **QAPs** are met for user-specific data; a user can only query and list their own bookmarks or notes (`/users/myUid/bookmarks`), and the security rules will only permit access to documents where `resource.data.userId == request.auth.uid`, effectively enforcing ownership at the path level and within the document data itself.\n\n**Debuggability & Clarity of Intent:** The use of descriptive collection names and wildcards (e.g., `{userId}`, `{surahId}`) explicitly communicates the purpose and ownership of the data. The simple `request.auth.uid == resource.data.userId` rule pattern for private data is easy to write, understand, and debug, making authorization intent transparent.\n\n**DBAC (Database-Backed Access Control):** The design relies solely on `request.auth.uid` for user authentication and the `userId` field (denormalized within documents or implied by path) for authorization, requiring no custom claims or complex role management. This keeps the authorization model robust and straightforward.\n\n**Invariants:** The structural path (`/users/{userId}/...`) combined with denormalized `userId` fields in `UserBookmark` and `UserNote` documents creates a strong invariant for ownership, which can be easily enforced by security rules. Timestamps (`createdAt`, `updatedAt`) for user-owned data are also directly present in the documents, allowing for rule-based validation of their integrity."
   }
 }

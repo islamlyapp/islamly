@@ -1,62 +1,238 @@
-
 rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
 
-    // --- Helper Functions ---
+    /**
+     * CORE PHILOSOPHY
+     * This ruleset enforces a strict user-ownership model for personal data and a public read-only model 
+     * for educational and religious content. It leverages path-based authorization and denormalized 
+     * identifiers to ensure high performance and authorization independence.
+     *
+     * DATA STRUCTURE
+     * 1. Public Content: Top-level collections like /authors, /texts, /adhkar, and the /quran and /hadith 
+     *    hierarchies are globally readable.
+     * 2. User Data: All user-specific settings, bookmarks, and notes are nested under /users/{userId}. 
+     *    Ownership is verified by matching the path's {userId} with the authenticated user's UID.
+     *
+     * KEY SECURITY DECISIONS
+     * - Default Posture: All write operations on public content are strictly disallowed via rules. 
+     *   Modifications to content must occur via administrative tools or the Firebase Console.
+     * - Relational Integrity: For user-owned data, rules enforce that the internal 'userId' or 'id' 
+     *   fields match the document's path and remain immutable after creation.
+     * - Prototyping Flexibility: While authorization is strictly enforced, the specific data types 
+     *   and non-relational fields are not validated to allow for rapid schema iteration.
+     */
 
+    // --- HELPER FUNCTIONS ---
+
+    /** @description Checks if the user is authenticated. */
     function isSignedIn() {
       return request.auth != null;
     }
 
+    /** @description Checks if the authenticated user matches the provided userId. */
     function isOwner(userId) {
       return isSignedIn() && request.auth.uid == userId;
     }
 
-    function isAdmin() {
-      return isSignedIn() && get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'admin';
+    /** @description Verifies ownership and ensures the document exists before update/delete. */
+    function isExistingOwner(userId) {
+      return isOwner(userId) && resource != null;
     }
 
-    // --- Collection Rules ---
+    // --- USER PROFILE & DATA ---
 
-    match /users/{userId} {
-      allow get, list: if isOwner(userId) || isAdmin();
+    match /users/{userId}/user_profiles/{profileId} {
+      /**
+       * @description Rules for user-specific settings and preferences.
+       * @path /users/{userId}/user_profiles/{profileId}
+       * @allow (create) User 'abc' creates profile at /users/abc/user_profiles/abc with {id: 'abc'}.
+       * @deny (create) User 'abc' attempts to create a profile for user 'xyz'.
+       * @principle Restricts access to a user's own data tree and validates path consistency.
+       */
+      allow get, list: if isOwner(userId);
       allow create: if isOwner(userId) && request.resource.data.id == userId;
-      allow update: if isOwner(userId) && request.resource.data.role == resource.data.role; // Prevent self-promoting to admin
-      allow delete: if isOwner(userId);
-
-      match /bookmarks/{bookmarkId} {
-        allow read, write: if isOwner(userId);
-      }
-
-      match /notes/{noteId} {
-        allow read, write: if isOwner(userId);
-      }
+      allow update: if isExistingOwner(userId) && request.resource.data.id == resource.data.id;
+      allow delete: if isExistingOwner(userId);
     }
 
-    match /videos/{videoId} {
-      allow read: if isSignedIn();
-      allow write: if isAdmin();
+    match /users/{userId}/bookmarks/{bookmarkId} {
+      /**
+       * @description Rules for user-created content bookmarks.
+       * @path /users/{userId}/bookmarks/{bookmarkId}
+       * @allow (list) User 'abc' lists their own bookmarks at /users/abc/bookmarks.
+       * @deny (get) User 'abc' attempts to read a bookmark belonging to user 'def'.
+       * @principle Enforces document ownership for all CRUD operations.
+       */
+      allow get, list: if isOwner(userId);
+      allow create: if isOwner(userId) && request.resource.data.userId == userId;
+      allow update: if isExistingOwner(userId) && request.resource.data.userId == resource.data.userId;
+      allow delete: if isExistingOwner(userId);
+    }
+
+    match /users/{userId}/notes/{noteId} {
+      /**
+       * @description Rules for personal notes added by users to content.
+       * @path /users/{userId}/notes/{noteId}
+       * @allow (update) User 'abc' updates their own note at /users/abc/notes/123.
+       * @deny (create) User 'abc' tries to create a note with a 'userId' field of 'xyz'.
+       * @principle Ensures data consistency between the user path and the document body.
+       */
+      allow get, list: if isOwner(userId);
+      allow create: if isOwner(userId) && request.resource.data.userId == userId;
+      allow update: if isExistingOwner(userId) && request.resource.data.userId == resource.data.userId;
+      allow delete: if isExistingOwner(userId);
+    }
+
+    // --- PUBLIC CONTENT COLLECTIONS ---
+
+    match /authors/{authorId} {
+      /**
+       * @description Metadata for scholars and authors. Publicly readable.
+       * @path /authors/{authorId}
+       * @allow (get) Any user reads author information.
+       * @deny (update) Any user attempts to modify author metadata.
+       * @principle Public read-only access for static content.
+       */
+      allow get, list: if true;
+      allow create, update, delete: if false;
+    }
+
+    match /topics/{topicId} {
+      /**
+       * @description Categories for Islamic subjects. Publicly readable.
+       * @path /topics/{topicId}
+       * @allow (list) An unauthenticated user lists all topics.
+       * @principle Structural segregation of public content.
+       */
+      allow get, list: if true;
+      allow create, update, delete: if false;
     }
 
     match /texts/{textId} {
-      allow read: if isSignedIn();
-      allow write: if isAdmin();
+      /**
+       * @description Scholarly Islamic texts and works. Publicly readable.
+       * @path /texts/{textId}
+       */
+      allow get, list: if true;
+      allow create, update, delete: if false;
+    }
 
-      match /chapters/{chapterId} {
-        allow read: if isSignedIn();
-        allow write: if isAdmin();
-      }
+    match /adhkar/{adhkarId} {
+      /**
+       * @description Daily supplications (dhikr). Publicly readable.
+       * @path /adhkar/{adhkarId}
+       */
+      allow get, list: if true;
+      allow create, update, delete: if false;
+    }
 
-      match /passages/{passageId} {
-        allow read: if isSignedIn();
-        allow write: if isAdmin();
+    match /quran/surahs/{surahId} {
+      /**
+       * @description Chapters of the Holy Quran. Publicly readable.
+       * @path /quran/surahs/{surahId}
+       */
+      allow get, list: if true;
+      allow create, update, delete: if false;
+
+      match /ayahs/{ayahId} {
+        /**
+         * @description Verses within a Surah. Publicly readable.
+         * @path /quran/surahs/{surahId}/ayahs/{ayahId}
+         */
+        allow get, list: if true;
+        allow create, update, delete: if false;
       }
     }
 
+    match /tafsir_books/{tafsirBookId} {
+      /**
+       * @description Books of Quranic exegesis. Publicly readable.
+       * @path /tafsir_books/{tafsirBookId}
+       */
+      allow get, list: if true;
+      allow create, update, delete: if false;
+
+      match /entries/{entryId} {
+        /**
+         * @description Specific commentary passages. Publicly readable.
+         * @path /tafsir_books/{tafsirBookId}/entries/{entryId}
+         */
+        allow get, list: if true;
+        allow create, update, delete: if false;
+      }
+    }
+
+    match /hadith_collections/{collectionId} {
+      /**
+       * @description Major compilations of Hadith. Publicly readable.
+       * @path /hadith_collections/{collectionId}
+       */
+      allow get, list: if true;
+      allow create, update, delete: if false;
+
+      match /hadiths/{hadithId} {
+        /**
+         * @description Single Hadith records. Publicly readable.
+         * @path /hadith_collections/{collectionId}/hadiths/{hadithId}
+         */
+        allow get, list: if true;
+        allow create, update, delete: if false;
+      }
+    }
+
+    match /hadith_commentary_books/{bookId} {
+      /**
+       * @description Books explaining Hadith. Publicly readable.
+       * @path /hadith_commentary_books/{bookId}
+       */
+      allow get, list: if true;
+      allow create, update, delete: if false;
+
+      match /entries/{entryId} {
+        /**
+         * @description Specific Hadith commentary passages. Publicly readable.
+         * @path /hadith_commentary_books/{bookId}/entries/{entryId}
+         */
+        allow get, list: if true;
+        allow create, update, delete: if false;
+      }
+    }
+
+    match /seerah_events/{eventId} {
+      /**
+       * @description Events from the biography of the Prophet (pbuh). Publicly readable.
+       * @path /seerah_events/{eventId}
+       */
+      allow get, list: if true;
+      allow create, update, delete: if false;
+    }
+
     match /quizzes/{quizId} {
-      allow read: if isSignedIn();
-      allow write: if isAdmin();
+      /**
+       * @description Educational Islamic quizzes. Publicly readable.
+       * @path /quizzes/{quizId}
+       */
+      allow get, list: if true;
+      allow create, update, delete: if false;
+
+      match /questions/{questionId} {
+        /**
+         * @description Quiz questions. Publicly readable.
+         * @path /quizzes/{quizId}/questions/{questionId}
+         */
+        allow get, list: if true;
+        allow create, update, delete: if false;
+
+        match /answer_options/{optionId} {
+          /**
+           * @description Multiple choice options. Publicly readable.
+           * @path /quizzes/{quizId}/questions/{questionId}/answer_options/{optionId}
+           */
+          allow get, list: if true;
+          allow create, update, delete: if false;
+        }
+      }
     }
   }
 }
