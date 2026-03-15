@@ -1,4 +1,3 @@
-
 # Islamly - Universal Scholarly Infrastructure v3.5
 **Domain: [islamly.uk](https://islamly.uk) | Scale: 11.7 Quadrillion Features**
 
@@ -6,16 +5,15 @@ This is the official production repository for Islamly, a high-density portal fo
 
 ## 🚀 One-Click Production Workflow
 
-To take this "Universal Node" live on your GitHub and Vercel:
+To take this "Universal Node" live on your GitHub and Vercel, copy and paste these commands into your terminal:
 
 ### 1. Initialize & Push to GitHub
-Open your terminal in this directory and run:
 ```bash
 git init
-git remote add origin https://github.com/YOUR_USERNAME/islamly.git
 git add .
 git commit -m "feat: Initialize Universal Scholarly Infrastructure"
 git branch -M main
+git remote add origin https://github.com/YOUR_USERNAME/islamly.git
 git push -u origin main
 ```
 
