@@ -1,4 +1,3 @@
-
 "use client";
 
 import { useState, useEffect } from "react";
@@ -20,8 +19,12 @@ import { explainScholarlyPassage, type ExplainScholarlyPassageOutput } from "@/a
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
 import { toast } from "@/hooks/use-toast";
+import { useUser, useFirestore, setDocumentNonBlocking } from "@/firebase";
+import { doc, collection, serverTimestamp } from "firebase/firestore";
 
 export default function SimplifierPage() {
+  const { user } = useUser();
+  const db = useFirestore();
   const [passage, setPassage] = useState("");
   const [result, setResult] = useState<ExplainScholarlyPassageOutput | null>(null);
   const [isLoading, setIsLoading] = useState(false);
@@ -40,13 +43,32 @@ export default function SimplifierPage() {
       setResult(data);
     } catch (error) {
       console.error(error);
+      toast({ variant: "destructive", title: "Simplification Failed", description: "Scholarly node connection unstable." });
     } finally {
       setIsLoading(false);
     }
   };
 
   const handleSaveNote = () => {
-    toast({ title: "Coming Soon", description: "Scholarly Note archiving is being indexed." });
+    if (!db || !user?.uid) {
+      toast({ title: "Auth Required", description: "Please sign in to archive scholarly notes.", variant: "destructive" });
+      return;
+    }
+    if (!result) return;
+
+    const noteRef = doc(collection(db, "users", user.uid, "notes"));
+    setDocumentNonBlocking(noteRef, {
+      userId: user.uid,
+      entityType: "Text",
+      entityId: "ai-simplifier",
+      startContext: passage.substring(0, 50) + "...",
+      noteText: `AI Simplification: ${result.explanation}`,
+      createdAt: serverTimestamp(),
+      updatedAt: serverTimestamp(),
+      id: noteRef.id
+    }, { merge: true });
+
+    toast({ title: "Note Node Archived", description: "Insight successfully synchronized to your private library." });
   };
 
   if (!hasMounted) return null;
@@ -121,7 +143,7 @@ export default function SimplifierPage() {
                 <span className="text-[10px] font-bold uppercase tracking-widest">Methodology Verified</span>
               </div>
               <div className="flex gap-2">
-                <Button variant="ghost" size="sm" className="text-[10px] font-black uppercase tracking-widest h-8" onClick={() => setPassage("")}>Clear</Button>
+                <Button variant="ghost" size="sm" className="text-[10px] font-black uppercase tracking-widest h-8" onClick={() => { setPassage(""); setResult(null); }}>Clear</Button>
                 <Button variant="outline" size="sm" className="text-[10px] font-black uppercase tracking-widest h-8 gap-2" onClick={handleSaveNote}>
                   <ScrollText className="w-3 h-3" /> Save Note
                 </Button>

@@ -25,9 +25,9 @@ npm run db:seed
 
 ### 3. Deploy to Vercel
 Connect your GitHub repo to [Vercel](https://vercel.com) and add these **Node Keys** in Environment Variables:
-- `RESEND_API_KEY`: `re_8FwBzPCV_N6qrnm1m2Js7sMRpuTF8Sx5w`
+- `RESEND_API_KEY`: (Your key from resend.com)
 - `NEXT_PUBLIC_HADITH_API_KEY`: (Your key from hadithapi.com)
-- `GOOGLE_API_KEY`: `AIzaSyATW-9PmJFYw3bInQfCItblGIS6iekZeWY`
+- `GOOGLE_API_KEY`: (Your Google AI Studio key)
 
 ## 🛡️ Core Infrastructure
 - **Al-Mualim AI**: Real-time recitation analysis via 10,000+ verification nodes.

@@ -1,4 +1,3 @@
-
 "use client";
 
 import { Input } from "@/components/ui/input";
@@ -9,6 +8,7 @@ import Link from "next/link";
 import { useState, useEffect } from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { GoogleAd } from "@/components/google-ad";
+import { cn } from "@/lib/utils";
 
 const categories = ["All", "Aqidah", "Hadith", "Fiqh", "Tafsir", "Manhaj", "History"];
 
