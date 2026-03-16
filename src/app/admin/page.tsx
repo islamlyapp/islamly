@@ -2,7 +2,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { 
   LayoutDashboard, 
@@ -15,11 +15,13 @@ import {
   Network,
   Lock,
   Loader2,
-  AlertTriangle
+  AlertTriangle,
+  Zap
 } from "lucide-react";
 import { useUser, useFirestore, useDoc, useMemoFirebase } from "@/firebase";
 import { doc } from "firebase/firestore";
 import { calculateCurrentFeatures, formatFeatureCount } from "@/lib/feature-counter";
+import { cn } from "@/lib/utils";
 
 export default function AdminDashboard() {
   const { user } = useUser();
@@ -29,7 +31,8 @@ export default function AdminDashboard() {
 
   const profileRef = useMemoFirebase(() => {
     if (!db || !user?.uid) return null;
-    return doc(db, "users", user.uid);
+    // Updated path to match backend.json
+    return doc(db, "users", user.uid, "user_profiles", user.uid);
   }, [db, user?.uid]);
 
   const { data: profile, isLoading } = useDoc(profileRef);

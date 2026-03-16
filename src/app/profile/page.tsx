@@ -4,7 +4,7 @@
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { 
   User, 
@@ -41,7 +41,6 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
-import { Input } from "@/components/ui/input";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { fetchAvailableTranslations } from "@/services/islamic-data-service";
 import { Progress } from "@/components/ui/progress";
@@ -79,7 +78,8 @@ export default function ProfilePage() {
 
   const profileRef = useMemoFirebase(() => {
     if (!db || !user?.uid) return null;
-    return doc(db, "users", user.uid);
+    // Updated path to match backend.json
+    return doc(db, "users", user.uid, "user_profiles", user.uid);
   }, [db, user?.uid]);
 
   const { data: profile } = useDoc(profileRef);
@@ -147,7 +147,6 @@ export default function ProfilePage() {
         </div>
       </header>
 
-      {/* Achievement Nodes Cluster */}
       <section className="grid grid-cols-3 gap-3 px-2">
         <Card className="glass-card p-3 text-center border-orange-500/20 bg-orange-500/5">
           <Flame className="w-4 h-4 text-orange-500 mx-auto mb-1" />

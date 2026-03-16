@@ -11,6 +11,11 @@
           "type": "string",
           "description": "Unique identifier for the UserProfile entity, typically provided by an external authentication system."
         },
+        "role": {
+          "type": "string",
+          "description": "The user's role in the system (e.g., 'user', 'admin').",
+          "enum": ["user", "admin"]
+        },
         "prayerCalculationMethod": {
           "type": "string",
           "description": "The preferred method for calculating daily prayer times (e.g., 'MuslimWorldLeague', 'ISNA')."
@@ -766,7 +771,11 @@
   "auth": {
     "providers": [
       "password",
-      "anonymous"
+      "anonymous",
+      "google.com",
+      "discord.com",
+      "microsoft.com",
+      "phone"
     ]
   },
   "firestore": {
