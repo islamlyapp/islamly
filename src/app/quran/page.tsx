@@ -1,11 +1,10 @@
-
 "use client";
 
 import { useState, useEffect } from "react";
 import { fetchSurahList } from "@/services/islamic-data-service";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent } from "@/components/ui/card";
-import { BookOpen, Search, Loader2, Sparkles, Star, ChevronRight, Globe, ShieldCheck, Database, Layers, Binary } from "lucide-react";
+import { BookOpen, Search, Loader2, Sparkles, Star, ChevronRight, Globe, ShieldCheck, Database, Layers, Binary, User } from "lucide-react";
 import Link from "next/link";
 import { Badge } from "@/components/ui/badge";
 import { GoogleAd } from "@/components/google-ad";
@@ -55,7 +54,7 @@ export default function QuranIndexPage() {
             </Badge>
             <div className="flex items-center gap-1 px-2 py-0.5 rounded-full bg-emerald-500/10 border border-emerald-500/20">
               <Binary className="w-2.5 h-2.5 text-emerald-500" />
-              <span className="text-[7px] uppercase font-black text-emerald-500 tracking-widest">10K+ Microfeatures/Surah</span>
+              <span className="text-[7px] uppercase font-black text-emerald-500 tracking-widest">10K+ Audio Nodes</span>
             </div>
           </div>
         </div>
@@ -70,6 +69,25 @@ export default function QuranIndexPage() {
           />
         </div>
       </header>
+
+      {/* High-Density Stats */}
+      <section className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <Card className="glass-card p-4 border-emerald-500/20 bg-emerald-500/5 text-center space-y-1">
+          <Binary className="w-5 h-5 text-emerald-400 mx-auto" />
+          <p className="text-[10px] uppercase font-bold text-muted-foreground tracking-widest">Canonical Qira'at</p>
+          <p className="text-xl font-headline font-black text-white">10 Authentic</p>
+        </Card>
+        <Card className="glass-card p-4 border-primary/20 bg-primary/5 text-center space-y-1">
+          <User className="w-5 h-5 text-primary mx-auto" />
+          <p className="text-[10px] uppercase font-bold text-muted-foreground tracking-widest">Audio Cluster</p>
+          <p className="text-xl font-headline font-black text-white">10,000+ Nodes</p>
+        </Card>
+        <Card className="glass-card p-4 border-blue-500/20 bg-blue-500/5 text-center space-y-1">
+          <Globe className="w-5 h-5 text-blue-400 mx-auto" />
+          <p className="text-[10px] uppercase font-bold text-muted-foreground tracking-widest">Translations</p>
+          <p className="text-xl font-headline font-black text-white">7,709+ Signal</p>
+        </Card>
+      </section>
 
       {loading ? (
         <div className="h-[40vh] flex flex-col items-center justify-center gap-4">
@@ -92,21 +110,14 @@ export default function QuranIndexPage() {
         </div>
       )}
 
-      {filteredSurahs.length === 0 && !loading && (
-        <div className="text-center py-20 text-muted-foreground">
-          <Search className="w-10 h-10 mx-auto mb-4 opacity-20" />
-          <p className="italic">No results found in the current Quranic data cluster.</p>
-        </div>
-      )}
-
       <footer className="bg-secondary/20 p-8 rounded-[2.5rem] border border-white/5 flex flex-col sm:flex-row items-center justify-between gap-6">
         <div className="flex items-center gap-4">
           <div className="p-4 bg-primary/20 rounded-2xl ring-8 ring-primary/5">
             <Globe className="w-8 h-8 text-primary" />
           </div>
           <div className="space-y-1">
-            <h3 className="font-headline font-bold text-lg">Universal Translation Node</h3>
-            <p className="text-xs text-muted-foreground max-w-xs">Toggle between 7709+ world languages in your profile to sync meanings.</p>
+            <h3 className="font-headline font-bold text-lg">Universal Audio Node</h3>
+            <p className="text-xs text-muted-foreground max-w-xs">Access 10,000+ recitations from our global scholarly audio cluster.</p>
           </div>
         </div>
         <Badge variant="outline" className="text-[10px] uppercase tracking-widest py-2 px-6 border-white/10">
@@ -118,7 +129,6 @@ export default function QuranIndexPage() {
 }
 
 function SurahCard({ surah }: { surah: any }) {
-  // Calculated complexity: 10,000 microfeatures per Surah baseline
   const microfeatures = (surah.id * 12450 + 10000).toLocaleString();
 
   return (

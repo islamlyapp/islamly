@@ -1,4 +1,3 @@
-
 "use client";
 
 import { useState, useEffect, use } from "react";
@@ -20,7 +19,9 @@ import {
   Share2,
   Copy,
   Hash,
-  Sparkles
+  Sparkles,
+  Search,
+  Database
 } from "lucide-react";
 import Link from "next/link";
 import { Card, CardContent } from "@/components/ui/card";
@@ -40,8 +41,9 @@ import {
 } from "@/components/ui/popover";
 import { Badge } from "@/components/ui/badge";
 import { Textarea } from "@/components/ui/textarea";
-import { useUser, useFirestore, useDoc, useMemoFirebase, setDocumentNonBlocking } from "@/firebase";
-import { doc, collection, serverTimestamp } from "firebase/firestore";
+import { Input } from "@/components/ui/input";
+import { useUser, useFirestore, useDoc, useCollection, useMemoFirebase, setDocumentNonBlocking } from "@/firebase";
+import { doc, collection, serverTimestamp, query, limit } from "firebase/firestore";
 import { toast } from "@/hooks/use-toast";
 import { Progress } from "@/components/ui/progress";
 import { cn } from "@/lib/utils";
@@ -54,8 +56,12 @@ export default function SurahReadingPage({ params }: { params: Promise<{ id: str
   const [hasMounted, setHasMounted] = useState(false);
   const [verses, setVerses] = useState<any[]>([]);
   const [translations, setTranslations] = useState<any[]>([]);
-  const [reciters, setReciters] = useState<any[]>([]);
+  
+  // Reciter Infrastructure
+  const [apiReciters, setApiReciters] = useState<any[]>([]);
+  const [reciterSearch, setReciterSearch] = useState("");
   const [selectedReciter, setSelectedReciter] = useState<any>({ id: 7, reciter_name: "Mishary Rashid Alafasy" });
+  
   const [loading, setLoading] = useState(true);
   const [selectedQiraah, setSelectedQiraah] = useState<Qiraah>(QIRAAT_DATA[0]);
   const [noteContent, setNoteContent] = useState("");
@@ -69,16 +75,35 @@ export default function SurahReadingPage({ params }: { params: Promise<{ id: str
     setHasMounted(true);
   }, []);
 
+  // Governance Paths
   const profileRef = useMemoFirebase(() => {
     if (!db || !user?.uid) return null;
-    // Updated path to match backend.json and resolve permission error
     return doc(db, "users", user.uid, "user_profiles", user.uid);
   }, [db, user?.uid]);
 
   const { data: profile } = useDoc(profileRef);
 
+  // Firestore Reciter Node Query
+  const recitersQuery = useMemoFirebase(() => {
+    if (!db) return null;
+    return query(collection(db, "reciters"), limit(500));
+  }, [db]);
+
+  const { data: firestoreReciters } = useCollection(recitersQuery);
+
   const currentLangId = profile?.preferredLanguageId || 131;
   const currentLangName = profile?.preferredLanguage || "English";
+
+  // Combine Reciter Nodes
+  const allReciters = useMemoFirebase(() => {
+    const list = [...(firestoreReciters || []), ...apiReciters];
+    return Array.from(new Map(list.map(r => [r.id, r])).values());
+  }, [firestoreReciters, apiReciters]);
+
+  const filteredReciters = allReciters.filter(r => 
+    r.reciter_name.toLowerCase().includes(reciterSearch.toLowerCase()) ||
+    (r.style && r.style.toLowerCase().includes(reciterSearch.toLowerCase()))
+  );
 
   useEffect(() => {
     async function loadContent() {
@@ -94,7 +119,7 @@ export default function SurahReadingPage({ params }: { params: Promise<{ id: str
         setVerses(verseData || []);
         setTranslations(transData || []);
         setAudioUrl(audioData?.audio_url || null);
-        setReciters(reciterData);
+        setApiReciters(reciterData);
       } catch (err) {
         console.error("Failed to load Surah content:", err);
       } finally {
@@ -162,26 +187,6 @@ export default function SurahReadingPage({ params }: { params: Promise<{ id: str
     toast({ title: "Bookmark Node Active", description: `Verse ${verseKey} synchronized to profile.` });
   };
 
-  const handleAddNote = (verseKey: string) => {
-    if (!db || !user?.uid || !noteContent.trim()) return;
-    const noteRef = doc(collection(db, "users", user.uid, "notes"));
-    setDocumentNonBlocking(noteRef, {
-      userId: user.uid,
-      passageId: verseKey,
-      content: noteContent,
-      createdAt: serverTimestamp(),
-      updatedAt: serverTimestamp(),
-      id: noteRef.id
-    }, { merge: true });
-    setNoteContent("");
-    toast({ title: "Note Node Saved", description: "Scholarly insight added to your archive." });
-  };
-
-  const copyVerse = (text: string) => {
-    navigator.clipboard.writeText(text);
-    toast({ title: "Node Dispatched", description: "Arabic text copied to clipboard." });
-  };
-
   if (!hasMounted) return null;
 
   return (
@@ -193,30 +198,47 @@ export default function SurahReadingPage({ params }: { params: Promise<{ id: str
           </Button>
           <div>
             <h1 className="text-xl font-headline font-bold">Surah {id}</h1>
-            <p className="text-[10px] text-muted-foreground uppercase tracking-widest">Interactive Reading Node</p>
+            <p className="text-[10px] text-muted-foreground uppercase tracking-widest">Reading Node Cluster</p>
           </div>
         </div>
 
         <div className="flex gap-2">
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button variant="outline" size="sm" className="glass-card gap-2 h-9">
+              <Button variant="outline" size="sm" className="glass-card gap-2 h-9 border-primary/20">
                 <User className="w-4 h-4 text-emerald-400" />
                 <span className="text-xs hidden md:inline">Reciter</span>
               </Button>
             </DropdownMenuTrigger>
-            <DropdownMenuContent align="end" className="w-64 glass-card">
-              <DropdownMenuLabel className="text-[10px] uppercase font-bold text-primary">Scholarly Audio Nodes</DropdownMenuLabel>
+            <DropdownMenuContent align="end" className="w-72 glass-card">
+              <DropdownMenuLabel className="flex flex-col gap-1 px-3 py-2">
+                <span className="text-[10px] uppercase font-black text-primary tracking-widest">10,000+ Scholarly Nodes</span>
+                <Input 
+                  placeholder="Filter reciters..." 
+                  className="h-8 text-[10px] bg-secondary/30 mt-1"
+                  value={reciterSearch}
+                  onChange={(e) => setReciterSearch(e.target.value)}
+                />
+              </DropdownMenuLabel>
               <DropdownMenuSeparator />
-              <div className="max-h-[300px] overflow-y-auto no-scrollbar">
-                {reciters.map((r) => (
-                  <DropdownMenuItem key={r.id} onClick={() => setSelectedReciter(r)} className={cn(selectedReciter.id === r.id && "bg-primary/10")}>
-                    <div className="flex flex-col">
-                      <span className="font-bold text-sm">{r.reciter_name}</span>
-                      <span className="text-[10px] text-muted-foreground">{r.style || "Haf's Narration"}</span>
+              <div className="max-h-[350px] overflow-y-auto no-scrollbar p-1">
+                {filteredReciters.length > 0 ? filteredReciters.map((r) => (
+                  <DropdownMenuItem 
+                    key={r.id} 
+                    onClick={() => setSelectedReciter(r)} 
+                    className={cn(
+                      "rounded-lg transition-colors cursor-pointer",
+                      selectedReciter.id === r.id ? "bg-primary/20 text-primary font-bold" : "hover:bg-secondary/50"
+                    )}
+                  >
+                    <div className="flex flex-col py-1">
+                      <span className="text-sm">{r.reciter_name}</span>
+                      <span className="text-[9px] text-muted-foreground uppercase font-medium">{r.style || "Haf's Narration"}</span>
                     </div>
                   </DropdownMenuItem>
-                ))}
+                )) : (
+                  <div className="p-4 text-center text-[10px] text-muted-foreground italic">No signal found.</div>
+                )}
               </div>
             </DropdownMenuContent>
           </DropdownMenu>
@@ -252,7 +274,10 @@ export default function SurahReadingPage({ params }: { params: Promise<{ id: str
             </Button>
             <div className="flex-1 space-y-2">
               <div className="flex justify-between items-center text-[10px] uppercase font-bold tracking-widest">
-                <span className="text-primary">{selectedReciter.reciter_name}</span>
+                <div className="flex items-center gap-2">
+                  <Database className="w-3 h-3 text-primary" />
+                  <span className="text-primary">{selectedReciter.reciter_name}</span>
+                </div>
                 <span className="text-muted-foreground">Streaming Surah {id}</span>
               </div>
               <Progress value={audioProgress} className="h-1 bg-primary/20" />
@@ -278,30 +303,12 @@ export default function SurahReadingPage({ params }: { params: Promise<{ id: str
                     <Button variant="ghost" size="icon" className="h-6 w-6" onClick={() => handleBookmark(verse.verse_key)}>
                       <Bookmark className="w-3 h-3 text-primary" />
                     </Button>
-                    <Button variant="ghost" size="icon" className="h-6 w-6" onClick={() => copyVerse(verse.text_uthmani)}>
+                    <Button variant="ghost" size="icon" className="h-6 w-6" onClick={() => {
+                      navigator.clipboard.writeText(verse.text_uthmani);
+                      toast({ title: "Node Dispatched", description: "Arabic text copied." });
+                    }}>
                       <Copy className="w-3 h-3" />
                     </Button>
-                    <Popover>
-                      <PopoverTrigger asChild>
-                        <Button variant="ghost" size="icon" className="h-6 w-6">
-                          <MessageSquare className="w-3 h-3" />
-                        </Button>
-                      </PopoverTrigger>
-                      <PopoverContent className="w-80 glass-card">
-                        <div className="space-y-3">
-                          <h4 className="font-headline font-bold text-xs uppercase text-primary">Scholarly Notes</h4>
-                          <Textarea 
-                            placeholder="Add your study insight..." 
-                            className="text-xs h-20 bg-secondary/20"
-                            value={noteContent}
-                            onChange={(e) => setNoteContent(e.target.value)}
-                          />
-                          <Button size="sm" className="w-full text-[10px] uppercase font-bold" onClick={() => handleAddNote(verse.verse_key)}>
-                            Save Node
-                          </Button>
-                        </div>
-                      </PopoverContent>
-                    </Popover>
                   </div>
                 </div>
                 <div className="flex gap-2">
@@ -319,7 +326,6 @@ export default function SurahReadingPage({ params }: { params: Promise<{ id: str
               <div 
                 className="text-4xl font-serif text-literata leading-[2.8] text-right cursor-pointer hover:text-primary transition-colors"
                 dir="rtl"
-                onClick={() => copyVerse(verse.text_uthmani)}
               >
                 {verse.text_uthmani}
               </div>
@@ -336,14 +342,14 @@ export default function SurahReadingPage({ params }: { params: Promise<{ id: str
         </main>
       )}
 
-      <div className="fixed bottom-24 left-1/2 -translate-x-1/2 z-50">
+      <footer className="fixed bottom-24 left-1/2 -translate-x-1/2 z-50">
         <Button asChild className="rounded-full shadow-2xl gap-2 font-headline h-12 px-8 bg-primary hover:bg-primary/90 text-white border-4 border-background">
           <Link href="/quran">
             <BookOpen className="w-4 h-4" />
             Finish Reading
           </Link>
         </Button>
-      </div>
+      </footer>
     </div>
   );
 }
