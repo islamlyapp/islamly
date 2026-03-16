@@ -28,7 +28,7 @@ npm run db:seed:reciters
 Connect your GitHub repo to [Vercel](https://vercel.com) and add these **Node Keys** in Environment Variables:
 - `RESEND_API_KEY`: (Your key from resend.com)
 - `NEXT_PUBLIC_HADITH_API_KEY`: (Your key from hadithapi.com)
-- `GOOGLE_GENAI_API_KEY`: (Your NEW Google AI Studio key - **IMPORTANT: DO NOT USE LEAKED KEYS**)
+- `GOOGLE_GENAI_API_KEY`: AIzaSyBXtVMjJM-BWcX2W2xzSsO66uKGlqEJb_M
 
 ## 🛡️ Core Infrastructure
 - **Al-Mualim AI**: Real-time recitation analysis via 10,000+ verification nodes.
