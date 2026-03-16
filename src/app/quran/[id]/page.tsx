@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useState, useEffect, use } from "react";
@@ -64,7 +65,6 @@ export default function SurahReadingPage({ params }: { params: Promise<{ id: str
   
   const [loading, setLoading] = useState(true);
   const [selectedQiraah, setSelectedQiraah] = useState<Qiraah>(QIRAAT_DATA[0]);
-  const [noteContent, setNoteContent] = useState("");
   
   const [audioUrl, setAudioUrl] = useState<string | null>(null);
   const [isPlaying, setIsPlaying] = useState(false);
@@ -75,7 +75,7 @@ export default function SurahReadingPage({ params }: { params: Promise<{ id: str
     setHasMounted(true);
   }, []);
 
-  // Governance Paths
+  // Correct path to match OWNER-ONLY nested rules
   const profileRef = useMemoFirebase(() => {
     if (!db || !user?.uid) return null;
     return doc(db, "users", user.uid, "user_profiles", user.uid);

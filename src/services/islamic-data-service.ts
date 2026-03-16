@@ -1,3 +1,4 @@
+
 /**
  * @fileOverview Service for interacting with external Islamic data providers.
  * Uses only free-tier or open APIs (AlAdhan, Quran.com, Overpass, Nominatim, HadithAPI).
@@ -15,6 +16,7 @@ export type PrayerTimings = {
 
 /**
  * Helper to safely parse JSON from a fetch response.
+ * Resolves the "Unexpected token '<'" crash by verifying Content-Type and Status.
  */
 async function safeJsonParse(response: Response) {
   const contentType = response.headers.get("content-type");
