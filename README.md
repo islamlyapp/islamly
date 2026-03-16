@@ -17,17 +17,18 @@ git remote add origin https://github.com/YOUR_USERNAME/islamly.git
 git push -u origin main
 ```
 
-### 2. Activate Scholarly Video Nodes
-Upload the high-density metadata for all 6 scholarly channels to your live Firestore:
+### 2. Activate Scholarly Nodes (Firestore)
+Upload the high-density metadata for videos and the 10,000+ reciter index:
 ```bash
 npm run db:seed
+npm run db:seed:reciters
 ```
 
 ### 3. Deploy to Vercel
 Connect your GitHub repo to [Vercel](https://vercel.com) and add these **Node Keys** in Environment Variables:
 - `RESEND_API_KEY`: (Your key from resend.com)
 - `NEXT_PUBLIC_HADITH_API_KEY`: (Your key from hadithapi.com)
-- `GOOGLE_API_KEY`: (Your Google AI Studio key)
+- `GOOGLE_GENAI_API_KEY`: (Your NEW Google AI Studio key - **IMPORTANT: DO NOT USE LEAKED KEYS**)
 
 ## 🛡️ Core Infrastructure
 - **Al-Mualim AI**: Real-time recitation analysis via 10,000+ verification nodes.

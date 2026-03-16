@@ -15,8 +15,8 @@ runConfig:
   minInstances: 0
 
 # Environment variables for the runtime
+# IMPORTANT: DO NOT include sensitive API keys here.
+# Use secrets in the Firebase Console / Secret Manager for GOOGLE_GENAI_API_KEY.
 env:
   - variable: NEXT_PUBLIC_HADITH_API_KEY
     value: "no-key-provided"
-  - variable: GOOGLE_API_KEY
-    value: "AIzaSyATW-9PmJFYw3bInQfCItblGIS6iekZeWY"
