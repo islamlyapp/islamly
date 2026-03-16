@@ -71,7 +71,8 @@ export default function SurahReadingPage({ params }: { params: Promise<{ id: str
 
   const profileRef = useMemoFirebase(() => {
     if (!db || !user?.uid) return null;
-    return doc(db, "users", user.uid);
+    // Updated path to match backend.json and resolve permission error
+    return doc(db, "users", user.uid, "user_profiles", user.uid);
   }, [db, user?.uid]);
 
   const { data: profile } = useDoc(profileRef);
