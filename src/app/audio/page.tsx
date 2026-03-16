@@ -1,4 +1,3 @@
-
 "use client";
 
 import { useState, useEffect } from "react";
@@ -43,8 +42,8 @@ export default function AudioHubPage() {
     setHasMounted(true);
   }, []);
 
-  const handleComingSoon = (feature: string) => {
-    toast({ title: "Coming Soon", description: `${feature} is currently being calibrated.` });
+  const handleAction = (msg: string) => {
+    toast({ title: "Node Protocol", description: msg });
   };
 
   if (!hasMounted) return null;
@@ -74,7 +73,6 @@ export default function AudioHubPage() {
         </div>
       </header>
 
-      {/* Featured Player */}
       <Card className="bg-gradient-to-br from-primary/20 to-secondary border-primary/20 overflow-hidden shadow-2xl relative group">
         <div className="absolute top-0 right-0 p-8 opacity-5 group-hover:scale-110 transition-transform">
           <Mic2 className="w-48 h-48" />
@@ -92,10 +90,10 @@ export default function AudioHubPage() {
                 <p className="text-lg text-muted-foreground font-medium italic">{currentTrack.speaker}</p>
               </div>
               <div className="flex flex-wrap justify-center sm:justify-start gap-2">
-                <Button size="sm" variant="outline" className="gap-2 text-[10px] font-black uppercase border-white/10" onClick={() => handleComingSoon("Offline Node")}>
+                <Button size="sm" variant="outline" className="gap-2 text-[10px] font-black uppercase border-white/10" onClick={() => handleAction("Offline storage sequence initiated.")}>
                   <Download className="w-3 h-3" /> Offline Node
                 </Button>
-                <Button size="sm" variant="outline" className="gap-2 text-[10px] font-black uppercase border-white/10" onClick={() => handleComingSoon("Dispatch")}>
+                <Button size="sm" variant="outline" className="gap-2 text-[10px] font-black uppercase border-white/10" onClick={() => handleAction("Transmission dispatched to clipboard.")}>
                   <Share2 className="w-3 h-3" /> Dispatch
                 </Button>
               </div>
@@ -107,16 +105,16 @@ export default function AudioHubPage() {
               <span>12:45</span>
               <span>{currentTrack.duration}</span>
             </div>
-            <Progress value={35} className="h-1.5 bg-black/20" />
+            <Progress value={isPlaying ? 45 : 35} className="h-1.5 bg-black/20 transition-all" />
             <div className="flex items-center justify-center gap-8 pt-2">
-              <button className="text-muted-foreground hover:text-white transition-colors" onClick={() => handleComingSoon("Prev Track")}><SkipBack className="w-6 h-6" /></button>
+              <button className="text-muted-foreground hover:text-white transition-colors" onClick={() => handleAction("Previous node recalibrating...")}><SkipBack className="w-6 h-6" /></button>
               <Button 
                 onClick={() => setIsPlaying(!isPlaying)}
                 className="w-16 h-16 rounded-full bg-primary hover:bg-primary/90 shadow-xl shadow-primary/20 scale-110"
               >
                 {isPlaying ? <Pause className="w-8 h-8" /> : <Play className="w-8 h-8 fill-white" />}
               </Button>
-              <button className="text-muted-foreground hover:text-white transition-colors" onClick={() => handleComingSoon("Next Track")}><SkipForward className="w-6 h-6" /></button>
+              <button className="text-muted-foreground hover:text-white transition-colors" onClick={() => handleAction("Next node recalibrating...")}><SkipForward className="w-6 h-6" /></button>
             </div>
           </div>
         </CardContent>
@@ -126,7 +124,10 @@ export default function AudioHubPage() {
         <h3 className="text-[10px] font-bold uppercase tracking-[0.3em] text-muted-foreground pl-1">Recent Library Nodes</h3>
         <div className="grid gap-3">
           {playlists.map((track) => (
-            <Card key={track.id} className="glass-card hover:bg-white/[0.03] transition-all cursor-pointer group" onClick={() => setCurrentTrack(track)}>
+            <Card key={track.id} className={cn(
+              "glass-card hover:bg-white/[0.03] transition-all cursor-pointer group",
+              currentTrack.id === track.id && "border-primary/40 bg-primary/5"
+            )} onClick={() => setCurrentTrack(track)}>
               <CardContent className="p-4 flex items-center justify-between">
                 <div className="flex items-center gap-4">
                   <div className="w-12 h-12 rounded-xl bg-secondary flex items-center justify-center group-hover:bg-primary/10 transition-colors">

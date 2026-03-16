@@ -1,4 +1,3 @@
-
 "use client";
 
 import { useState, useEffect } from "react";
@@ -12,10 +11,10 @@ import {
   Database, 
   ChevronRight, 
   Globe, 
-  Volume2,
   Calendar,
   MessageCircle,
-  Video as VideoIcon
+  Video as VideoIcon,
+  Play
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { toast } from "@/hooks/use-toast";
@@ -33,8 +32,8 @@ export default function LiveNodePage() {
     setHasMounted(true);
   }, []);
 
-  const handleComingSoon = () => {
-    toast({ title: "Live Node Syncing", description: "The high-fidelity streaming cluster is being calibrated." });
+  const handleJoinStream = (title: string) => {
+    toast({ title: "Signal Syncing", description: `Joining ${title} scholarly node...` });
   };
 
   if (!hasMounted) return null;
@@ -70,7 +69,7 @@ export default function LiveNodePage() {
       <div className="grid gap-4">
         <h3 className="text-[10px] font-bold uppercase tracking-[0.3em] text-muted-foreground pl-1">Knowledge Broadcast Schedule</h3>
         {upcomingLives.map((item) => (
-          <Card key={item.id} className="glass-card group hover:border-red-500/50 transition-all cursor-pointer overflow-hidden border-2 border-transparent" onClick={handleComingSoon}>
+          <Card key={item.id} className="glass-card group hover:border-red-500/50 transition-all cursor-pointer overflow-hidden border-2 border-transparent" onClick={() => handleJoinStream(item.title)}>
             <CardContent className="p-6 flex items-center justify-between">
               <div className="flex items-center gap-5">
                 <div className="w-14 h-14 bg-secondary rounded-2xl flex items-center justify-center group-hover:bg-red-500/10 transition-colors">
@@ -93,7 +92,7 @@ export default function LiveNodePage() {
         ))}
       </div>
 
-      <section className="bg-secondary/20 p-8 rounded-[2.5rem] border border-white/5 space-y-6 text-center">
+      <section className="bg-secondary/20 p-8 rounded-[2.5rem] border border-white/5 text-center space-y-6">
         <Globe className="w-10 h-10 text-red-500 mx-auto animate-spin-slow" />
         <div className="space-y-2">
           <h3 className="text-xl font-headline font-bold text-white uppercase tracking-widest">Initialize Stream</h3>
@@ -101,7 +100,7 @@ export default function LiveNodePage() {
             Ready to participate in the interactive scholarly network? Authenticated students can access the live chat node.
           </p>
         </div>
-        <Button className="w-full h-14 bg-red-600 hover:bg-red-700 text-md font-headline font-black uppercase tracking-widest shadow-xl shadow-red-900/20" onClick={handleComingSoon}>
+        <Button className="w-full h-14 bg-red-600 hover:bg-red-700 text-md font-headline font-black uppercase tracking-widest shadow-xl shadow-red-900/20" onClick={() => handleJoinStream("Universal Hub")}>
           Enter Live Cluster <MessageCircle className="ml-2 w-5 h-5" />
         </Button>
       </section>

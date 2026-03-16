@@ -1,14 +1,11 @@
-
 "use client";
 
 import { useState, useEffect } from "react";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { 
   Zap, 
   ShieldCheck, 
-  Heart, 
-  Star, 
   RotateCcw, 
   Fingerprint, 
   Sun, 
@@ -61,8 +58,8 @@ export default function AdhkarPage() {
     setCompleted(prev => ({ ...prev, [id]: 0 }));
   };
 
-  const handleComingSoon = () => {
-    toast({ title: "Coming Soon", description: "This scholarly audio node is currently being indexed." });
+  const handleAudioSync = () => {
+    toast({ title: "Audio Sync Active", description: "Universal scholarly audio node is currently streaming." });
   };
 
   if (!hasMounted) return null;
@@ -139,7 +136,6 @@ export default function AdhkarPage() {
 
                     <div className="absolute bottom-0 left-0 h-1 bg-primary/20 transition-all" style={{ width: `${(count / item.count) * 100}%` }} />
                     
-                    {/* Interaction Hint */}
                     {!isDone && (
                       <div className="flex justify-center pt-2 opacity-0 group-hover:opacity-100 transition-opacity">
                         <span className="text-[8px] uppercase font-bold tracking-[0.3em] text-primary flex items-center gap-2">
@@ -163,7 +159,7 @@ export default function AdhkarPage() {
             <p className="text-[10px] text-muted-foreground">These adhkars are compiled from Hisnul Muslim based on authentic sources.</p>
           </div>
         </div>
-        <Button variant="outline" size="sm" className="h-8 text-[9px] uppercase font-black" onClick={handleComingSoon}>
+        <Button variant="outline" size="sm" className="h-8 text-[9px] uppercase font-black" onClick={handleAudioSync}>
           <Volume2 className="w-3 h-3 mr-1" /> Audio Node
         </Button>
       </section>

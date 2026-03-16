@@ -1,7 +1,7 @@
 # Islamly - Universal Scholarly Infrastructure v3.5
 **Domain: [islamly.uk](https://islamly.uk) | Scale: 11.7 Quadrillion Features**
 
-This is the official production repository for Islamly, a high-density portal for authentic Islamic knowledge strictly aligned with the methodology of the Salaf-us-Salih.
+Islamly is a high-density production portal for authentic Islamic knowledge, strictly aligned with the methodology of the Salaf-us-Salih (Ahlus-Sunnah wal-Jama'ah).
 
 ## 🚀 One-Click Production Workflow
 
@@ -24,7 +24,7 @@ npm run db:seed
 ```
 
 ### 3. Deploy to Vercel
-Connect your GitHub repo to [Vercel](https://vercel.com) and add these **Node Keys**:
+Connect your GitHub repo to [Vercel](https://vercel.com) and add these **Node Keys** in Environment Variables:
 - `RESEND_API_KEY`: `re_8FwBzPCV_N6qrnm1m2Js7sMRpuTF8Sx5w`
 - `NEXT_PUBLIC_HADITH_API_KEY`: (Your key from hadithapi.com)
 - `GOOGLE_API_KEY`: `AIzaSyATW-9PmJFYw3bInQfCItblGIS6iekZeWY`
