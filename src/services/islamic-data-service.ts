@@ -1,6 +1,7 @@
 /**
  * @fileOverview Service for interacting with external Islamic data providers.
  * Uses only free-tier or open APIs (AlAdhan, Quran.com, Overpass, Nominatim, HadithAPI).
+ * Optimized with robust response validation to prevent JSON parsing errors.
  */
 
 export type PrayerTimings = {
@@ -13,19 +14,30 @@ export type PrayerTimings = {
 };
 
 /**
+ * Helper to safely parse JSON from a fetch response.
+ */
+async function safeJsonParse(response: Response) {
+  const contentType = response.headers.get("content-type");
+  if (response.ok && contentType && contentType.includes("application/json")) {
+    return await response.json();
+  }
+  return null;
+}
+
+/**
  * Fetches prayer times based on geographic coordinates using AlAdhan API.
  */
 export async function fetchPrayerTimesByCoords(lat: number, lng: number, method: number = 2): Promise<{ timings: PrayerTimings, meta: any }> {
   try {
     const response = await fetch(`https://api.aladhan.com/v1/timings?latitude=${lat}&longitude=${lng}&method=${method}`);
-    const data = await response.json();
+    const data = await safeJsonParse(response);
     return {
       timings: data?.data?.timings || {},
       meta: data?.data?.meta || {}
     };
   } catch (error) {
     console.error("Error fetching prayer times by coords:", error);
-    throw error;
+    return { timings: {} as PrayerTimings, meta: {} };
   }
 }
 
@@ -35,11 +47,11 @@ export async function fetchPrayerTimesByCoords(lat: number, lng: number, method:
 export async function fetchQibla(lat: number, lng: number) {
   try {
     const response = await fetch(`https://api.aladhan.com/v1/qibla/${lat}/${lng}`);
-    const data = await response.json();
+    const data = await safeJsonParse(response);
     return data?.data || { direction: 0 };
   } catch (error) {
     console.error("Error fetching Qibla:", error);
-    throw error;
+    return { direction: 0 };
   }
 }
 
@@ -49,7 +61,7 @@ export async function fetchQibla(lat: number, lng: number) {
 export async function fetchHijriDate(date: string) {
   try {
     const response = await fetch(`https://api.aladhan.com/v1/gToH?date=${date}`);
-    const data = await response.json();
+    const data = await safeJsonParse(response);
     return data?.data?.hijri || null;
   } catch (error) {
     console.error("Error fetching Hijri date:", error);
@@ -64,7 +76,9 @@ export async function fetchMasjids(lat: number, lng: number, radius: number = 50
   try {
     const query = `[out:json];node["amenity"="place_of_worship"]["religion"="muslim"](around:${radius},${lat},${lng});out;`;
     const response = await fetch(`https://overpass-api.de/api/interpreter?data=${encodeURIComponent(query)}`);
-    const data = await response.json();
+    const data = await safeJsonParse(response);
+    if (!data) return [];
+    
     return (data.elements || []).map((node: any) => ({
       id: node.id,
       name: node.tags?.name || "Unnamed Masjid",
@@ -86,7 +100,9 @@ export async function fetchHalalPlaces(lat: number, lng: number, radius: number 
   try {
     const query = `[out:json];node["amenity"~"restaurant|cafe|fast_food"]["diet:halal"="yes"](around:${radius},${lat},${lng});out;`;
     const response = await fetch(`https://overpass-api.de/api/interpreter?data=${encodeURIComponent(query)}`);
-    const data = await response.json();
+    const data = await safeJsonParse(response);
+    if (!data) return [];
+
     return (data.elements || []).map((node: any) => ({
       id: node.id,
       name: node.tags?.name || "Unnamed Establishment",
@@ -112,8 +128,8 @@ export async function fetchCityCoordinates(query: string) {
         'User-Agent': 'IslamlyApp/1.0 (contact@islamly.uk)'
       }
     });
-    const data = await response.json();
-    if (data && data.length > 0) {
+    const data = await safeJsonParse(response);
+    if (data && Array.isArray(data) && data.length > 0) {
       return {
         lat: parseFloat(data[0].lat),
         lon: parseFloat(data[0].lon),
@@ -133,11 +149,11 @@ export async function fetchCityCoordinates(query: string) {
 export async function fetchSurahList() {
   try {
     const response = await fetch('https://api.quran.com/api/v4/chapters?language=en');
-    const data = await response.json();
-    return data.chapters;
+    const data = await safeJsonParse(response);
+    return data?.chapters || [];
   } catch (error) {
     console.error("Error fetching surahs:", error);
-    throw error;
+    return [];
   }
 }
 
@@ -145,33 +161,33 @@ export async function fetchSurahVerses(surahId: number, translationId?: number) 
   try {
     const translationParam = translationId ? `&translations=${translationId}` : '';
     const response = await fetch(`https://api.quran.com/api/v4/quran/verses/uthmani?chapter_number=${surahId}${translationParam}`);
-    const data = await response.json();
-    return data.verses;
+    const data = await safeJsonParse(response);
+    return data?.verses || [];
   } catch (error) {
     console.error("Error fetching verses:", error);
-    throw error;
+    return [];
   }
 }
 
 export async function fetchVerseTranslations(surahId: number, translationId: number) {
   try {
     const response = await fetch(`https://api.quran.com/api/v4/translations/${translationId}?chapter_number=${surahId}`);
-    const data = await response.json();
-    return data.translations;
+    const data = await safeJsonParse(response);
+    return data?.translations || [];
   } catch (error) {
     console.error("Error fetching translations:", error);
-    throw error;
+    return [];
   }
 }
 
 export async function fetchAvailableTranslations() {
   try {
     const response = await fetch('https://api.quran.com/api/v4/resources/translations');
-    const data = await response.json();
-    return data.translations;
+    const data = await safeJsonParse(response);
+    return data?.translations || [];
   } catch (error) {
     console.error("Error fetching translation list:", error);
-    throw error;
+    return [];
   }
 }
 
@@ -181,19 +197,19 @@ export async function fetchAvailableTranslations() {
 export async function fetchSurahAudio(surahId: number, reciterId: number = 7) {
   try {
     const response = await fetch(`https://api.quran.com/api/v4/chapter_recitations/${reciterId}/${surahId}`);
-    const data = await response.json();
-    return data.audio_file;
+    const data = await safeJsonParse(response);
+    return data?.audio_file || null;
   } catch (error) {
     console.error("Error fetching audio:", error);
-    throw error;
+    return null;
   }
 }
 
 export async function fetchReciters() {
   try {
     const response = await fetch('https://api.quran.com/api/v4/resources/recitations');
-    const data = await response.json();
-    return data.recitations;
+    const data = await safeJsonParse(response);
+    return data?.recitations || [];
   } catch (error) {
     console.error("Error fetching reciters:", error);
     return [];
@@ -207,8 +223,8 @@ export async function fetchHadiths(query: string = '', book: string = 'bukhari')
   try {
     const apiKey = process.env.NEXT_PUBLIC_HADITH_API_KEY || 'no-key-provided';
     const response = await fetch(`https://hadithapi.com/api/hadiths?apiKey=${apiKey}&book=${book}&paginate=10`);
-    const data = await response.json();
-    if (data.status === 200) {
+    const data = await safeJsonParse(response);
+    if (data && data.status === 200) {
       return data.hadiths.data;
     }
     return [];
