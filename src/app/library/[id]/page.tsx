@@ -1,7 +1,7 @@
 "use client";
 
 import { use, useState, useEffect } from "react";
-import { LIBRARY_BOOKS } from "../page";
+import { LIBRARY_BOOKS } from "@/lib/books";
 import { Button } from "@/components/ui/button";
 import { ChevronLeft, BookOpen, User, Tag, Calendar, Download, Bookmark, Share2, Loader2, ShieldCheck } from "lucide-react";
 import Link from "next/link";
@@ -90,7 +90,7 @@ export default function BookDetailsPage({ params }: { params: Promise<{ id: stri
                 <div className="bg-secondary/20 p-6 rounded-2xl border border-white/5 mt-6">
                   <h4 className="text-xs uppercase tracking-widest font-bold text-primary mb-3">Historical Context</h4>
                   <p className="text-sm text-muted-foreground leading-relaxed italic">
-                    {book.content}
+                    Historical context for this book is not yet available.
                   </p>
                 </div>
               </div>
