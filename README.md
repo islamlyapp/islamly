@@ -79,7 +79,7 @@ npm run db:seed:reciters
 
 ### 3. Configure Production Keys (Vercel)
 In your Vercel Dashboard, add these **Node Keys**:
-- `GOOGLE_GENAI_API_KEY`: (Your Gemini API Key)
+- `GOOGLE_GENAI_API_KEY`: (Your Gemini API Key from Google AI Studio)
 - `RESEND_API_KEY`: (For OTP Identity Delivery)
 - `NEXT_PUBLIC_HADITH_API_KEY`: (Access to HadithAPI.com)
 
