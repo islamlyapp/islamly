@@ -1,4 +1,3 @@
-
 "use client";
 
 import { useState, useEffect } from "react";
@@ -14,7 +13,9 @@ import {
   ShieldCheck, 
   Database,
   ArrowUpRight,
-  CircleDot
+  CircleDot,
+  CheckCircle2,
+  Loader2
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -30,13 +31,20 @@ const activeCircles = [
 
 export default function CirclesPage() {
   const [hasMounted, setHasMounted] = useState(false);
+  const [joiningId, setJoiningId] = useState<number | null>(null);
+  const [joinedCircles, setJoinedCircles] = useState<number[]>([]);
 
   useEffect(() => {
     setHasMounted(true);
   }, []);
 
-  const handleComingSoon = () => {
-    toast({ title: "Coming Soon", description: "Private Circle Nodes are currently undergoing scholarly audit." });
+  const handleJoin = (circleId: number, name: string) => {
+    setJoiningId(circleId);
+    setTimeout(() => {
+      setJoinedCircles(prev => [...prev, circleId]);
+      setJoiningId(null);
+      toast({ title: "Joined Circle", description: `You are now a member of ${name}.` });
+    }, 1500);
   };
 
   if (!hasMounted) return null;
@@ -80,35 +88,50 @@ export default function CirclesPage() {
 
       <div className="grid gap-4">
         <h3 className="text-[10px] font-bold uppercase tracking-[0.3em] text-muted-foreground pl-1">Join a Scholarly Network</h3>
-        {activeCircles.map((circle) => (
-          <Card key={circle.id} className="glass-card group hover:border-primary/50 transition-all border-2 border-transparent" onClick={() => toast({ title: "Halaqa Active", description: "Joining sequence initiated..." })}>
-            <CardContent className="p-6 flex items-center justify-between">
-              <div className="flex items-center gap-5">
-                <div className="w-14 h-14 bg-secondary rounded-2xl flex items-center justify-center group-hover:bg-primary/10 transition-colors">
-                  <MessageSquare className="w-6 h-6 text-muted-foreground group-hover:text-primary" />
-                </div>
-                <div className="space-y-1">
-                  <h3 className="font-headline font-bold text-lg group-hover:text-primary transition-colors">{circle.name}</h3>
-                  <div className="flex items-center gap-3 text-[10px] text-muted-foreground font-bold uppercase">
-                    <span className="flex items-center gap-1"><Users className="w-3 h-3" /> {circle.members} Students</span>
-                    <span className="flex items-center gap-1"><Globe className="w-3 h-3" /> {circle.region}</span>
+        {activeCircles.map((circle) => {
+          const isJoined = joinedCircles.includes(circle.id);
+          const isJoining = joiningId === circle.id;
+
+          return (
+            <Card key={circle.id} className={cn(
+              "glass-card group transition-all border-2",
+              isJoined ? "border-emerald-500/30 bg-emerald-500/5" : "border-transparent"
+            )}>
+              <CardContent className="p-6 flex flex-col sm:flex-row items-center justify-between gap-4">
+                <div className="flex items-center gap-5 w-full">
+                  <div className="w-14 h-14 bg-secondary rounded-2xl flex items-center justify-center group-hover:bg-primary/10 transition-colors">
+                    <MessageSquare className="w-6 h-6 text-muted-foreground group-hover:text-primary" />
+                  </div>
+                  <div className="space-y-1 flex-1">
+                    <h3 className="font-headline font-bold text-lg group-hover:text-primary transition-colors">{circle.name}</h3>
+                    <div className="flex items-center gap-3 text-[10px] text-muted-foreground font-bold uppercase">
+                      <span className="flex items-center gap-1"><Users className="w-3 h-3" /> {circle.members} Students</span>
+                      <span className="flex items-center gap-1"><Globe className="w-3 h-3" /> {circle.region}</span>
+                    </div>
                   </div>
                 </div>
-              </div>
-              <div className="flex items-center gap-4">
-                <Badge variant={circle.status === 'Live Now' ? 'default' : 'outline'} className={cn(
-                  "text-[8px] uppercase font-black",
-                  circle.status === 'Live Now' && "bg-emerald-600 animate-pulse"
-                )}>
-                  {circle.status}
-                </Badge>
-                <Button size="icon" variant="ghost" className="hover:text-primary">
-                  <ArrowUpRight className="w-5 h-5" />
-                </Button>
-              </div>
-            </CardContent>
-          </Card>
-        ))}
+                <div className="flex items-center gap-4 w-full sm:w-auto">
+                  <Badge variant={circle.status === 'Live Now' ? 'default' : 'outline'} className={cn(
+                    "text-[8px] uppercase font-black",
+                    circle.status === 'Live Now' && "bg-emerald-600 animate-pulse"
+                  )}>
+                    {circle.status}
+                  </Badge>
+                  <Button 
+                    size="sm" 
+                    variant={isJoined ? "ghost" : "default"}
+                    className={cn("flex-1 sm:flex-none uppercase font-black text-[10px] tracking-widest", isJoined && "text-emerald-500")}
+                    disabled={isJoined || isJoining || circle.status === 'Closed'}
+                    onClick={() => handleJoin(circle.id, circle.name)}
+                  >
+                    {isJoining ? <Loader2 className="w-3 h-3 animate-spin mr-2" /> : isJoined ? <CheckCircle2 className="w-3 h-3 mr-2" /> : null}
+                    {isJoined ? "Joined" : isJoining ? "Joining..." : "Join Circle"}
+                  </Button>
+                </div>
+              </CardContent>
+            </Card>
+          );
+        })}
       </div>
 
       <footer className="bg-secondary/20 p-8 rounded-3xl border border-white/5 text-center space-y-4">
@@ -117,7 +140,11 @@ export default function CirclesPage() {
           <h4 className="font-headline font-bold text-sm text-foreground">Private Circle Node</h4>
           <p className="text-xs text-muted-foreground italic">Authenticated students can initialize private study groups for focused research.</p>
         </div>
-        <Button variant="outline" className="text-[10px] uppercase font-black tracking-widest border-white/10 hover:bg-white/5 px-8" onClick={handleComingSoon}>
+        <Button 
+          variant="outline" 
+          className="text-[10px] uppercase font-black tracking-widest border-white/10 hover:bg-white/5 px-8"
+          onClick={() => toast({ title: "Request Received", description: "Your private node request is in the scholarly queue." })}
+        >
           Request Private Node
         </Button>
       </footer>

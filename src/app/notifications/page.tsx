@@ -1,6 +1,6 @@
-
 "use client";
 
+import { useState } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { 
@@ -18,7 +18,7 @@ import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { toast } from "@/hooks/use-toast";
 
-const notifications = [
+const INITIAL_NOTIFICATIONS = [
   {
     id: 1,
     type: "Prayer",
@@ -77,8 +77,16 @@ const notifications = [
 ];
 
 export default function NotificationsPage() {
-  const handleComingSoon = () => {
-    toast({ title: "Coming Soon", description: "Notification management is being synchronized." });
+  const [list, setList] = useState(INITIAL_NOTIFICATIONS);
+
+  const clearAll = () => {
+    setList([]);
+    toast({ title: "Hub Purged", description: "All scholarly alerts have been cleared from your local node." });
+  };
+
+  const markAllRead = () => {
+    setList(prev => prev.map(n => ({ ...n, unread: false })));
+    toast({ title: "Sync Complete", description: "All notifications marked as indexed." });
   };
 
   return (
@@ -91,7 +99,7 @@ export default function NotificationsPage() {
           </h1>
           <p className="text-muted-foreground italic">Scholarly notifications and reminders.</p>
         </div>
-        <Button variant="ghost" size="icon" className="text-muted-foreground hover:text-destructive" onClick={handleComingSoon}>
+        <Button variant="ghost" size="icon" className="text-muted-foreground hover:text-destructive" onClick={clearAll} disabled={list.length === 0}>
           <Trash2 className="w-5 h-5" />
         </Button>
       </header>
@@ -99,17 +107,20 @@ export default function NotificationsPage() {
       <div className="grid gap-3">
         <div className="flex items-center justify-between px-1">
           <h3 className="text-[10px] font-bold uppercase tracking-[0.2em] text-muted-foreground">Recent Activity</h3>
-          <Badge variant="secondary" className="bg-primary/10 text-primary">2 Unread</Badge>
+          <Badge variant="secondary" className="bg-primary/10 text-primary">{list.filter(n => n.unread).length} Unread</Badge>
         </div>
 
-        {notifications.map((n) => (
+        {list.map((n) => (
           <Card 
             key={n.id} 
             className={cn(
               "glass-card hover:bg-white/[0.03] transition-all cursor-pointer group",
               n.unread && "border-primary/30 bg-primary/5"
             )}
-            onClick={() => toast({ title: "Alert Node", description: "Synchronizing details for this event..." })}
+            onClick={() => {
+              setList(prev => prev.map(item => item.id === n.id ? { ...item, unread: false } : item));
+              toast({ title: "Alert Node", description: "Node details synchronized." });
+            }}
           >
             <CardContent className="p-4 flex gap-4">
               <div className={cn(
@@ -138,6 +149,13 @@ export default function NotificationsPage() {
             </CardContent>
           </Card>
         ))}
+
+        {list.length === 0 && (
+          <div className="text-center py-20 opacity-40">
+            <Bell className="w-12 h-12 mx-auto mb-4" />
+            <p className="font-headline font-bold uppercase tracking-widest text-xs">No active alerts</p>
+          </div>
+        )}
       </div>
 
       <section className="bg-primary/5 border border-primary/20 p-6 rounded-2xl text-center space-y-4">
@@ -150,7 +168,7 @@ export default function NotificationsPage() {
             You are currently receiving high-density scholarly alerts from our global index nodes.
           </p>
         </div>
-        <Button variant="outline" className="text-[10px] uppercase font-bold tracking-widest border-primary/20 hover:bg-primary/5" onClick={handleComingSoon}>
+        <Button variant="outline" className="text-[10px] uppercase font-bold tracking-widest border-primary/20 hover:bg-primary/5" onClick={markAllRead} disabled={list.filter(n => n.unread).length === 0}>
           Mark All As Read
         </Button>
       </section>

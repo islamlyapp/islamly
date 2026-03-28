@@ -1,7 +1,6 @@
-
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { 
@@ -13,7 +12,10 @@ import {
   Moon, 
   Clock, 
   CheckCircle2,
-  Volume2
+  Volume2,
+  Database,
+  Pause,
+  Loader2
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -42,10 +44,12 @@ export default function AdhkarPage() {
   const [activeTab, setActiveTab] = useState("morning");
   const [completed, setCompleted] = useState<Record<string, number>>({});
   const [hasMounted, setHasMounted] = useState(false);
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [isLoadingAudio, setIsLoadingAudio] = useState(false);
+  const audioRef = useRef<HTMLAudioElement | null>(null);
 
   useEffect(() => {
     setHasMounted(true);
-    // Initialize from local storage
     const saved = localStorage.getItem("islamly-adhkar-progress");
     if (saved) {
       try {
@@ -54,6 +58,9 @@ export default function AdhkarPage() {
         console.error("Failed to load progress");
       }
     }
+    return () => {
+      if (audioRef.current) audioRef.current.pause();
+    };
   }, []);
 
   useEffect(() => {
@@ -84,7 +91,25 @@ export default function AdhkarPage() {
   };
 
   const handleAudioSync = () => {
-    toast({ title: "Audio Sync Active", description: "Universal scholarly audio node is currently streaming." });
+    if (!audioRef.current) {
+      setIsLoadingAudio(true);
+      const audio = new Audio("https://www.islamcan.com/audio/adhan/azan1.mp3");
+      audio.oncanplaythrough = () => {
+        setIsLoadingAudio(false);
+        audio.play();
+        setIsPlaying(true);
+      };
+      audio.onended = () => setIsPlaying(false);
+      audioRef.current = audio;
+    } else {
+      if (isPlaying) {
+        audioRef.current.pause();
+        setIsPlaying(false);
+      } else {
+        audioRef.current.play();
+        setIsPlaying(true);
+      }
+    }
   };
 
   if (!hasMounted) return null;
@@ -191,8 +216,15 @@ export default function AdhkarPage() {
             <p className="text-[11px] text-muted-foreground italic leading-relaxed max-w-xs">These adhkars are compiled from Hisnul Muslim based on authentic sources of the Sunnah.</p>
           </div>
         </div>
-        <Button variant="outline" size="lg" className="h-14 px-8 rounded-2xl text-[10px] uppercase font-black tracking-widest border-primary/20 gap-2 hover:bg-primary/5" onClick={handleAudioSync}>
-          <Volume2 className="w-4 h-4" /> Initialize Audio Node
+        <Button 
+          variant="outline" 
+          size="lg" 
+          className="h-14 px-8 rounded-2xl text-[10px] uppercase font-black tracking-widest border-primary/20 gap-2 hover:bg-primary/5" 
+          onClick={handleAudioSync}
+          disabled={isLoadingAudio}
+        >
+          {isLoadingAudio ? <Loader2 className="w-4 h-4 animate-spin" /> : isPlaying ? <Pause className="w-4 h-4" /> : <Volume2 className="w-4 h-4" />}
+          {isPlaying ? "Stop Audio Node" : "Initialize Audio Node"}
         </Button>
       </section>
 
