@@ -28,7 +28,8 @@ import {
   LayoutDashboard,
   Trophy,
   Flame,
-  Target
+  Target,
+  CheckCircle2
 } from "lucide-react";
 import { useUser, useAuth, useFirestore, useDoc, useMemoFirebase, setDocumentNonBlocking } from "@/firebase";
 import { signOut } from "firebase/auth";
@@ -41,10 +42,7 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
-import { ScrollArea } from "@/components/ui/scroll-area";
 import { fetchAvailableTranslations } from "@/services/islamic-data-service";
-import { Progress } from "@/components/ui/progress";
-import { Switch } from "@/components/ui/switch";
 import { Label } from "@/components/ui/label";
 import { 
   Select, 
@@ -55,6 +53,7 @@ import {
 } from "@/components/ui/select";
 import { calculateCurrentFeatures, formatFeatureCount } from "@/lib/feature-counter";
 import Link from "next/link";
+import { toast } from "@/hooks/use-toast";
 
 export default function ProfilePage() {
   const { user, isUserLoading } = useUser();
@@ -63,8 +62,7 @@ export default function ProfilePage() {
   const router = useRouter();
 
   const [hasMounted, setHasMounted] = useState(false);
-  const [availableLanguages, setAvailableLanguages] = useState<any[]>([]);
-  const [langSearch, setLangSearch] = useState("");
+  const [availableTranslations, setAvailableTranslations] = useState<any[]>([]);
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
   const [creationDate, setCreationDate] = useState<string | null>(null);
   const [currentFeatures, setCurrentFeatures] = useState("");
@@ -78,7 +76,6 @@ export default function ProfilePage() {
 
   const profileRef = useMemoFirebase(() => {
     if (!db || !user?.uid) return null;
-    // Updated path to match backend.json
     return doc(db, "users", user.uid, "user_profiles", user.uid);
   }, [db, user?.uid]);
 
@@ -95,11 +92,15 @@ export default function ProfilePage() {
   }, [user, isUserLoading, router, hasMounted]);
 
   useEffect(() => {
-    async function loadLangs() {
-      const langs = await fetchAvailableTranslations();
-      setAvailableLanguages(langs);
+    async function loadTranslations() {
+      const translations = await fetchAvailableTranslations();
+      // Filter for popular English ones for high-density UX
+      const popular = translations.filter((t: any) => 
+        [131, 20, 85, 203, 137].includes(t.id) || t.language_name === 'english'
+      );
+      setAvailableTranslations(popular);
     }
-    loadLangs();
+    loadTranslations();
   }, []);
 
   const handleSignOut = async () => {
@@ -115,6 +116,8 @@ export default function ProfilePage() {
       updatedAt: serverTimestamp(),
       createdAt: profile?.createdAt || serverTimestamp(),
     }, { merge: true });
+    
+    toast({ title: "Node Synchronized", description: "Universal settings updated successfully." });
   };
 
   if (isUserLoading || !user || !hasMounted) {
@@ -203,36 +206,94 @@ export default function ProfilePage() {
             </Card>
           </SheetTrigger>
           <SheetContent side="bottom" className="h-[90vh] rounded-t-3xl border-none glass-card overflow-y-auto">
-            <SheetHeader className="pb-4">
+            <SheetHeader className="pb-4 text-left">
               <SheetTitle className="font-headline text-2xl">Universal Settings</SheetTitle>
               <SheetDescription className="text-muted-foreground italic">Managing 11.7 Quadrillion global configuration points.</SheetDescription>
             </SheetHeader>
-            <div className="space-y-8 pt-2">
+            
+            <div className="space-y-8 pt-6 pb-20">
+              {/* Prayer Settings */}
               <div className="space-y-4">
-                <h3 className="text-xs font-bold uppercase tracking-widest text-primary flex items-center gap-2">
-                  <Clock className="w-3 h-3" /> Prayer Node Precision
-                </h3>
-                <div className="grid gap-4 bg-secondary/10 p-4 rounded-xl border border-white/5">
+                <div className="flex items-center gap-2">
+                  <Clock className="w-4 h-4 text-primary" />
+                  <h3 className="text-xs font-bold uppercase tracking-widest text-primary">Prayer Node Precision</h3>
+                </div>
+                <div className="bg-secondary/10 p-4 rounded-xl border border-white/5 space-y-4">
                   <div className="space-y-2">
                     <Label className="text-[10px] text-muted-foreground uppercase font-bold">Calculation Method</Label>
                     <Select value={profile?.preferredCalculationMethod || "4"} onValueChange={(v) => updateProfile({ preferredCalculationMethod: v })}>
-                      <SelectTrigger className="h-10 bg-secondary/30 border-white/5">
+                      <SelectTrigger className="h-12 bg-secondary/30 border-white/5">
                         <SelectValue placeholder="Select Method" />
                       </SelectTrigger>
                       <SelectContent className="glass-card">
-                        <SelectItem value="1">Karachi (UIS)</SelectItem>
-                        <SelectItem value="2">ISNA (North America)</SelectItem>
-                        <SelectItem value="3">MWL (World League)</SelectItem>
-                        <SelectItem value="4">Umm Al-Qura (Makkah)</SelectItem>
+                        <SelectItem value="1">University of Islamic Sciences, Karachi</SelectItem>
+                        <SelectItem value="2">Islamic Society of North America (ISNA)</SelectItem>
+                        <SelectItem value="3">Muslim World League (MWL)</SelectItem>
+                        <SelectItem value="4">Umm Al-Qura University, Makkah</SelectItem>
+                        <SelectItem value="5">Egyptian General Authority of Survey</SelectItem>
                       </SelectContent>
                     </Select>
                   </div>
                 </div>
               </div>
 
-              <div className="space-y-4 pt-4 border-t border-white/5 pb-10">
-                <Button variant="outline" className="w-full h-12 font-headline" onClick={() => setIsSettingsOpen(false)}>
-                  Synchronize Changes
+              {/* Language Settings */}
+              <div className="space-y-4">
+                <div className="flex items-center gap-2">
+                  <Languages className="w-4 h-4 text-blue-400" />
+                  <h3 className="text-xs font-bold uppercase tracking-widest text-blue-400">Linguistic Protocol</h3>
+                </div>
+                <div className="bg-secondary/10 p-4 rounded-xl border border-white/5 space-y-4">
+                  <div className="space-y-2">
+                    <Label className="text-[10px] text-muted-foreground uppercase font-bold">Preferred Translation</Label>
+                    <Select 
+                      value={profile?.preferredLanguageId?.toString() || "131"} 
+                      onValueChange={(v) => {
+                        const selected = availableTranslations.find(t => t.id.toString() === v);
+                        updateProfile({ 
+                          preferredLanguageId: parseInt(v),
+                          preferredLanguage: selected?.name || "English"
+                        });
+                      }}
+                    >
+                      <SelectTrigger className="h-12 bg-secondary/30 border-white/5">
+                        <SelectValue placeholder="Select Translation Node" />
+                      </SelectTrigger>
+                      <SelectContent className="glass-card">
+                        {availableTranslations.map((t) => (
+                          <SelectItem key={t.id} value={t.id.toString()}>
+                            {t.name} ({t.language_name})
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </div>
+                </div>
+              </div>
+
+              {/* Security & Privacy */}
+              <div className="space-y-4">
+                <div className="flex items-center gap-2">
+                  <Lock className="w-4 h-4 text-emerald-400" />
+                  <h3 className="text-xs font-bold uppercase tracking-widest text-emerald-400">Security Layers</h3>
+                </div>
+                <Card className="bg-emerald-500/5 border-emerald-500/20 p-4 rounded-xl">
+                  <div className="flex items-center justify-between">
+                    <div className="space-y-0.5">
+                      <p className="text-xs font-bold text-white uppercase">AutoMod Pulse</p>
+                      <p className="text-[10px] text-muted-foreground">Real-time methodology filtering active.</p>
+                    </div>
+                    <div className="flex items-center gap-2 text-emerald-400">
+                      <span className="text-[10px] font-black uppercase tracking-tighter">Active</span>
+                      <CheckCircle2 className="w-4 h-4" />
+                    </div>
+                  </div>
+                </Card>
+              </div>
+
+              <div className="pt-4 pb-10">
+                <Button className="w-full h-14 font-headline font-bold uppercase tracking-widest shadow-xl shadow-primary/20" onClick={() => setIsSettingsOpen(false)}>
+                  Synchronize All Nodes
                 </Button>
               </div>
             </div>

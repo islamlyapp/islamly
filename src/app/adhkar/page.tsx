@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useState, useEffect } from "react";
@@ -44,7 +45,22 @@ export default function AdhkarPage() {
 
   useEffect(() => {
     setHasMounted(true);
+    // Initialize from local storage
+    const saved = localStorage.getItem("islamly-adhkar-progress");
+    if (saved) {
+      try {
+        setCompleted(JSON.parse(saved));
+      } catch (e) {
+        console.error("Failed to load progress");
+      }
+    }
   }, []);
+
+  useEffect(() => {
+    if (hasMounted) {
+      localStorage.setItem("islamly-adhkar-progress", JSON.stringify(completed));
+    }
+  }, [completed, hasMounted]);
 
   const handleTap = (id: string, max: number) => {
     setCompleted(prev => {
@@ -55,7 +71,16 @@ export default function AdhkarPage() {
   };
 
   const resetCount = (id: string) => {
-    setCompleted(prev => ({ ...prev, [id]: 0 }));
+    setCompleted(prev => {
+      const next = { ...prev };
+      delete next[id];
+      return next;
+    });
+  };
+
+  const resetAll = () => {
+    setCompleted({});
+    toast({ title: "Cycle Reset", description: "All remembrances have been recalibrated." });
   };
 
   const handleAudioSync = () => {
@@ -67,30 +92,35 @@ export default function AdhkarPage() {
   return (
     <div className="space-y-8 animate-in fade-in duration-500 pb-20 max-w-2xl mx-auto">
       <header className="text-center space-y-4 pt-4">
-        <div className="mx-auto w-20 h-20 bg-yellow-500/20 rounded-full flex items-center justify-center mb-4 ring-8 ring-yellow-500/5">
-          <Zap className="w-10 h-10 text-yellow-500" />
+        <div className="mx-auto w-24 h-24 bg-yellow-500/20 rounded-[2.5rem] flex items-center justify-center mb-4 ring-8 ring-yellow-500/5 rotate-12">
+          <Zap className="w-12 h-12 text-yellow-500 fill-yellow-500/20" />
         </div>
         <div className="space-y-1">
-          <h1 className="text-4xl font-headline font-bold">Divine Adhkar</h1>
-          <p className="text-muted-foreground italic">Essential remembrances for spiritual fortification.</p>
+          <h1 className="text-4xl font-headline font-bold uppercase tracking-tight">Divine Adhkar</h1>
+          <p className="text-muted-foreground italic text-lg">Essential remembrances for spiritual fortification.</p>
         </div>
       </header>
 
       <Tabs defaultValue="morning" onValueChange={setActiveTab} className="w-full">
-        <TabsList className="grid w-full grid-cols-3 bg-secondary/50 p-1 h-12">
-          <TabsTrigger value="morning" className="gap-2">
-            <Sun className="w-4 h-4" /> Morning
-          </TabsTrigger>
-          <TabsTrigger value="evening" className="gap-2">
-            <Moon className="w-4 h-4" /> Evening
-          </TabsTrigger>
-          <TabsTrigger value="daily" className="gap-2">
-            <Clock className="w-4 h-4" /> General
-          </TabsTrigger>
-        </TabsList>
+        <div className="flex items-center justify-between gap-4 mb-6">
+          <TabsList className="grid flex-1 grid-cols-3 bg-secondary/50 p-1 h-12 rounded-xl">
+            <TabsTrigger value="morning" className="gap-2 rounded-lg">
+              <Sun className="w-4 h-4" /> Morning
+            </TabsTrigger>
+            <TabsTrigger value="evening" className="gap-2 rounded-lg">
+              <Moon className="w-4 h-4" /> Evening
+            </TabsTrigger>
+            <TabsTrigger value="daily" className="gap-2 rounded-lg">
+              <Clock className="w-4 h-4" /> General
+            </TabsTrigger>
+          </TabsList>
+          <Button variant="outline" size="icon" className="h-12 w-12 shrink-0 rounded-xl border-white/5" onClick={resetAll}>
+            <RotateCcw className="w-5 h-5 text-muted-foreground" />
+          </Button>
+        </div>
 
         {Object.entries(adhkars).map(([key, items]) => (
-          <TabsContent key={key} value={key} className="mt-6 space-y-4">
+          <TabsContent key={key} value={key} className="space-y-4 animate-in fade-in slide-in-from-bottom-2 duration-300">
             {items.map((item, idx) => {
               const id = `${key}-${idx}`;
               const count = completed[id] || 0;
@@ -100,7 +130,7 @@ export default function AdhkarPage() {
                 <Card 
                   key={id} 
                   className={cn(
-                    "glass-card transition-all active:scale-[0.98] cursor-pointer group relative overflow-hidden border-2",
+                    "glass-card transition-all active:scale-[0.98] cursor-pointer group relative overflow-hidden border-2 rounded-2xl",
                     isDone ? "border-emerald-500/30 bg-emerald-500/5" : "border-transparent"
                   )}
                   onClick={() => handleTap(id, item.count)}
@@ -108,21 +138,21 @@ export default function AdhkarPage() {
                   <CardContent className="p-6 space-y-4">
                     <div className="flex justify-between items-start">
                       <div className="space-y-1">
-                        <h3 className="font-headline font-bold text-lg">{item.title}</h3>
-                        <p className="text-[10px] text-muted-foreground uppercase tracking-widest">{item.trans}</p>
+                        <h3 className="font-headline font-bold text-xl">{item.title}</h3>
+                        <p className="text-[10px] text-muted-foreground uppercase tracking-widest font-black italic">{item.trans}</p>
                       </div>
-                      <div className="flex items-center gap-2">
+                      <div className="flex items-center gap-3">
                         {isDone ? (
-                          <CheckCircle2 className="w-6 h-6 text-emerald-500 animate-in zoom-in" />
+                          <CheckCircle2 className="w-8 h-8 text-emerald-500 animate-in zoom-in" />
                         ) : (
-                          <div className="w-10 h-10 rounded-full bg-secondary flex items-center justify-center font-black text-primary border border-white/5">
+                          <div className="w-12 h-12 rounded-2xl bg-secondary flex items-center justify-center font-black text-xl text-primary border border-white/5 shadow-inner">
                             {item.count - count}
                           </div>
                         )}
                         <Button 
                           variant="ghost" 
                           size="icon" 
-                          className="h-8 w-8 opacity-40 hover:opacity-100"
+                          className="h-8 w-8 opacity-20 hover:opacity-100 transition-opacity"
                           onClick={(e) => { e.stopPropagation(); resetCount(id); }}
                         >
                           <RotateCcw className="w-3 h-3" />
@@ -130,16 +160,16 @@ export default function AdhkarPage() {
                       </div>
                     </div>
 
-                    <p className="text-3xl font-serif text-literata text-right leading-loose py-2" dir="rtl">
+                    <p className="text-4xl font-serif text-literata text-right leading-loose py-4 text-white/90" dir="rtl">
                       {item.arabic}
                     </p>
 
-                    <div className="absolute bottom-0 left-0 h-1 bg-primary/20 transition-all" style={{ width: `${(count / item.count) * 100}%` }} />
+                    <div className="absolute bottom-0 left-0 h-1.5 bg-primary/20 transition-all duration-500" style={{ width: `${(count / item.count) * 100}%` }} />
                     
                     {!isDone && (
-                      <div className="flex justify-center pt-2 opacity-0 group-hover:opacity-100 transition-opacity">
-                        <span className="text-[8px] uppercase font-bold tracking-[0.3em] text-primary flex items-center gap-2">
-                          <Fingerprint className="w-2.5 h-2.5" /> Tap Node to Progress
+                      <div className="flex justify-center pt-2 opacity-40 group-hover:opacity-100 transition-all">
+                        <span className="text-[8px] uppercase font-black tracking-[0.4em] text-primary flex items-center gap-2">
+                          <Fingerprint className="w-3 h-3" /> Tap Node to Progress
                         </span>
                       </div>
                     )}
@@ -151,23 +181,28 @@ export default function AdhkarPage() {
         ))}
       </Tabs>
 
-      <section className="bg-primary/5 p-6 rounded-2xl border border-primary/20 flex items-center justify-between gap-4">
-        <div className="flex items-center gap-3">
-          <ShieldCheck className="w-6 h-6 text-primary" />
-          <div className="space-y-0.5">
-            <p className="text-xs font-bold uppercase text-primary">Fortress of the Student</p>
-            <p className="text-[10px] text-muted-foreground">These adhkars are compiled from Hisnul Muslim based on authentic sources.</p>
+      <section className="bg-primary/5 p-8 rounded-[2.5rem] border border-primary/20 flex flex-col sm:flex-row items-center justify-between gap-6">
+        <div className="flex items-center gap-4">
+          <div className="p-4 bg-primary/10 rounded-2xl">
+            <ShieldCheck className="w-8 h-8 text-primary" />
+          </div>
+          <div className="space-y-1">
+            <p className="text-xs font-black uppercase text-primary tracking-widest">Fortress of the Student</p>
+            <p className="text-[11px] text-muted-foreground italic leading-relaxed max-w-xs">These adhkars are compiled from Hisnul Muslim based on authentic sources of the Sunnah.</p>
           </div>
         </div>
-        <Button variant="outline" size="sm" className="h-8 text-[9px] uppercase font-black" onClick={handleAudioSync}>
-          <Volume2 className="w-3 h-3 mr-1" /> Audio Node
+        <Button variant="outline" size="lg" className="h-14 px-8 rounded-2xl text-[10px] uppercase font-black tracking-widest border-primary/20 gap-2 hover:bg-primary/5" onClick={handleAudioSync}>
+          <Volume2 className="w-4 h-4" /> Initialize Audio Node
         </Button>
       </section>
 
-      <footer className="text-center pt-8 opacity-40">
-        <p className="text-[9px] text-muted-foreground uppercase tracking-[0.4em] font-black italic">
-          Scholarly Remembrances: Protected by 1 Billion Privacy Nodes
-        </p>
+      <footer className="text-center pt-12 opacity-40">
+        <div className="flex justify-center gap-2 mb-2">
+          <Database className="w-3 h-3" />
+          <p className="text-[9px] text-muted-foreground uppercase tracking-[0.5em] font-black italic">
+            Universal Scholarly Remembrances • 1B Privacy Nodes
+          </p>
+        </div>
       </footer>
     </div>
   );
