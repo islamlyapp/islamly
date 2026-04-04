@@ -24,12 +24,12 @@ import { toast } from "@/hooks/use-toast";
 
 const adhkars = {
   morning: [
-    { title: "Ayat al-Kursi", arabic: "اللَّهُ لَا إِلَهَ إِلَّا هُوَ الْحَيُّ الْقَيُّومُ...", trans: "Recite once for protection until evening.", count: 1 },
+    { title: "Ayat al-Kursi", arabic: "اللَّهُ لَا إِلَهَ إِلَّا هُوَ الْحَيُّ الْقَيُّومُ لَا تَأْخُذُهُ سِنَةٌ وَلَا نَوْمٌ لَهُ مَا فِي السَّمَاوَاتِ وَمَا فِي الْأَرْضِ مَنْ ذَا الَّذِي يَشْفَعُ عِنْدَهُ إِلَّا بِإِذْنِهِ يَعْلَمُ مَا بَيْنَ أَيْدِيهِمْ وَمَا خَلْفَهُمْ وَلَا يُحِيطُونَ بِشَيْءٍ مِنْ عِلْمِهِ إِلَّا بِمَا شَاءَ وَسِعَ كُرْسِيُّهُ السَّمَاوَاتِ وَالْأَرْضَ وَلَا يَئُودُهُ حِفْظُهُمَا وَهُوَ الْعَلِيُّ الْعَظِيمُ", trans: "Recite once for protection until evening.", count: 1 },
     { title: "Al-Mu'awwidhatayn", arabic: "قُلْ أَعُوذُ بِرَبِّ الْفَلَقِ... قُلْ أَعُوذُ بِرَبِّ النَّاسِ...", trans: "Recite three times each.", count: 3 },
-    { title: "Sayyidul Istighfar", arabic: "اللَّهُمَّ أَنْتَ رَبِّي لَا إِلَهَ إِلَّا أَنْتَ...", trans: "The chief supplication for forgiveness.", count: 1 },
+    { title: "Sayyidul Istighfar", arabic: "اللَّهُمَّ أَنْتَ رَبِّي لَا إِلَهَ إِلَّا أَنْتَ، خَلَقْتَنِي وَأَنَا عَبْدُكَ، وَأَنَا عَلَى عَهْدِكَ وَوَعْدِكَ مَا اسْتَطَعْتُ، أَعُوذُ بِكَ مِنْ شَرِّ مَا صَنَعْتُ، أَبُوءُ لَكَ بِنِعْمَتِكَ عَلَيَّ، وَأَبُوءُ لَكَ بِذَنْبِي فَاغْفِرْ لِي فَإِنَّهُ لَا يَغْفِرُ الذُّنُوبَ إِلَّا أَنْتَ", trans: "The chief supplication for forgiveness.", count: 1 },
   ],
   evening: [
-    { title: "Ayat al-Kursi", arabic: "اللَّهُ لَا إِلَهَ إِلَّا هُوَ الْحَيُّ الْقَيُّومُ...", trans: "Recite once for protection until morning.", count: 1 },
+    { title: "Ayat al-Kursi", arabic: "اللَّهُ لَا إِلَهَ إِلَّا هُوَ الْحَيُّ الْقَيُّومُ لَا تَأْخُذُهُ سِنَةٌ وَلَا نَوْمٌ لَهُ مَا فِي السَّمَاوَاتِ وَمَا فِي الْأَرْضِ مَنْ ذَا الَّذِي يَشْفَعُ عِنْدَهُ إِلَّا بِإِذْنِهِ يَعْلَمُ مَا بَيْنَ أَيْدِيهِمْ وَمَا خَلْفَهُمْ وَلَا يُحِيطُونَ بِشَيْءٍ مِنْ عِلْمِهِ إِلَّا بِمَا شَاءَ وَسِعَ كُرْسِيُّهُ السَّمَاوَاتِ وَالْأَرْضَ وَلَا يَئُودُهُ حِفْظُهُمَا وَهُوَ الْعَلِيُّ الْعَظِيمُ", trans: "Recite once for protection until morning.", count: 1 },
     { title: "Last two verses of Baqarah", arabic: "آمَنَ الرَّسُولُ بِمَا أُنْزِلَ إِلَيْهِ...", trans: "Sufficient for the night.", count: 1 },
     { title: "Protection from Harm", arabic: "بِسْمِ اللهِ الَّذِي لَا يَضُرُّ مَعَ اسْمِهِ...", trans: "Nothing shall harm you.", count: 3 },
   ],
@@ -185,7 +185,7 @@ export default function AdhkarPage() {
                       </div>
                     </div>
 
-                    <p className="text-4xl font-serif text-literata text-right leading-loose py-4 text-white/90" dir="rtl">
+                    <p className="text-3xl md:text-4xl font-serif text-literata text-right leading-loose py-4 text-white/90" dir="rtl">
                       {item.arabic}
                     </p>
 

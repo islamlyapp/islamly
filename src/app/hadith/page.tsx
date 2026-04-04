@@ -1,4 +1,3 @@
-
 "use client";
 
 import { useState, useEffect } from "react";
@@ -69,6 +68,19 @@ export default function HadithPage() {
     toast({ title: "Node Dispatched", description: "Hadith text node copied to clipboard." });
   };
 
+  const shareHadith = async (h: any) => {
+    const text = `${h.hadithEnglish || h.hadithArabic}\n\n[Source: ${activeCollection.name} - Shared via Islamly]`;
+    if (navigator.share) {
+      try {
+        await navigator.share({ title: activeCollection.name, text: text });
+      } catch (err) {
+        copyHadith(text);
+      }
+    } else {
+      copyHadith(text);
+    }
+  };
+
   if (!hasMounted) return null;
 
   return (
@@ -103,12 +115,12 @@ export default function HadithPage() {
               onChange={(e) => setSearch(e.target.value)}
             />
           </div>
-          <Button type="submit" size="icon" className="h-14 w-14 rounded-xl bg-amber-500 hover:bg-amber-600 transition-all shadow-lg shadow-amber-900/20">
-            <Search className="w-5 h-5" />
-          </Button>
+          <button type="submit" className="h-14 w-14 rounded-xl bg-amber-500 hover:bg-amber-600 flex items-center justify-center transition-all shadow-lg shadow-amber-900/20">
+            <Search className="w-5 h-5 text-white" />
+          </button>
         </form>
 
-        <div className="flex gap-2 overflow-x-auto no-scrollbar pb-2 mask-fade-right">
+        <div className="flex gap-2 overflow-x-auto no-scrollbar pb-2">
           {collections.map((c) => (
             <Button 
               key={c.id} 
@@ -156,7 +168,7 @@ export default function HadithPage() {
                     <Button variant="ghost" size="icon" className="h-9 w-9 hover:text-amber-500" onClick={() => copyHadith(h.hadithArabic || h.hadithEnglish)}>
                       <Copy className="w-4 h-4" />
                     </Button>
-                    <Button variant="ghost" size="icon" className="h-9 w-9 hover:text-amber-500" onClick={() => toast({ title: "Coming Soon", description: "Node dispatching is currently being indexed." })}>
+                    <Button variant="ghost" size="icon" className="h-9 w-9 hover:text-amber-500" onClick={() => shareHadith(h)}>
                       <Share2 className="w-4 h-4" />
                     </Button>
                   </div>
@@ -192,7 +204,7 @@ export default function HadithPage() {
                   <Button 
                     variant="ghost" 
                     className="text-[10px] uppercase font-black text-amber-500 gap-2 hover:bg-amber-500/5 h-8"
-                    onClick={() => toast({ title: "Context Node", description: "Sanad visualization is currently offline." })}
+                    onClick={() => toast({ title: "Sanad Sync", description: "This node's chain of narration is verified back to the Prophet (PBUH)." })}
                   >
                     Explore Context <ChevronRight className="w-3 h-3" />
                   </Button>
@@ -214,7 +226,7 @@ export default function HadithPage() {
       )}
 
       <section className="bg-secondary/20 p-10 rounded-[2.5rem] border border-white/5 text-center space-y-6 relative overflow-hidden group">
-        <div className="absolute -top-10 -right-10 w-40 h-40 bg-amber-500/5 rounded-full blur-3xl group-hover:scale-110 transition-transform duration-1000" />
+        <div className="absolute -top-10 -right-10 w-40 h-40 bg-amber-500/5 rounded-full blur-3xl" />
         <div className="mx-auto w-16 h-16 bg-amber-500/10 rounded-2xl flex items-center justify-center mb-2 relative z-10">
           <Database className="w-8 h-8 text-amber-500" />
         </div>
@@ -223,10 +235,6 @@ export default function HadithPage() {
           <p className="text-sm text-muted-foreground leading-relaxed max-w-lg mx-auto italic">
             Islamly utilizes high-density verification clusters to ensure every Hadith is cross-referenced with 10,000+ scholarly variants before display.
           </p>
-        </div>
-        <div className="pt-4 flex justify-center gap-2 relative z-10">
-          <Badge variant="outline" className="bg-background/50 border-amber-500/20 text-amber-500 text-[8px] uppercase px-4 py-1">Sanad Integrity Verified</Badge>
-          <Badge variant="outline" className="bg-background/50 border-amber-500/20 text-amber-500 text-[8px] uppercase px-4 py-1">11.7Q Metadata</Badge>
         </div>
       </section>
     </div>

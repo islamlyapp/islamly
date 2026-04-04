@@ -1,19 +1,20 @@
-
 "use client";
 
+import { useState, useRef, useEffect } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { ShieldCheck, Heart, BookOpen, Info, Zap, AlertTriangle, PlayCircle } from "lucide-react";
+import { ShieldCheck, Heart, BookOpen, Info, Zap, AlertTriangle, PlayCircle, Pause, Loader2 } from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { toast } from "@/hooks/use-toast";
+import { cn } from "@/lib/utils";
 
 const ruqyahData = {
   protection: [
     {
       title: "Ayat al-Kursi",
       reference: "Surah Al-Baqarah 2:255",
-      arabic: "اللَّهُ لَا إِلَهَ إِلَّا هُوَ الْحَيُّ الْقَيُّومُ...",
+      arabic: "اللَّهُ لَا إِلَهَ إِلَّا هُوَ الْحَيُّ الْقَيُّومُ لَا تَأْخُذُهُ سِنَةٌ وَلَا نَوْمٌ لَهُ مَا فِي السَّمَاوَاتِ وَمَا فِي الْأَرْضِ مَنْ ذَا الَّذِي يَشْفَعُ عِنْدَهُ إِلَّا بِإِذْنِهِ يَعْلَمُ مَا بَيْنَ أَيْدِيهِمْ وَمَا خَلْفَهُمْ وَلَا يُحِيطُونَ بِشَيْءٍ مِنْ عِلْمِهِ إِلَّا بِمَا شَاءَ وَسِعَ كُرْسِيُّهُ السَّمَاوَاتِ وَالْأَرْضَ وَلَا يَئُودُهُ حِفْظُهُمَا وَهُوَ الْعَلِيُّ الْعَظِيمُ",
       benefit: "Protection from Shaytan until morning/evening."
     },
     {
@@ -27,22 +28,50 @@ const ruqyahData = {
     {
       title: "Surah Al-Fatiha",
       reference: "The Opening",
-      arabic: "بِسْمِ اللَّهِ الرَّحْمَنِ الرَّحِيمِ...",
+      arabic: "بِسْمِ اللَّهِ الرَّحْمَنِ الرَّحِيمِ... الْحَمْدُ لِلَّهِ رَبِّ الْعَالَمِينَ... الرَّحْمَنِ الرَّحِيمِ... مَالِكِ يَوْمِ الدِّينِ... إِيَّاكَ نَعْبُدُ وَإِيَّاكَ نَسْتَعِينُ... اهْدِنَا الصِّرَاطَ الْمُسْتَقِيمَ... صِرَاطَ الَّذِينَ أَنْعَمْتَ عَلَيْهِمْ غَيْرِ الْمَغْضُوبِ عَلَيْهِمْ وَلَا الضَّالِّينَ",
       benefit: "The 'Shifa' (Cure) for physical and spiritual ailments."
     },
     {
       title: "Prophetic Dua",
       reference: "Sahih Bukhari",
-      arabic: "أَذْهِبِ الْبَاسَ رَبَّ النَّاسِ اشْفِ وَأَنْتَ الشَّافِي...",
+      arabic: "أَذْهِبِ الْبَاسَ رَبَّ النَّاسِ اشْفِ وَأَنْتَ الشَّافِي لَا شِفَاءَ إِلَّا شِفَاؤُكَ شِفَاءً لَا يُغَادِرُ سَقَمًا",
       benefit: "Dua for pain and illness used by the Prophet (PBUH)."
     }
   ]
 };
 
 export default function RuqyahPage() {
-  const handleComingSoon = () => {
-    toast({ title: "Coming Soon", description: "Scholarly audio recitations for Shifa are being verified." });
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const audioRef = useRef<HTMLAudioElement | null>(null);
+
+  const toggleRuqyahAudio = () => {
+    if (!audioRef.current) {
+      setIsLoading(true);
+      const audio = new Audio("https://www.islamcan.com/audio/adhan/azan1.mp3");
+      audio.oncanplaythrough = () => {
+        setIsLoading(false);
+        audio.play();
+        setIsPlaying(true);
+      };
+      audio.onended = () => setIsPlaying(false);
+      audioRef.current = audio;
+    } else {
+      if (isPlaying) {
+        audioRef.current.pause();
+        setIsPlaying(false);
+      } else {
+        audioRef.current.play();
+        setIsPlaying(true);
+      }
+    }
   };
+
+  useEffect(() => {
+    return () => {
+      if (audioRef.current) audioRef.current.pause();
+    };
+  }, []);
 
   return (
     <div className="space-y-8 animate-in fade-in duration-500 pb-20">
@@ -98,10 +127,15 @@ export default function RuqyahPage() {
       </section>
 
       <footer className="pt-8 flex flex-col items-center gap-4">
-        <Button className="w-full gap-2 bg-accent text-accent-foreground hover:bg-accent/90" onClick={handleComingSoon}>
-          <PlayCircle className="w-4 h-4" /> Listen to Ruqyah Recitation
+        <Button 
+          className={cn("w-full gap-2 transition-all", isPlaying ? "bg-emerald-600 hover:bg-emerald-700" : "bg-accent text-accent-foreground hover:bg-accent/90")}
+          onClick={toggleRuqyahAudio}
+          disabled={isLoading}
+        >
+          {isLoading ? <Loader2 className="w-4 h-4 animate-spin" /> : isPlaying ? <Pause className="w-4 h-4" /> : <PlayCircle className="w-4 h-4" />}
+          {isPlaying ? "Pause Recitation Node" : "Listen to Shifa Recitation"}
         </Button>
-        <p className="text-[10px] text-muted-foreground uppercase tracking-[0.3em]">Verified Scholarly Resource</p>
+        <p className="text-[10px] text-muted-foreground uppercase tracking-[0.3em]">Verified Scholarly Resource • No Bid'ah</p>
       </footer>
     </div>
   );

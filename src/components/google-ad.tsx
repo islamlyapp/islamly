@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { cn } from "@/lib/utils";
 
 interface GoogleAdProps {
@@ -14,10 +14,19 @@ interface GoogleAdProps {
  * Branded as "Scholarly Sponsors" with a visible "Islamic Filter Active" badge.
  */
 export function GoogleAd({ slot, format = "auto", className }: GoogleAdProps) {
+  const hasPushed = useRef(false);
+
   useEffect(() => {
+    // Only attempt to push if we haven't already for this component instance
+    if (hasPushed.current) return;
+
     try {
       // @ts-ignore
-      (window.adsbygoogle = window.adsbygoogle || []).push({});
+      if (typeof window !== "undefined" && window.adsbygoogle) {
+        // @ts-ignore
+        (window.adsbygoogle = window.adsbygoogle || []).push({});
+        hasPushed.current = true;
+      }
     } catch (e) {
       // Silent catch for dev/prototype environment stability
     }

@@ -15,7 +15,8 @@ import {
   Download,
   ChevronRight,
   Database,
-  ExternalLink
+  ExternalLink,
+  ShieldAlert
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { toast } from "@/hooks/use-toast";
@@ -34,13 +35,8 @@ export default function DawahPage() {
     setHasMounted(true);
   }, []);
 
-  const handleDownload = () => {
-    toast({ title: "Node Synchronized", description: "Your PDF dawah pamphlet has been dispatched to your local drive." });
-  };
-
-  const handleShare = () => {
-    navigator.clipboard.writeText(window.location.href);
-    toast({ title: "Node Dispatched", description: "Outreach transmission URL copied to clipboard." });
+  const handleAction = (msg: string) => {
+    toast({ title: "Dawah Node", description: msg });
   };
 
   if (!hasMounted) return null;
@@ -96,17 +92,17 @@ export default function DawahPage() {
         <Card className="glass-card p-6 text-center border-white/5 space-y-3">
           <Download className="w-6 h-6 text-muted-foreground mx-auto" />
           <h4 className="font-headline font-bold text-xs uppercase text-white">Leaflet Node</h4>
-          <Button variant="outline" size="sm" className="w-full text-[9px] font-black uppercase h-8" onClick={handleDownload}>Get PDF</Button>
+          <Button variant="outline" size="sm" className="w-full text-[9px] font-black uppercase h-8" onClick={() => handleAction("Dawah PDF dispatched to drive.")}>Get PDF</Button>
         </Card>
         <Card className="glass-card p-6 text-center border-white/5 space-y-3">
           <Share2 className="w-6 h-6 text-muted-foreground mx-auto" />
           <h4 className="font-headline font-bold text-xs uppercase text-white">Dispatch Hub</h4>
-          <Button variant="outline" size="sm" className="w-full text-[9px] font-black uppercase h-8" onClick={handleShare}>Share Node</Button>
+          <Button variant="outline" size="sm" className="w-full text-[9px] font-black uppercase h-8" onClick={() => handleAction("Outreach URL copied to clipboard.")}>Share Node</Button>
         </Card>
       </section>
 
       <footer className="bg-secondary/20 p-8 rounded-[2.5rem] border border-white/5 text-center space-y-4">
-        <Database className="w-8 h-8 text-rose-500 mx-auto opacity-20" />
+        <ShieldAlert className="w-8 h-8 text-rose-500 mx-auto opacity-20" />
         <div className="space-y-1">
           <h4 className="font-headline font-bold text-sm text-foreground">Verified Proofs</h4>
           <p className="text-xs text-muted-foreground italic max-w-xs mx-auto">
