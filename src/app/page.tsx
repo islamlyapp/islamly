@@ -46,7 +46,8 @@ import {
   Telescope,
   Video as VideoIcon,
   Radio,
-  Gavel
+  Gavel,
+  Layers
 } from "lucide-react";
 import Link from "next/link";
 import { cn } from "@/lib/utils";

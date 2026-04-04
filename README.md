@@ -1,4 +1,3 @@
-
 # Islamly - Universal Scholarly Infrastructure v3.5
 **Domain: [islamly.uk](https://islamly.uk) | Scale: 11.7 Quadrillion Features**
 
@@ -45,22 +44,11 @@ Digital archives of classical texts (Aqidah, Fiqh, Tafsir). The **AI Simplifier*
 
 ---
 
-## 🛠️ Technical Implementation
+## ⚡ Production Deployment Workflow (GitHub & Vercel)
 
-- **Framework**: Next.js 15 (App Router / Node.js 22)
-- **AI Engine**: Google Genkit 1.x + Gemini 2.5 Flash
-- **Backend**: Firebase (Auth & Firestore Shards)
-- **Styling**: Tailwind CSS + ShadCN UI (Dark Mode default)
-- **Email/Identity**: Resend OTP Mail Cluster
-- **Data Providers**: AlAdhan API, Quran.com v4, Overpass (OSM)
+To take this "Universal Node" live on your infrastructure, follow this terminal workflow:
 
----
-
-## ⚡ Production Deployment Workflow
-
-To take this "Universal Node" live on your infrastructure, execute the following commands:
-
-### 1. Initialize & Push to GitHub
+### Step 1: Initialize & Push to GitHub
 ```bash
 git init
 git add .
@@ -70,16 +58,16 @@ git remote add origin https://github.com/YOUR_USERNAME/islamly.git
 git push -u origin main
 ```
 
-### 2. Activate Scholarly Nodes (Firestore)
+### Step 2: Seed Scholarly Nodes (Firestore)
 Upload the high-density metadata for the video index and the 10,000+ reciter directory:
 ```bash
 npm run db:seed
 npm run db:seed:reciters
 ```
 
-### 3. Configure Production Keys (Vercel/AI Studio)
-In your Dashboard, add these **Node Keys**:
-- `GOOGLE_GENAI_API_KEY`: (Your Gemini API Key from Google AI Studio)
+### Step 3: Configure Production Keys (AI Studio)
+In your Vercel or Cloud Dashboard, add these **Node Keys**:
+- `GOOGLE_GENAI_API_KEY`: (Your fresh Gemini key from AI Studio)
 - `RESEND_API_KEY`: (For OTP Identity Delivery)
 - `NEXT_PUBLIC_HADITH_API_KEY`: (Access to HadithAPI.com)
 
