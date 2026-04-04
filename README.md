@@ -10,7 +10,7 @@ Islamly is a high-density, production-grade portal for authentic Islamic knowled
 
 Islamly is not just an app; it is a governed environment. Every data signal is synchronized with our **AutoMod Pulse**, a scholarly governance layer that ensures:
 - **Strict Monotheism (Tawhid)**: Zero tolerance for Shirk (major or minor).
-- **Adherence to Sunnah**: Elimination of Bid'ah (innovations) and philosophical over-rationalization.
+- **Adherence to Sunnah**: Elimination of Bid'ah (innovations like Mawlid or innovated nights) and philosophical over-rationalization.
 - **Sanad Integrity**: Every Hadith and text node is cross-referenced with 10,000+ verification points.
 - **Amanah**: 1 Billion privacy nodes protect student data. We never sell user telemetry.
 
@@ -19,7 +19,7 @@ Islamly is not just an app; it is a governed environment. Every data signal is s
 ## 🚀 Core Infrastructure Nodes
 
 ### 1. Al-Mualim AI Teacher
-A high-fidelity recitation analysis engine. Students recite Quran, Hadith, or Mutoon, and receive real-time feedback on Tajweed rules (Makharij, Sifat) and verbatim accuracy, powered by Gemini 2.5 Flash Online.
+A high-fidelity recitation analysis engine. Students recite Quran, Hadith, or Mutoon, and receive real-time feedback on Tajweed rules (Makharij, Sifat) and verbatim accuracy, powered by Gemini 2.5 Flash Online and Genkit 1.x.
 
 ### 2. Universal Video Hub
 A normalized signal cluster that aggregates high-density lectures from verified scholarly channels including:
@@ -47,7 +47,7 @@ Digital archives of classical texts (Aqidah, Fiqh, Tafsir). The **AI Simplifier*
 
 ## 🛠️ Technical Implementation
 
-- **Framework**: Next.js 15 (App Router / Turbopack)
+- **Framework**: Next.js 15 (App Router / Node.js 22)
 - **AI Engine**: Google Genkit 1.x + Gemini 2.5 Flash
 - **Backend**: Firebase (Auth & Firestore Shards)
 - **Styling**: Tailwind CSS + ShadCN UI (Dark Mode default)
@@ -77,8 +77,8 @@ npm run db:seed
 npm run db:seed:reciters
 ```
 
-### 3. Configure Production Keys (Vercel)
-In your Vercel Dashboard, add these **Node Keys**:
+### 3. Configure Production Keys (Vercel/AI Studio)
+In your Dashboard, add these **Node Keys**:
 - `GOOGLE_GENAI_API_KEY`: (Your Gemini API Key from Google AI Studio)
 - `RESEND_API_KEY`: (For OTP Identity Delivery)
 - `NEXT_PUBLIC_HADITH_API_KEY`: (Access to HadithAPI.com)

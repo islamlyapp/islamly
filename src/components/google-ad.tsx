@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useEffect, useRef } from "react";
@@ -12,19 +13,20 @@ interface GoogleAdProps {
 /**
  * Google Sponsor Node for the Islamly Scholarly Infrastructure.
  * Branded as "Scholarly Sponsors" with a visible "Islamic Filter Active" badge.
+ * Optimized with a strict initialization guard to prevent Runtime TagErrors.
  */
 export function GoogleAd({ slot, format = "auto", className }: GoogleAdProps) {
   const hasPushed = useRef(false);
   const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    // Only attempt to push if we haven't already for this component instance
+    // Only attempt to push if we haven't already for this specific mount
     if (hasPushed.current) return;
 
     try {
       // @ts-ignore
       if (typeof window !== "undefined" && window.adsbygoogle) {
-        // Verify if the ins tag is ready and hasn't been processed
+        // Verify if the ins tag exists and is not already processed by AdSense
         const ins = containerRef.current?.querySelector('ins');
         if (ins && !ins.hasAttribute('data-adsbygoogle-status')) {
           // @ts-ignore
@@ -33,7 +35,8 @@ export function GoogleAd({ slot, format = "auto", className }: GoogleAdProps) {
         }
       }
     } catch (e) {
-      // Silent catch for dev/prototype environment stability
+      // Catch and log silently to prevent prototype crashing
+      console.warn("Sponsor Node Sync Interrupted:", e);
     }
   }, [slot]);
 
