@@ -1,4 +1,3 @@
-
 "use client";
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -45,7 +44,9 @@ import {
   Users,
   Binary,
   Telescope,
-  Video as VideoIcon
+  Video as VideoIcon,
+  Radio,
+  Gavel
 } from "lucide-react";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
@@ -101,13 +102,16 @@ export default function Home() {
     { title: "Noble Quran", href: "/quran", icon: BookMarked, color: "text-emerald-400", bg: "bg-emerald-500/10", border: "border-emerald-500/20", group: "Core Knowledge" },
     { title: "Hadith Index", href: "/hadith", icon: ScrollText, color: "text-amber-400", bg: "bg-amber-500/10", border: "border-amber-500/20", group: "Core Knowledge" },
     { title: "Video Hub", href: "/videos", icon: VideoIcon, color: "text-indigo-400", bg: "bg-indigo-500/10", border: "border-indigo-500/20", group: "Core Knowledge" },
+    { title: "Audio Hub", href: "/audio", icon: Radio, color: "text-blue-400", bg: "bg-blue-500/10", border: "border-blue-500/20", group: "Core Knowledge" },
     { title: "Seerah Path", href: "/seerah", icon: History, color: "text-cyan-400", bg: "bg-cyan-500/10", border: "border-cyan-500/20", group: "Core Knowledge" },
     { title: "Sunnah Calendar", href: "/calendar", icon: CalendarIcon, color: "text-emerald-500", bg: "bg-emerald-500/10", border: "border-emerald-500/20", group: "Core Knowledge" },
     { title: "Dawah Hub", href: "/dawah", icon: Megaphone, color: "text-rose-500", bg: "bg-rose-500/10", border: "border-rose-500/20", group: "Core Knowledge" },
     { title: "Aqidah Node", href: "/tawheed", icon: ShieldCheck, color: "text-red-400", bg: "bg-red-500/10", border: "border-red-500/20", group: "Core Knowledge" },
     { title: "Library", href: "/library", icon: Library, color: "text-emerald-500", bg: "bg-emerald-500/10", border: "border-emerald-500/20", group: "Core Knowledge" },
+    { title: "History Hub", href: "/history", icon: Layers, color: "text-amber-500", bg: "bg-amber-500/10", border: "border-amber-500/20", group: "Core Knowledge" },
     { title: "Salah Guide", href: "/salah", icon: Clock, color: "text-blue-400", bg: "bg-blue-500/10", border: "border-blue-500/20", group: "Practical Living" },
     { title: "Wudu Node", href: "/wudu", icon: Droplets, color: "text-blue-300", bg: "bg-blue-500/10", border: "border-blue-500/20", group: "Practical Living" },
+    { title: "Purification", href: "/ruqyah", icon: Heart, color: "text-accent", bg: "bg-accent/10", border: "border-accent/20", group: "Practical Living" },
     { title: "Masjid Finder", href: "/masjid-locator", icon: MapPin, color: "text-emerald-400", bg: "bg-emerald-500/10", border: "border-emerald-500/20", group: "Practical Living" },
     { title: "Halal Locator", href: "/halal-locator", icon: Utensils, color: "text-emerald-500", bg: "bg-emerald-500/10", border: "border-emerald-500/20", group: "Practical Living" },
     { title: "Daily Adhkar", href: "/adhkar", icon: Zap, color: "text-yellow-400", bg: "bg-yellow-500/10", border: "border-yellow-500/20", group: "Practical Living" },
@@ -119,6 +123,7 @@ export default function Home() {
     { title: "Scholarly Goals", href: "/goals", icon: Target, color: "text-blue-500", bg: "bg-blue-500/10", border: "border-blue-500/20", group: "Interactive" },
     { title: "Global Ummah", href: "/ummah", icon: Users, color: "text-cyan-500", bg: "bg-cyan-500/10", border: "border-cyan-500/20", group: "Interactive" },
     { title: "Astro Node", href: "/astronomy", icon: Telescope, color: "text-indigo-500", bg: "bg-indigo-500/10", border: "border-indigo-500/20", group: "Interactive" },
+    { title: "Sharia Node", href: "/sharia", icon: Gavel, color: "text-primary", bg: "bg-primary/10", border: "border-primary/20", group: "Core Knowledge" },
   ];
 
   const categories = Array.from(new Set(allModules.map(m => m.group)));

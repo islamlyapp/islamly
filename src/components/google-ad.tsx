@@ -15,6 +15,7 @@ interface GoogleAdProps {
  */
 export function GoogleAd({ slot, format = "auto", className }: GoogleAdProps) {
   const hasPushed = useRef(false);
+  const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     // Only attempt to push if we haven't already for this component instance
@@ -23,17 +24,21 @@ export function GoogleAd({ slot, format = "auto", className }: GoogleAdProps) {
     try {
       // @ts-ignore
       if (typeof window !== "undefined" && window.adsbygoogle) {
-        // @ts-ignore
-        (window.adsbygoogle = window.adsbygoogle || []).push({});
-        hasPushed.current = true;
+        // Verify if the ins tag is ready and hasn't been processed
+        const ins = containerRef.current?.querySelector('ins');
+        if (ins && !ins.hasAttribute('data-adsbygoogle-status')) {
+          // @ts-ignore
+          (window.adsbygoogle = window.adsbygoogle || []).push({});
+          hasPushed.current = true;
+        }
       }
     } catch (e) {
       // Silent catch for dev/prototype environment stability
     }
-  }, []);
+  }, [slot]);
 
   return (
-    <div className={cn("my-8 w-full flex flex-col items-center gap-3", className)}>
+    <div ref={containerRef} className={cn("my-8 w-full flex flex-col items-center gap-3", className)}>
       {/* Header Branding */}
       <div className="flex items-center gap-3 opacity-60">
         <div className="h-px w-6 bg-primary/40" />
