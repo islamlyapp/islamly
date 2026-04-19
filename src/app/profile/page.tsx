@@ -29,7 +29,8 @@ import {
   Trophy,
   Flame,
   Target,
-  CheckCircle2
+  CheckCircle2,
+  Star
 } from "lucide-react";
 import { useUser, useAuth, useFirestore, useDoc, useMemoFirebase, setDocumentNonBlocking } from "@/firebase";
 import { signOut } from "firebase/auth";

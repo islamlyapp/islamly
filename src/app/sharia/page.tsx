@@ -12,7 +12,6 @@ import {
   Database, 
   ChevronRight, 
   Info,
-  Balance,
   ScrollText,
   Gavel
 } from "lucide-react";
