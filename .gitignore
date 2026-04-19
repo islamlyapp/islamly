@@ -1,25 +1,41 @@
-# Next.js
+# Dependencies
+/node_modules
+/.pnp
+.pnp.js
+
+# Build Outputs
 /.next/
 /out/
 /build
 
-# Production Node Keys (CRITICAL)
+# Production Environmental Data (CRITICAL: Shields API Keys)
 .env
 .env.local
 .env.development.local
 .env.test.local
 .env.production.local
 
-# Dependency Node
-node_modules/
-jspm_packages/
+# Vercel & Deployment
+.vercel
 
-# Firebase Node
-.firebase/
-firestore.rules.bak
-*.log
+# Debugging & Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
 
-# System Node
+# System Files
 .DS_Store
 *.pem
-Thumbs.db
+
+# Firebase Emulators
+.firebase/
+firebase-debug.log*
+firestore-debug.log*
+ui-debug.log*
+
+# Local IDE Files
+.vscode/
+.idea/
+*.swp
+*.swo

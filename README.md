@@ -39,14 +39,11 @@ Real-time discovery of physical scholarly nodes using OpenStreetMap (OSM) data:
 - **Masjid Finder**: Locates places of worship worldwide.
 - **Halal Locator**: Identifies verified "Tayyib" (pure) provisions near your coordinates.
 
-### 5. Scholarly Library & Simplifier
-Digital archives of classical texts (Aqidah, Fiqh, Tafsir). The **AI Simplifier** helps students break down complex scholarly passages while maintaining methodology alignment.
-
 ---
 
-## ⚡ Production Deployment Workflow (GitHub & Vercel)
+## ⚡ Production Deployment Workflow (Step-by-Step)
 
-To take this "Universal Node" live on your infrastructure, follow this terminal workflow:
+Follow this terminal workflow to anchor your node to GitHub and Vercel.
 
 ### Step 1: Initialize & Push to GitHub
 ```bash
@@ -54,7 +51,7 @@ git init
 git add .
 git commit -m "feat: Initialize Universal Scholarly Infrastructure"
 git branch -M main
-git remote add origin https://github.com/YOUR_USERNAME/islamly.git
+git remote add origin https://github.com/YOUR_USERNAME/YOUR_REPO_NAME.git
 git push -u origin main
 ```
 
@@ -66,7 +63,7 @@ npm run db:seed:reciters
 ```
 
 ### Step 3: Configure Production Keys (AI Studio)
-In your Vercel or Cloud Dashboard, add these **Node Keys**:
+In your Vercel Dashboard, add these **Node Keys** as Environment Variables:
 - `GOOGLE_GENAI_API_KEY`: (Your fresh Gemini key from AI Studio)
 - `RESEND_API_KEY`: (For OTP Identity Delivery)
 - `NEXT_PUBLIC_HADITH_API_KEY`: (Access to HadithAPI.com)
