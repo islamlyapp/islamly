@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { User, Globe, LogIn, Bell, Calendar as CalendarIcon } from "lucide-react";
+import { User, Globe, LogIn, Bell } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useUser } from "@/firebase";
 import { Button } from "@/components/ui/button";

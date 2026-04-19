@@ -140,7 +140,6 @@ export default function Home() {
 
   return (
     <div className="space-y-10 animate-in fade-in duration-700 pb-20">
-      {/* Hero Section */}
       <section className="flex flex-col items-center pt-4 px-4">
         <div className="relative w-full max-w-lg aspect-[16/9] rounded-[2.5rem] overflow-hidden shadow-2xl shadow-black border border-white/5 group">
           <Image 
@@ -164,9 +163,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Interactive Worship Cluster */}
       <section className="px-6 grid grid-cols-1 md:grid-cols-2 gap-4">
-        {/* Dhikr Pulse Node */}
         <Card 
           className="glass-card border-primary/20 bg-primary/5 active:scale-[0.98] transition-all cursor-pointer group relative overflow-hidden"
           onClick={incrementDhikr}
@@ -197,7 +194,6 @@ export default function Home() {
           </CardContent>
         </Card>
 
-        {/* Daily Reflection Node */}
         <Card className="glass-card border-accent/20 bg-accent/5 overflow-hidden flex flex-col justify-center">
           <CardContent className="p-6">
             {isLoadingReflection ? (
@@ -226,7 +222,6 @@ export default function Home() {
         </Card>
       </section>
 
-      {/* Greeting & Ad Section */}
       <div className="px-6 space-y-6">
         <section className="text-right space-y-2">
           <h1 className="text-5xl font-headline font-bold text-white tracking-tight">السلام عليكم</h1>
@@ -243,7 +238,6 @@ export default function Home() {
         <GoogleAd slot="home-top-responsive" />
       </div>
 
-      {/* Module Navigation */}
       <section className="flex flex-col items-center gap-8 pt-4">
         <div className="w-full px-6 grid grid-cols-2 md:grid-cols-4 gap-4 animate-in fade-in duration-500">
           {visibleModules.map((item) => (
@@ -276,17 +270,16 @@ export default function Home() {
           ))}
         </div>
 
-        <Button 
-          variant="ghost" 
-          className="rounded-full h-14 px-12 gap-3 font-headline font-bold border border-white/10 text-white bg-white/5 hover:bg-white/10 shadow-xl transition-all"
+        <button 
+          className="rounded-full h-14 px-12 gap-3 font-headline font-bold border border-white/10 text-white bg-white/5 hover:bg-white/10 shadow-xl transition-all inline-flex items-center justify-center"
           onClick={() => setIsExpanded(!isExpanded)}
         >
           {isExpanded ? (
-            <>Collapse Infrastructure <ChevronUp className="w-5 h-5" /></>
+            <>Collapse Infrastructure <ChevronUp className="w-5 h-5 ml-2" /></>
           ) : (
-            <>Explore All {featureCount} Modules <ChevronDown className="w-5 h-5" /></>
+            <>Explore All {featureCount} Modules <ChevronDown className="w-5 h-5 ml-2" /></>
           )}
-        </Button>
+        </button>
 
         {isExpanded && (
           <div className="w-full space-y-14 animate-in slide-in-from-bottom-8 duration-500 px-6">

@@ -1,4 +1,3 @@
-
 'use client';
 
 import { useState, useEffect } from "react";
@@ -13,8 +12,7 @@ import {
   ChevronRight, 
   ArrowLeft, 
   User, 
-  Phone,
-  Globe
+  Phone
 } from "lucide-react";
 import { 
   useAuth, 
@@ -26,7 +24,7 @@ import {
   initiatePhoneSignIn
 } from "@/firebase";
 import { toast } from "@/hooks/use-toast";
-import { ConfirmationResult } from "firebase/auth";
+import type { ConfirmationResult } from "firebase/auth";
 
 type LoginStep = "initial" | "email" | "phone" | "otp";
 
@@ -50,7 +48,6 @@ export default function LoginPage() {
     e.preventDefault();
     setIsLoading(true);
     initiateEmailSignIn(auth, email, password);
-    // Sign-in is handled non-blocking, we show loading until redirect
   };
 
   const handlePhoneSubmit = async (e: React.FormEvent) => {
@@ -126,7 +123,6 @@ export default function LoginPage() {
         <CardContent className="space-y-4">
           {step === "initial" && (
             <div className="grid gap-3">
-              {/* SOCIAL PROVIDERS */}
               <Button 
                 variant="outline" 
                 className="h-14 glass-card gap-4 justify-start px-6 font-headline font-bold uppercase text-[10px] tracking-widest hover:border-primary/50 transition-all"
@@ -166,7 +162,6 @@ export default function LoginPage() {
                 Continue with Microsoft
               </Button>
 
-              {/* DIRECT ACTIONS */}
               <Button 
                 variant="outline" 
                 className="h-14 glass-card gap-4 justify-start px-6 font-headline font-bold uppercase text-[10px] tracking-widest hover:border-primary/50 transition-all"
