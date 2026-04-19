@@ -1,43 +1,37 @@
-# Next.js
+# dependencies
+/node_modules
+/.pnp
+.pnp.js
+.yarn/install-state.gz
+
+# testing
+/coverage
+
+# next.js
 /.next/
 /out/
+
+# production
 /build
 
-# Production Build Artifacts
-/dist
-/public/build
+# misc
+.DS_Store
+*.pem
 
-# Firebase
-/.firebase/
-/firebase-debug.log*
-/firestore-debug.log*
-/ui-debug.log*
-/hub-debug.log*
-
-# Environment & Secrets (CRITICAL)
-.env
-.env.local
-.env.development.local
-.env.test.local
-.env.production.local
-.env*.local
-
-# Node
-/node_modules
+# debug
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 .pnpm-debug.log*
 
-# OS Files
-.DS_Store
-Thumbs.db
+# local env files
+.env*.local
+.env
+.env.production
 
-# TypeScript
+# vercel
+.vercel
+
+# typescript
 *.tsbuildinfo
-
-# IDEs
-/.vscode/
-/.idea/
-*.swp
-*.swo
+next-env.d.ts
