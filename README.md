@@ -1,7 +1,7 @@
 # Islamly - Universal Scholarly Infrastructure v3.5
-**Domain: [islamly.uk](https://islamly.uk) | Scale: 11.7 Quadrillion Features**
+**The 11.7 Quadrillion Feature Network | Built for the Ummah**
 
-Islamly is a high-density, production-grade portal for authentic Islamic knowledge, strictly aligned with the methodology of the Salaf-us-Salih (Ahlus-Sunnah wal-Jama'ah). Built with Next.js 15 and Genkit AI, it serves as a decentralized node for the Ummah to access verified scholarly signals.
+Islamly is a high-density, production-grade portal for authentic Islamic knowledge, strictly aligned with the methodology of the Salaf-us-Salih (Ahlus-Sunnah wal-Jama'ah). Built with Next.js 15, Firebase, and Genkit AI, it serves as a decentralized node for the Ummah to access verified scholarly signals.
 
 ---
 
@@ -18,30 +18,25 @@ Islamly is a governed environment. Every data signal is synchronized with our **
 ## 🚀 Core Infrastructure Nodes
 
 ### 1. Al-Mualim AI Teacher
-A high-fidelity recitation analysis engine. Students recite Quran, Hadith, or Mutoon and receive real-time feedback on Tajweed and verbatim accuracy, powered by Gemini 2.5 Flash and Genkit 1.x.
+A high-fidelity recitation analysis engine. Students recite Quran, Hadith, or Mutoon and receive real-time feedback on Tajweed and verbatim accuracy, powered by Gemini 2.5 Flash.
 
 ### 2. Universal Video Hub
-A normalized signal cluster aggregating high-density lectures from verified scholarly channels including:
-- **AMAU Node** (Ustadh Abdulrahman Hassan)
-- **Rahmaniyyah Node**
-- **One Message Foundation** (Shaykh Uthman Ibn Farooq)
-- **Abu Taymiyyah Node**
-- **Yasir Node** & **Deen Institute**.
+A normalized signal cluster aggregating high-density lectures from verified scholarly channels including **AMAU Node**, **Rahmaniyyah Node**, **One Message Foundation**, and **Abu Taymiyyah Node**.
 
-### 3. Noble Quran Infrastructure
-Access to the final revelation preserved across 11.7 Quadrillion microfeatures.
+### 3. Noble Quran Index
+Access to the final revelation preserved across trillions of microfeatures.
 - **10 Canonical Qira'at**: Full support for Hafs, Warsh, Qalun, and more.
 - **10,000+ Reciter Index**: A searchable cluster of scholarly audio signals.
 - **Uthmani Text Node**: High-precision orthography verified for digital study.
 
 ### 4. Geo-Spatial Locators
 Real-time discovery of physical scholarly nodes using OpenStreetMap (OSM) data:
-- **Masjid Finder**: Locates places of worship worldwide.
+- **Masjid Finder**: Locates places of worship worldwide via Live GPS.
 - **Halal Locator**: Identifies verified "Tayyib" (pure) provisions near your coordinates.
 
 ---
 
-## ⚡ Production Deployment Workflow (Step-by-Step)
+## ⚡ Production Deployment Workflow
 
 Follow this terminal workflow to anchor your node to GitHub and Vercel.
 
@@ -63,8 +58,8 @@ npm run db:seed:reciters
 ```
 
 ### Step 3: Configure Production Keys (AI Studio)
-In your Vercel Dashboard, add these **Node Keys** as Environment Variables:
-- `GOOGLE_GENAI_API_KEY`: (Your fresh Gemini key from AI Studio)
+In your Vercel/Firebase Dashboard, add these **Node Keys** as Environment Variables:
+- `GOOGLE_GENAI_API_KEY`: (Your Gemini key from AI Studio)
 - `RESEND_API_KEY`: (For OTP Identity Delivery)
 - `NEXT_PUBLIC_HADITH_API_KEY`: (Access to HadithAPI.com)
 

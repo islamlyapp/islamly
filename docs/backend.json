@@ -159,8 +159,7 @@
       "anonymous",
       "google.com",
       "discord.com",
-      "microsoft.com",
-      "phone"
+      "microsoft.com"
     ]
   },
   "firestore": {

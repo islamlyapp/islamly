@@ -1,28 +1,43 @@
 # Next.js
 /.next/
 /out/
-/build/
+/build
 
-# Production Environment Variables
-# CRITICAL: This protects your Google AI and Firebase keys
+# Production Build Artifacts
+/dist
+/public/build
+
+# Firebase
+/.firebase/
+/firebase-debug.log*
+/firestore-debug.log*
+/ui-debug.log*
+/hub-debug.log*
+
+# Environment & Secrets (CRITICAL)
 .env
 .env.local
 .env.development.local
 .env.test.local
 .env.production.local
+.env*.local
 
-# Dependency directories
-/node_modules/
-/jspm_packages/
-
-# Debug logs
+# Node
+/node_modules
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+.pnpm-debug.log*
 
-# OS files
+# OS Files
 .DS_Store
 Thumbs.db
 
-# Vercel
-.vercel
+# TypeScript
+*.tsbuildinfo
+
+# IDEs
+/.vscode/
+/.idea/
+*.swp
+*.swo
