@@ -9,10 +9,8 @@ import {
   Mail, 
   Lock, 
   Loader2, 
-  ChevronRight, 
   ArrowLeft, 
-  User, 
-  Phone
+  User
 } from "lucide-react";
 import { 
   useAuth, 
@@ -20,22 +18,16 @@ import {
   initiateAnonymousSignIn,
   initiateGoogleSignIn,
   initiateDiscordSignIn,
-  initiateMicrosoftSignIn,
-  initiatePhoneSignIn
+  initiateMicrosoftSignIn
 } from "@/firebase";
-import { toast } from "@/hooks/use-toast";
-import type { ConfirmationResult } from "firebase/auth";
 
-type LoginStep = "initial" | "email" | "phone" | "otp";
+type LoginStep = "initial" | "email";
 
 export default function LoginPage() {
   const [step, setStep] = useState<LoginStep>("initial");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [phoneNumber, setPhoneNumber] = useState("");
-  const [otp, setOtp] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const [confirmationResult, setConfirmationResult] = useState<ConfirmationResult | null>(null);
   const [hasMounted, setHasMounted] = useState(false);
   
   const auth = useAuth();
@@ -48,34 +40,6 @@ export default function LoginPage() {
     e.preventDefault();
     setIsLoading(true);
     initiateEmailSignIn(auth, email, password);
-  };
-
-  const handlePhoneSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!phoneNumber.startsWith('+')) {
-      toast({ variant: "destructive", title: "Format Error", description: "Use international format (e.g., +44...)" });
-      return;
-    }
-    setIsLoading(true);
-    const result = await initiatePhoneSignIn(auth, phoneNumber);
-    if (result) {
-      setConfirmationResult(result);
-      setStep("otp");
-    }
-    setIsLoading(false);
-  };
-
-  const handleVerifyOtp = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!confirmationResult) return;
-    setIsLoading(true);
-    try {
-      await confirmationResult.confirm(otp);
-      toast({ title: "Node Verified", description: "Access granted via phone." });
-    } catch (error: any) {
-      toast({ variant: "destructive", title: "Verification Failed", description: error.message });
-    }
-    setIsLoading(false);
   };
 
   if (!hasMounted) return null;
@@ -103,8 +67,6 @@ export default function LoginPage() {
             <CardTitle className="font-headline text-lg uppercase tracking-tight">
               {step === "initial" && "Identity Selection"}
               {step === "email" && "Email Sign In"}
-              {step === "phone" && "Phone Verification"}
-              {step === "otp" && "Verification Token"}
             </CardTitle>
             {step !== "initial" && (
               <button onClick={() => setStep("initial")} className="text-[10px] uppercase font-bold text-muted-foreground hover:text-primary transition-colors flex items-center gap-1">
@@ -115,8 +77,6 @@ export default function LoginPage() {
           <CardDescription className="text-xs">
             {step === "initial" && "Select a protocol to connect to the network."}
             {step === "email" && "Enter your credentials to access your node."}
-            {step === "phone" && "Receive a secure token via SMS node."}
-            {step === "otp" && "Enter the 6-digit code dispatched to your device."}
           </CardDescription>
         </CardHeader>
 
@@ -172,15 +132,6 @@ export default function LoginPage() {
               </Button>
 
               <Button 
-                variant="outline" 
-                className="h-14 glass-card gap-4 justify-start px-6 font-headline font-bold uppercase text-[10px] tracking-widest hover:border-primary/50 transition-all"
-                onClick={() => setStep("phone")}
-              >
-                <Phone className="w-5 h-5 text-emerald-400" />
-                Continue with Phone
-              </Button>
-
-              <Button 
                 variant="ghost" 
                 className="h-14 bg-secondary/5 gap-4 justify-start px-6 font-headline font-bold uppercase text-[10px] tracking-[0.2em] text-muted-foreground opacity-60 hover:opacity-100 transition-all"
                 onClick={() => initiateAnonymousSignIn(auth)}
@@ -219,46 +170,6 @@ export default function LoginPage() {
               </div>
               <Button type="submit" className="w-full h-12 text-md font-headline uppercase tracking-widest">
                 Authorize Access
-              </Button>
-            </form>
-          )}
-
-          {step === "phone" && (
-            <form onSubmit={handlePhoneSubmit} className="space-y-4 animate-in slide-in-from-right-4 duration-300">
-              <div className="relative">
-                <Phone className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground w-4 h-4" />
-                <Input
-                  type="tel"
-                  placeholder="+44 7000 000000"
-                  className="pl-10 bg-secondary/20 h-12 border-white/5"
-                  value={phoneNumber}
-                  onChange={(e) => setPhoneNumber(e.target.value)}
-                  required
-                />
-              </div>
-              <div id="phone-sign-in-container" />
-              <Button type="submit" className="w-full h-12 text-md font-headline uppercase tracking-widest gap-2">
-                Dispatch Token <ChevronRight className="w-4 h-4" />
-              </Button>
-            </form>
-          )}
-
-          {step === "otp" && (
-            <form onSubmit={handleVerifyOtp} className="space-y-4 animate-in slide-in-from-right-4 duration-300">
-              <div className="relative">
-                <ShieldCheck className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground w-4 h-4" />
-                <Input
-                  type="text"
-                  placeholder="6-Digit Token"
-                  className="pl-10 bg-secondary/20 h-12 border-white/5 tracking-[0.5em] text-center font-bold text-lg"
-                  value={otp}
-                  maxLength={6}
-                  onChange={(e) => setOtp(e.target.value)}
-                  required
-                />
-              </div>
-              <Button type="submit" className="w-full h-12 text-md font-headline uppercase tracking-widest">
-                Verify Identity
               </Button>
             </form>
           )}

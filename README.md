@@ -1,27 +1,27 @@
 # Islamly - Universal Scholarly Infrastructure v3.5
 **Domain: [islamly.uk](https://islamly.uk) | Scale: 11.7 Quadrillion Features**
 
-Islamly is a high-density, production-grade portal for authentic Islamic knowledge, strictly aligned with the methodology of the Salaf-us-Salih (Ahlus-Sunnah wal-Jama'ah). Built with Next.js 15 and Genkit AI, it serves as a decentralized node for the global Ummah to access verified scholarly signals.
+Islamly is a high-density, production-grade portal for authentic Islamic knowledge, strictly aligned with the methodology of the Salaf-us-Salih (Ahlus-Sunnah wal-Jama'ah). Built with Next.js 15 and Genkit AI, it serves as a decentralized node for the Ummah to access verified scholarly signals.
 
 ---
 
 ## 🛡️ Methodology & Governance (The Standard)
 
-Islamly is not just an app; it is a governed environment. Every data signal is synchronized with our **AutoMod Pulse**, a scholarly governance layer that ensures:
+Islamly is a governed environment. Every data signal is synchronized with our **AutoMod Pulse**, a scholarly governance layer that ensures:
 - **Strict Monotheism (Tawhid)**: Zero tolerance for Shirk (major or minor).
-- **Adherence to Sunnah**: Elimination of Bid'ah (innovations like Mawlid or innovated nights) and philosophical over-rationalization.
+- **Adherence to Sunnah**: Elimination of Bid'ah (innovations like Mawlid or innovated nights).
 - **Sanad Integrity**: Every Hadith and text node is cross-referenced with 10,000+ verification points.
-- **Amanah**: 1 Billion privacy nodes protect student data. We never sell user telemetry.
+- **Amanah**: Your data is a trust. We maintain 1 Billion privacy nodes and never sell user telemetry.
 
 ---
 
 ## 🚀 Core Infrastructure Nodes
 
 ### 1. Al-Mualim AI Teacher
-A high-fidelity recitation analysis engine. Students recite Quran, Hadith, or Mutoon, and receive real-time feedback on Tajweed rules (Makharij, Sifat) and verbatim accuracy, powered by Gemini 2.5 Flash Online and Genkit 1.x.
+A high-fidelity recitation analysis engine. Students recite Quran, Hadith, or Mutoon and receive real-time feedback on Tajweed and verbatim accuracy, powered by Gemini 2.5 Flash and Genkit 1.x.
 
 ### 2. Universal Video Hub
-A normalized signal cluster that aggregates high-density lectures from verified scholarly channels including:
+A normalized signal cluster aggregating high-density lectures from verified scholarly channels including:
 - **AMAU Node** (Ustadh Abdulrahman Hassan)
 - **Rahmaniyyah Node**
 - **One Message Foundation** (Shaykh Uthman Ibn Farooq)
@@ -30,9 +30,9 @@ A normalized signal cluster that aggregates high-density lectures from verified 
 
 ### 3. Noble Quran Infrastructure
 Access to the final revelation preserved across 11.7 Quadrillion microfeatures.
-- **10 Canonical Qira'at**: Support for Hafs, Warsh, Qalun, and more.
+- **10 Canonical Qira'at**: Full support for Hafs, Warsh, Qalun, and more.
 - **10,000+ Reciter Index**: A searchable cluster of scholarly audio signals.
-- **Uthmani Text Node**: High-precision orthography verified for digital reading.
+- **Uthmani Text Node**: High-precision orthography verified for digital study.
 
 ### 4. Geo-Spatial Locators
 Real-time discovery of physical scholarly nodes using OpenStreetMap (OSM) data:
@@ -56,7 +56,7 @@ git push -u origin main
 ```
 
 ### Step 2: Seed Scholarly Nodes (Firestore)
-Upload the high-density metadata for the video index and the 10,000+ reciter directory:
+Upload the high-density metadata for the video index and reciter directory:
 ```bash
 npm run db:seed
 npm run db:seed:reciters
