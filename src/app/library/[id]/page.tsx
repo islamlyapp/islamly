@@ -1,10 +1,9 @@
-
 "use client";
 
 import { use, useState, useEffect } from "react";
 import { LIBRARY_BOOKS } from "@/lib/books";
 import { Button } from "@/components/ui/button";
-import { ChevronLeft, BookOpen, User, Tag, Calendar, Download, Bookmark, Share2, Loader2, ShieldCheck, ChevronRight, Sparkles } from "lucide-react";
+import { ChevronLeft, BookOpen, User, Tag, Calendar, Download, Share2, ShieldCheck, ChevronRight, Sparkles } from "lucide-react";
 import Link from "next/link";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
