@@ -1,4 +1,3 @@
-
 "use client";
 
 import { useState, useEffect, useMemo } from "react";
@@ -19,7 +18,8 @@ import {
   Layers,
   Binary,
   Search,
-  BookMarked
+  BookMarked,
+  ShieldCheck
 } from "lucide-react";
 import { 
   Select, 
