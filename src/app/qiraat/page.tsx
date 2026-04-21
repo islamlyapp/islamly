@@ -5,21 +5,15 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { 
-  BookOpen, 
+  BookMarked, 
   ChevronLeft, 
   ChevronRight, 
-  Settings2, 
-  Sparkles, 
-  Database, 
   Play, 
   Pause, 
-  Volume2,
-  Info,
-  Layers,
-  Binary,
-  Search,
-  BookMarked,
-  ShieldCheck
+  Database, 
+  Sparkles, 
+  ShieldCheck,
+  Binary
 } from "lucide-react";
 import { 
   Select, 
@@ -31,9 +25,8 @@ import {
   SelectValue 
 } from "@/components/ui/select";
 import { cn } from "@/lib/utils";
-import { toast } from "@/hooks/use-toast";
 
-// MOCK DATA STRUCTURES (Samples representing the full 11.7Q feature set)
+// MOCK DATA STRUCTURES
 const QIRAAT_HIERARCHY = [
   { imam: "Nafi‘", riwayahs: ["Qalun", "Warsh"] },
   { imam: "Ibn Kathir", riwayahs: ["Al-Bazzi", "Qunbul"] },
@@ -48,7 +41,7 @@ const QIRAAT_HIERARCHY = [
 ];
 
 const BASE_QURAN = [
-  { surah: 1, ayah: 1, text: "بِسْمِ اللَّهِ الرَّحْمَنِ الرَّحِيمِ", page: 1 },
+  { surah: 1, ayah: 1, text: "بِسْم.ِ اللَّهِ الرَّحْمَنِ الرَّحِيمِ", page: 1 },
   { surah: 1, ayah: 2, text: "الْحَمْدُ لِلَّهِ رَبِّ الْعَالَمِينَ", page: 1 },
   { surah: 1, ayah: 3, text: "الرَّحْمَنِ الرَّحِيمِ", page: 1 },
   { surah: 1, ayah: 4, text: "مَالِكِ يَوْمِ الدِّينِ", page: 1 },
@@ -73,7 +66,8 @@ const VARIANTS = [
       "Hafs": "قَالَ",
       "Warsh": "قُل",
       "Abu Ja‘far": "قُل",
-      "Ya‘qub": "قُل"
+      "Ya‘qub": "قُل",
+      "Khalaf al-‘Ashir": "قُل"
     }
   }
 ];
@@ -94,21 +88,21 @@ export default function QiraatReaderPage() {
 
   const renderAyahText = (ayah: typeof BASE_QURAN[0]) => {
     const variantEntry = VARIANTS.find(v => v.surah === ayah.surah && v.ayah === ayah.ayah);
-    const variantText = variantEntry?.variants[selectedRiwayah as keyof typeof variantEntry.variants];
+    if (!variantEntry) return ayah.text;
+
+    const variantText = variantEntry.variants[selectedRiwayah] || variantEntry.variants["Hafs"] || ayah.text;
+    const hafsText = variantEntry.variants["Hafs"] || ayah.text;
     
-    // Logic: If selected is NOT Hafs and a variant exists for this Riwayah
-    const hasDiff = selectedRiwayah !== "Hafs" && variantText && variantText !== variantEntry.variants["Hafs"];
+    const hasDiff = selectedRiwayah !== "Hafs" && variantText !== hafsText;
 
     if (hasDiff) {
-      // For the prototype, we replace the whole text if it's a simple word change, 
-      // but in a production node, we would use word-level mapping.
       return (
         <span className="relative group cursor-help">
           <span className="text-primary underline decoration-dotted decoration-primary/40 underline-offset-8">
             {variantText}
           </span>
           <span className="absolute -top-10 left-1/2 -translate-x-1/2 bg-black/90 text-white text-[8px] px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap z-50 border border-primary/20 font-sans tracking-widest uppercase">
-            {selectedRiwayah} Variant Detected
+            {selectedRiwayah} Variant
           </span>
         </span>
       );
@@ -117,7 +111,7 @@ export default function QiraatReaderPage() {
     return ayah.text;
   };
 
-  const handleNextPage = () => setCurrentPage(prev => Math.min(prev + 604, 604));
+  const handleNextPage = () => setCurrentPage(prev => Math.min(604, prev + 1));
   const handlePrevPage = () => setCurrentPage(prev => Math.max(1, prev - 1));
 
   if (!hasMounted) return null;
@@ -163,11 +157,9 @@ export default function QiraatReaderPage() {
         </div>
       </header>
 
-      {/* Reader Interface */}
       <Card className="glass-card border-none shadow-2xl overflow-hidden relative min-h-[600px] flex flex-col">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,_rgba(173,31,55,0.05)_0%,_transparent_50%)]" />
         
-        {/* Page Meta */}
         <div className="flex justify-between items-center px-8 py-6 border-b border-white/5 relative z-10 bg-black/20">
           <div className="flex items-center gap-6">
             <div className="space-y-1">
@@ -217,7 +209,6 @@ export default function QiraatReaderPage() {
           </div>
         </CardContent>
 
-        {/* Navigation Footer */}
         <div className="p-8 bg-secondary/10 border-t border-white/5 flex justify-between items-center relative z-10">
           <Button 
             variant="outline" 
@@ -258,7 +249,6 @@ export default function QiraatReaderPage() {
         </div>
       </Card>
 
-      {/* Info Section */}
       <section className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <Card className="glass-card p-8 border-primary/20 bg-primary/5 flex items-start gap-4">
           <Sparkles className="w-8 h-8 text-primary shrink-0" />

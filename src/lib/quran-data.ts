@@ -1,4 +1,3 @@
-
 /**
  * @fileOverview Utilities for managing Quranic textual signals and variants.
  */
@@ -18,10 +17,18 @@ export type QiraatVariant = {
 
 /**
  * Normalizes Arabic text for baseline comparison.
+ * Strips harakat and Quranic marks for pure semantic matching.
+ * Uses strictly sorted Unicode ranges to prevent "Range out of order" errors.
  */
 export function normalizeQuranicText(text: string): string {
   return text
-    .replace(/[ؐ-ًؕ-ٓۖ-ۜ۟-ۤۥۦۧ-۪ۨ-ۚ]/g, "") // Remove harakat/symbols for simple comparison
+    // 0610-0615: Small high marks
+    // 064B-065E: Standard Harakat (Fatha, Kasra, etc.)
+    // 06D6-06DC: Tajweed stop marks
+    // 06DF-06E4: Small high marks
+    // 06E7-06E8: Small high YEH/NOON
+    // 06EA-06ED: Punctuation/Stop marks
+    .replace(/[\u0610-\u0615\u064B-\u065E\u06D6-\u06DC\u06DF-\u06E4\u06E7-\u06E8\u06EA-\u06ED]/g, "")
     .trim();
 }
 
