@@ -1,3 +1,4 @@
+
 "use client";
 
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
@@ -36,7 +37,6 @@ import {
   HandCoins,
   Megaphone,
   Tent,
-  Calendar as CalendarIcon,
   ShieldAlert,
   Lock,
   Baby,
@@ -47,7 +47,8 @@ import {
   Video as VideoIcon,
   Radio,
   Gavel,
-  Layers
+  Layers,
+  BookCheck
 } from "lucide-react";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
@@ -96,6 +97,7 @@ export default function Home() {
   const brandHero = PlaceHolderImages?.find(img => img.id === 'brand-hero') || PlaceHolderImages[0];
 
   const allModules = [
+    { title: "Universal Qira'at", href: "/qiraat", icon: BookCheck, color: "text-emerald-500", bg: "bg-emerald-500/10", border: "border-emerald-500/20", group: "AI Infrastructure" },
     { title: "AI Teacher", href: "/mualim", icon: GraduationCap, color: "text-primary", bg: "bg-primary/10", border: "border-primary/20", group: "AI Infrastructure" },
     { title: "Ask AI", href: "/ask", icon: MessageCircle, color: "text-rose-400", bg: "bg-rose-500/10", border: "border-rose-500/20", group: "AI Infrastructure" },
     { title: "Simplifier", href: "/explain", icon: Sparkles, color: "text-purple-400", bg: "bg-purple-500/10", border: "border-purple-500/20", group: "AI Infrastructure" },
@@ -105,7 +107,7 @@ export default function Home() {
     { title: "Video Hub", href: "/videos", icon: VideoIcon, color: "text-indigo-400", bg: "bg-indigo-500/10", border: "border-indigo-500/20", group: "Core Knowledge" },
     { title: "Audio Hub", href: "/audio", icon: Radio, color: "text-blue-400", bg: "bg-blue-500/10", border: "border-blue-500/20", group: "Core Knowledge" },
     { title: "Seerah Path", href: "/seerah", icon: History, color: "text-cyan-400", bg: "bg-cyan-500/10", border: "border-cyan-500/20", group: "Core Knowledge" },
-    { title: "Sunnah Calendar", href: "/calendar", icon: CalendarIcon, color: "text-emerald-500", bg: "bg-emerald-500/10", border: "border-emerald-500/20", group: "Core Knowledge" },
+    { title: "Sunnah Calendar", href: "/calendar", icon: ScrollText, color: "text-emerald-500", bg: "bg-emerald-500/10", border: "border-emerald-500/20", group: "Core Knowledge" },
     { title: "Dawah Hub", href: "/dawah", icon: Megaphone, color: "text-rose-500", bg: "bg-rose-500/10", border: "border-rose-500/20", group: "Core Knowledge" },
     { title: "Aqidah Node", href: "/tawheed", icon: ShieldCheck, color: "text-red-400", bg: "bg-red-500/10", border: "border-red-500/20", group: "Core Knowledge" },
     { title: "Library", href: "/library", icon: Library, color: "text-emerald-500", bg: "bg-emerald-500/10", border: "border-emerald-500/20", group: "Core Knowledge" },
