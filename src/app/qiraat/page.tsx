@@ -44,7 +44,7 @@ const riwayahs = QIRAAT_HIERARCHY.flatMap(q => q.riwayahs);
 type Riwayah = typeof riwayahs[number];
 
 const BASE_QURAN = [
-  { surah: 1, ayah: 1, text: "بِسْم.ِ اللَّهِ الرَّحْمَنِ الرَّحِيمِ", page: 1 },
+  { surah: 1, ayah: 1, text: "بِسْمِ اللَّهِ الرَّحْمَنِ الرَّحِيمِ", page: 1 },
   { surah: 1, ayah: 2, text: "الْحَمْدُ لِلَّهِ رَبِّ الْعَالَمِينَ", page: 1 },
   { surah: 1, ayah: 3, text: "الرَّحْمَنِ الرَّحِيمِ", page: 1 },
   { surah: 1, ayah: 4, text: "مَالِكِ يَوْمِ الدِّينِ", page: 1 },
@@ -59,7 +59,8 @@ const VARIANTS = [
       "Hafs": "مَالِكِ يَوْمِ الدِّينِ",
       "Warsh": "مَلِكِ يَوْمِ الدِّينِ",
       "Qalun": "مَلِكِ يَوْمِ الدِّينِ",
-      "Khalaf": "مَلِكِ يَوْمِ الدِّينِ"
+      "Khalaf": "مَلِكِ يَوْمِ الدِّينِ",
+      "Khalaf al-‘Ashir": "مَلِكِ يَوْمِ الدِّينِ"
     }
   },
   {
@@ -133,7 +134,7 @@ export default function QiraatReaderPage() {
             </div>
             <div>
               <h1 className="text-3xl font-headline font-black text-white uppercase tracking-tight">Universal Qira'at Node</h1>
-              <p className="text-muted-foreground italic text-sm">Precision textual synchronization across 10 canonical readings.</p>
+              <p className="text-muted-foreground italic text-sm">Textual synchronization across canonical readings.</p>
             </div>
           </div>
         </div>
@@ -256,9 +257,9 @@ export default function QiraatReaderPage() {
         <Card className="glass-card p-8 border-primary/20 bg-primary/5 flex items-start gap-4">
           <Sparkles className="w-8 h-8 text-primary shrink-0" />
           <div className="space-y-2">
-            <h3 className="font-headline font-bold text-sm uppercase tracking-widest text-white">Dynamic Highlighting Node</h3>
+            <h3 className="font-headline font-bold text-sm uppercase tracking-widest text-white">Variant Highlighting</h3>
             <p className="text-xs text-muted-foreground leading-relaxed italic">
-              Our infrastructure automatically compares the selected reading with **Hafs 'an 'Asim**. Differences are highlighted in red to assist in advanced recitation study.
+              Differences between the selected reading and **Hafs 'an 'Asim** are automatically identified and highlighted.
             </p>
           </div>
         </Card>
@@ -268,7 +269,7 @@ export default function QiraatReaderPage() {
           <div className="space-y-2">
             <h3 className="font-headline font-bold text-sm uppercase tracking-widest text-white">Authenticity Protocol</h3>
             <p className="text-xs text-muted-foreground leading-relaxed italic">
-              All textual signals are verified against authorized scholarly manuscripts. 11.7 Quadrillion verification points ensure zero-deviation from the Sunnah.
+              All textual signals are verified against authorized scholarly manuscripts to ensure zero-deviation from the Sunnah.
             </p>
           </div>
         </Card>
@@ -278,7 +279,7 @@ export default function QiraatReaderPage() {
         <div className="flex items-center justify-center gap-2 mb-2">
           <Database className="w-3 h-3" />
           <p className="text-[9px] uppercase tracking-[0.4em] font-black italic">
-            Universal Qira'at Infrastructure v3.5 • Multi-Node Sync
+            إسلاملي Universal Qira'at Infrastructure v3.5
           </p>
         </div>
       </footer>

@@ -222,7 +222,7 @@ export default function Home() {
           <div className="flex items-center justify-end gap-3">
             <div className="flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/20">
               <Lock className="w-2.5 h-2.5 text-emerald-500" />
-              <span className="text-[8px] uppercase font-black text-emerald-500 tracking-widest">AutoMod Cluster Active</span>
+              <span className="text-[8px] uppercase font-black text-emerald-500 tracking-widest">Ahlus-Sunnah Node Active</span>
             </div>
           </div>
         </section>

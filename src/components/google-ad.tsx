@@ -11,7 +11,6 @@ interface GoogleAdProps {
 
 /**
  * Google Sponsor Node for the Islamly Scholarly Infrastructure.
- * Branded as "Scholarly Sponsors" with a visible "Islamic Filter Active" badge.
  * Optimized with a strict initialization guard to prevent Runtime TagErrors.
  */
 export function GoogleAd({ slot, format = "auto", className }: GoogleAdProps) {

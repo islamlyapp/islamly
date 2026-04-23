@@ -1,7 +1,7 @@
 # Islamly - Universal Scholarly Infrastructure v1.0
-**The 11.7 Quadrillion Feature Network | Built for the Ummah**
+**Built for the Ummah**
 
-Islamly is a high-density, production-grade portal for authentic Islamic knowledge, strictly aligned with the methodology of the Salaf-us-Salih (Ahlus-Sunnah wal-Jama'ah). Built with Next.js 15, Firebase, and Genkit AI, it serves as a decentralized node for the Ummah to access verified scholarly signals.
+Islamly is a high-density, production-grade portal for authentic Islamic knowledge, strictly aligned with the methodology of the Salaf-us-Salih (Ahlus-Sunnah wal-Jama'ah). Built with Next.js 15, Firebase, and Genkit AI.
 
 ---
 
@@ -10,8 +10,8 @@ Islamly is a high-density, production-grade portal for authentic Islamic knowled
 Islamly is a governed environment. Every data signal is synchronized with our **AutoMod Pulse**, a scholarly governance layer that ensures:
 - **Strict Monotheism (Tawhid)**: Zero tolerance for Shirk (major or minor).
 - **Adherence to Sunnah**: Elimination of Bid'ah (innovations like Mawlid or innovated nights).
-- **Sanad Integrity**: Every Hadith and text node is cross-referenced with 10,000+ verification points.
-- **Amanah**: Your data is a trust. We maintain 1 Billion privacy nodes and never sell user telemetry.
+- **Sanad Integrity**: Every Hadith and text node is cross-referenced for verification.
+- **Amanah**: Your data is a trust. We maintain strict privacy infrastructure and never sell user telemetry.
 
 ---
 
@@ -26,7 +26,7 @@ A normalized signal cluster aggregating high-density lectures from verified scho
 ### 3. Noble Quran Index
 Access to the final revelation preserved across trillions of microfeatures.
 - **10 Canonical Qira'at**: Full support for Hafs, Warsh, Qalun, and more.
-- **10,000+ Reciter Index**: A searchable cluster of scholarly audio signals.
+- **Reciter Index**: A searchable cluster of scholarly audio signals.
 - **Uthmani Text Node**: High-precision orthography verified for digital study.
 
 ### 4. Geo-Spatial Locators
@@ -51,7 +51,7 @@ git push -u origin main
 ```
 
 ### Step 2: Seed Scholarly Nodes (Firestore)
-Upload the high-density metadata for the video index and reciter directory:
+Upload the metadata for the video index and reciter directory:
 ```bash
 npm run db:seed
 npm run db:seed:reciters
