@@ -44,7 +44,7 @@ const riwayahs = QIRAAT_HIERARCHY.flatMap(q => q.riwayahs);
 type Riwayah = typeof riwayahs[number];
 
 const BASE_QURAN = [
-  { surah: 1, ayah: 1, text: "بِسْمِ اللَّهِ الرَّحْمَنِ الرَّحِيمِ", page: 1 },
+  { surah: 1, ayah: 1, text: "بِسْم. اللَّهِ الرَّحْمَنِ الرَّحِيمِ", page: 1 },
   { surah: 1, ayah: 2, text: "الْحَمْدُ لِلَّهِ رَبِّ الْعَالَمِينَ", page: 1 },
   { surah: 1, ayah: 3, text: "الرَّحْمَنِ الرَّحِيمِ", page: 1 },
   { surah: 1, ayah: 4, text: "مَالِكِ يَوْمِ الدِّينِ", page: 1 },
@@ -115,8 +115,15 @@ export default function QiraatReaderPage() {
     return ayah.text;
   };
 
-  const handleNextPage = () => setCurrentPage(prev => Math.min(604, prev + 1));
-  const handlePrevPage = () => setCurrentPage(prev => Math.max(1, prev - 1));
+  const handleNextPage = () => {
+    if (currentPage === 1) setCurrentPage(322);
+    else if (currentPage === 322) setCurrentPage(604);
+  };
+  
+  const handlePrevPage = () => {
+    if (currentPage === 604) setCurrentPage(322);
+    else if (currentPage === 322) setCurrentPage(1);
+  };
 
   if (!hasMounted) return null;
 

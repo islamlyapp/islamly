@@ -39,7 +39,6 @@ import {
   Droplets,
   Users,
   Binary,
-  Telescope,
   Video as VideoIcon,
   Radio,
   Gavel,
@@ -117,7 +116,6 @@ export default function Home() {
     { title: "Assessments", href: "/quiz", icon: Trophy, color: "text-yellow-500", bg: "bg-yellow-500/10", border: "border-yellow-500/20", group: "Interactive" },
     { title: "Scholarly Goals", href: "/goals", icon: Target, color: "text-blue-500", bg: "bg-blue-500/10", border: "border-blue-500/20", group: "Interactive" },
     { title: "Global Ummah", href: "/ummah", icon: Users, color: "text-cyan-500", bg: "bg-cyan-500/10", border: "border-cyan-500/20", group: "Interactive" },
-    { title: "Astro Node", href: "/astronomy", icon: Telescope, color: "text-indigo-500", bg: "bg-indigo-500/10", border: "border-indigo-500/20", group: "Interactive" },
     { title: "Sharia Node", href: "/sharia", icon: Gavel, color: "text-primary", bg: "bg-primary/10", border: "border-primary/20", group: "Core Knowledge" },
   ];
 

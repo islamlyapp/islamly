@@ -51,7 +51,7 @@ export default function LoginPage() {
           <ShieldCheck className="w-8 h-8 text-primary" />
         </div>
         <h1 className="text-3xl font-headline font-bold uppercase tracking-widest">Access Node</h1>
-        <p className="text-muted-foreground italic text-sm">Universal Scholarly Infrastructure Entry.</p>
+        <p className="text-muted-foreground italic text-sm">Universal Entry.</p>
       </header>
 
       <Card className="glass-card border-none shadow-2xl relative overflow-hidden">
