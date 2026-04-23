@@ -5,25 +5,16 @@ import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
 import { PlaceHolderImages } from "@/lib/placeholder-images";
-import { calculateCurrentFeatures, formatFeatureCount } from "@/lib/feature-counter";
 
 export function SplashScreen() {
   const [show, setShow] = useState(false);
   const [showSkip, setShowSkip] = useState(false);
-  const [featureCount, setFeatureCount] = useState<string>("2.5 Billion");
   
   const brandHero = PlaceHolderImages?.find(img => img.id === 'brand-hero');
 
   useEffect(() => {
     const timer = setTimeout(() => setShow(true), 100);
     const skipTimer = setTimeout(() => setShowSkip(true), 1500);
-    
-    try {
-      const count = calculateCurrentFeatures();
-      setFeatureCount(formatFeatureCount(count));
-    } catch (e) {
-      console.warn("Feature count calculation failed");
-    }
     
     return () => {
       clearTimeout(timer);
@@ -76,7 +67,7 @@ export function SplashScreen() {
           <div className="flex items-center gap-2 px-5 py-2 rounded-full bg-primary/10 border border-primary/30 backdrop-blur-md">
             <ShieldCheck className="w-4 h-4 text-primary" />
             <p className="text-[10px] uppercase tracking-[0.3em] text-white/80 font-bold">
-              {featureCount} Features Indexed
+              Scholarly Infrastructure Active
             </p>
           </div>
         </div>

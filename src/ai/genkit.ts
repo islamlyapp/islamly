@@ -3,7 +3,7 @@ import {googleAI} from '@genkit-ai/google-genai';
 
 /**
  * Universal Genkit AI Node
- * Synchronized with Google Gemini 2.5 Flash.
+ * Synchronized with Google Gemini 1.5 Flash.
  * Securely retrieves the API key from environment variables.
  */
 export const ai = genkit({
@@ -12,5 +12,5 @@ export const ai = genkit({
       apiKey: process.env.GOOGLE_GENAI_API_KEY || process.env.GOOGLE_API_KEY,
     }),
   ],
-  model: 'googleai/gemini-2.5-flash',
+  model: 'googleai/gemini-1.5-flash',
 });

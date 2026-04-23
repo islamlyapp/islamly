@@ -1,10 +1,9 @@
-
 "use client";
 
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
-import { Search, Filter, BookOpen, User, BookCheck, Shield, ChevronRight, Binary, Database, Layers, Sparkles } from "lucide-react";
+import { Search, BookOpen, User, BookCheck, Shield, ChevronRight, Database, Sparkles } from "lucide-react";
 import Link from "next/link";
 import { useState, useEffect } from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -44,10 +43,6 @@ export default function LibraryPage() {
             <Badge variant="secondary" className="bg-primary/10 text-primary border-primary/20">
               <Database className="w-3 h-3 mr-1" /> HQ Archive Active
             </Badge>
-            <div className="flex items-center gap-1 px-2 py-0.5 rounded-full bg-primary/10 border border-primary/20">
-              <Binary className="w-2.5 h-2.5 text-primary" />
-              <span className="text-[7px] uppercase font-black text-primary tracking-widest">10K+ Nodes/Page</span>
-            </div>
           </div>
         </div>
 
@@ -108,10 +103,10 @@ export default function LibraryPage() {
         <TabsContent value="scholars" className="animate-in fade-in slide-in-from-bottom-2">
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             {[
-              { name: "Sheikh Ibn Baz", era: "Modern Era", books: 54, nodes: "1.2 Quadrillion", color: "text-blue-400" },
-              { name: "Sheikh Al-Albani", era: "Modern Era", books: 120, nodes: "2.5 Quadrillion", color: "text-emerald-400" },
-              { name: "Ibn Taymiyyah", era: "Classical Era", books: 350, nodes: "11.7 Quadrillion", color: "text-amber-400" },
-              { name: "Imam Ahmad", era: "Salaf Era", books: 12, nodes: "800 Trillion", color: "text-rose-400" }
+              { name: "Sheikh Ibn Baz", era: "Modern Era", books: 54, color: "text-blue-400" },
+              { name: "Sheikh Al-Albani", era: "Modern Era", books: 120, color: "text-emerald-400" },
+              { name: "Ibn Taymiyyah", era: "Classical Era", books: 350, color: "text-amber-400" },
+              { name: "Imam Ahmad", era: "Salaf Era", books: 12, color: "text-rose-400" }
             ].map(s => (
               <Card key={s.name} className="glass-card p-6 hover:border-primary/40 cursor-pointer group active:scale-[0.98] transition-all relative overflow-hidden">
                 <div className="flex items-center gap-5 relative z-10">
@@ -121,10 +116,6 @@ export default function LibraryPage() {
                   <div className="space-y-1.5">
                     <h4 className="font-headline font-bold text-lg group-hover:text-primary transition-colors">{s.name}</h4>
                     <p className="text-[10px] text-muted-foreground uppercase font-black tracking-widest">{s.era} • {s.books} Works</p>
-                    <div className="flex items-center gap-1.5 px-2 py-0.5 rounded bg-primary/5 border border-primary/10 w-fit">
-                      <Binary className="w-2.5 h-2.5 text-primary opacity-60" />
-                      <span className="text-[7px] font-black text-primary uppercase tracking-widest">{s.nodes} Data Nodes</span>
-                    </div>
                   </div>
                 </div>
                 <div className="absolute -bottom-4 -right-4 opacity-[0.03] group-hover:opacity-10 transition-opacity">
@@ -145,7 +136,7 @@ export default function LibraryPage() {
           <h3 className="font-headline font-bold text-xl uppercase tracking-widest">Verified Scholarly Archives</h3>
         </div>
         <p className="text-sm text-muted-foreground leading-relaxed italic relative z-10 max-w-2xl">
-          The Islamly library indexes each text across 10,000+ microfeature nodes, ensuring every Mas'alah is verified against authorized scholarly editions. Our metadata cluster currently supports 11.7 Quadrillion interaction points.
+          The Islamly library indexes each text with high-fidelity metadata, ensuring every Mas'alah is verified against authorized scholarly editions. Our metadata cluster is synchronized across global coordinates.
         </p>
       </section>
     </div>
@@ -170,10 +161,6 @@ function BookCard({ book }: { book: any }) {
             </div>
             <div className="flex items-center gap-3">
               <p className="text-xs text-muted-foreground font-medium italic">By {book.author}</p>
-              <div className="flex items-center gap-1.5 px-2 py-0.5 rounded bg-primary/5 border border-primary/10">
-                <Layers className="w-2.5 h-2.5 text-primary opacity-60" />
-                <span className="text-[7px] font-bold text-primary uppercase tracking-widest">{book.nodes} Nodes</span>
-              </div>
             </div>
             <p className="text-[11px] text-muted-foreground line-clamp-2 leading-relaxed font-literata">
               {book.description}

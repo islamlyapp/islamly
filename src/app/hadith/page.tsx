@@ -9,15 +9,11 @@ import {
   Search, 
   Loader2, 
   ShieldCheck, 
-  Globe, 
-  BookOpen, 
-  ChevronRight,
-  Filter,
-  Copy,
-  Share2,
-  Database,
-  Cpu,
-  Binary
+  Copy, 
+  Share2, 
+  Database, 
+  Binary,
+  ChevronRight
 } from "lucide-react";
 import { fetchHadiths } from "@/services/islamic-data-service";
 import { Badge } from "@/components/ui/badge";
@@ -92,7 +88,7 @@ export default function HadithPage() {
               <ScrollText className="text-amber-500 w-10 h-10" />
               Hadith Index
             </h1>
-            <p className="text-muted-foreground italic">Exploring authentic sayings with 10,000+ verification nodes per record.</p>
+            <p className="text-muted-foreground italic">Exploring authentic sayings with verified scholarly records.</p>
           </div>
           <div className="flex flex-col items-end gap-1">
             <Badge variant="secondary" className="bg-amber-500/10 text-amber-500 border-amber-500/20">
@@ -159,10 +155,6 @@ export default function HadithPage() {
                       </Badge>
                       <span className="text-[10px] uppercase tracking-[0.2em] font-black text-muted-foreground">{activeCollection.name} Cluster</span>
                     </div>
-                    <div className="flex items-center gap-1.5 px-2 py-0.5 rounded bg-amber-500/5 border border-amber-500/10 w-fit">
-                      <Cpu className="w-2.5 h-2.5 text-amber-500 opacity-60" />
-                      <span className="text-[8px] font-black text-amber-500 uppercase tracking-widest">10,000+ Evidence Nodes</span>
-                    </div>
                   </div>
                   <div className="flex gap-1">
                     <Button variant="ghost" size="icon" className="h-9 w-9 hover:text-amber-500" onClick={() => copyHadith(h.hadithArabic || h.hadithEnglish)}>
@@ -197,9 +189,6 @@ export default function HadithPage() {
                     <div className="flex items-center gap-1.5 text-[10px] font-bold text-emerald-400">
                       <ShieldCheck className="w-3.5 h-3.5" /> Sahih / Authenticated
                     </div>
-                    <div className="hidden sm:flex items-center gap-1.5 text-[9px] uppercase tracking-widest text-muted-foreground font-bold">
-                      <Database className="w-3 h-3" /> Node: {activeCollection.id.toUpperCase()}-{(h.hadithNumber || i).toString().padStart(4, '0')}
-                    </div>
                   </div>
                   <Button 
                     variant="ghost" 
@@ -231,9 +220,9 @@ export default function HadithPage() {
           <Database className="w-8 h-8 text-amber-500" />
         </div>
         <div className="space-y-2 relative z-10">
-          <h3 className="font-headline font-bold text-xl uppercase tracking-widest text-foreground">Quadrillion-Scale Verification</h3>
+          <h3 className="font-headline font-bold text-xl uppercase tracking-widest text-foreground">Scholarly Verification</h3>
           <p className="text-sm text-muted-foreground leading-relaxed max-w-lg mx-auto italic">
-            Islamly utilizes high-density verification clusters to ensure every Hadith is cross-referenced with 10,000+ scholarly variants before display.
+            Islamly utilizes verification clusters to ensure every Hadith is cross-referenced with scholarly variants before display.
           </p>
         </div>
       </section>

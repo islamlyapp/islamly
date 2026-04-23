@@ -40,6 +40,9 @@ const QIRAAT_HIERARCHY = [
   { imam: "Khalaf al-‘Ashir", riwayahs: ["Khalaf al-‘Ashir"] },
 ];
 
+const riwayahs = QIRAAT_HIERARCHY.flatMap(q => q.riwayahs);
+type Riwayah = typeof riwayahs[number];
+
 const BASE_QURAN = [
   { surah: 1, ayah: 1, text: "بِسْم.ِ اللَّهِ الرَّحْمَنِ الرَّحِيمِ", page: 1 },
   { surah: 1, ayah: 2, text: "الْحَمْدُ لِلَّهِ رَبِّ الْعَالَمِينَ", page: 1 },
@@ -74,7 +77,7 @@ const VARIANTS = [
 
 export default function QiraatReaderPage() {
   const [currentPage, setCurrentPage] = useState(1);
-  const [selectedRiwayah, setSelectedRiwayah] = useState("Hafs");
+  const [selectedRiwayah, setSelectedRiwayah] = useState<Riwayah>("Hafs");
   const [isPlaying, setIsPlaying] = useState(false);
   const [hasMounted, setHasMounted] = useState(false);
 
@@ -90,7 +93,7 @@ export default function QiraatReaderPage() {
     const variantEntry = VARIANTS.find(v => v.surah === ayah.surah && v.ayah === ayah.ayah);
     if (!variantEntry) return ayah.text;
 
-    const variantText = variantEntry.variants[selectedRiwayah] || variantEntry.variants["Hafs"] || ayah.text;
+    const variantText = variantEntry.variants[selectedRiwayah as keyof typeof variantEntry.variants] || variantEntry.variants["Hafs"] || ayah.text;
     const hafsText = variantEntry.variants["Hafs"] || ayah.text;
     
     const hasDiff = selectedRiwayah !== "Hafs" && variantText !== hafsText;
@@ -137,7 +140,7 @@ export default function QiraatReaderPage() {
 
         <div className="flex flex-col gap-3 relative z-10 w-full md:w-72">
           <label className="text-[10px] uppercase font-black text-primary tracking-widest ml-1">Select Scholarly Signal</label>
-          <Select value={selectedRiwayah} onValueChange={setSelectedRiwayah}>
+          <Select value={selectedRiwayah} onValueChange={(value) => setSelectedRiwayah(value as Riwayah)}>
             <SelectTrigger className="h-14 glass-card border-primary/20 font-headline font-bold text-[10px] uppercase tracking-widest focus:ring-primary/50">
               <SelectValue placeholder="Choose Riwayah" />
             </SelectTrigger>

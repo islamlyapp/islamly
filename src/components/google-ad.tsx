@@ -73,14 +73,14 @@ export function GoogleAd({ slot, format = "auto", className }: GoogleAdProps) {
         <div className="absolute inset-0 flex items-center justify-center pointer-events-none opacity-5 group-hover:opacity-10 transition-opacity">
           <div className="text-center">
             <p className="text-[12px] font-headline font-bold uppercase tracking-[0.4em] text-primary">Sponsor Node</p>
-            <p className="text-[8px] uppercase mt-1 tracking-widest">Global Index Point: {slot}</p>
+            <p className="text-[8px] uppercase mt-1 tracking-widest">Global Index Point</p>
           </div>
         </div>
       </div>
       
       {/* Governance Note */}
       <p className="text-[8px] text-muted-foreground/40 uppercase tracking-widest italic font-medium">
-        Governance: Protected by 1 Billion Individual Privacy Nodes
+        Governance: Protected by our privacy infrastructure
       </p>
     </div>
   );

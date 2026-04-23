@@ -1,4 +1,3 @@
-
 "use client";
 
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
@@ -52,14 +51,12 @@ import { cn } from "@/lib/utils";
 import { useState, useEffect } from "react";
 import Image from "next/image";
 import { PlaceHolderImages } from "@/lib/placeholder-images";
-import { calculateCurrentFeatures, formatFeatureCount } from "@/lib/feature-counter";
 import { GoogleAd } from "@/components/google-ad";
 import { generateDailyReflection, type DailyReflectionOutput } from "@/ai/flows/daily-reflection-flow";
 import { fetchHijriDate } from "@/services/islamic-data-service";
 
 export default function Home() {
   const [isExpanded, setIsExpanded] = useState(false);
-  const [featureCount, setFeatureCount] = useState<string>("");
   const [hasMounted, setHasMounted] = useState(false);
   const [reflection, setReflection] = useState<DailyReflectionOutput | null>(null);
   const [isLoadingReflection, setIsLoadingReflection] = useState(true);
@@ -68,8 +65,6 @@ export default function Home() {
 
   useEffect(() => {
     setHasMounted(true);
-    const count = calculateCurrentFeatures();
-    setFeatureCount(formatFeatureCount(count));
 
     async function loadData() {
       try {
@@ -170,7 +165,7 @@ export default function Home() {
           <CardHeader className="pb-2">
             <div className="flex items-center justify-between">
               <span className="text-[10px] uppercase font-bold tracking-widest text-primary flex items-center gap-2">
-                <Fingerprint className="w-3 h-3" /> Dhikr Pulse Node
+                <Fingerprint className="w-3 h-3" /> Dhikr pulse
               </span>
               <Button 
                 variant="ghost" 
@@ -229,9 +224,6 @@ export default function Home() {
               <Lock className="w-2.5 h-2.5 text-emerald-500" />
               <span className="text-[8px] uppercase font-black text-emerald-500 tracking-widest">AutoMod Cluster Active</span>
             </div>
-            <p className="text-xl text-muted-foreground font-medium">
-              {featureCount} Features Active
-            </p>
           </div>
         </section>
         <GoogleAd slot="home-top-responsive" />
@@ -258,10 +250,6 @@ export default function Home() {
                     <span className="font-headline font-bold text-[10px] uppercase tracking-widest block group-hover:text-primary transition-colors">
                       {item.title}
                     </span>
-                    <div className="flex items-center justify-center gap-1 opacity-40 group-hover:opacity-100 transition-opacity">
-                      <Binary className="w-2 h-2" />
-                      <span className="text-[6px] uppercase font-black tracking-tighter">10K+ Signal Nodes</span>
-                    </div>
                   </div>
                 </CardContent>
               </Card>
@@ -276,7 +264,7 @@ export default function Home() {
           {isExpanded ? (
             <>Collapse Infrastructure <ChevronUp className="w-5 h-5 ml-2" /></>
           ) : (
-            <>Explore All {featureCount} Modules <ChevronDown className="w-5 h-5 ml-2" /></>
+            <>Explore Infrastructure <ChevronDown className="w-5 h-5 ml-2" /></>
           )}
         </button>
 
@@ -336,7 +324,7 @@ export default function Home() {
           </Link>
         </div>
         <p className="text-[10px] text-muted-foreground uppercase tracking-[0.4em] font-black">
-          إسلاملي Universal Scholarly Platform v3.5
+          إسلاملي Universal Scholarly Platform
         </p>
       </footer>
     </div>

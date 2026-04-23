@@ -1,4 +1,3 @@
-
 "use client";
 
 import { useState, useEffect } from "react";
@@ -8,30 +7,24 @@ import {
   LayoutDashboard, 
   ShieldCheck, 
   Activity, 
-  Users, 
   Database, 
   Binary, 
-  Cpu, 
   Network,
-  Lock,
   Loader2,
   AlertTriangle,
   Zap
 } from "lucide-react";
 import { useUser, useFirestore, useDoc, useMemoFirebase } from "@/firebase";
 import { doc } from "firebase/firestore";
-import { calculateCurrentFeatures, formatFeatureCount } from "@/lib/feature-counter";
 import { cn } from "@/lib/utils";
 
 export default function AdminDashboard() {
   const { user } = useUser();
   const db = useFirestore();
   const [hasMounted, setHasMounted] = useState(false);
-  const [featureCount, setFeatureCount] = useState("");
 
   const profileRef = useMemoFirebase(() => {
     if (!db || !user?.uid) return null;
-    // Updated path to match backend.json
     return doc(db, "users", user.uid, "user_profiles", user.uid);
   }, [db, user?.uid]);
 
@@ -39,7 +32,6 @@ export default function AdminDashboard() {
 
   useEffect(() => {
     setHasMounted(true);
-    setFeatureCount(formatFeatureCount(calculateCurrentFeatures()));
   }, []);
 
   if (!hasMounted || isLoading) return (
@@ -69,7 +61,7 @@ export default function AdminDashboard() {
             <LayoutDashboard className="text-primary w-10 h-10" />
             Infrastructure Control
           </h1>
-          <p className="text-muted-foreground italic">Managing the 11.7 Quadrillion universal feature set.</p>
+          <p className="text-muted-foreground italic">Managing the universal scholarly infrastructure.</p>
         </div>
         <Badge className="bg-emerald-600 text-white font-black uppercase text-[10px] px-4 py-1.5 gap-2">
           <div className="w-2 h-2 rounded-full bg-white animate-pulse" />
@@ -79,10 +71,10 @@ export default function AdminDashboard() {
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
         {[
-          { label: "Active Nodes", val: "42,000", icon: Network, color: "text-blue-400" },
+          { label: "Active Clusters", val: "Operational", icon: Network, color: "text-blue-400" },
           { label: "Compliance Rate", val: "100%", icon: ShieldCheck, color: "text-emerald-400" },
-          { label: "Sync Pulse", val: "12ms", icon: Zap, color: "text-yellow-400" },
-          { label: "System Load", val: "14%", icon: Activity, color: "text-primary" },
+          { label: "Sync Pulse", val: "Stable", icon: Zap, color: "text-yellow-400" },
+          { label: "System Status", val: "Optimal", icon: Activity, color: "text-primary" },
         ].map((s) => (
           <Card key={s.label} className="glass-card p-6 border-white/5 space-y-2">
             <s.icon className={cn("w-6 h-6", s.color)} />
@@ -104,7 +96,7 @@ export default function AdminDashboard() {
             <h2 className="text-3xl font-headline font-black text-white uppercase tracking-widest">Scholarly Index Status</h2>
           </div>
           <p className="text-lg text-muted-foreground italic leading-relaxed max-w-2xl">
-            The index is currently operating at **{featureCount}** features. All data clusters are synchronized across global edge coordinates.
+            The scholarly index is currently synchronized across global coordinates. All data clusters are maintained according to methodology standards.
           </p>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 pt-4">
             <div className="space-y-2">
@@ -140,7 +132,7 @@ export default function AdminDashboard() {
 
       <footer className="text-center pt-8 opacity-40">
         <p className="text-[9px] uppercase tracking-[0.4em] font-black italic">
-          Governance Active • Protected by 1 Billion Privacy Nodes
+          Governance Active • Protected by Privacy Infrastructure
         </p>
       </footer>
     </div>

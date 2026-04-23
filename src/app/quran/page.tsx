@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import { fetchSurahList } from "@/services/islamic-data-service";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent } from "@/components/ui/card";
-import { BookOpen, Search, Loader2, Sparkles, Star, ChevronRight, Globe, ShieldCheck, Database, Layers, Binary, User } from "lucide-react";
+import { BookOpen, Search, Loader2, Sparkles, ChevronRight, Globe, ShieldCheck, Database, Binary, User } from "lucide-react";
 import Link from "next/link";
 import { Badge } from "@/components/ui/badge";
 import { GoogleAd } from "@/components/google-ad";
@@ -46,7 +46,7 @@ export default function QuranIndexPage() {
               <BookOpen className="text-primary w-10 h-10" />
               Noble Quran Index
             </h1>
-            <p className="text-muted-foreground italic">Final Revelation: Preserved across 11.7 Quadrillion signal nodes.</p>
+            <p className="text-muted-foreground italic">Final Revelation: Preserved for the global Ummah.</p>
           </div>
           <div className="flex flex-col items-end gap-1">
             <Badge variant="secondary" className="bg-primary/10 text-primary border-primary/20 gap-1">
@@ -54,7 +54,7 @@ export default function QuranIndexPage() {
             </Badge>
             <div className="flex items-center gap-1 px-2 py-0.5 rounded-full bg-emerald-500/10 border border-emerald-500/20">
               <Binary className="w-2.5 h-2.5 text-emerald-500" />
-              <span className="text-[7px] uppercase font-black text-emerald-500 tracking-widest">10K+ Audio Nodes</span>
+              <span className="text-[7px] uppercase font-black text-emerald-500 tracking-widest">Audio Hub Active</span>
             </div>
           </div>
         </div>
@@ -80,12 +80,12 @@ export default function QuranIndexPage() {
         <Card className="glass-card p-4 border-primary/20 bg-primary/5 text-center space-y-1">
           <User className="w-5 h-5 text-primary mx-auto" />
           <p className="text-[10px] uppercase font-bold text-muted-foreground tracking-widest">Audio Cluster</p>
-          <p className="text-xl font-headline font-black text-white">10,000+ Nodes</p>
+          <p className="text-xl font-headline font-black text-white">Scholarly Reciters</p>
         </Card>
         <Card className="glass-card p-4 border-blue-500/20 bg-blue-500/5 text-center space-y-1">
           <Globe className="w-5 h-5 text-blue-400 mx-auto" />
-          <p className="text-[10px] uppercase font-bold text-muted-foreground tracking-widest">Translations</p>
-          <p className="text-xl font-headline font-black text-white">7,709+ Signal</p>
+          <p className="text-[10px] uppercase font-bold text-muted-foreground tracking-widest">Reach</p>
+          <p className="text-xl font-headline font-black text-white">Global Languages</p>
         </Card>
       </section>
 
@@ -117,7 +117,7 @@ export default function QuranIndexPage() {
           </div>
           <div className="space-y-1">
             <h3 className="font-headline font-bold text-lg">Universal Audio Node</h3>
-            <p className="text-xs text-muted-foreground max-w-xs">Access 10,000+ recitations from our global scholarly audio cluster.</p>
+            <p className="text-xs text-muted-foreground max-w-xs">Access recitations from our global scholarly audio cluster.</p>
           </div>
         </div>
         <Badge variant="outline" className="text-[10px] uppercase tracking-widest py-2 px-6 border-white/10">
@@ -129,8 +129,6 @@ export default function QuranIndexPage() {
 }
 
 function SurahCard({ surah }: { surah: any }) {
-  const microfeatures = (surah.id * 12450 + 10000).toLocaleString();
-
   return (
     <Link href={`/quran/${surah.id}`}>
       <Card className="glass-card hover:border-primary/50 transition-all group overflow-hidden border-2 border-transparent active:scale-[0.98]">
@@ -149,10 +147,6 @@ function SurahCard({ surah }: { surah: any }) {
                 <p className="text-[10px] text-muted-foreground uppercase tracking-tight font-medium">
                   {surah.translated_name?.name || "The Chapter"} • {surah.verses_count} Verses
                 </p>
-                <div className="flex items-center gap-1.5 px-1.5 py-0.5 rounded bg-primary/5 border border-primary/10 w-fit">
-                  <Layers className="w-2.5 h-2.5 text-primary opacity-60" />
-                  <span className="text-[7px] font-bold text-primary/80 uppercase tracking-widest">{microfeatures} Signal Nodes</span>
-                </div>
               </div>
             </div>
           </div>

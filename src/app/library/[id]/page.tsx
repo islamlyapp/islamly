@@ -96,7 +96,7 @@ export default function BookDetailsPage({ params }: { params: Promise<{ id: stri
         </Button>
         <div className="space-y-0.5">
           <h1 className="text-xl font-headline font-bold">{book.title}</h1>
-          <p className="text-[10px] text-muted-foreground uppercase tracking-widest">Universal Scholarly Node: {book.nodes} Features</p>
+          <p className="text-[10px] text-muted-foreground uppercase tracking-widest">Universal Scholarly Node</p>
         </div>
       </header>
 
@@ -151,7 +151,7 @@ export default function BookDetailsPage({ params }: { params: Promise<{ id: stri
                 <div className="bg-secondary/20 p-6 rounded-2xl border border-white/5 mt-8">
                   <h4 className="text-xs uppercase tracking-widest font-bold text-primary mb-3">Governance Metadata</h4>
                   <p className="text-sm text-muted-foreground leading-relaxed italic">
-                    This digital node is operating at <strong>{book.nodes} features</strong>. Every passage has been vetted by the AutoMod Pulse cluster to ensure strict alignment with the creed of the Salaf.
+                    This digital node is operating within our scholarly framework. Every passage has been vetted by the AutoMod Pulse cluster to ensure strict alignment with the creed of the Salaf.
                   </p>
                 </div>
               </div>
@@ -183,10 +183,10 @@ export default function BookDetailsPage({ params }: { params: Promise<{ id: stri
           <div className="p-2 bg-emerald-500/10 rounded-lg">
             <ShieldCheck className="w-6 h-6 text-emerald-400" />
           </div>
-          <h3 className="font-headline font-bold text-md uppercase tracking-widest text-emerald-400">Authenticity Protocol v3.5</h3>
+          <h3 className="font-headline font-bold text-md uppercase tracking-widest text-emerald-400">Authenticity Protocol</h3>
         </div>
         <p className="text-sm text-muted-foreground leading-relaxed italic">
-          This digital edition has been cross-referenced against the authorized scholarly manuscripts from the global index. No alterations have been made to the original meanings as understood by the Salaf-us-Salih. <strong>1 Billion Privacy Nodes</strong> protect your scholarly telemetry.
+          This digital edition has been cross-referenced against the authorized scholarly manuscripts from the global index. No alterations have been made to the original meanings as understood by the Salaf-us-Salih. Your scholarly telemetry is protected by our privacy infrastructure.
         </p>
       </section>
     </div>
