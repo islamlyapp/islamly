@@ -111,7 +111,7 @@
         },
         "source": {
           "type": "string",
-          "description": "The scholarly node source (e.g., 'AMAU Node')."
+          "description": "The scholarly infrastructure source (e.g., 'AMAU System')."
         }
       },
       "required": [

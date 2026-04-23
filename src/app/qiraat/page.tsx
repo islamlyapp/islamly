@@ -105,7 +105,7 @@ export default function QiraatReaderPage() {
           <span className="text-primary underline decoration-dotted decoration-primary/40 underline-offset-8">
             {variantText}
           </span>
-          <span className="absolute -top-10 left-1/2 -translate-x-1/2 bg-black/90 text-white text-[8px] px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap z-50 border border-primary/20 font-sans tracking-widest uppercase">
+          <span className="absolute -top-10 left-1/2 -translate-x-1/2 bg-black/90 text-white text-[8px] px-2 py-1 rounded opacity-0 group-hover:opacity-10 transition-opacity whitespace-nowrap z-50 border border-primary/20 font-sans tracking-widest uppercase">
             {selectedRiwayah} Variant
           </span>
         </span>
