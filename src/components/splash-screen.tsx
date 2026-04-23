@@ -56,6 +56,7 @@ export function SplashScreen() {
             إسلاملي
           </span>
           <div className="absolute -inset-10 bg-primary/20 blur-3xl rounded-full opacity-50" />
+          <div className="h-px w-24 bg-primary/40 mt-4 shadow-[0_0_15px_rgba(173,31,55,0.8)]" />
         </div>
 
         <div className="flex flex-col items-center gap-4">

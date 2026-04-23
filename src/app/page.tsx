@@ -77,7 +77,7 @@ export default function Home() {
           setHijriDate(`${hData.day} ${hData.month.en} ${hData.year} AH`);
         }
       } catch (err) {
-        console.error("Home system failed to sync:", err);
+        console.warn("Spiritual pulse failed to sync:", err);
       } finally {
         setIsLoadingReflection(false);
       }
@@ -114,9 +114,9 @@ export default function Home() {
     { title: "Hajj Guide", href: "/hajj", icon: Tent, color: "text-amber-500", bg: "bg-amber-500/10", border: "border-amber-500/20", group: "Practical Living" },
     { title: "Parenting", href: "/parenting", icon: Baby, color: "text-rose-400", bg: "bg-rose-500/10", border: "border-rose-500/20", group: "Practical Living" },
     { title: "Assessments", href: "/quiz", icon: Trophy, color: "text-yellow-500", bg: "bg-yellow-500/10", border: "border-yellow-500/20", group: "Interactive" },
-    { title: "Scholarly Goals", href: "/goals", icon: Target, color: "text-blue-500", bg: "bg-blue-500/10", border: "border-blue-500/20", group: "Interactive" },
+    { title: "Goals", href: "/goals", icon: Target, color: "text-blue-500", bg: "bg-blue-500/10", border: "border-blue-500/20", group: "Interactive" },
     { title: "Global Ummah", href: "/ummah", icon: Users, color: "text-cyan-500", bg: "bg-cyan-500/10", border: "border-cyan-500/20", group: "Interactive" },
-    { title: "Sharia Infrastructure", href: "/sharia", icon: Gavel, color: "text-primary", bg: "bg-primary/10", border: "border-primary/20", group: "Core Knowledge" },
+    { title: "Sharia System", href: "/sharia", icon: Gavel, color: "text-primary", bg: "bg-primary/10", border: "border-primary/20", group: "Core Knowledge" },
   ];
 
   const categories = Array.from(new Set(allModules.map(m => m.group)));
@@ -136,7 +136,7 @@ export default function Home() {
         <div className="relative w-full max-w-lg aspect-[16/9] rounded-[2.5rem] overflow-hidden shadow-2xl shadow-black border border-white/5 group">
           <Image 
             src={brandHero.imageUrl} 
-            alt="Deep dark scholarly library background" 
+            alt="Islamly logo calligraphy on dark library background" 
             fill 
             className="object-cover group-hover:scale-105 transition-transform duration-1000 opacity-40"
             priority
@@ -149,7 +149,7 @@ export default function Home() {
             >
               إسلاملي
             </span>
-            <div className="h-px w-24 bg-primary/40 mt-2" />
+            <div className="h-px w-24 bg-primary/40 mt-2 shadow-[0_0_15px_rgba(173,31,55,0.8)]" />
             <p className="text-[10px] uppercase tracking-[0.5em] text-white/60 font-bold mt-4">Universal Scholarly Infrastructure</p>
           </div>
         </div>
@@ -163,7 +163,7 @@ export default function Home() {
           <CardHeader className="pb-2">
             <div className="flex items-center justify-between">
               <span className="text-[10px] uppercase font-bold tracking-widest text-primary flex items-center gap-2">
-                <Fingerprint className="w-3 h-3" /> Dhikr pulse
+                <Fingerprint className="w-3 h-3" /> Glorification pulse
               </span>
               <Button 
                 variant="ghost" 
