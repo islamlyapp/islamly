@@ -18,7 +18,7 @@ export type QiraatVariant = {
 /**
  * Normalizes Arabic text for baseline comparison.
  * Strips harakat and Quranic marks for pure semantic matching.
- * Uses strictly sorted Unicode ranges to prevent "Range out of order" errors.
+ * Uses strictly sorted Unicode ranges to prevent "Range out of order" build errors.
  */
 export function normalizeQuranicText(text: string): string {
   if (!text) return "";

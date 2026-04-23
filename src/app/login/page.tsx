@@ -50,7 +50,7 @@ export default function LoginPage() {
         <div className="mx-auto w-16 h-16 bg-primary/20 rounded-2xl flex items-center justify-center mb-4 ring-8 ring-primary/5">
           <ShieldCheck className="w-8 h-8 text-primary" />
         </div>
-        <h1 className="text-3xl font-headline font-bold uppercase tracking-widest">Access Node</h1>
+        <h1 className="text-3xl font-headline font-bold uppercase tracking-widest">Access System</h1>
         <p className="text-muted-foreground italic text-sm">Universal Entry.</p>
       </header>
 
@@ -58,7 +58,7 @@ export default function LoginPage() {
         {isLoading && (
           <div className="absolute inset-0 bg-background/60 backdrop-blur-[2px] z-50 flex flex-col items-center justify-center gap-3">
             <Loader2 className="w-8 h-8 animate-spin text-primary" />
-            <p className="text-[10px] uppercase font-bold tracking-widest text-primary animate-pulse">Syncing Node...</p>
+            <p className="text-[10px] uppercase font-bold tracking-widest text-primary animate-pulse">Syncing identity...</p>
           </div>
         )}
         
@@ -75,8 +75,8 @@ export default function LoginPage() {
             )}
           </div>
           <CardDescription className="text-xs">
-            {step === "initial" && "Select a protocol to connect to the network."}
-            {step === "email" && "Enter your credentials to access your node."}
+            {step === "initial" && "Select a protocol to connect to the infrastructure."}
+            {step === "email" && "Enter your credentials to access your profile."}
           </CardDescription>
         </CardHeader>
 

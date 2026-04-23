@@ -20,11 +20,11 @@ export default function PrivacyPage() {
           </div>
           <div className="flex items-center gap-2">
             <Badge variant="secondary" className="bg-accent/10 text-accent border-accent/20 gap-1">
-              <Database className="w-3 h-3" /> 1,000,000,000+ Privacy Nodes Active
+              <Database className="w-3 h-3" /> Multi-Layer Privacy Active
             </Badge>
           </div>
           <p className="text-muted-foreground italic text-sm">
-            Your data is an Amanah (Trust) protected by a billion-node security framework.
+            Your data is an Amanah (Trust) protected by a high-security framework.
           </p>
         </div>
       </header>
@@ -42,7 +42,7 @@ export default function PrivacyPage() {
               Islamly does not sell, trade, or monetize your personal data to third-party brokers.
             </p>
             <p>
-              Under our strict scholarly methodology, your information is considered an "Amanah" (Sacred Trust). We reject any revenue models based on bulk data harvesting. Our 1 billion privacy nodes are dedicated solely to protecting your learning journey.
+              Under our strict scholarly methodology, your information is considered an "Amanah" (Sacred Trust). We reject any revenue models based on bulk data harvesting. Our privacy layers are dedicated solely to protecting your learning journey.
             </p>
           </CardContent>
         </Card>
@@ -56,7 +56,7 @@ export default function PrivacyPage() {
           </CardHeader>
           <CardContent className="space-y-4">
             <p>
-              To sustain our 11.7 Quadrillion feature infrastructure, we utilize filtered Scholarly Sponsors. We employ strict category blocking to ensure only Islamic-compliant content is displayed.
+              To sustain our high-density infrastructure, we utilize filtered Scholarly Sponsors. We employ strict category blocking to ensure only Islamic-compliant content is displayed.
             </p>
             <div className="bg-secondary/30 p-4 rounded-lg space-y-2 border border-white/5">
               <div className="flex items-center gap-2 text-foreground font-bold text-xs uppercase tracking-tight">
@@ -64,7 +64,7 @@ export default function PrivacyPage() {
                 Cookie & Telemetry Disclosure
               </div>
               <p className="text-[11px]">
-                Our infrastructure sponsors (including Google) use cookies to serve relevant content based on a student's prior visits. This data remains governed by our 1 billion privacy nodes and is never sold.
+                Our infrastructure sponsors (including Google) use cookies to serve relevant content based on a student's prior visits. This data remains governed by our privacy layers and is never sold.
               </p>
               <p className="text-[11px] italic">
                 Students may opt out of personalized sponsor content by visiting Ads Settings or www.aboutads.info.
@@ -80,7 +80,7 @@ export default function PrivacyPage() {
               1. Scholarly Data Usage
             </h3>
             <p>
-              We collect only the essential metadata required to maintain your position within the global scholarly index:
+              We collect only the essential metadata required to maintain your position within the global scholarly infrastructure:
             </p>
             <ul className="list-disc pl-5 space-y-2 opacity-80">
               <li>Authentication credentials managed via secure protocols.</li>
@@ -114,7 +114,7 @@ export default function PrivacyPage() {
               4. Complete Data Eradication
             </h3>
             <p>
-              You maintain the absolute right to purge your entire presence from our infrastructure. Initiating an account deletion will trigger a cascade across all 1 billion privacy nodes.
+              You maintain the absolute right to purge your entire presence from our infrastructure. Initiating an account deletion will trigger a cleanup cascade across all security layers.
             </p>
           </div>
         </div>

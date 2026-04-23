@@ -44,7 +44,7 @@ const riwayahs = QIRAAT_HIERARCHY.flatMap(q => q.riwayahs);
 type Riwayah = typeof riwayahs[number];
 
 const BASE_QURAN = [
-  { surah: 1, ayah: 1, text: "بِسْم. اللَّهِ الرَّحْمَنِ الرَّحِيمِ", page: 1 },
+  { surah: 1, ayah: 1, text: "بِسْمِ اللَّهِ الرَّحْمَنِ الرَّحِيمِ", page: 1 },
   { surah: 1, ayah: 2, text: "الْحَمْدُ لِلَّهِ رَبِّ الْعَالَمِينَ", page: 1 },
   { surah: 1, ayah: 3, text: "الرَّحْمَنِ الرَّحِيمِ", page: 1 },
   { surah: 1, ayah: 4, text: "مَالِكِ يَوْمِ الدِّينِ", page: 1 },
@@ -140,7 +140,7 @@ export default function QiraatReaderPage() {
               <BookMarked className="w-8 h-8 text-primary" />
             </div>
             <div>
-              <h1 className="text-3xl font-headline font-black text-white uppercase tracking-tight">Universal Qira'at Node</h1>
+              <h1 className="text-3xl font-headline font-black text-white uppercase tracking-tight">Universal Qira'at Infrastructure</h1>
               <p className="text-muted-foreground italic text-sm">Textual synchronization across canonical readings.</p>
             </div>
           </div>
@@ -179,7 +179,7 @@ export default function QiraatReaderPage() {
             </div>
             <div className="h-8 w-px bg-white/5" />
             <div className="space-y-1">
-              <p className="text-[10px] uppercase font-black text-muted-foreground tracking-[0.3em]">Surah Node</p>
+              <p className="text-[10px] uppercase font-black text-muted-foreground tracking-[0.3em]">Surah Resource</p>
               <p className="text-sm font-headline font-bold text-white">Al-Fatiha</p>
             </div>
           </div>
@@ -213,7 +213,7 @@ export default function QiraatReaderPage() {
             ) : (
               <div className="h-full flex flex-col items-center justify-center text-center opacity-40 space-y-4">
                 <Database className="w-16 h-16" />
-                <p className="text-xl italic font-headline">Node sync required for Page {currentPage}</p>
+                <p className="text-xl italic font-headline">Sync required for Page {currentPage}</p>
                 <Button variant="outline" size="sm" onClick={() => setCurrentPage(1)}>Initialize Cluster</Button>
               </div>
             )}
@@ -228,7 +228,7 @@ export default function QiraatReaderPage() {
             disabled={currentPage === 1}
           >
             <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-            Previous Node
+            Previous Page
           </Button>
 
           <div className="flex gap-2">
@@ -254,7 +254,7 @@ export default function QiraatReaderPage() {
             onClick={handleNextPage}
             disabled={currentPage === 604}
           >
-            Next Node
+            Next Page
             <ChevronLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" />
           </Button>
         </div>

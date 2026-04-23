@@ -10,7 +10,7 @@ interface GoogleAdProps {
 }
 
 /**
- * Google Sponsor Node for the Islamly Scholarly Infrastructure.
+ * Google Sponsor infrastructure for the Islamly platform.
  * Optimized with a strict initialization guard to prevent Runtime TagErrors.
  */
 export function GoogleAd({ slot, format = "auto", className }: GoogleAdProps) {
@@ -34,7 +34,7 @@ export function GoogleAd({ slot, format = "auto", className }: GoogleAdProps) {
       }
     } catch (e) {
       // Catch and log silently to prevent prototype crashing
-      console.warn("Sponsor Node Sync Interrupted:", e);
+      console.warn("Sponsor Sync Interrupted:", e);
     }
   }, [slot]);
 
@@ -71,7 +71,7 @@ export function GoogleAd({ slot, format = "auto", className }: GoogleAdProps) {
         {/* Fallback visual for the prototype environment */}
         <div className="absolute inset-0 flex items-center justify-center pointer-events-none opacity-5 group-hover:opacity-10 transition-opacity">
           <div className="text-center">
-            <p className="text-[12px] font-headline font-bold uppercase tracking-[0.4em] text-primary">Sponsor Node</p>
+            <p className="text-[12px] font-headline font-bold uppercase tracking-[0.4em] text-primary">Sponsor Info</p>
             <p className="text-[8px] uppercase mt-1 tracking-widest">Global Index Point</p>
           </div>
         </div>
