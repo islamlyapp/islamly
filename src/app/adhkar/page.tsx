@@ -224,7 +224,7 @@ export default function AdhkarPage() {
           disabled={isLoadingAudio}
         >
           {isLoadingAudio ? <Loader2 className="w-4 h-4 animate-spin" /> : isPlaying ? <Pause className="w-4 h-4" /> : <Volume2 className="w-4 h-4" />}
-          {isPlaying ? "Stop Audio System" : "Initialize Audio System"}
+          {isPlaying ? "Stop Audio Resource" : "Initialize Audio Resource"}
         </Button>
       </section>
 

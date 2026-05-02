@@ -1,9 +1,6 @@
+
 import type {Metadata, Viewport} from 'next';
 import './globals.css';
-import { GlobalHeader } from '@/components/layout/global-header';
-import { BottomNav } from '@/components/layout/bottom-nav';
-import { FirebaseClientProvider } from '@/firebase/client-provider';
-import { AuthGuard } from '@/components/auth-guard';
 import { Toaster } from "@/components/ui/toaster";
 import Script from 'next/script';
 
@@ -61,26 +58,18 @@ export default function RootLayout({
         <meta name="mobile-web-app-capable" content="yes" />
       </head>
       <body className="font-body antialiased min-h-screen pt-safe overflow-x-hidden selection:bg-primary/30 pb-20 md:pb-0">
-        <FirebaseClientProvider>
-          <AuthGuard>
-            <div className="min-h-screen flex flex-col">
-              <GlobalHeader />
-              <main className="flex-1 max-w-4xl mx-auto w-full px-4 py-8">
-                {children}
-              </main>
-              <BottomNav />
-            </div>
-            <Toaster />
-          </AuthGuard>
-        </FirebaseClientProvider>
-        
+        <div className="min-h-screen flex flex-col">
+          <main className="flex-1 max-w-4xl mx-auto w-full px-4 py-8">
+            {children}
+          </main>
+        </div>
+        <Toaster />
         <Script
           async
           src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-0000000000000000"
           crossOrigin="anonymous"
           strategy="lazyOnload"
         />
-
         <footer className="hidden md:block py-6 text-center border-t border-white/5 opacity-40">
           <p className="text-[10px] uppercase tracking-[0.4em] font-bold">
             © 2025 Islamly • Universal Scholarly Infrastructure • All Rights Reserved

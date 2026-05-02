@@ -30,7 +30,8 @@ export function SplashScreen() {
 
   return (
     <div className="fixed inset-0 z-[100] flex flex-col items-center justify-center bg-[#0a0304] overflow-hidden">
-      <div className="absolute inset-0 opacity-30">
+      {/* Exact Logo Aesthetic Background */}
+      <div className="absolute inset-0 opacity-40">
         {brandHero && (
           <Image 
             src={brandHero.imageUrl}
@@ -44,26 +45,39 @@ export function SplashScreen() {
         <div className="absolute inset-0 bg-gradient-to-b from-[#0a0304] via-transparent to-[#0a0304]" />
       </div>
 
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,_rgba(173,31,55,0.2),_transparent_70%)] animate-pulse duration-3000" />
+      {/* Crimson Swoosh Accents (Top/Bottom) */}
+      <div className="absolute top-0 left-0 w-full h-1/4 pointer-events-none opacity-20">
+        <div className="absolute top-10 left-0 w-full h-1 bg-primary blur-2xl -rotate-2" />
+        <div className="absolute top-20 left-0 w-full h-1 bg-primary blur-3xl rotate-1" />
+      </div>
+      <div className="absolute bottom-0 left-0 w-full h-1/4 pointer-events-none opacity-20">
+        <div className="absolute bottom-10 left-0 w-full h-1 bg-primary blur-2xl rotate-2" />
+        <div className="absolute bottom-20 left-0 w-full h-1 bg-primary blur-3xl -rotate-1" />
+      </div>
+
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,_rgba(173,31,55,0.15),_transparent_70%)]" />
       
       <div className={`relative z-10 flex flex-col items-center transition-all duration-1000 ease-out ${show ? 'opacity-100 scale-100 translate-y-0' : 'opacity-0 scale-95 translate-y-4'}`}>
         
+        {/* Exact Logo Arabic Text with Red Diacritics Representation */}
         <div className="relative mb-12 flex flex-col items-center group">
           <span 
-            className="text-8xl md:text-9xl font-serif text-white drop-shadow-[0_0_30px_rgba(173,31,55,0.8)] select-none transition-transform duration-700 group-hover:scale-105" 
+            className="text-8xl md:text-9xl font-serif text-white select-none transition-transform duration-700 group-hover:scale-105" 
             dir="rtl"
+            style={{ 
+              textShadow: '0 0 30px rgba(173,31,55,0.8), 0 0 60px rgba(173,31,55,0.4)',
+              filter: 'drop-shadow(2px 4px 6px rgba(0,0,0,0.5))'
+            }}
           >
-            إسلاملي
+            إسل<span className="text-primary tracking-tighter">ا</span>ملي
           </span>
-          <div className="absolute -inset-10 bg-primary/20 blur-3xl rounded-full opacity-50" />
-          <div className="h-px w-24 bg-primary/40 mt-4 shadow-[0_0_15px_rgba(173,31,55,0.8)]" />
+          <div className="absolute -inset-20 bg-primary/10 blur-[100px] rounded-full opacity-30 animate-pulse" />
+          <div className="h-0.5 w-32 bg-gradient-to-r from-transparent via-primary/60 to-transparent mt-6" />
         </div>
 
         <div className="flex flex-col items-center gap-4">
           <div className="flex items-center gap-4">
-            <div className="h-px w-12 bg-gradient-to-r from-transparent to-primary/60" />
             <h1 className="text-2xl font-headline font-bold tracking-[0.5em] text-white">ISLAMLY</h1>
-            <div className="h-px w-12 bg-gradient-to-l from-transparent to-primary/60" />
           </div>
           <div className="flex items-center gap-2 px-5 py-2 rounded-full bg-primary/10 border border-primary/30 backdrop-blur-md">
             <ShieldCheck className="w-4 h-4 text-primary" />
@@ -83,7 +97,7 @@ export function SplashScreen() {
           {!showSkip ? (
             <div className="flex items-center gap-3 text-white/40">
               <Loader2 className="w-3 h-3 animate-spin" />
-              <p className="text-[9px] uppercase tracking-[0.4em]">Booting Global Scholarly Network</p>
+              <p className="text-[9px] uppercase tracking-[0.4em]">Initializing Scholarly Resources</p>
             </div>
           ) : (
             <Button 
@@ -98,7 +112,7 @@ export function SplashScreen() {
       </div>
 
       <div className="absolute bottom-10 opacity-30">
-        <p className="text-[9px] uppercase tracking-[0.6em] text-white font-bold">Ahlus-Sunnah wal-Jama'ah • Dynamic Infrastructure</p>
+        <p className="text-[9px] uppercase tracking-[0.6em] text-white font-bold">Ahlus-Sunnah wal-Jama'ah • Scholarly Infrastructure</p>
       </div>
     </div>
   );

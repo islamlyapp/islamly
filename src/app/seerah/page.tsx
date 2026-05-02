@@ -1,135 +1,129 @@
 'use client';
 
 import { useState } from 'react';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { BookOpen, Sparkles, Loader2, History, ChevronRight, Info, CheckCircle2 } from 'lucide-react';
-import { narrateSeerah, type SeerahNarratorOutput } from '@/ai/flows/seerah-narrator-flow';
 import { Badge } from '@/components/ui/badge';
-import { ScrollArea } from '@/components/ui/scroll-area';
+import { Button } from '@/components/ui/button';
+import { BookOpen, Milestone, ChevronRight, ChevronLeft } from 'lucide-react';
+import { SEERAH_DATA, SeerahEvent } from '@/lib/seerah-data';
+import { motion, AnimatePresence } from 'framer-motion';
+import { cn } from '@/lib/utils';
 
-const suggestedTopics = [
-  "The Hijrah to Madinah",
-  "The Battle of Badr",
-  "The Conquest of Makkah",
-  "The First Revelation",
-  "The Treaty of Hudaybiyyah",
-  "The Night Journey (Isra' wal-Mi'raj)"
-];
+export default function SeerahPage() {
+  const [currentIndex, setCurrentIndex] = useState(0);
 
-export default function SeerahNarratorPage() {
-  const [topic, setTopic] = useState("");
-  const [result, setResult] = useState<SeerahNarratorOutput | null>(null);
-  const [isLoading, setIsLoading] = useState(false);
-
-  const handleNarrate = async (e?: React.FormEvent) => {
-    e?.preventDefault();
-    if (!topic.trim()) return;
-
-    setIsLoading(true);
-    try {
-      const data = await narrateSeerah({ topic });
-      setResult(data);
-    } catch (err) {
-      console.error(err);
-    } finally {
-      setIsLoading(false);
-    }
+  const handleNext = () => {
+    setCurrentIndex((prev) => (prev + 1) % SEERAH_DATA.length);
   };
 
+  const handlePrev = () => {
+    setCurrentIndex(
+      (prev) => (prev - 1 + SEERAH_DATA.length) % SEERAH_DATA.length
+    );
+  };
+
+  const currentEvent = SEERAH_DATA[currentIndex];
+
   return (
-    <div className="space-y-8 animate-in fade-in duration-500 pb-20">
-      <header className="text-center space-y-2">
-        <div className="mx-auto w-16 h-16 bg-primary/20 rounded-full flex items-center justify-center mb-4">
-          <History className="w-8 h-8 text-primary" />
-        </div>
-        <h1 className="text-4xl font-headline font-bold">AI Seerah Narrator</h1>
-        <p className="text-muted-foreground max-w-sm mx-auto">
-          Explore compelling narratives of the Prophetic biography and Islamic history.
-        </p>
-      </header>
-
-      <form onSubmit={handleNarrate} className="flex gap-2">
-        <Input 
-          placeholder="Enter a Seerah event or personality..." 
-          className="glass-card h-12 flex-1"
-          value={topic}
-          onChange={(e) => setTopic(e.target.value)}
-        />
-        <Button type="submit" disabled={isLoading} className="h-12 px-6">
-          {isLoading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Sparkles className="w-4 h-4" />}
-        </Button>
-      </form>
-
-      {result ? (
-        <Card className="glass-card animate-in slide-in-from-bottom-4 duration-500">
-          <CardHeader>
-            <CardTitle className="text-2xl font-headline text-primary">{result.title}</CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-8">
-            <div className="prose prose-invert max-w-none text-literata text-lg leading-relaxed space-y-4">
-              {result.narrative.split('\n').map((para, i) => (
-                <p key={i}>{para}</p>
-              ))}
-            </div>
-
-            <section className="space-y-4 pt-6 border-t border-border/50">
-              <h3 className="text-xs font-bold uppercase tracking-widest text-primary flex items-center gap-2">
-                <CheckCircle2 className="w-4 h-4" />
-                Key Lessons
-              </h3>
-              <div className="grid gap-3">
-                {result.lessons.map((lesson, i) => (
-                  <div key={i} className="flex gap-3 p-3 rounded-lg bg-secondary/20">
-                    <span className="text-primary font-bold">0{i+1}</span>
-                    <p className="text-sm text-muted-foreground">{lesson}</p>
-                  </div>
-                ))}
-              </div>
-            </section>
-
-            <section className="space-y-2">
-              <h3 className="text-[10px] uppercase tracking-widest text-muted-foreground">Historical References</h3>
-              <div className="flex flex-wrap gap-2">
-                {result.references.map((ref, i) => (
-                  <Badge key={i} variant="outline" className="text-[10px] border-primary/20">{ref}</Badge>
-                ))}
-              </div>
-            </section>
-
-            <Button variant="ghost" className="w-full mt-4" onClick={() => setResult(null)}>
-              Narrate Another Event
-            </Button>
-          </CardContent>
-        </Card>
-      ) : (
-        <div className="space-y-4">
-          <h3 className="text-xs font-bold uppercase tracking-widest text-muted-foreground pl-1">Suggested Explorations</h3>
-          <div className="grid gap-3">
-            {suggestedTopics.map((t) => (
-              <button 
-                key={t}
-                onClick={() => { setTopic(t); handleNarrate(); }}
-                className="flex items-center justify-between p-4 rounded-xl glass-card hover:bg-secondary/30 transition-all text-left group"
-              >
-                <span className="text-sm font-medium">{t}</span>
-                <ChevronRight className="w-4 h-4 text-muted-foreground group-hover:text-primary transition-colors" />
-              </button>
-            ))}
+    <div className='space-y-8 animate-in fade-in duration-500 pb-16 max-w-4xl mx-auto'>
+      <header className='flex items-center justify-between gap-4 bg-secondary/10 p-8 rounded-[2.5rem] border border-white/5'>
+        <div className='flex items-center gap-4'>
+          <div className='p-3 bg-primary/20 rounded-2xl'>
+            <BookOpen className='w-8 h-8 text-primary' />
+          </div>
+          <div>
+            <h1 className='text-3xl font-headline font-black text-white uppercase tracking-tight'>
+              The Prophet's Journey
+            </h1>
+            <p className='text-muted-foreground italic text-sm'>
+              Key milestones from the life of Prophet Muhammad (ﷺ).
+            </p>
           </div>
         </div>
-      )}
+      </header>
 
-      <section className="bg-secondary/20 p-6 rounded-xl border border-border">
-        <div className="flex items-center gap-2 mb-3">
-          <Info className="w-5 h-5 text-accent" />
-          <h3 className="font-headline font-bold text-sm uppercase tracking-widest">A Note on Sources</h3>
+      <div className='relative h-[550px]'>
+        <AnimatePresence mode='wait'>
+          <motion.div
+            key={currentIndex}
+            initial={{ opacity: 0, x: 50 }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: -50 }}
+            transition={{ duration: 0.3 }}
+            className='w-full h-full absolute'
+          >
+            <Card className='glass-card border-none shadow-2xl h-full flex flex-col'>
+              <CardHeader className='p-8 bg-black/20 border-b border-white/5'>
+                <div className='flex justify-between items-start'>
+                  <div className='space-y-2'>
+                    <Badge
+                      variant={currentEvent.era === 'Meccan' ? 'secondary' : 'default'}
+                      className='text-[10px] uppercase font-black tracking-widest'
+                    >
+                      {currentEvent.era} Period
+                    </Badge>
+                    <CardTitle className='text-2xl font-headline font-bold text-white'>
+                      {currentEvent.title}
+                    </CardTitle>
+                    <p className='text-sm text-muted-foreground'>
+                      Year {currentEvent.year} AD
+                    </p>
+                  </div>
+                  <Milestone className='w-10 h-10 text-primary' />
+                </div>
+              </CardHeader>
+              <CardContent className='p-8 flex-1 flex flex-col justify-between'>
+                <p className='text-lg text-muted-foreground leading-relaxed'>
+                  {currentEvent.description}
+                </p>
+                <div className='space-y-4'>
+                  <h3 className='text-sm font-bold uppercase tracking-widest text-primary'>
+                    Key Lessons & Takeaways
+                  </h3>
+                  <ul className='space-y-3 list-disc list-inside text-muted-foreground'>
+                    {currentEvent.lessons.map((lesson, i) => (
+                      <li key={i} className='italic'>
+                        {lesson}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </CardContent>
+            </Card>
+          </motion.div>
+        </AnimatePresence>
+      </div>
+
+      <div className='flex justify-between items-center'>
+        <Button
+          variant='outline'
+          className='rounded-xl h-14 px-8 gap-3 border-white/5 hover:bg-white/5 font-headline font-black uppercase text-[10px] tracking-widest group'
+          onClick={handlePrev}
+        >
+          <ChevronLeft className='w-4 h-4 group-hover:-translate-x-1 transition-transform' />
+          Previous Event
+        </Button>
+        <div className='flex gap-2'>
+          {SEERAH_DATA.map((_, i) => (
+            <button
+              key={i}
+              onClick={() => setCurrentIndex(i)}
+              className={cn(
+                'w-3 h-3 rounded-full transition-all',
+                currentIndex === i ? 'bg-primary scale-125' : 'bg-muted-foreground/20'
+              )}
+            />
+          ))}
         </div>
-        <p className="text-sm text-muted-foreground leading-relaxed">
-          The AI Seerah Narrator synthesizes information from authentic classical works of Prophetic biography. While highly accurate, we recommend cross-referencing with teachers and scholars for deep theological study.
-        </p>
-      </section>
+        <Button
+          variant='outline'
+          className='rounded-xl h-14 px-8 gap-3 border-white/5 hover:bg-white/5 font-headline font-black uppercase text-[10px] tracking-widest group'
+          onClick={handleNext}
+        >
+          Next Event
+          <ChevronRight className='w-4 h-4 group-hover:translate-x-1 transition-transform' />
+        </Button>
+      </div>
     </div>
   );
 }

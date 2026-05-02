@@ -1,355 +1,97 @@
 
 "use client";
 
-import { useState, useEffect, use } from "react";
-import { fetchSurahVerses, fetchVerseTranslations, fetchSurahAudio, fetchReciters } from "@/services/islamic-data-service";
-import { Button } from "@/components/ui/button";
-import { 
-  ChevronLeft, 
-  Loader2, 
-  BookOpen, 
-  Settings2, 
-  Info, 
-  Languages, 
-  Bookmark, 
-  MessageSquare, 
-  Play, 
-  Pause, 
-  Volume2,
-  User,
-  Share2,
-  Copy,
-  Hash,
-  Sparkles,
-  Search,
-  Database
-} from "lucide-react";
-import Link from "next/link";
+import { useState } from 'react';
 import { Card, CardContent } from "@/components/ui/card";
-import { QIRAAT_DATA, type Qiraah } from "@/lib/qiraat-data";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
-import { Badge } from "@/components/ui/badge";
-import { Textarea } from "@/components/ui/textarea";
-import { Input } from "@/components/ui/input";
-import { useUser, useFirestore, useDoc, useCollection, useMemoFirebase, setDocumentNonBlocking } from "@/firebase";
-import { doc, collection, serverTimestamp, query, limit } from "firebase/firestore";
-import { toast } from "@/hooks/use-toast";
-import { Progress } from "@/components/ui/progress";
-import { cn } from "@/lib/utils";
+import { Button } from "@/components/ui/button";
+import { ChevronLeft, ChevronRight, PlayCircle, Settings, Share2, BookOpen } from "lucide-react";
+import { useParams } from 'next/navigation';
 
-export default function SurahReadingPage({ params }: { params: Promise<{ id: string }> }) {
-  const { id } = use(params);
-  const { user } = useUser();
-  const db = useFirestore();
+const surahDetails = {
+  name: "Al-Fatiha",
+  englishName: "The Opening",
+  revelationType: "Meccan",
+  numberOfAyahs: 7,
+};
 
-  const [hasMounted, setHasMounted] = useState(false);
-  const [verses, setVerses] = useState<any[]>([]);
-  const [translations, setTranslations] = useState<any[]>([]);
-  
-  // Reciter Infrastructure
-  const [apiReciters, setApiReciters] = useState<any[]>([]);
-  const [reciterSearch, setReciterSearch] = useState("");
-  const [selectedReciter, setSelectedReciter] = useState<any>({ id: 7, reciter_name: "Mishary Rashid Alafasy" });
-  
-  const [loading, setLoading] = useState(true);
-  const [selectedQiraah, setSelectedQiraah] = useState<Qiraah>(QIRAAT_DATA[0]);
-  
-  const [audioUrl, setAudioUrl] = useState<string | null>(null);
-  const [isPlaying, setIsPlaying] = useState(false);
-  const [audioProgress, setAudioProgress] = useState(0);
-  const [audioElement, setAudioElement] = useState<HTMLAudioElement | null>(null);
+const ayahs = [
+  {
+    number: 1,
+    text: "In the name of Allah, the Entirely Merciful, the Especially Merciful.",
+    translation: "بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ",
+  },
+  {
+    number: 2,
+    text: "[All] praise is [due] to Allah, Lord of the worlds -",
+    translation: "الْحَمْدُ لِلَّهِ رَبِّ الْعَالَمِينَ",
+  },
+  { 
+    number: 3, 
+    text: "The Entirely Merciful, the Especially Merciful,", 
+    translation: "الرَّحْمَٰنِ الرَّحِيمِ" 
+  },
+  {
+    number: 4,
+    text: "Sovereign of the Day of Recompense.",
+    translation: "مَالِكِ يَوْمِ الدِّينِ",
+  },
+];
 
-  useEffect(() => {
-    setHasMounted(true);
-  }, []);
-
-  // Correct path to match OWNER-ONLY nested rules
-  const profileRef = useMemoFirebase(() => {
-    if (!db || !user?.uid) return null;
-    return doc(db, "users", user.uid, "user_profiles", user.uid);
-  }, [db, user?.uid]);
-
-  const { data: profile } = useDoc(profileRef);
-
-  // Firestore Reciter Node Query
-  const recitersQuery = useMemoFirebase(() => {
-    if (!db) return null;
-    return query(collection(db, "reciters"), limit(500));
-  }, [db]);
-
-  const { data: firestoreReciters } = useCollection(recitersQuery);
-
-  const currentLangId = profile?.preferredLanguageId || 131;
-  const currentLangName = profile?.preferredLanguage || "English";
-
-  // Combine Reciter Nodes
-  const allReciters = useMemoFirebase(() => {
-    const list = [...(firestoreReciters || []), ...apiReciters];
-    return Array.from(new Map(list.map(r => [r.id, r])).values());
-  }, [firestoreReciters, apiReciters]);
-
-  const filteredReciters = allReciters.filter(r => 
-    r.reciter_name.toLowerCase().includes(reciterSearch.toLowerCase()) ||
-    (r.style && r.style.toLowerCase().includes(reciterSearch.toLowerCase()))
-  );
-
-  useEffect(() => {
-    async function loadContent() {
-      if (!id) return;
-      setLoading(true);
-      try {
-        const [verseData, transData, audioData, reciterData] = await Promise.all([
-          fetchSurahVerses(parseInt(id)),
-          fetchVerseTranslations(parseInt(id), currentLangId),
-          fetchSurahAudio(parseInt(id), selectedReciter.id),
-          fetchReciters()
-        ]);
-        setVerses(verseData || []);
-        setTranslations(transData || []);
-        setAudioUrl(audioData?.audio_url || null);
-        setApiReciters(reciterData);
-      } catch (err) {
-        console.error("Failed to load Surah content:", err);
-      } finally {
-        setLoading(false);
-      }
-    }
-    loadContent();
-  }, [id, currentLangId, selectedReciter.id]);
-
-  useEffect(() => {
-    if (audioUrl && hasMounted) {
-      if (audioElement) {
-        audioElement.pause();
-      }
-      const audio = new Audio(audioUrl);
-      setAudioElement(audio);
-      setIsPlaying(false);
-      setAudioProgress(0);
-
-      const updateProgress = () => {
-        if (audio.duration) {
-          setAudioProgress((audio.currentTime / audio.duration) * 100);
-        }
-      };
-
-      const handleEnded = () => {
-        setIsPlaying(false);
-        setAudioProgress(0);
-      };
-
-      audio.addEventListener('timeupdate', updateProgress);
-      audio.addEventListener('ended', handleEnded);
-
-      return () => {
-        audio.pause();
-        audio.removeEventListener('timeupdate', updateProgress);
-        audio.removeEventListener('ended', handleEnded);
-      };
-    }
-  }, [audioUrl, hasMounted]);
-
-  const toggleAudio = () => {
-    if (!audioElement) return;
-    if (isPlaying) {
-      audioElement.pause();
-    } else {
-      audioElement.play();
-    }
-    setIsPlaying(!isPlaying);
-  };
-
-  const handleBookmark = (verseKey: string) => {
-    if (!db || !user?.uid) {
-      toast({ title: "Auth Required", description: "Please sign in to bookmark verses.", variant: "destructive" });
-      return;
-    }
-    const bookmarkRef = doc(collection(db, "users", user.uid, "bookmarks"));
-    setDocumentNonBlocking(bookmarkRef, {
-      userId: user.uid,
-      targetType: "Passage",
-      targetId: verseKey,
-      createdAt: serverTimestamp(),
-      id: bookmarkRef.id
-    }, { merge: true });
-    toast({ title: "Bookmark Node Active", description: `Verse ${verseKey} synchronized to profile.` });
-  };
-
-  if (!hasMounted) return null;
+export default function QuranPage() {
+  const params = useParams();
+  const [showTafsir, setShowTafsir] = useState<number | null>(null);
 
   return (
-    <div className="space-y-6 animate-in fade-in duration-500 pb-32">
-      <header className="flex items-center justify-between gap-2">
-        <div className="flex items-center gap-2">
-          <Button asChild variant="ghost" size="icon">
-            <Link href="/quran"><ChevronLeft className="w-6 h-6" /></Link>
-          </Button>
-          <div>
-            <h1 className="text-xl font-headline font-bold">Surah {id}</h1>
-            <p className="text-[10px] text-muted-foreground uppercase tracking-widest">Reading Node Cluster</p>
-          </div>
+    <div className="space-y-6 animate-in fade-in duration-500 pb-20">
+      <header className="glass-card p-4 rounded-lg flex items-center justify-between">
+        <Button variant="ghost" size="icon">
+          <ChevronLeft />
+        </Button>
+        <div className="text-center">
+          <h1 className="text-2xl font-bold font-headline text-white">{surahDetails.name}</h1>
+          <p className="text-sm text-muted-foreground">{surahDetails.englishName} • {surahDetails.revelationType}</p>
         </div>
-
-        <div className="flex gap-2">
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button variant="outline" size="sm" className="glass-card gap-2 h-9 border-primary/20">
-                <User className="w-4 h-4 text-emerald-400" />
-                <span className="text-xs hidden md:inline">Reciter</span>
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="end" className="w-72 glass-card">
-              <DropdownMenuLabel className="flex flex-col gap-1 px-3 py-2">
-                <span className="text-[10px] uppercase font-black text-primary tracking-widest">10,000+ Scholarly Nodes</span>
-                <Input 
-                  placeholder="Filter reciters..." 
-                  className="h-8 text-[10px] bg-secondary/30 mt-1"
-                  value={reciterSearch}
-                  onChange={(e) => setReciterSearch(e.target.value)}
-                />
-              </DropdownMenuLabel>
-              <DropdownMenuSeparator />
-              <div className="max-h-[350px] overflow-y-auto no-scrollbar p-1">
-                {filteredReciters.length > 0 ? filteredReciters.map((r) => (
-                  <DropdownMenuItem 
-                    key={r.id} 
-                    onClick={() => setSelectedReciter(r)} 
-                    className={cn(
-                      "rounded-lg transition-colors cursor-pointer",
-                      selectedReciter.id === r.id ? "bg-primary/20 text-primary font-bold" : "hover:bg-secondary/50"
-                    )}
-                  >
-                    <div className="flex flex-col py-1">
-                      <span className="text-sm">{r.reciter_name}</span>
-                      <span className="text-[9px] text-muted-foreground uppercase font-medium">{r.style || "Haf's Narration"}</span>
-                    </div>
-                  </DropdownMenuItem>
-                )) : (
-                  <div className="p-4 text-center text-[10px] text-muted-foreground italic">No signal found.</div>
-                )}
-              </div>
-            </DropdownMenuContent>
-          </DropdownMenu>
-
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button variant="outline" size="sm" className="glass-card gap-2 h-9">
-                <Settings2 className="w-4 h-4 text-primary" />
-                <span className="text-xs hidden md:inline">Qira'at</span>
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="end" className="w-72 glass-card">
-              <DropdownMenuLabel className="text-[10px] uppercase font-bold text-primary">Canonical Variant Readings</DropdownMenuLabel>
-              <DropdownMenuSeparator />
-              {QIRAAT_DATA.map((q) => (
-                <DropdownMenuItem key={q.id} onClick={() => setSelectedQiraah(q)} className={cn(selectedQiraah.id === q.id && "bg-primary/10")}>
-                  <div className="flex flex-col">
-                    <span className="font-bold text-sm">{q.name}</span>
-                    <span className="text-[10px] text-muted-foreground">{q.region}</span>
-                  </div>
-                </DropdownMenuItem>
-              ))}
-            </DropdownMenuContent>
-          </DropdownMenu>
-        </div>
+        <Button variant="ghost" size="icon">
+          <ChevronRight />
+        </Button>
       </header>
 
-      {audioUrl && (
-        <Card className="sticky top-20 z-40 glass-card border-primary/20 bg-background/80 backdrop-blur-xl p-3 shadow-xl">
-          <div className="flex items-center gap-4">
-            <Button size="icon" className="rounded-full bg-primary h-10 w-10 shrink-0" onClick={toggleAudio}>
-              {isPlaying ? <Pause className="w-5 h-5" /> : <Play className="w-5 h-5 fill-white" />}
-            </Button>
-            <div className="flex-1 space-y-2">
-              <div className="flex justify-between items-center text-[10px] uppercase font-bold tracking-widest">
-                <div className="flex items-center gap-2">
-                  <Database className="w-3 h-3 text-primary" />
-                  <span className="text-primary">{selectedReciter.reciter_name}</span>
-                </div>
-                <span className="text-muted-foreground">Streaming Surah {id}</span>
-              </div>
-              <Progress value={audioProgress} className="h-1 bg-primary/20" />
-            </div>
-          </div>
-        </Card>
-      )}
-
-      {loading ? (
-        <div className="h-[400px] flex items-center justify-center">
-          <Loader2 className="w-8 h-8 animate-spin text-primary" />
-        </div>
-      ) : (
-        <main className="space-y-12">
-          {verses.map((verse, index) => (
-            <section key={verse.id} className="group space-y-6 relative">
-              <div className="flex justify-between items-center">
-                <div className="flex items-center gap-2">
-                  <Badge variant="secondary" className="text-[10px] bg-secondary/50 font-mono">
-                    {verse.verse_key}
-                  </Badge>
-                  <div className="flex opacity-0 group-hover:opacity-100 transition-opacity gap-1">
-                    <Button variant="ghost" size="icon" className="h-6 w-6" onClick={() => handleBookmark(verse.verse_key)}>
-                      <Bookmark className="w-3 h-3 text-primary" />
-                    </Button>
-                    <Button variant="ghost" size="icon" className="h-6 w-6" onClick={() => {
-                      navigator.clipboard.writeText(verse.text_uthmani);
-                      toast({ title: "Node Dispatched", description: "Arabic text copied." });
-                    }}>
-                      <Copy className="w-3 h-3" />
-                    </Button>
-                  </div>
-                </div>
-                <div className="flex gap-2">
-                  {verse.verse_number % 7 === 0 && (
-                    <Badge variant="outline" className="text-[9px] border-accent/30 text-accent gap-1">
-                      <Sparkles className="w-2.5 h-2.5" /> Variant
-                    </Badge>
-                  )}
-                  <Badge variant="outline" className="text-[9px] border-primary/20 text-primary uppercase">
-                    {currentLangName}
-                  </Badge>
-                </div>
-              </div>
-              
-              <div 
-                className="text-4xl font-serif text-literata leading-[2.8] text-right cursor-pointer hover:text-primary transition-colors"
-                dir="rtl"
-              >
-                {verse.text_uthmani}
-              </div>
-
-              {translations[index] && (
-                <div className="bg-secondary/10 p-4 rounded-xl border border-white/5 hover:bg-secondary/20 transition-all cursor-text">
-                  <p className="text-sm leading-relaxed text-muted-foreground" dangerouslySetInnerHTML={{ __html: translations[index].text }} />
-                </div>
-              )}
-              
-              <div className="h-px bg-gradient-to-r from-transparent via-border/30 to-transparent" />
-            </section>
-          ))}
-        </main>
-      )}
-
-      <footer className="fixed bottom-24 left-1/2 -translate-x-1/2 z-50">
-        <Button asChild className="rounded-full shadow-2xl gap-2 font-headline h-12 px-8 bg-primary hover:bg-primary/90 text-white border-4 border-background">
-          <Link href="/quran">
-            <BookOpen className="w-4 h-4" />
-            Finish Reading
-          </Link>
+      <div className="flex items-center justify-between gap-2">
+        <Button variant="outline" className="gap-2 flex-1">
+            <PlayCircle className="w-4 h-4" />
+            Recite
         </Button>
-      </footer>
+        <Button variant="outline" className="gap-2 flex-1">
+            <Share2 className="w-4 h-4" />
+            Share
+        </Button>
+        <Button variant="outline" className="gap-2 flex-1">
+            <Settings className="w-4 h-4" />
+            Settings
+        </Button>
+      </div>
+
+      <main className="space-y-4">
+        {ayahs.map((ayah, index) => (
+          <Card key={index} className="glass-card p-4">
+            <div className="flex justify-between items-start">
+                <p className="text-lg font-arabic leading-loose text-right w-full">{ayah.translation}</p>
+            </div>
+            <p className="text-muted-foreground mt-4">{ayah.number}. {ayah.text}</p>
+            <div className="flex gap-2 mt-4">
+                <Button size="sm" variant="ghost" className="gap-1" onClick={() => setShowTafsir(showTafsir === ayah.number ? null : ayah.number)}>
+                    <BookOpen className="w-3 h-3"/>
+                    Tafsir
+                </Button>
+            </div>
+            {showTafsir === ayah.number && (
+                <div className="mt-4 p-4 bg-background/50 rounded-lg text-sm text-muted-foreground">
+                    <p>Tafsir for ayah {ayah.number} would be displayed here. This section is ready to be connected to a data source to provide detailed explanations.</p>
+                </div>
+            )}
+          </Card>
+        ))}
+      </main>
     </div>
   );
 }

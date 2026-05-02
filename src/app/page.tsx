@@ -86,11 +86,11 @@ export default function Home() {
   const brandHero = PlaceHolderImages?.find(img => img.id === 'brand-hero') || PlaceHolderImages[0];
 
   const allModules = [
-    { title: "Universal Qira'at", href: "/qiraat", icon: BookCheck, color: "text-emerald-500", bg: "bg-emerald-500/10", border: "border-emerald-500/20", group: "AI Infrastructure" },
-    { title: "AI Teacher", href: "/mualim", icon: GraduationCap, color: "text-primary", bg: "bg-primary/10", border: "border-primary/20", group: "AI Infrastructure" },
-    { title: "Ask AI", href: "/ask", icon: MessageCircle, color: "text-rose-400", bg: "bg-rose-500/10", border: "border-rose-500/20", group: "AI Infrastructure" },
-    { title: "Simplifier", href: "/explain", icon: Sparkles, color: "text-purple-400", bg: "bg-purple-500/10", border: "border-purple-500/20", group: "AI Infrastructure" },
-    { title: "Defense Hub", href: "/refutation", icon: ShieldAlert, color: "text-red-500", bg: "bg-red-500/10", border: "border-red-500/20", group: "AI Infrastructure" },
+    { title: "Universal Qira'at", href: "/qiraat", icon: BookCheck, color: "text-emerald-500", bg: "bg-emerald-500/10", border: "border-emerald-500/20", group: "Infrastructure" },
+    { title: "AI Teacher", href: "/mualim", icon: GraduationCap, color: "text-primary", bg: "bg-primary/10", border: "border-primary/20", group: "Infrastructure" },
+    { title: "Ask AI", href: "/ask", icon: MessageCircle, color: "text-rose-400", bg: "bg-rose-500/10", border: "border-rose-500/20", group: "Infrastructure" },
+    { title: "Simplifier", href: "/explain", icon: Sparkles, color: "text-purple-400", bg: "bg-purple-500/10", border: "border-purple-500/20", group: "Infrastructure" },
+    { title: "Defense Hub", href: "/refutation", icon: ShieldAlert, color: "text-red-500", bg: "bg-red-500/10", border: "border-red-500/20", group: "Infrastructure" },
     { title: "Noble Quran", href: "/quran", icon: BookMarked, color: "text-emerald-400", bg: "bg-emerald-500/10", border: "border-emerald-500/20", group: "Core Knowledge" },
     { title: "Hadith Index", href: "/hadith", icon: ScrollText, color: "text-amber-400", bg: "bg-amber-500/10", border: "border-amber-500/20", group: "Core Knowledge" },
     { title: "Video Hub", href: "/videos", icon: VideoIcon, color: "text-indigo-400", bg: "bg-indigo-500/10", border: "border-indigo-500/20", group: "Core Knowledge" },
@@ -130,25 +130,36 @@ export default function Home() {
 
   return (
     <div className="space-y-10 animate-in fade-in duration-700 pb-20">
+      {/* Exact Logo Synchronization Hero */}
       <section className="flex flex-col items-center pt-4 px-4">
         <div className="relative w-full max-w-lg aspect-[16/9] rounded-[2.5rem] overflow-hidden shadow-2xl shadow-black border border-white/5 group">
           <Image 
             src={brandHero.imageUrl} 
             alt="Islamly logo calligraphy on dark library background" 
             fill 
-            className="object-cover group-hover:scale-105 transition-transform duration-1000 opacity-40"
+            className="object-cover transition-transform duration-1000 opacity-40"
             priority
             data-ai-hint="dark library"
           />
           <div className="absolute inset-0 flex flex-col items-center justify-center p-6 text-center">
+             {/* White Calligraphy with Crimson Diacritics Recreation */}
             <span 
-              className="text-7xl md:text-8xl font-serif text-white drop-shadow-[0_10px_30px_rgba(173,31,55,0.9)] select-none mb-2" 
+              className="text-7xl md:text-8xl font-serif text-white select-none mb-2" 
               dir="rtl"
+              style={{ 
+                textShadow: '0 0 30px rgba(173,31,55,0.9), 0 0 60px rgba(173,31,55,0.5)',
+              }}
             >
-              إسلاملي
+              إسل<span className="text-primary">ا</span>ملي
             </span>
             <div className="h-px w-24 bg-primary/40 mt-2 shadow-[0_0_15px_rgba(173,31,55,0.8)]" />
-            <p className="text-[10px] uppercase tracking-[0.5em] text-white/60 font-bold mt-4">Universal Scholarly Infrastructure</p>
+            <p className="text-[10px] uppercase tracking-[0.5em] text-white/60 font-bold mt-4 italic">Universal Scholarly Infrastructure</p>
+          </div>
+          
+          {/* Subtle Crimson Swooshes */}
+          <div className="absolute top-0 left-0 w-full h-full pointer-events-none opacity-20">
+             <div className="absolute top-4 left-0 w-full h-0.5 bg-primary blur-xl -rotate-1" />
+             <div className="absolute bottom-4 left-0 w-full h-0.5 bg-primary blur-xl rotate-1" />
           </div>
         </div>
       </section>
@@ -319,7 +330,7 @@ export default function Home() {
             </Badge>
           </Link>
         </div>
-        <p className="text-[10px] text-muted-foreground uppercase tracking-[0.4em] font-black">
+        <p className="text-[10px] text-muted-foreground uppercase tracking-[0.4em] font-black italic">
           إسلاملي Universal Scholarly Platform
         </p>
       </footer>
