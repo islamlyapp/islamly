@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useState, useEffect, useMemo } from 'react';
@@ -92,20 +93,10 @@ export default function QiraatReaderPage() {
     return ayah.text;
   };
 
-  const handleNextPage = () => {
-    if (currentPage === 1) setCurrentPage(322);
-    else if (currentPage === 322) setCurrentPage(604);
-  };
-
-  const handlePrevPage = () => {
-    if (currentPage === 604) setCurrentPage(322);
-    else if (currentPage === 322) setCurrentPage(1);
-  };
-
   if (!hasMounted) return null;
 
   return (
-    <div className='space-y-8 animate-in fade-in duration-500 pb-32 max-w-4xl mx-auto'>
+    <div className='space-y-8 animate-in fade-in duration-500 pb-32 max-w-4xl mx-auto px-4'>
       <header className='flex flex-col md:flex-row md:items-center justify-between gap-6 bg-secondary/10 p-8 rounded-[2.5rem] border border-white/5 relative overflow-hidden'>
         <div className='absolute top-0 right-0 p-8 opacity-5'>
           <Binary className='w-48 h-48' />
@@ -147,9 +138,6 @@ export default function QiraatReaderPage() {
                   {group.riwayahs.map((r) => (
                     <SelectItem key={r} value={r} className='text-xs py-3'>
                       {r}{' '}
-                      <span className='text-[8px] opacity-40 ml-2 italic'>
-                        an {group.imam}
-                      </span>
                     </SelectItem>
                   ))}
                 </SelectGroup>
@@ -159,62 +147,38 @@ export default function QiraatReaderPage() {
         </div>
       </header>
 
-      <Card className='glass-card border-none shadow-2xl overflow-hidden relative min-h-[600px] flex flex-col'>
+      <Card className='glass-card border-none shadow-2xl overflow-hidden relative min-h-[600px] flex flex-col rounded-[3rem]'>
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,_rgba(173,31,55,0.05)_0%,_transparent_50%)]" />
 
         <div className='flex justify-between items-center px-8 py-6 border-b border-white/5 relative z-10 bg-black/20'>
           <div className='flex items-center gap-6'>
-            <div className='space-y-1'>
-              <p className='text-[10px] uppercase font-black text-muted-foreground tracking-[0.3em]'>
-                Juz Cluster
-              </p>
+            <div className='space-y-1 text-center'>
+              <p className='text-[10px] uppercase font-black text-muted-foreground tracking-[0.3em]'>Juz</p>
               <p className='text-sm font-headline font-bold text-white'>01</p>
             </div>
             <div className='h-8 w-px bg-white/5' />
-            <div className='space-y-1'>
-              <p className='text-[10px] uppercase font-black text-muted-foreground tracking-[0.3em]'>
-                Surah Resource
-              </p>
-              <p className='text-sm font-headline font-bold text-white'>
-                Al-Fatiha
-              </p>
+            <div className='space-y-1 text-center'>
+              <p className='text-[10px] uppercase font-black text-muted-foreground tracking-[0.3em]'>Surah</p>
+              <p className='text-sm font-headline font-bold text-white'>Al-Fatiha</p>
             </div>
           </div>
 
           <div className='flex items-center gap-4'>
-            <Badge
-              variant='outline'
-              className='h-8 px-4 border-primary/20 text-primary text-[10px] uppercase font-black tracking-widest'
-            >
+            <Badge variant='outline' className='h-8 px-4 border-primary/20 text-primary text-[10px] font-black uppercase tracking-widest'>
               Page {currentPage.toString().padStart(3, '0')}
             </Badge>
-            <Button
-              variant='ghost'
-              size='icon'
-              className='text-primary hover:bg-primary/10'
-              onClick={() => setIsPlaying(!isPlaying)}
-            >
-              {isPlaying ? (
-                <Pause className='w-5 h-5' />
-              ) : (
-                <Play className='w-5 h-5 fill-primary' />
-              )}
+            <Button variant='ghost' size='icon' className='text-primary hover:bg-primary/10' onClick={() => setIsPlaying(!isPlaying)}>
+              {isPlaying ? <Pause className='w-5 h-5' /> : <Play className='w-5 h-5 fill-primary' />}
             </Button>
           </div>
         </div>
 
-        <CardContent className='flex-1 p-10 md:p-20 relative z-10'>
-          <div
-            className='text-4xl md:text-6xl font-serif text-literata leading-[2.6] md:leading-[2.8] text-right space-y-10'
-            dir='rtl'
-          >
+        <CardContent className='flex-1 p-10 md:p-20 relative z-10 flex items-center justify-center'>
+          <div className='text-4xl md:text-6xl font-serif text-literata leading-[2.6] md:leading-[2.8] text-right space-y-10 w-full' dir='rtl'>
             {pageAyahs.length > 0 ? (
-              <p className='flex flex-wrap justify-center md:justify-start gap-x-4 gap-y-10'>
+              <p className='flex flex-wrap justify-center gap-x-4 gap-y-10'>
                 {pageAyahs.map((ayah) => (
-                  <span
-                    key={ayah.ayah}
-                    className='hover:text-primary transition-colors inline-block'
-                  >
+                  <span key={ayah.ayah} className='hover:text-primary transition-colors inline-block'>
                     {renderAyahText(ayah)}
                     <span className='font-sans text-xs md:text-sm text-primary/40 mx-3 opacity-60 inline-flex items-center justify-center w-8 h-8 rounded-full border border-primary/10 select-none'>
                       {ayah.ayah}
@@ -225,16 +189,8 @@ export default function QiraatReaderPage() {
             ) : (
               <div className='h-full flex flex-col items-center justify-center text-center opacity-40 space-y-4'>
                 <Database className='w-16 h-16' />
-                <p className='text-xl italic font-headline'>
-                  Sync required for Page {currentPage}
-                </p>
-                <Button
-                  variant='outline'
-                  size='sm'
-                  onClick={() => setCurrentPage(1)}
-                >
-                  Initialize Resource
-                </Button>
+                <p className='text-xl italic font-headline'>Infrastructure sync required.</p>
+                <Button variant='outline' size='sm' onClick={() => setCurrentPage(1)}>Initialize Resource</Button>
               </div>
             )}
           </div>
@@ -244,11 +200,11 @@ export default function QiraatReaderPage() {
           <Button
             variant='outline'
             className='rounded-xl h-14 px-8 gap-3 border-white/5 hover:bg-white/5 font-headline font-black uppercase text-[10px] tracking-widest group'
-            onClick={handlePrevPage}
+            onClick={() => setCurrentPage(Math.max(1, currentPage - 1))}
             disabled={currentPage === 1}
           >
             <ChevronRight className='w-4 h-4 group-hover:translate-x-1 transition-transform' />
-            Previous Page
+            Previous
           </Button>
 
           <div className='flex gap-2'>
@@ -259,9 +215,7 @@ export default function QiraatReaderPage() {
                 size='sm'
                 className={cn(
                   'text-[9px] uppercase font-black w-10 h-10 rounded-full',
-                  currentPage === p
-                    ? 'bg-primary text-white'
-                    : 'text-muted-foreground'
+                  currentPage === p ? 'bg-primary text-white' : 'text-muted-foreground'
                 )}
                 onClick={() => setCurrentPage(p)}
               >
@@ -273,10 +227,10 @@ export default function QiraatReaderPage() {
           <Button
             variant='outline'
             className='rounded-xl h-14 px-8 gap-3 border-white/5 hover:bg-white/5 font-headline font-black uppercase text-[10px] tracking-widest group'
-            onClick={handleNextPage}
+            onClick={() => setCurrentPage(Math.min(604, currentPage + 1))}
             disabled={currentPage === 604}
           >
-            Next Page
+            Next
             <ChevronLeft className='w-4 h-4 group-hover:-translate-x-1 transition-transform' />
           </Button>
         </div>
@@ -286,12 +240,9 @@ export default function QiraatReaderPage() {
         <Card className='glass-card p-8 border-primary/20 bg-primary/5 flex items-start gap-4'>
           <Sparkles className='w-8 h-8 text-primary shrink-0' />
           <div className='space-y-2'>
-            <h3 className='font-headline font-bold text-sm uppercase tracking-widest text-white'>
-              Variant Highlighting
-            </h3>
+            <h3 className='font-headline font-bold text-sm uppercase tracking-widest text-white'>Variant Highlighting</h3>
             <p className='text-xs text-muted-foreground leading-relaxed italic'>
-              Differences between the selected reading and **Hafs 'an 'Asim** are
-              automatically identified and highlighted.
+              Differences between the selected reading and **Hafs 'an 'Asim** are automatically identified and highlighted.
             </p>
           </div>
         </Card>
@@ -299,25 +250,13 @@ export default function QiraatReaderPage() {
         <Card className='glass-card p-8 border-emerald-500/20 bg-emerald-500/5 flex items-start gap-4'>
           <ShieldCheck className='w-8 h-8 text-emerald-500 shrink-0' />
           <div className='space-y-2'>
-            <h3 className='font-headline font-bold text-sm uppercase tracking-widest text-white'>
-              Authenticity Protocol
-            </h3>
+            <h3 className='font-headline font-bold text-sm uppercase tracking-widest text-white'>Authenticity Protocol</h3>
             <p className='text-xs text-muted-foreground leading-relaxed italic'>
-              All textual signals are verified against authorized scholarly
-              manuscripts to ensure zero-deviation from the Sunnah.
+              All textual signals are verified against authorized scholarly manuscripts to ensure zero-deviation from the Sunnah.
             </p>
           </div>
         </Card>
       </section>
-
-      <footer className='text-center pt-12 opacity-40'>
-        <div className='flex items-center justify-center gap-2 mb-2'>
-          <Database className='w-3 h-3' />
-          <p className='text-[9px] uppercase tracking-[0.4em] font-black italic'>
-            Islamly Universal Qira'at Infrastructure v3.5
-          </p>
-        </div>
-      </footer>
     </div>
   );
 }

@@ -1,3 +1,4 @@
+
 /**
  * @fileOverview Utilities for managing Quranic textual signals and variants.
  */

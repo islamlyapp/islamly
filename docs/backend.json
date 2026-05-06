@@ -1,3 +1,4 @@
+
 {
   "entities": {
     "UserProfile": {
@@ -71,9 +72,9 @@
           "type": "string",
           "description": "The recitation style or narration (e.g., 'Hafs', 'Warsh')."
         },
-        "nodeId": {
+        "resourceId": {
           "type": "string",
-          "description": "The specific infrastructure node handling this audio signal."
+          "description": "The specific infrastructure resource handling this audio signal."
         }
       },
       "required": ["id", "reciter_name"]
