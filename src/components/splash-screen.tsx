@@ -79,7 +79,7 @@ export function SplashScreen() {
         </div>
       </div>
 
-      <div className="absolute bottom-24 flex flex-col items-center gap-6 w-full px-10 max-w-sm">
+      <div className="absolute bottom-24 flex flex-col items-center gap-6 w-full px-10 max-sm:max-w-sm">
         <div className="w-full h-0.5 bg-white/10 rounded-full overflow-hidden">
           <div className="h-full bg-primary animate-progress-shimmer shadow-[0_0_15px_rgba(173,31,55,0.8)]" />
         </div>
