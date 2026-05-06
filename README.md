@@ -65,5 +65,5 @@ In your Vercel/Firebase Dashboard, add these keys as Environment Variables:
 
 ---
 
-© 2025 Islamly. All Rights Reserved. Protected by Universal Scholarly License.
+© 2026 Islamly. All Rights Reserved. Protected by Universal Scholarly License.
 **Stick to the path of guidance and do not be affected by the small number of those who follow it.**

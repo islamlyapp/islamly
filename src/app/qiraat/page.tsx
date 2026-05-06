@@ -234,7 +234,7 @@ export default function QiraatReaderPage() {
                   onClick={() => setCurrentPage(1)}
                 >
                   Initialize Resource
-                </p>
+                </Button>
               </div>
             )}
           </div>
