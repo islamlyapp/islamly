@@ -12,7 +12,8 @@ import {
   Mic2, Brain, Library, MessageCircle, Swords, Flag, Timer, AlertCircle, 
   CircleDot, Gavel, Cloud, Anchor, Smile, RefreshCcw, RotateCcw, DoorOpen, 
   Store, Shirt, EyeOff, Hourglass, Database, FileText, ClipboardCheck, 
-  Briefcase, Key, Lock, Fingerprint, Volume2, SearchCode, History, ChevronRight
+  Briefcase, Key, Lock, Fingerprint, Volume2, SearchCode, History, ChevronRight,
+  Binary, Bot, Droplets, Video as VideoIcon
 } from "lucide-react";
 import Link from "next/link";
 import { Badge } from "@/components/ui/badge";
@@ -22,7 +23,7 @@ import { SplashScreen } from "@/components/splash-screen";
 import { cn } from "@/lib/utils";
 import Image from "next/image";
 
-// HIGH DENSITY SCHOLARLY INDEX: 100 ROUTES
+// HIGH DENSITY SCHOLARLY INDEX: 100 UNIQUE PATHS
 const modules = [
   // Cluster 1: The Final Revelation (1-20)
   { name: "Quran Reader", icon: BookOpen, href: "/quran", description: "Complete Uthmani Text", category: "Revelation" },
@@ -72,7 +73,7 @@ const modules = [
   { name: "Prayer Times", icon: Clock, href: "/prayer-times", description: "Precision Solar Tracking", category: "Fiqh" },
   { name: "Qibla Compass", icon: Compass, href: "/hajj", description: "Directional Infrastructure", category: "Fiqh" },
   { name: "Wudu Guide", icon: Droplets, href: "/wudu", description: "Purification Protocol", category: "Fiqh" },
-  { name: "Salah Pillars", icon: Column, href: "/salah", description: "The 14 Essentials", category: "Fiqh" },
+  { name: "Salah Pillars", icon: Columns, href: "/salah", description: "The 14 Essentials", category: "Fiqh" },
   { name: "Zakat Calculator", icon: Calculator, href: "/zakat", description: "Wealth Purification", category: "Fiqh" },
   { name: "Ramadan Hub", icon: Moon, href: "/ramadan", description: "Fasting Resources", category: "Fiqh" },
   { name: "Hajj Navigator", icon: MapPin, href: "/hajj", description: "Pilgrimage Pathways", category: "Fiqh" },
@@ -88,7 +89,7 @@ const modules = [
   { name: "Funeral Rites", icon: Landmark, href: "/library", description: "Janazah Protocol", category: "Fiqh" },
   { name: "Slaughter Rules", icon: Utensils, href: "/halal", description: "Udhiya and Zabiha", category: "Fiqh" },
   { name: "Water Purity", icon: Droplets, href: "/wudu", description: "Fiqh of Taharah", category: "Fiqh" },
-  { name: "Justice Node", icon: Gavel, href: "/sharia", description: "Judiciary Infrastructure", category: "Fiqh" },
+  { name: "Justice System", icon: Gavel, href: "/sharia", description: "Judiciary Infrastructure", category: "Fiqh" },
 
   // Cluster 4: Creed & Scholars (61-80)
   { name: "Tawheed Hub", icon: ShieldCheck, href: "/tawheed", description: "Monotheism Foundation", category: "Aqidah" },
@@ -156,8 +157,6 @@ export default function Home() {
 
   return (
     <div className="bg-[#0a0304] text-white min-h-screen font-sans selection:bg-primary/30 animate-in fade-in duration-1000">
-      
-
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-12">
         
         {/* EXACT LOGO BRANDING */}
