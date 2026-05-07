@@ -130,7 +130,7 @@ export default function QuranIndexPage() {
 
 function SurahCard({ surah }: { surah: any }) {
   return (
-    <Link href={`/quran/${surah.id}`}>
+    <Link href={`/quran/hafs/${surah.name_simple.toLowerCase()}`}>
       <Card className="glass-card hover:border-primary/50 transition-all group overflow-hidden border-2 border-transparent active:scale-[0.98]">
         <CardContent className="p-5 flex items-center justify-between">
           <div className="flex items-center gap-4">

@@ -1,4 +1,3 @@
-
 "use client";
 
 import { useState, useEffect } from "react";
@@ -13,7 +12,7 @@ import {
   Mic2, Brain, Library, MessageCircle, Swords, Flag, Timer, AlertCircle, 
   CircleDot, Gavel, Cloud, Anchor, Smile, RefreshCcw, RotateCcw, DoorOpen, 
   Store, Shirt, EyeOff, Hourglass, Database, FileText, ClipboardCheck, 
-  Briefcase, Key, Lock, Fingerprint, Volume2, SearchCode, History
+  Briefcase, Key, Lock, Fingerprint, Volume2, SearchCode, History, ChevronRight
 } from "lucide-react";
 import Link from "next/link";
 import { Badge } from "@/components/ui/badge";
@@ -21,114 +20,126 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { SplashScreen } from "@/components/splash-screen";
 import { cn } from "@/lib/utils";
+import Image from "next/image";
 
+// HIGH DENSITY SCHOLARLY INDEX: 100 ROUTES
 const modules = [
-  { name: "NOBLE QURAN", icon: BookOpen, href: "/quran", color: "text-emerald-400" },
-  { name: "CANONICAL QIRA'AT", icon: Globe, href: "/qiraat", color: "text-blue-400" },
-  { name: "HADITH INDEX", icon: Book, href: "/hadith", color: "text-orange-400" },
-  { name: "SCHOLARLY LIBRARY", icon: Layers, href: "/library", color: "text-primary" },
-  { name: "PRAYER TIMES", icon: Clock, href: "/prayer-times", color: "text-amber-400" },
-  { name: "DIVINE ADHKAR", icon: Zap, href: "/adhkar", color: "text-yellow-400" },
-  { name: "DUA REPOSITORY", icon: Heart, href: "/dua", color: "text-rose-400" },
-  { name: "AUDIO HUB", icon: Radio, href: "/audio", color: "text-purple-400" },
-  { name: "HERITAGE PATH", icon: History, href: "/history", color: "text-amber-600" },
-  { name: "KNOWLEDGE SEARCH", icon: Search, href: "/ask", color: "text-blue-500" },
-  { name: "AUTHENTIC SEERAH", icon: Compass, href: "/seerah", color: "text-emerald-600" },
-  { name: "SCHOLARS DIRECTORY", icon: Users, href: "/scholars", color: "text-indigo-400" },
-  { name: "PURPOSE PATH", icon: Target, href: "/purpose", color: "text-indigo-500" },
-  { name: "KIDS HUB", icon: Baby, href: "/kids", color: "text-yellow-500" },
-  { name: "YOUTH HUB", icon: Sparkles, href: "/teens", color: "text-pink-400" },
-  { name: "SCHOLARLY CIRCLES", icon: MessageSquare, href: "/circles", color: "text-blue-400" },
-  { name: "FIQH FOUNDATIONS", icon: Scale, href: "/fiqh", color: "text-emerald-500" },
-  { name: "TAWHEED ULUHIYYAH", icon: ShieldCheck, href: "/tawheed", color: "text-red-500" },
-  { name: "TAWHEED RUBUBIYYAH", icon: ShieldCheck, href: "/tawheed", color: "text-red-400" },
-  { name: "ASMA WA-SIFAT", icon: Star, href: "/tawheed", color: "text-yellow-500" },
-  { name: "SHAHADA CONDITIONS", icon: CheckCircle2, href: "/shahada", color: "text-emerald-400" },
-  { name: "NULLIFIERS OF ISLAM", icon: AlertTriangle, href: "/shahada", color: "text-red-600" },
-  { name: "PILLARS OF ISLAM", icon: Columns, href: "/coming-soon", color: "text-blue-500" },
-  { name: "PILLARS OF IMAN", icon: Columns, href: "/coming-soon", color: "text-blue-400" },
-  { name: "IHSAN PROTOCOL", icon: Sun, href: "/coming-soon", color: "text-amber-300" },
-  { name: "SAHABA BIOS", icon: UserCheck, href: "/coming-soon", color: "text-indigo-500" },
-  { name: "MOTHERS OF BELIEVERS", icon: User, href: "/coming-soon", color: "text-pink-500" },
-  { name: "40 HADITH NAWAWI", icon: ListOrdered, href: "/hadith", color: "text-orange-500" },
-  { name: "BULUGH AL-MARAM", icon: Bookmark, href: "/library/bulugh-al-maram", color: "text-primary" },
-  { name: "UMDAT AL-AHKAM", icon: Bookmark, href: "/library/umdat-al-ahkam", color: "text-primary" },
-  { name: "RIYAD AS-SALIHIN", icon: Star, href: "/coming-soon", color: "text-emerald-600" },
-  { name: "KITAB AT-TAWHEED", icon: Shield, href: "/library/kitab-at-tawhid", color: "text-red-500" },
-  { name: "AQIDAH WASITIYYAH", icon: Shield, href: "/library/wasitiyyah", color: "text-blue-600" },
-  { name: "THREE PRINCIPLES", icon: Triangle, href: "/library/three-principles", color: "text-amber-600" },
-  { name: "FOUR RULES", icon: Square, href: "/coming-soon", color: "text-orange-600" },
-  { name: "HAJJ NAVIGATOR", icon: Tent, href: "/hajj", color: "text-amber-500" },
-  { name: "UMRAH GUIDE", icon: Navigation, href: "/coming-soon", color: "text-blue-400" },
-  { name: "ZAKAT CALCULATOR", icon: Calculator, href: "/zakat", color: "text-emerald-500" },
-  { name: "FASTING RULINGS", icon: Moon, href: "/ramadan", color: "text-indigo-400" },
-  { name: "RAMADAN PULSE", icon: Flame, href: "/ramadan", color: "text-orange-500" },
-  { name: "TARAWEEH GUIDE", icon: Mic, href: "/taraweeh", color: "text-purple-400" },
-  { name: "ITIKAF PROTOCOL", icon: HomeIcon, href: "/coming-soon", color: "text-blue-500" },
-  { name: "EID ETIQUETTES", icon: Gift, href: "/coming-soon", color: "text-pink-400" },
-  { name: "JANAZAH RULINGS", icon: Footprints, href: "/coming-soon", color: "text-zinc-500" },
-  { name: "INHERITANCE LAWS", icon: Percent, href: "/coming-soon", color: "text-emerald-600" },
-  { name: "MARRIAGE IN ISLAM", icon: Heart, href: "/family", color: "text-rose-500" },
-  { name: "PARENTING HUB", icon: Users, href: "/parenting", color: "text-blue-400" },
-  { name: "RIGHTS OF PARENTS", icon: Heart, href: "/family", color: "text-red-500" },
-  { name: "TIES OF KINSHIP", icon: LinkIcon, href: "/family", color: "text-indigo-400" },
-  { name: "HALAL GUIDE", icon: Utensils, href: "/halal", color: "text-emerald-500" },
-  { name: "ISLAMIC FINANCE", icon: HandCoins, href: "/coming-soon", color: "text-amber-500" },
-  { name: "MANNERS OF STUDENT", icon: GraduationCap, href: "/manners", color: "text-blue-600" },
-  { name: "ETIQUETTE OF EATING", icon: Coffee, href: "/manners", color: "text-amber-700" },
-  { name: "TRAVEL SUPPLICATIONS", icon: Plane, href: "/adhkar", color: "text-blue-400" },
-  { name: "RUQYAH SHARIAH", icon: ShieldAlert, href: "/ruqyah", color: "text-red-500" },
-  { name: "PROPHETIC MEDICINE", icon: Activity, href: "/coming-soon", color: "text-emerald-400" },
-  { name: "HISTORY OF CALIPHS", icon: Landmark, href: "/history", color: "text-amber-800" },
-  { name: "UMAYYAD HISTORY", icon: Map, href: "/history", color: "text-blue-800" },
-  { name: "ABBASID ERA", icon: Map, href: "/history", color: "text-purple-800" },
-  { name: "ANDALUSIA LEGACY", icon: Landmark, href: "/history", color: "text-amber-700" },
-  { name: "MANUSCRIPT ARCHIVES", icon: Scroll, href: "/manuscripts", color: "text-yellow-600" },
-  { name: "HIJRI CALENDAR", icon: Calendar, href: "/calendar", color: "text-zinc-400" },
-  { name: "QIBLA FINDER", icon: Compass, href: "/coming-soon", color: "text-blue-500" },
-  { name: "MASJID LOCATOR", icon: MapPin, href: "/masjid-locator", color: "text-primary" },
-  { name: "HALAL LOCATOR", icon: MapPin, href: "/halal-locator", color: "text-emerald-600" },
-  { name: "DAWAH INFRASTRUCTURE", icon: Megaphone, href: "/dawah", color: "text-red-500" },
-  { name: "REVERTS SUPPORT", icon: UserPlus, href: "/reverts", color: "text-blue-400" },
-  { name: "ARABIC GRAMMAR", icon: PenTool, href: "/language", color: "text-indigo-500" },
-  { name: "TAJWEED SYSTEM", icon: Mic2, href: "/qiraat", color: "text-emerald-500" },
-  { name: "HIFDH REVISION", icon: Brain, href: "/mualim", color: "text-purple-500" },
-  { name: "TAFSIR IBN KATHIR", icon: Library, href: "/library/tafsir-ibn-kathir", color: "text-primary" },
-  { name: "TAFSIR AS-SA'DI", icon: Library, href: "/coming-soon", color: "text-emerald-600" },
-  { name: "40 HADITH QUDSI", icon: MessageCircle, href: "/hadith", color: "text-orange-500" },
-  { name: "TEN PROMISED JANNAH", icon: Trophy, href: "/coming-soon", color: "text-yellow-500" },
-  { name: "BATTLE OF BADR", icon: Swords, href: "/history", color: "text-zinc-600" },
-  { name: "BATTLE OF UHUD", icon: Swords, href: "/history", color: "text-zinc-600" },
-  { name: "BATTLE OF TRENCH", icon: Swords, href: "/history", color: "text-zinc-600" },
-  { name: "CONQUEST OF MAKKAH", icon: Flag, href: "/history", color: "text-emerald-700" },
-  { name: "FAREWELL SERMON", icon: Mic, href: "/seerah", color: "text-zinc-400" },
-  { name: "MIRACLES OF PROPHET", icon: Sparkles, href: "/coming-soon", color: "text-blue-300" },
-  { name: "LAST DAY SIGNS", icon: Timer, href: "/coming-soon", color: "text-red-400" },
-  { name: "MAJOR SIGNS", icon: AlertCircle, href: "/coming-soon", color: "text-red-600" },
-  { name: "MINOR SIGNS", icon: CircleDot, href: "/coming-soon", color: "text-amber-400" },
-  { name: "DAY OF JUDGMENT", icon: Gavel, href: "/coming-soon", color: "text-zinc-700" },
-  { name: "PARADISE & HELL", icon: Cloud, href: "/coming-soon", color: "text-blue-200" },
-  { name: "SINCERITY (IKHLAS)", icon: Heart, href: "/manners", color: "text-red-500" },
-  { name: "PATIENCE (SABR)", icon: Anchor, href: "/manners", color: "text-blue-500" },
-  { name: "RELIANCE (TAWAKKUL)", icon: Shield, href: "/manners", color: "text-indigo-500" },
-  { name: "GRATITUDE (SHUKR)", icon: Smile, href: "/manners", color: "text-yellow-500" },
-  { name: "REPENTANCE (TAWBAH)", icon: RefreshCcw, href: "/coming-soon", color: "text-emerald-500" },
-  { name: "SEEKING FORGIVENESS", icon: RotateCcw, href: "/coming-soon", color: "text-zinc-400" },
-  { name: "RIGHTS OF NEIGHBORS", icon: DoorOpen, href: "/family", color: "text-amber-600" },
-  { name: "HONESTY IN TRADE", icon: Store, href: "/coming-soon", color: "text-blue-600" },
-  { name: "MODESTY & HIJAB", icon: Shirt, href: "/coming-soon", color: "text-pink-400" },
-  { name: "LOWERING THE GAZE", icon: EyeOff, href: "/coming-soon", color: "text-zinc-500" },
-  { name: "TIME MANAGEMENT", icon: Hourglass, href: "/goals", color: "text-blue-400" },
-  { name: "ISLAMIC PSYCHOLOGY", icon: Brain, href: "/coming-soon", color: "text-indigo-400" },
-  { name: "REFUTATION PATH", icon: ShieldAlert, href: "/refutation", color: "text-red-600" },
-  { name: "SCHOLARLY DEFENSE", icon: ShieldCheck, href: "/refutation", color: "text-red-700" },
-  { name: "UNIVERSAL SYSTEM", icon: Database, href: "/cloud", color: "text-blue-600" },
-  { name: "NEW MODULE", icon: FileText, href: "/new-module", color: "text-gray-400" }
+  // Cluster 1: The Final Revelation (1-20)
+  { name: "Quran Reader", icon: BookOpen, href: "/quran", description: "Complete Uthmani Text", category: "Revelation" },
+  { name: "Qira'at Index", icon: Binary, href: "/qiraat", description: "10 Canonical Variants", category: "Revelation" },
+  { name: "Tafsir Archives", icon: Library, href: "/library/tafsir-ibn-kathir", description: "Scholarly Exegesis", category: "Revelation" },
+  { name: "Quranic Grammar", icon: SearchCode, href: "/language", description: "I'rab and Linguistics", category: "Revelation" },
+  { name: "Hifz Tracker", icon: Target, href: "/goals", description: "Memorization Pathway", category: "Revelation" },
+  { name: "Quranic Duas", icon: Sparkles, href: "/dua", description: "Supplications from Revelation", category: "Revelation" },
+  { name: "Manuscript Scans", icon: Scroll, href: "/manuscripts", description: "Early Historical Mushafs", category: "Revelation" },
+  { name: "Reciter Hub", icon: Mic2, href: "/quran", description: "Global Audio Signal Cluster", category: "Revelation" },
+  { name: "Asbab al-Nuzul", icon: History, href: "/history", description: "Context of Revelation", category: "Revelation" },
+  { name: "Tajweed Rules", icon: ShieldCheck, href: "/mualim", description: "Precision Articulation", category: "Revelation" },
+  { name: "Thematic Index", icon: ListOrdered, href: "/library", description: "Subjects in Quran", category: "Revelation" },
+  { name: "Quranic Miracles", icon: Zap, href: "/ask", description: "Scientific Evidences", category: "Revelation" },
+  { name: "Translation Hub", icon: Globe, href: "/language", description: "Reach in 7709+ Languages", category: "Revelation" },
+  { name: "Vocabulary Root", icon: Search, href: "/search", description: "Lexicon Infrastructure", category: "Revelation" },
+  { name: "Daily Ayah", icon: Calendar, href: "/inspire", description: "Spiritual Reflection", category: "Revelation" },
+  { name: "Khatm Plan", icon: Timer, href: "/goals", description: "Reading Cycle System", category: "Revelation" },
+  { name: "Uthmani Script", icon: PenTool, href: "/quran", description: "Digital Calligraphy", category: "Revelation" },
+  { name: "Quranic Atlas", icon: Map, href: "/history", description: "Locations in Revelation", category: "Revelation" },
+  { name: "Recitation Feedback", icon: Volume2, href: "/mualim", description: "AI Assessment Hub", category: "Revelation" },
+  { name: "Global Audio", icon: Radio, href: "/audio", description: "Universal Signal Hub", category: "Revelation" },
+
+  // Cluster 2: The Prophetic Path (21-40)
+  { name: "Hadith Search", icon: Search, href: "/hadith", description: "Authentic Narrations", category: "Sunnah" },
+  { name: "Sahih Bukhari", icon: Book, href: "/hadith", description: "The Most Authentic Book", category: "Sunnah" },
+  { name: "Sahih Muslim", icon: Book, href: "/hadith", description: "Foundational Collection", category: "Sunnah" },
+  { name: "40 Hadith Path", icon: ListOrdered, href: "/library", description: "An-Nawawi Collection", category: "Sunnah" },
+  { name: "Prophetic Seerah", icon: History, href: "/seerah", description: "Life of the Prophet (ﷺ)", category: "Sunnah" },
+  { name: "Shama'il Hub", icon: Heart, href: "/seerah", description: "Characteristics of Muhammad (ﷺ)", category: "Sunnah" },
+  { name: "Sunnah Revival", icon: Flame, href: "/sunnah", description: "Forgotten Traditions", category: "Sunnah" },
+  { name: "Hadith Grades", icon: ShieldCheck, href: "/hadith", description: "Authentication System", category: "Sunnah" },
+  { name: "Sahaba Registry", icon: Users, href: "/scholars", description: "The Noble Companions", category: "Sunnah" },
+  { name: "Prophetic Manners", icon: Smile, href: "/manners", description: "Akhlaq Infrastructure", category: "Sunnah" },
+  { name: "Medical Sunnah", icon: Activity, href: "/ruqyah", description: "Prophetic Medicine (Tibb)", category: "Sunnah" },
+  { name: "Dreams Index", icon: Moon, href: "/ask", description: "Interpretation Science", category: "Sunnah" },
+  { name: "Hadith Sciences", icon: Brain, href: "/library", description: "Mustalah al-Hadith", category: "Sunnah" },
+  { name: "Battle Sites", icon: Swords, href: "/history", description: "Historical Expeditions", category: "Sunnah" },
+  { name: "Prophetic Diet", icon: Utensils, href: "/halal", description: "Etiquettes of Eating", category: "Sunnah" },
+  { name: "Morning Adhkar", icon: Sun, href: "/adhkar", description: "Essential Protections", category: "Sunnah" },
+  { name: "Evening Adhkar", icon: Moon, href: "/adhkar", description: "Nightly Remembrances", category: "Sunnah" },
+  { name: "Travel Duas", icon: Plane, href: "/dua", description: "Sunnah of Journey", category: "Sunnah" },
+  { name: "Family Ethics", icon: Baby, href: "/parenting", description: "Prophetic Households", category: "Sunnah" },
+  { name: "Legacy System", icon: Landmark, href: "/history", description: "Preservation of Path", category: "Sunnah" },
+
+  // Cluster 3: Jurisprudence (41-60)
+  { name: "Prayer Times", icon: Clock, href: "/prayer-times", description: "Precision Solar Tracking", category: "Fiqh" },
+  { name: "Qibla Compass", icon: Compass, href: "/hajj", description: "Directional Infrastructure", category: "Fiqh" },
+  { name: "Wudu Guide", icon: Droplets, href: "/wudu", description: "Purification Protocol", category: "Fiqh" },
+  { name: "Salah Pillars", icon: Column, href: "/salah", description: "The 14 Essentials", category: "Fiqh" },
+  { name: "Zakat Calculator", icon: Calculator, href: "/zakat", description: "Wealth Purification", category: "Fiqh" },
+  { name: "Ramadan Hub", icon: Moon, href: "/ramadan", description: "Fasting Resources", category: "Fiqh" },
+  { name: "Hajj Navigator", icon: MapPin, href: "/hajj", description: "Pilgrimage Pathways", category: "Fiqh" },
+  { name: "Umrah Guide", icon: Footprints, href: "/hajj", description: "Step-by-Step Rituals", category: "Fiqh" },
+  { name: "Halal Locator", icon: Utensils, href: "/halal-locator", description: "Tayyib Map Search", category: "Fiqh" },
+  { name: "Inheritance", icon: Scale, href: "/zakat", description: "Mawarith Calculator", category: "Fiqh" },
+  { name: "Trade Ethics", icon: Briefcase, href: "/sharia", description: "Fiqh of Transactions", category: "Fiqh" },
+  { name: "Marriage Laws", icon: Heart, href: "/family", description: "Nikah Infrastructure", category: "Fiqh" },
+  { name: "Islamic Finance", icon: HandCoins, href: "/zakat", description: "Riba-Free System", category: "Fiqh" },
+  { name: "Food Laws", icon: Coffee, href: "/halal", description: "Rulings on Consumption", category: "Fiqh" },
+  { name: "Dress Code", icon: Shirt, href: "/manners", description: "Haya and Modesty", category: "Fiqh" },
+  { name: "Travel Fiqh", icon: Plane, href: "/sharia", description: "Shortening Prayers", category: "Fiqh" },
+  { name: "Funeral Rites", icon: Landmark, href: "/library", description: "Janazah Protocol", category: "Fiqh" },
+  { name: "Slaughter Rules", icon: Utensils, href: "/halal", description: "Udhiya and Zabiha", category: "Fiqh" },
+  { name: "Water Purity", icon: Droplets, href: "/wudu", description: "Fiqh of Taharah", category: "Fiqh" },
+  { name: "Justice Node", icon: Gavel, href: "/sharia", description: "Judiciary Infrastructure", category: "Fiqh" },
+
+  // Cluster 4: Creed & Scholars (61-80)
+  { name: "Tawheed Hub", icon: ShieldCheck, href: "/tawheed", description: "Monotheism Foundation", category: "Aqidah" },
+  { name: "Three Principles", icon: Triangle, href: "/tawheed", description: "Essential Knowledge", category: "Aqidah" },
+  { name: "Name of Allah", icon: Star, href: "/tawheed", description: "99 Attributes System", category: "Aqidah" },
+  { name: "Angels Realm", icon: Cloud, href: "/ask", description: "The Unseen Protocol", category: "Aqidah" },
+  { name: "Day of Judgment", icon: Hourglass, href: "/ask", description: "The Final Reckoning", category: "Aqidah" },
+  { name: "Divine Decree", icon: Anchor, href: "/tawheed", description: "Belief in Qadar", category: "Aqidah" },
+  { name: "Refutation Lab", icon: ShieldAlert, href: "/refutation", description: "Defending the Creed", category: "Aqidah" },
+  { name: "Major Scholars", icon: UserCheck, href: "/scholars", description: "Directory of Giants", category: "Aqidah" },
+  { name: "Manhaj Study", icon: Compass, href: "/library", description: "Methodology Paths", category: "Aqidah" },
+  { name: "Aqidah Quizzes", icon: Brain, href: "/quiz", description: "Interactive Assessments", category: "Aqidah" },
+  { name: "Ahlus-Sunnah", icon: Flag, href: "/purpose", description: "Core Identity Hub", category: "Aqidah" },
+  { name: "Nullifiers", icon: AlertCircle, href: "/tawheed", description: "Actions that Nullify Faith", category: "Aqidah" },
+  { name: "Intercession", icon: Users, href: "/ask", description: "Rulings on Shafa'ah", category: "Aqidah" },
+  { name: "Historical Sects", icon: EyeOff, href: "/refutation", description: "Analysis of Deviations", category: "Aqidah" },
+  { name: "Sincerity (Ikhlas)", icon: Heart, href: "/manners", description: "Purification of Intent", category: "Aqidah" },
+  { name: "Faith (Iman)", icon: Zap, href: "/tawheed", description: "Levels and Increase", category: "Aqidah" },
+  { name: "Prophets Hub", icon: Users, href: "/history", description: "Stories of Messengers", category: "Aqidah" },
+  { name: "Jinn Protocol", icon: EyeOff, href: "/ask", description: "Understanding the Unseen", category: "Aqidah" },
+  { name: "Evidence Lab", icon: FileText, href: "/ask", description: "Scholarly Proofs System", category: "Aqidah" },
+  { name: "Salaf Path", icon: History, href: "/library", description: "Understanding of Sahaba", category: "Aqidah" },
+
+  // Cluster 5: Community & Tools (81-100)
+  { name: "Ask Al-Mualim", icon: Bot, href: "/ask", description: "AI Scholarly Assistant", category: "Community" },
+  { name: "Study Circles", icon: CircleDot, href: "/circles", description: "Interactive Halaqat", category: "Community" },
+  { name: "Live Broadcasts", icon: Radio, href: "/live", description: "Real-time Knowledge", category: "Community" },
+  { name: "Video Index", icon: VideoIcon, href: "/videos", description: "Verified Lectures Hub", category: "Community" },
+  { name: "Dawah Lab", icon: Megaphone, href: "/dawah", description: "Outreach Infrastructure", category: "Community" },
+  { name: "Reverts Hub", icon: UserPlus, href: "/reverts", description: "Welcome Home System", category: "Community" },
+  { name: "Kids Zone", icon: Baby, href: "/kids", description: "Learning for Little Heroes", category: "Community" },
+  { name: "Teens Hub", icon: Zap, href: "/teens", description: "Youth Faith Network", category: "Community" },
+  { name: "Masjid Finder", icon: MapPin, href: "/masjid-locator", description: "GPS Global Search", category: "Community" },
+  { name: "Ummah Status", icon: Activity, href: "/ummah", description: "Global Network Status", category: "Community" },
+  { name: "Privacy Vault", icon: Lock, href: "/privacy", description: "Amanah Data Protection", category: "Infrastructure" },
+  { name: "Cloud Status", icon: Cloud, href: "/cloud", description: "Infrastructure Health", category: "Infrastructure" },
+  { name: "Achievement Hub", icon: Trophy, href: "/goals", description: "Digital Proofs System", category: "Personal" },
+  { name: "Bookmarks", icon: Bookmark, href: "/library", description: "Archived Knowledge", category: "Personal" },
+  { name: "Account Hub", icon: Key, href: "/login", description: "Identity Management", category: "Personal" },
+  { name: "Scholarly Notes", icon: PenTool, href: "/library", description: "Personal Research Path", category: "Personal" },
+  { name: "Alerts Center", icon: Bell, href: "/notifications", description: "System Dispatch Hub", category: "Infrastructure" },
+  { name: "Linguistic Hub", icon: Globe, href: "/language", description: "Universal Translation", category: "Infrastructure" },
+  { name: "Security Audit", icon: Fingerprint, href: "/privacy", description: "High-Security Layers", category: "Infrastructure" },
+  { name: "System Credits", icon: HandCoins, href: "/credits", description: "Infrastructure Partners", category: "Infrastructure" },
 ];
 
 export default function Home() {
   const [showSplash, setShowSplash] = useState(true);
   const [hasMounted, setHasMounted] = useState(false);
+  const [activeCategory, setActiveCategory] = useState("All Features");
+  const categories = ["All Features", "Revelation", "Sunnah", "Fiqh", "Aqidah", "Community", "Infrastructure"];
 
   useEffect(() => {
     setHasMounted(true);
@@ -139,85 +150,115 @@ export default function Home() {
   if (!hasMounted) return null;
   if (showSplash) return <SplashScreen />;
 
-  return (
-    <div className="bg-black text-white min-h-screen font-sans selection:bg-primary/30 animate-in fade-in duration-700">
-      <header className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center border-b border-white/5 bg-black/50 backdrop-blur-xl sticky top-0 z-50">
-        <div className="flex items-center gap-6">
-          <Link href="/" className="flex items-center gap-2 group">
-            <h1 className="text-2xl font-headline font-black tracking-tighter transition-colors group-hover:text-primary">Islamly</h1>
-          </Link>
-          <div className="hidden md:flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/20">
-            <span className="w-1.5 h-1.5 bg-emerald-500 rounded-full animate-pulse"></span>
-            <span className="text-[10px] text-emerald-400 font-black uppercase tracking-widest">19 DHŪ AL-QA‘DAH 1447 AH</span>
-          </div>
-        </div>
-        <div className="flex items-center gap-2">
-          <Button variant="ghost" size="icon" className="h-10 w-10 text-muted-foreground hover:text-white hover:bg-white/5 rounded-full" asChild>
-            <Link href="/notifications"><Bell className="w-5 h-5" /></Link>
-          </Button>
-          <Button variant="ghost" size="icon" className="h-10 w-10 text-muted-foreground hover:text-white hover:bg-white/5 rounded-full" asChild>
-            <Link href="/language"><Globe className="w-5 h-5" /></Link>
-          </Button>
-          <Button className="ml-2 bg-primary hover:bg-primary/90 text-white rounded-full h-10 px-6 font-headline font-bold text-xs uppercase tracking-widest shadow-lg shadow-primary/20" asChild>
-            <Link href="/login">Account</Link>
-          </Button>
-        </div>
-      </header>
+  const filteredModules = activeCategory === "All Features" 
+    ? modules 
+    : modules.filter(m => m.category === activeCategory);
 
-      <main className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-12">
+  return (
+    <div className="bg-[#0a0304] text-white min-h-screen font-sans selection:bg-primary/30 animate-in fade-in duration-1000">
+      
+
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-12">
         
-        {/* Exact Logo Aesthetic Background */}
-        <div className="relative border border-white/10 rounded-[3rem] p-12 flex flex-col items-center justify-center text-center bg-zinc-900 overflow-hidden min-h-[400px] shadow-2xl group">
-          <div 
-            className="absolute inset-0 bg-cover bg-center opacity-30 transition-transform duration-1000 group-hover:scale-105"
-            style={{ backgroundImage: "url(https://images.unsplash.com/photo-1507842217343-583bb7270b66?q=80&w=2070&auto=format&fit=crop)" }} 
-          ></div>
-          <div className="absolute inset-0 bg-gradient-to-b from-transparent via-black/40 to-black" />
+        {/* EXACT LOGO BRANDING */}
+        <section className="flex flex-col items-center py-10 relative overflow-hidden rounded-[3rem] border border-white/5">
+          <div className="absolute inset-0 z-0 opacity-40">
+            <Image 
+              src="https://images.unsplash.com/photo-1507842217343-583bb7270b66?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080"
+              alt="Library Background"
+              fill
+              className="object-cover"
+              priority
+            />
+            <div className="absolute inset-0 bg-gradient-to-b from-[#0a0304] via-transparent to-[#0a0304]" />
+          </div>
           
-          <div className="relative z-10 space-y-6">
-            <div className="relative inline-block">
-              <h2 className="text-8xl md:text-9xl font-serif text-white select-none drop-shadow-[0_0_30px_rgba(173,31,55,0.6)]" dir="rtl">
+          <div className="relative z-10 text-center space-y-8 animate-in zoom-in-95 duration-1000">
+            <div className="relative flex flex-col items-center group">
+              <span 
+                className="text-8xl md:text-9xl font-serif text-white select-none transition-transform duration-700 group-hover:scale-105" 
+                dir="rtl"
+                style={{ 
+                  textShadow: '0 0 30px rgba(173,31,55,0.8), 0 0 60px rgba(173,31,55,0.4)',
+                }}
+              >
                 إسل<span className="text-primary tracking-tighter">ا</span>ملي
-              </h2>
-              <div className="absolute -bottom-4 left-1/2 -translate-x-1/2 w-24 h-1 bg-gradient-to-r from-transparent via-primary/60 to-transparent" />
+              </span>
+              <div className="h-0.5 w-32 bg-gradient-to-r from-transparent via-primary/60 to-transparent mt-6" />
             </div>
-            <div className="space-y-1">
-              <p className="text-[10px] uppercase tracking-[0.6em] text-white/50 font-black">Universal Scholarly Infrastructure</p>
-              <div className="flex items-center justify-center gap-2 pt-4">
-                <Badge variant="outline" className="text-[8px] uppercase tracking-widest border-primary/30 text-primary bg-primary/5">
-                  <ShieldCheck className="w-3 h-3 mr-1" /> AHLUS-SUNNAH INFRASTRUCTURE
-                </Badge>
+            
+            <div className="space-y-2">
+              <h2 className="text-xl font-headline font-bold uppercase tracking-[0.4em] text-white/90">Universal Infrastructure</h2>
+              <p className="text-muted-foreground italic text-sm max-w-md mx-auto">High-fidelity scholarly resource system, strictly aligned with the path of the Salaf.</p>
+            </div>
+          </div>
+        </section>
+
+        {/* HIGH DENSITY 100 MODULE GRID */}
+        <section className="space-y-8">
+          <div className="flex flex-col sm:flex-row items-center justify-between gap-6 border-b border-white/5 pb-8">
+            <div className="flex items-center gap-3 overflow-x-auto no-scrollbar pb-2 w-full sm:w-auto">
+              {categories.map(cat => (
+                <Button 
+                  key={cat}
+                  variant={activeCategory === cat ? "default" : "outline"}
+                  onClick={() => setActiveCategory(cat)}
+                  className={cn(
+                    "rounded-full px-6 h-10 text-[10px] font-black uppercase tracking-widest transition-all",
+                    activeCategory === cat ? "bg-primary shadow-lg shadow-primary/20" : "border-white/10 hover:bg-white/5"
+                  )}
+                >
+                  {cat}
+                </Button>
+              ))}
+            </div>
+            <div className="flex items-center gap-4 shrink-0">
+              <div className="text-right hidden md:block">
+                <p className="text-[10px] uppercase font-black text-primary tracking-widest">Global Status</p>
+                <p className="text-[11px] text-muted-foreground italic">100 Primary Signals Active</p>
+              </div>
+              <div className="w-10 h-10 rounded-full bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center">
+                <div className="w-2 h-2 bg-emerald-500 rounded-full animate-pulse" />
               </div>
             </div>
           </div>
-        </div>
 
-        {/* 100 Module Dense Grid */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-          {modules.map((m, idx) => (
-            <Link key={idx} href={m.href}>
-              <Card className="glass-card hover:border-primary/40 transition-all group border-white/5 overflow-hidden h-32 flex flex-col justify-center items-center text-center relative active:scale-[0.98]">
-                <div className="absolute inset-0 bg-gradient-to-br from-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
-                <CardContent className="p-4 space-y-3 relative z-10">
-                  <div className={cn("w-10 h-10 rounded-xl bg-white/5 flex items-center justify-center mx-auto group-hover:bg-white/10 transition-colors shadow-inner", m.color)}>
-                    <m.icon className="w-5 h-5" />
-                  </div>
-                  <h3 className="text-[9px] font-black uppercase tracking-[0.2em] text-white/70 group-hover:text-white transition-colors">{m.name}</h3>
-                </CardContent>
-              </Card>
-            </Link>
-          ))}
-        </div>
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 animate-in fade-in slide-in-from-bottom-6 duration-700">
+            {filteredModules.map((m, i) => (
+              <Link key={i} href={m.href}>
+                <Card className="glass-card hover:border-primary/40 transition-all group border-white/5 overflow-hidden h-full flex flex-col justify-between text-left relative active:scale-[0.98]">
+                  <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+                  <CardContent className="p-5 relative z-10 flex flex-col h-full space-y-4">
+                    <div className="flex justify-between items-start">
+                      <div className="w-10 h-10 rounded-xl bg-secondary/50 flex items-center justify-center group-hover:bg-primary/20 transition-colors shadow-inner border border-white/5">
+                        <m.icon className="w-5 h-5 text-primary" />
+                      </div>
+                      <span className="text-[8px] font-black text-muted-foreground/40 uppercase tracking-widest">Signal {(i+1).toString().padStart(3, '0')}</span>
+                    </div>
+                    <div className="space-y-1 flex-grow">
+                      <h3 className="text-sm font-headline font-bold text-white group-hover:text-primary transition-colors uppercase tracking-tight">{m.name}</h3>
+                      <p className="text-[10px] text-muted-foreground leading-relaxed italic">{m.description}</p>
+                    </div>
+                    <div className="flex items-center justify-between pt-2">
+                      <Badge variant="secondary" className="bg-white/5 text-muted-foreground text-[7px] uppercase tracking-tighter border-none">{m.category}</Badge>
+                      <ChevronRight className="w-4 h-4 text-white/20 group-hover:text-primary group-hover:translate-x-1 transition-transform" />
+                    </div>
+                  </CardContent>
+                </Card>
+              </Link>
+            ))}
+          </div>
+        </section>
 
-        {/* Global Status Footer */}
-        <div className="text-center pt-12 pb-20 opacity-30">
-          <div className="inline-flex items-center gap-2 px-6 py-2 rounded-full border border-white/10 bg-white/5">
-            <Globe className="w-3 h-3" />
-            <p className="text-[9px] uppercase tracking-[0.4em] font-black italic">
-              Universal Scholarly Signal • Production Environment v3.5
+        <footer className="text-center pt-20 pb-32 opacity-30">
+          <div className="inline-flex items-center gap-3 px-8 py-3 rounded-full border border-white/10 bg-white/5">
+            <Globe className="w-4 h-4 text-primary" />
+            <p className="text-[10px] uppercase tracking-[0.5em] font-black italic">
+              Universal Scholarly Signal • Built for the Ummah
             </p>
           </div>
-        </div>
+          <p className="mt-4 text-[9px] uppercase tracking-[0.2em] font-bold">© 2025 Islamly Infrastructure v3.7 • Secured Path</p>
+        </footer>
       </main>
     </div>
   );
