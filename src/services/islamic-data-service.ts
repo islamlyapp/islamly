@@ -173,7 +173,7 @@ export async function fetchSurahVerses(surahId: number, translationId?: number) 
 
 export async function fetchVerseTranslations(surahId: number, translationId: number) {
   try {
-    const response = await fetch(`https://api.quran.com/api/v4/translations/${translationId}?chapter_number=${surahId}`);
+    const response = await fetch(`https://api.quran.com/api/v4/quran/translations/${translationId}?chapter_number=${surahId}`);
     const data = await safeJsonParse(response);
     return data?.translations || [];
   } catch (error) {

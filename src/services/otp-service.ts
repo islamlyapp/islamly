@@ -31,7 +31,7 @@ export async function sendOtpToEmail(email: string): Promise<boolean> {
   try {
     const otpRef = doc(db, "ephemeral_otps", email.toLowerCase());
     
-    // 1. Store in ephemeral verification node
+    // 1. Store in ephemeral verification feature
     await setDoc(otpRef, {
       otp,
       createdAt: serverTimestamp(),
@@ -52,9 +52,9 @@ export async function sendOtpToEmail(email: string): Promise<boolean> {
             </div>
             
             <div style="background-color: #111; padding: 30px; border-radius: 15px; text-align: center; border: 1px solid #333;">
-              <h2 style="font-size: 18px; font-weight: bold; margin-bottom: 20px; color: #ad1f37;">NODE VERIFICATION REQUIRED</h2>
+              <h2 style="font-size: 18px; font-weight: bold; margin-bottom: 20px; color: #ad1f37;">FEATURE VERIFICATION REQUIRED</h2>
               <p style="font-size: 14px; color: #ccc; line-height: 1.6;">
-                A request has been made to initialize or access a scholarly node using this address. Use the code below to verify your identity.
+                A request has been made to initialize or access a scholarly feature using this address. Use the code below to verify your identity.
               </p>
               
               <div style="font-size: 42px; font-weight: bold; letter-spacing: 10px; color: #ffffff; margin: 30px 0; background: #000; padding: 20px; border-radius: 10px;">
@@ -68,7 +68,7 @@ export async function sendOtpToEmail(email: string): Promise<boolean> {
             
             <div style="margin-top: 30px; text-align: center; padding-top: 20px; border-top: 1px solid #222;">
               <p style="font-size: 9px; color: #444; text-transform: uppercase; letter-spacing: 2px;">
-                © 2025 Islamly • Ahlus-Sunnah wal-Jama'ah • Protected by 1 Billion Privacy Nodes
+                © 2025 Islamly • Ahlus-Sunnah wal-Jama'ah • Protected by 1 Billion Privacy Features
               </p>
             </div>
           </div>
@@ -79,7 +79,7 @@ export async function sendOtpToEmail(email: string): Promise<boolean> {
       /**
        * PROTOTYPE FALLBACK (If key is removed)
        */
-      console.log("%c[Universal Node] SCHOLARLY OTP DISPATCHED (Simulation)", "color: #ad1f37; font-weight: bold; font-size: 14px;");
+      console.log("%c[Universal Feature] SCHOLARLY OTP DISPATCHED (Simulation)", "color: #ad1f37; font-weight: bold; font-size: 14px;");
       console.log(`%cRECIPIENT: ${email}`, "color: #ffffff;");
       console.log(`%cCODE: ${otp}`, "color: #00ff00; font-weight: bold; font-size: 18px;");
       console.log("%c------------------------------------------------", "color: #ad1f37;");
@@ -120,7 +120,7 @@ export async function verifyOtp(email: string, userOtp: string): Promise<boolean
     if (isValid) {
       // Clean up after successful verification to prevent reuse
       await deleteDoc(otpRef);
-      console.log(`[OTP Success] Node verified for ${email}`);
+      console.log(`[OTP Success] Feature verified for ${email}`);
     } else {
       console.warn(`[OTP Failure] Incorrect token provided for ${email}`);
     }

@@ -1,22 +1,3 @@
-# Settings to manage and configure a Firebase App Hosting backend.
-# https://firebase.google.com/docs/app-hosting/configure
-
-runConfig:
-  # The maximum number of concurrent requests each instance can handle.
-  concurrency: 80
-  # The amount of CPU allocated to each instance.
-  cpu: 1
-  # The amount of memory allocated to each instance.
-  memoryMiB: 512
-  # Increase this value if you'd like to automatically spin up
-  # more instances in response to increased traffic.
-  maxInstances: 10
-  # The minimum number of instances to keep running.
-  minInstances: 0
-
-# Environment variables for the runtime
-# IMPORTANT: DO NOT include sensitive API keys here.
-# Use secrets in the Firebase Console / Secret Manager for GOOGLE_GENAI_API_KEY.
-env:
-  - variable: NEXT_PUBLIC_HADITH_API_KEY
-    value: "no-key-provided"
+run:
+  build: npm run build
+  start: npm run start

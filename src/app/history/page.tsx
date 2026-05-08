@@ -25,14 +25,14 @@ import { toast } from "@/hooks/use-toast";
 import { cn } from "@/lib/utils";
 
 const historicalEras = [
-  { id: 1, title: "Prophetic Era", era: "0-11 AH", desc: "The foundation of the Ummah and the final revelation in Makkah and Madinah.", image: "https://picsum.photos/seed/prophetic/600/400" },
+  { id: 1, title: "Prophetic Era", era: "0-11 AH", desc: "The foundation of the Ummah and the final scripture in Makkah and Madinah.", image: "https://picsum.photos/seed/prophetic/600/400" },
   { id: 2, title: "Rightly Guided Caliphs", era: "11-40 AH", desc: "The leadership of the four great Sahaba (RA) and the preservation of the compilation.", image: "https://picsum.photos/seed/rashidun/600/400" },
   { id: 3, title: "The Umayyad Node", era: "41-132 AH", desc: "Expansion from the Levant to Andalusia and Central Asia.", image: "https://picsum.photos/seed/umayyad/600/400" },
   { id: 4, title: "The Abbasid Golden Era", era: "132-656 AH", desc: "Trillions of scholarly features indexed in Baghdad and the compilation of the Six Books of Hadith.", image: "https://picsum.photos/seed/abbasid/600/400" },
 ];
 
 const timelineEvents = [
-  { year: "610 CE", event: "First Revelation", desc: "Prophet Muhammad (PBUH) receives revelation in Cave Hira." },
+  { year: "610 CE", event: "First Scripture", desc: "Prophet Muhammad (PBUH) receives scripture in Cave Hira." },
   { year: "622 CE", event: "The Hijrah", desc: "The migration to Madinah marking the start of the Islamic calendar." },
   { year: "632 CE", event: "Farewell Hajj", desc: "Completion of the religion and the passing of the Prophet (PBUH)." },
   { year: "650 CE", event: "Standardization", desc: "Uthman (RA) standardizes the Mushaf for the global Ummah." },

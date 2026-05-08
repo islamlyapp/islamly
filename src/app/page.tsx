@@ -26,26 +26,26 @@ import Image from "next/image";
 // HIGH DENSITY SCHOLARLY INDEX: 100 UNIQUE PATHS
 const modules = [
   // Cluster 1: The Final Revelation (1-20)
-  { name: "Quran Reader", icon: BookOpen, href: "/quran", description: "Complete Uthmani Text", category: "Revelation" },
-  { name: "Qira'at Index", icon: Binary, href: "/qiraat", description: "10 Canonical Variants", category: "Revelation" },
-  { name: "Tafsir Archives", icon: Library, href: "/library/tafsir-ibn-kathir", description: "Scholarly Exegesis", category: "Revelation" },
-  { name: "Quranic Grammar", icon: SearchCode, href: "/language", description: "I'rab and Linguistics", category: "Revelation" },
-  { name: "Hifz Tracker", icon: Target, href: "/goals", description: "Memorization Pathway", category: "Revelation" },
-  { name: "Quranic Duas", icon: Sparkles, href: "/dua", description: "Supplications from Revelation", category: "Revelation" },
-  { name: "Manuscript Scans", icon: Scroll, href: "/manuscripts", description: "Early Historical Mushafs", category: "Revelation" },
-  { name: "Reciter Hub", icon: Mic2, href: "/quran", description: "Global Audio Signal Cluster", category: "Revelation" },
-  { name: "Asbab al-Nuzul", icon: History, href: "/history", description: "Context of Revelation", category: "Revelation" },
-  { name: "Tajweed Rules", icon: ShieldCheck, href: "/mualim", description: "Precision Articulation", category: "Revelation" },
-  { name: "Thematic Index", icon: ListOrdered, href: "/library", description: "Subjects in Quran", category: "Revelation" },
-  { name: "Quranic Miracles", icon: Zap, href: "/ask", description: "Scientific Evidences", category: "Revelation" },
-  { name: "Translation Hub", icon: Globe, href: "/language", description: "Reach in 7709+ Languages", category: "Revelation" },
-  { name: "Vocabulary Root", icon: Search, href: "/search", description: "Lexicon Infrastructure", category: "Revelation" },
-  { name: "Daily Ayah", icon: Calendar, href: "/inspire", description: "Spiritual Reflection", category: "Revelation" },
-  { name: "Khatm Plan", icon: Timer, href: "/goals", description: "Reading Cycle System", category: "Revelation" },
-  { name: "Uthmani Script", icon: PenTool, href: "/quran", description: "Digital Calligraphy", category: "Revelation" },
-  { name: "Quranic Atlas", icon: Map, href: "/history", description: "Locations in Revelation", category: "Revelation" },
-  { name: "Recitation Feedback", icon: Volume2, href: "/mualim", description: "AI Assessment Hub", category: "Revelation" },
-  { name: "Global Audio", icon: Radio, href: "/audio", description: "Universal Signal Hub", category: "Revelation" },
+  { name: "Quran Reader", icon: BookOpen, href: "/quran", description: "Complete Uthmani Text", category: "Quran" },
+  { name: "Qira'at Index", icon: Binary, href: "/qiraat", description: "10 Canonical Variants", category: "Quran" },
+  { name: "Tafsir Archives", icon: Library, href: "/library/tafsir-ibn-kathir", description: "Scholarly Exegesis", category: "Quran" },
+  { name: "Quranic Grammar", icon: SearchCode, href: "/language", description: "I'rab and Linguistics", category: "Quran" },
+  { name: "Hifz Tracker", icon: Target, href: "/goals", description: "Memorization Pathway", category: "Quran" },
+  { name: "Quranic Duas", icon: Sparkles, href: "/dua", description: "Supplications from the Quran", category: "Quran" },
+  { name: "Manuscript Scans", icon: Scroll, href: "/manuscripts", description: "Early Historical Mushafs", category: "Quran" },
+  { name: "Reciter Hub", icon: Mic2, href: "/quran", description: "Global Audio Cluster", category: "Quran" },
+  { name: "Asbab al-Nuzul", icon: History, href: "/history", description: "Context of the Revelation", category: "Quran" },
+  { name: "Tajweed Rules", icon: ShieldCheck, href: "/mualim", description: "Precision Articulation", category: "Quran" },
+  { name: "Thematic Index", icon: ListOrdered, href: "/library", description: "Subjects in Quran", category: "Quran" },
+  { name: "Quranic Miracles", icon: Zap, href: "/ask", description: "Scientific Evidences", category: "Quran" },
+  { name: "Translation Hub", icon: Globe, href: "/language", description: "Reach in 7709+ Languages", category: "Quran" },
+  { name: "Vocabulary Root", icon: Search, href: "/search", description: "Lexicon Infrastructure", category: "Quran" },
+  { name: "Daily Ayah", icon: Calendar, href: "/inspire", description: "Spiritual Reflection", category: "Quran" },
+  { name: "Khatm Plan", icon: Timer, href: "/goals", description: "Reading Cycle System", category: "Quran" },
+  { name: "Uthmani Script", icon: PenTool, href: "/quran", description: "Digital Calligraphy", category: "Quran" },
+  { name: "Quranic Atlas", icon: Map, href: "/history", description: "Locations in the Quran", category: "Quran" },
+  { name: "Recitation Feedback", icon: Volume2, href: "/mualim", description: "AI Assessment Hub", category: "Quran" },
+  { name: "Global Audio", icon: Radio, href: "/audio", description: "Universal Audio Hub", category: "Quran" },
 
   // Cluster 2: The Prophetic Path (21-40)
   { name: "Hadith Search", icon: Search, href: "/hadith", description: "Authentic Narrations", category: "Sunnah" },
@@ -140,7 +140,7 @@ export default function Home() {
   const [showSplash, setShowSplash] = useState(true);
   const [hasMounted, setHasMounted] = useState(false);
   const [activeCategory, setActiveCategory] = useState("All Features");
-  const categories = ["All Features", "Revelation", "Sunnah", "Fiqh", "Aqidah", "Community", "Infrastructure"];
+  const categories = ["All Features", "Quran", "Sunnah", "Fiqh", "Aqidah", "Community", "Infrastructure"];
 
   useEffect(() => {
     setHasMounted(true);
@@ -214,7 +214,7 @@ export default function Home() {
             <div className="flex items-center gap-4 shrink-0">
               <div className="text-right hidden md:block">
                 <p className="text-[10px] uppercase font-black text-primary tracking-widest">Global Status</p>
-                <p className="text-[11px] text-muted-foreground italic">100 Primary Signals Active</p>
+                <p className="text-[11px] text-muted-foreground italic">100 Primary Features Active</p>
               </div>
               <div className="w-10 h-10 rounded-full bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center">
                 <div className="w-2 h-2 bg-emerald-500 rounded-full animate-pulse" />
@@ -232,7 +232,6 @@ export default function Home() {
                       <div className="w-10 h-10 rounded-xl bg-secondary/50 flex items-center justify-center group-hover:bg-primary/20 transition-colors shadow-inner border border-white/5">
                         <m.icon className="w-5 h-5 text-primary" />
                       </div>
-                      <span className="text-[8px] font-black text-muted-foreground/40 uppercase tracking-widest">Signal {(i+1).toString().padStart(3, '0')}</span>
                     </div>
                     <div className="space-y-1 flex-grow">
                       <h3 className="text-sm font-headline font-bold text-white group-hover:text-primary transition-colors uppercase tracking-tight">{m.name}</h3>
@@ -253,7 +252,7 @@ export default function Home() {
           <div className="inline-flex items-center gap-3 px-8 py-3 rounded-full border border-white/10 bg-white/5">
             <Globe className="w-4 h-4 text-primary" />
             <p className="text-[10px] uppercase tracking-[0.5em] font-black italic">
-              Universal Scholarly Signal • Built for the Ummah
+              Universal Scholarly Resource • Built for the Ummah
             </p>
           </div>
           <p className="mt-4 text-[9px] uppercase tracking-[0.2em] font-bold">© 2025 Islamly Infrastructure v3.7 • Secured Path</p>
