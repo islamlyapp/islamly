@@ -53,28 +53,26 @@ export function SplashScreen() {
       
       <div className={`relative z-10 flex flex-col items-center transition-all duration-1000 ease-out ${show ? 'opacity-100 scale-100 translate-y-0' : 'opacity-0 scale-95 translate-y-4'}`}>
         
-        {/* Exact Logo Calligraphy */}
-        <div className="relative mb-12 flex flex-col items-center group">
-          <span 
-            className="text-8xl md:text-9xl font-serif text-white select-none transition-transform duration-700 group-hover:scale-105" 
-            dir="rtl"
-            style={{ 
-              textShadow: '0 0 30px rgba(173,31,55,0.8), 0 0 60px rgba(173,31,55,0.4)',
-            }}
-          >
-            إسل<span className="text-primary tracking-tighter">ا</span>ملي
-          </span>
-          <div className="h-0.5 w-32 bg-gradient-to-r from-transparent via-primary/60 to-transparent mt-6" />
+        {/* New Logo Branding */}
+        <div className="relative mb-10 flex flex-col items-center gap-6">
+          <div className="relative h-32 w-32 rounded-[2rem] overflow-hidden border border-white/10 bg-white/5 shadow-[0_30px_90px_rgba(0,0,0,0.22)]">
+            <Image
+              src="/logo.png"
+              alt="Islamly logo"
+              fill
+              className="object-cover"
+              priority
+            />
+          </div>
+          <div className="space-y-3 text-center max-w-xs">
+            <h1 className="text-3xl font-black uppercase tracking-[0.35em] text-white">Islamly</h1>
+            <p className="text-sm leading-6 text-white/70">A natural bridge between classical scholarship and modern lifestyle.</p>
+          </div>
         </div>
 
-        <div className="flex flex-col items-center gap-4">
-          <h1 className="text-2xl font-headline font-bold tracking-[0.5em] text-white">ISLAMLY</h1>
-          <div className="flex items-center gap-2 px-5 py-2 rounded-full bg-primary/10 border border-primary/30 backdrop-blur-md">
-            <ShieldCheck className="w-4 h-4 text-primary" />
-            <p className="text-[10px] uppercase tracking-[0.3em] text-white/80 font-bold">
-              Scholarly Infrastructure Active
-            </p>
-          </div>
+        <div className="flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 border border-white/10 text-[10px] uppercase tracking-[0.35em] text-white/80">
+          <ShieldCheck className="w-4 h-4 text-primary" />
+          Ahlus-Sunnah wal-Jama'ah
         </div>
       </div>
 

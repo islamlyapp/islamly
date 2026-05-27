@@ -51,7 +51,7 @@ export default function ShariaPage() {
           <h3 className="font-headline font-bold text-lg text-white uppercase tracking-widest">Justice Node</h3>
         </div>
         <p className="text-xs text-muted-foreground leading-relaxed">
-          The Sharia is not merely a set of rules, but a complete system designed to bring benefit (*Maslaha*) and prevent harm (*Mafsada*) across 11.7 Quadrillion life signals.
+          The Sharia is not merely a set of rules, but a complete system designed to bring benefit (*Maslaha*) and prevent harm (*Mafsada*) across 17 Quadrillion life signals.
         </p>
       </section>
 

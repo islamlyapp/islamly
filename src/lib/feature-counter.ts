@@ -1,11 +1,11 @@
 
 /**
  * @fileOverview Utility to calculate the dynamic scholarly feature count.
- * Starting at 11.7 Quadrillion baseline for the Universal Node.
+ * Starting at 17 Quadrillion baseline for the Universal Node.
  */
 
 const LAUNCH_DATE = new Date('2025-02-01T00:00:00Z'); 
-const BASE_FEATURES = 11700000000000000; // 11.7 Quadrillion
+const BASE_FEATURES = 17000000000000000; // 17 Quadrillion
 const DAILY_INCREASE = 10000000000000; // 10 Trillion increase daily
 
 /**

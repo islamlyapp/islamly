@@ -24,7 +24,7 @@ export default function TermsPage() {
             </Badge>
           </div>
           <p className="text-muted-foreground italic text-sm">
-            Last Updated: February 2025. This document governs the usage of the 11.7 Quadrillion scholarly feature infrastructure.
+            Last Updated: February 2025. This document governs the usage of the 17 Quadrillion scholarly feature infrastructure.
           </p>
         </div>
       </header>
@@ -81,7 +81,7 @@ export default function TermsPage() {
               4. Data Integrity & Prohibitions
             </h3>
             <p>
-              Users are strictly prohibited from attempting to reverse-engineer the 11.7 Quadrillion feature infrastructure, scraping data from our scholarly index nodes, or bypassing the security protocols governing our digital archives.
+              Users are strictly prohibited from attempting to reverse-engineer the 17 Quadrillion feature infrastructure, scraping data from our scholarly index nodes, or bypassing the security protocols governing our digital archives.
             </p>
           </div>
 

@@ -109,7 +109,7 @@ export default function LiveNodePage() {
         <div className="flex items-center justify-center gap-2 mb-2">
           <Database className="w-3 h-3" />
           <p className="text-[9px] uppercase tracking-[0.4em] font-black italic">
-            إسلاملي Universal Live Node v3.5 • 11.7Q Metadata
+            إسلاملي Universal Live Node v3.5 • 17Q Metadata
           </p>
         </div>
       </footer>

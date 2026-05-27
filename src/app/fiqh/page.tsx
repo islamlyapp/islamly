@@ -71,7 +71,7 @@ export default function FiqhPage() {
           <h3 className="font-headline font-bold text-lg text-white uppercase tracking-widest">Evidence-Based Rulings</h3>
         </div>
         <p className="text-xs text-muted-foreground leading-relaxed">
-          The Fiqh Infrastructure provides rulings indexed across 11.7 Quadrillion scholarly features, citing evidences from the Quran, Sunnah, and the consensus of the early generations.
+          The Fiqh Infrastructure provides rulings indexed across 17 Quadrillion scholarly features, citing evidences from the Quran, Sunnah, and the consensus of the early generations.
         </p>
       </section>
 

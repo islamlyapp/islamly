@@ -12,12 +12,12 @@ export default function manifest(): MetadataRoute.Manifest {
     theme_color: '#ad1f37',
     icons: [
       {
-        src: 'https://picsum.photos/seed/islamly-icon/192/192',
+        src: '/favicon.png',
         sizes: '192x192',
         type: 'image/png',
       },
       {
-        src: 'https://picsum.photos/seed/islamly-icon/512/512',
+        src: '/favicon.png',
         sizes: '512x512',
         type: 'image/png',
       },

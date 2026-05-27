@@ -88,7 +88,7 @@ export default function TawheedPage() {
       <section className="bg-secondary/20 p-8 rounded-[2.5rem] border border-white/5 space-y-6">
         <div className="flex items-center justify-between">
           <h3 className="text-xl font-headline font-bold text-white">Start Learning Path</h3>
-          <Badge variant="outline" className="text-[8px] border-red-500/30 text-red-500">11.7Q Features</Badge>
+          <Badge variant="outline" className="text-[8px] border-red-500/30 text-red-500">17Q Features</Badge>
         </div>
         <p className="text-sm text-muted-foreground italic">
           Initialize your structured learning path through the foundations of the creed. Each step is verified by our AutoMod infrastructure.

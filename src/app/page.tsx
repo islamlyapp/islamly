@@ -159,36 +159,33 @@ export default function Home() {
     <div className="bg-[#0a0304] text-white min-h-screen font-sans selection:bg-primary/30 animate-in fade-in duration-1000">
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-12">
         
-        {/* EXACT LOGO BRANDING */}
-        <section className="flex flex-col items-center py-10 relative overflow-hidden rounded-[3rem] border border-white/5">
-          <div className="absolute inset-0 z-0 opacity-40">
-            <Image 
-              src="https://images.unsplash.com/photo-1507842217343-583bb7270b66?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080"
-              alt="Library Background"
-              fill
-              className="object-cover"
-              priority
-            />
-            <div className="absolute inset-0 bg-gradient-to-b from-[#0a0304] via-transparent to-[#0a0304]" />
+        <section className="relative overflow-hidden rounded-[3rem] border border-white/10 bg-[#0a0304]/70 shadow-xl shadow-black/20">
+          <div className="absolute inset-0 opacity-30">
+            <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,_rgba(173,31,55,0.18),transparent_35%)]" />
           </div>
-          
-          <div className="relative z-10 text-center space-y-8 animate-in zoom-in-95 duration-1000">
-            <div className="relative flex flex-col items-center group">
-              <span 
-                className="text-8xl md:text-9xl font-serif text-white select-none transition-transform duration-700 group-hover:scale-105" 
-                dir="rtl"
-                style={{ 
-                  textShadow: '0 0 30px rgba(173,31,55,0.8), 0 0 60px rgba(173,31,55,0.4)',
-                }}
-              >
-                إسل<span className="text-primary tracking-tighter">ا</span>ملي
-              </span>
-              <div className="h-0.5 w-32 bg-gradient-to-r from-transparent via-primary/60 to-transparent mt-6" />
+
+          <div className="relative z-10 flex flex-col gap-6 p-6 sm:flex-row sm:items-center sm:justify-between sm:p-8 lg:p-10">
+            <div className="flex items-center gap-4">
+              <div className="relative h-20 w-20 overflow-hidden rounded-[1.75rem] border border-white/10 bg-white/5 shadow-[0_20px_50px_rgba(0,0,0,0.25)]">
+                <Image
+                  src="/logo.png"
+                  alt="Islamly logo"
+                  fill
+                  className="object-cover"
+                  priority
+                />
+              </div>
+              <div>
+                <h1 className="text-3xl font-black uppercase tracking-[0.25em] text-white">Islamly</h1>
+                <p className="mt-2 text-sm uppercase tracking-[0.35em] text-white/70">Scholarly infrastructure</p>
+              </div>
             </div>
-            
-            <div className="space-y-2">
-              <h2 className="text-xl font-headline font-bold uppercase tracking-[0.4em] text-white/90">Universal Infrastructure</h2>
-              <p className="text-muted-foreground italic text-sm max-w-md mx-auto">High-fidelity scholarly resource system, strictly aligned with the path of the Salaf.</p>
+
+            <div className="max-w-xl text-center sm:text-right">
+              <p className="text-base leading-7 text-muted-foreground">A naturally integrated experience for authentic Islamic knowledge, built to look and feel effortless.</p>
+              <div className="mt-4 inline-flex items-center gap-2 rounded-full bg-white/10 px-4 py-2 text-[10px] uppercase tracking-[0.32em] text-white/80 border border-white/10">
+                Ahlus-Sunnah wal-Jama'ah
+              </div>
             </div>
           </div>
         </section>

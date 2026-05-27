@@ -44,7 +44,7 @@ export default function HalalGuidePage() {
         </div>
         <div className="space-y-1">
           <h1 className="text-4xl font-headline font-bold text-white">Tayyib Guide</h1>
-          <p className="text-muted-foreground italic">Maintaining purity in consumption across 11.7 Quadrillion life signals.</p>
+          <p className="text-muted-foreground italic">Maintaining purity in consumption across 17 Quadrillion life signals.</p>
         </div>
       </header>
 

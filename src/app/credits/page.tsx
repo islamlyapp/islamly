@@ -44,7 +44,7 @@ export default function CreditsPage() {
                 </div>
                 <div className="space-y-1">
                   <h4 className="font-headline font-bold text-sm">Universal Cloud Infrastructure</h4>
-                  <p className="text-xs text-muted-foreground">High-density compute nodes provided by Vercel Edge and Google Cloud Platform for 11.7 Quadrillion feature scalability.</p>
+                  <p className="text-xs text-muted-foreground">High-density compute nodes provided by Vercel Edge and Google Cloud Platform for 17 Quadrillion feature scalability.</p>
                 </div>
               </CardContent>
             </Card>
