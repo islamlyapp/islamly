@@ -16,7 +16,7 @@ export default function PrivacyPage() {
         <div className="space-y-2">
           <div className="flex items-center gap-3 text-accent">
             <Lock className="w-8 h-8" />
-            <h1 className="text-3xl font-headline font-bold">Privacy Infrastructure</h1>
+            <h1 className="text-3xl font-headline font-bold">Privacy Promise</h1>
           </div>
           <div className="flex items-center gap-2">
             <Badge variant="secondary" className="bg-accent/10 text-accent border-accent/20 gap-1">
@@ -51,12 +51,12 @@ export default function PrivacyPage() {
           <CardHeader>
             <CardTitle className="text-lg font-headline flex items-center gap-2 text-primary uppercase tracking-widest">
               <Megaphone className="w-5 h-5" />
-              Infrastructure Sponsor Disclosure
+              Sponsor Disclosure
             </CardTitle>
           </CardHeader>
           <CardContent className="space-y-4">
             <p>
-              To sustain our high-density infrastructure, we utilize filtered Scholarly Sponsors. We employ strict category blocking to ensure only Islamic-compliant content is displayed.
+              To support the platform, we work with filtered Scholarly Sponsors. We employ strict category controls to ensure only Islamic-compliant content is displayed.
             </p>
             <div className="bg-secondary/30 p-4 rounded-lg space-y-2 border border-white/5">
               <div className="flex items-center gap-2 text-foreground font-bold text-xs uppercase tracking-tight">
@@ -64,7 +64,7 @@ export default function PrivacyPage() {
                 Cookie & Telemetry Disclosure
               </div>
               <p className="text-[11px]">
-                Our infrastructure sponsors (including Google) use cookies to serve relevant content based on a student's prior visits. This data remains governed by our privacy layers and is never sold.
+                Our sponsors (including Google) use cookies to serve relevant content based on a student's prior visits. This data is governed by our privacy protections and is never sold.
               </p>
               <p className="text-[11px] italic">
                 Students may opt out of personalized sponsor content by visiting Ads Settings or www.aboutads.info.
@@ -80,7 +80,7 @@ export default function PrivacyPage() {
               1. Scholarly Data Usage
             </h3>
             <p>
-              We collect only the essential metadata required to maintain your position within the global scholarly infrastructure:
+              We collect only the essential metadata required to maintain your learning preferences and progress:
             </p>
             <ul className="list-disc pl-5 space-y-2 opacity-80">
               <li>Authentication credentials managed via secure protocols.</li>
@@ -102,10 +102,10 @@ export default function PrivacyPage() {
           <div className="space-y-3">
             <h3 className="font-headline font-bold text-foreground flex items-center gap-2 uppercase text-xs tracking-[0.2em]">
               <Globe className="w-4 h-4 text-accent" />
-              3. AI Processing & Ephemeral Audio
+              3. Feedback Processing & Temporary Audio
             </h3>
             <p>
-              The Al-Mualim AI Teacher processes recitation audio signals through high-density transcription clusters. To ensure absolute privacy, original audio streams are ephemeral and are not archived after feedback generation.
+              Al-Mualim processes recitation audio to provide quick feedback. To protect your privacy, original audio streams are temporary and are not stored after the response is generated.
             </p>
           </div>
 
@@ -122,7 +122,7 @@ export default function PrivacyPage() {
 
       <footer className="text-center pt-8 border-t border-white/5">
         <p className="text-[10px] uppercase tracking-[0.3em] text-muted-foreground">
-          © 2025 Islamly Universal Privacy Infrastructure v3.5 • All Rights Reserved
+          © 2025 Islamly • Privacy Promise
         </p>
       </footer>
     </div>

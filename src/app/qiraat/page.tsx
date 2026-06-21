@@ -108,31 +108,31 @@ export default function QiraatReaderPage() {
               <BookMarked className='w-8 h-8 text-primary' />
             </div>
             <div>
-              <h1 className='text-3xl font-headline font-black text-white uppercase tracking-tight'>
-                Universal Qira'at Infrastructure
+              <h1 className='text-3xl font-headline font-black text-white'>
+                Qira'at readings
               </h1>
               <p className='text-muted-foreground italic text-sm'>
-                Textual synchronization across canonical readings.
+                Compare classic recitations and review subtle differences.
               </p>
             </div>
           </div>
         </div>
 
         <div className='flex flex-col gap-3 relative z-10 w-full md:w-72'>
-          <label className='text-[10px] uppercase font-black text-primary tracking-widest ml-1'>
-            Select Scholarly Signal
+          <label className='text-[11px] font-semibold text-primary ml-1'>
+            Choose recitation
           </label>
           <Select
             value={selectedRiwayah}
             onValueChange={(value) => setSelectedRiwayah(value as Riwayah)}
           >
-            <SelectTrigger className='h-14 glass-card border-primary/20 font-headline font-bold text-[10px] uppercase tracking-widest focus:ring-primary/50'>
+            <SelectTrigger className='h-14 soft-card border-primary/20 text-sm focus:ring-primary/50'>
               <SelectValue placeholder='Choose Riwayah' />
             </SelectTrigger>
             <SelectContent className='glass-card max-h-[400px]'>
               {QIRAAT_HIERARCHY.map((group) => (
                 <SelectGroup key={group.imam}>
-                  <SelectLabel className='text-[10px] uppercase font-black text-primary bg-primary/5 px-3 py-2 border-y border-white/5'>
+                  <SelectLabel className='text-sm font-semibold text-primary bg-primary/5 px-3 py-2 border-y border-white/5'>
                     {group.imam}
                   </SelectLabel>
                   {group.riwayahs.map((r) => (
@@ -189,8 +189,8 @@ export default function QiraatReaderPage() {
             ) : (
               <div className='h-full flex flex-col items-center justify-center text-center opacity-40 space-y-4'>
                 <Database className='w-16 h-16' />
-                <p className='text-xl italic font-headline'>Infrastructure sync required.</p>
-                <Button variant='outline' size='sm' onClick={() => setCurrentPage(1)}>Initialize Resource</Button>
+                <p className='text-xl italic font-headline'>No page content available.</p>
+                <Button variant='outline' size='sm' onClick={() => setCurrentPage(1)}>Go to first page</Button>
               </div>
             )}
           </div>
@@ -199,7 +199,7 @@ export default function QiraatReaderPage() {
         <div className='p-8 bg-secondary/10 border-t border-white/5 flex justify-between items-center relative z-10'>
           <Button
             variant='outline'
-            className='rounded-xl h-14 px-8 gap-3 border-white/5 hover:bg-white/5 font-headline font-black uppercase text-[10px] tracking-widest group'
+            className='rounded-xl h-14 px-8 gap-3 border-white/5 hover:bg-white/5 font-semibold text-sm group'
             onClick={() => setCurrentPage(Math.max(1, currentPage - 1))}
             disabled={currentPage === 1}
           >
@@ -226,7 +226,7 @@ export default function QiraatReaderPage() {
 
           <Button
             variant='outline'
-            className='rounded-xl h-14 px-8 gap-3 border-white/5 hover:bg-white/5 font-headline font-black uppercase text-[10px] tracking-widest group'
+            className='rounded-xl h-14 px-8 gap-3 border-white/5 hover:bg-white/5 font-semibold text-sm group'
             onClick={() => setCurrentPage(Math.min(604, currentPage + 1))}
             disabled={currentPage === 604}
           >
@@ -240,9 +240,9 @@ export default function QiraatReaderPage() {
         <Card className='glass-card p-8 border-primary/20 bg-primary/5 flex items-start gap-4'>
           <Sparkles className='w-8 h-8 text-primary shrink-0' />
           <div className='space-y-2'>
-            <h3 className='font-headline font-bold text-sm uppercase tracking-widest text-white'>Variant Highlighting</h3>
+            <h3 className='font-headline font-bold text-sm text-white'>Reading differences</h3>
             <p className='text-xs text-muted-foreground leading-relaxed italic'>
-              Differences between the selected reading and **Hafs 'an 'Asim** are automatically identified and highlighted.
+              Differences between the selected reading and Hafs 'an 'Asim are shown clearly.
             </p>
           </div>
         </Card>
@@ -250,9 +250,9 @@ export default function QiraatReaderPage() {
         <Card className='glass-card p-8 border-emerald-500/20 bg-emerald-500/5 flex items-start gap-4'>
           <ShieldCheck className='w-8 h-8 text-emerald-500 shrink-0' />
           <div className='space-y-2'>
-            <h3 className='font-headline font-bold text-sm uppercase tracking-widest text-white'>Authenticity Protocol</h3>
+            <h3 className='font-headline font-bold text-sm text-white'>Verified reading</h3>
             <p className='text-xs text-muted-foreground leading-relaxed italic'>
-              All textual signals are verified against authorized scholarly manuscripts to ensure zero-deviation from the Sunnah.
+              Readings are compared with trusted manuscripts so you can study with confidence.
             </p>
           </div>
         </Card>

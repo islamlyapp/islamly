@@ -70,16 +70,16 @@ export default function ManuscriptsPage() {
             <Database className="w-5 h-5 text-blue-400" />
           </div>
           <div className="space-y-0.5">
-            <p className="text-xs font-bold text-blue-400 uppercase tracking-tight">Internal Data Infrastructure</p>
-            <p className="text-[10px] text-muted-foreground leading-tight">High-resolution scans are served via the universal scholarly node.</p>
+            <p className="text-xs font-semibold text-blue-400">Archive streaming</p>
+            <p className="text-[10px] text-muted-foreground leading-tight">High-resolution scans are served through our manuscript archive system.</p>
           </div>
         </div>
-        <Badge variant="outline" className="text-[9px] border-blue-500/30 text-blue-400 shrink-0">1TB Node Active</Badge>
+        <Badge variant="outline" className="text-[9px] border-blue-500/30 text-blue-400 shrink-0">1TB available</Badge>
       </section>
 
       <div className="relative">
         <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground w-4 h-4" />
-        <Input placeholder="Search archives by era or museum..." className="pl-10 glass-card h-12" />
+        <Input placeholder="Search archives by era or museum..." className="pl-10 soft-card h-12" />
       </div>
 
       <div className="grid gap-6">
@@ -110,17 +110,17 @@ export default function ManuscriptsPage() {
               </div>
               
               <div className="grid grid-cols-2 gap-3 pt-2">
-                <Button variant="outline" className="h-9 text-[10px] uppercase font-bold gap-2" onClick={() => typeof window !== 'undefined' && window.open(m.teraBoxUrl, '_blank')}>
-                  <FileDown className="w-3.5 h-3.5 text-blue-400" /> High-Res Scans
+                <Button variant="outline" className="h-9 text-sm font-semibold gap-2" onClick={() => typeof window !== 'undefined' && window.open(m.teraBoxUrl, '_blank')}>
+                  <FileDown className="w-3.5 h-3.5 text-blue-400" /> View scans
                 </Button>
-                <Button variant="ghost" className="h-9 text-[10px] uppercase font-bold gap-2 text-yellow-500 hover:text-yellow-400">
-                  <BookOpen className="w-3.5 h-3.5" /> Study Rasm
+                <Button variant="ghost" className="h-9 text-sm font-semibold gap-2 text-yellow-500 hover:text-yellow-400">
+                  <BookOpen className="w-3.5 h-3.5" /> View orthography
                 </Button>
               </div>
 
               <div className="pt-4 flex items-center justify-between border-t border-white/5">
-                <span className="flex items-center gap-1 text-[10px] uppercase tracking-widest font-bold text-muted-foreground">
-                  <ShieldCheck className="w-3 h-3" /> Verified Edition
+                <span className="flex items-center gap-1 text-[10px] font-semibold text-muted-foreground">
+                  <ShieldCheck className="w-3 h-3" /> Verified edition
                 </span>
                 <button className="text-yellow-500 text-xs flex items-center gap-1 font-bold hover:underline" onClick={() => typeof window !== 'undefined' && window.open('#', '_blank')}>
                   View Web Reader <ExternalLink className="w-3 h-3" />
@@ -134,10 +134,10 @@ export default function ManuscriptsPage() {
       <section className="bg-yellow-500/5 p-6 rounded-2xl border border-yellow-500/20">
         <div className="flex items-center gap-2 mb-3">
           <History className="w-4 h-4 text-yellow-500" />
-          <h3 className="font-headline font-bold text-sm uppercase tracking-widest text-yellow-500">Scholarly Preservation</h3>
+          <h3 className="font-headline font-bold text-sm text-yellow-500">Preservation note</h3>
         </div>
         <p className="text-[11px] text-muted-foreground leading-relaxed italic">
-          Islamly uses spectral imaging data hosted on our internal storage nodes to assist in the study of Rasm (orthography) variants. These archives are maintained in coordination with major international manuscript centers.
+          Islamly uses spectral imaging and archive systems to support the study of Rasm (orthography) variants. These manuscripts are preserved in partnership with major international research centers.
         </p>
       </section>
     </div>

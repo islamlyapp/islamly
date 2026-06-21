@@ -42,19 +42,19 @@ export default function QuranIndexPage() {
       <header className="space-y-4">
         <div className="flex items-center justify-between">
           <div className="space-y-1">
-            <h1 className="text-4xl font-headline font-bold flex items-center gap-3">
+            <h1 className="soft-title flex items-center gap-3 text-white">
               <BookOpen className="text-primary w-10 h-10" />
-              Noble Quran Index
+              Quran Library
             </h1>
-            <p className="text-muted-foreground italic">Final Revelation: Preserved for the global Ummah.</p>
+            <p className="text-muted-foreground">Explore the Quran with clear translations, audio support, and thoughtful context.</p>
           </div>
-          <div className="flex flex-col items-end gap-1">
+          <div className="flex flex-col items-end gap-2">
             <Badge variant="secondary" className="bg-primary/10 text-primary border-primary/20 gap-1">
-              <ShieldCheck className="w-3 h-3" /> Uthmani Node Active
+              <ShieldCheck className="w-3 h-3" /> Uthmani mode
             </Badge>
-            <div className="flex items-center gap-1 px-2 py-0.5 rounded-full bg-emerald-500/10 border border-emerald-500/20">
-              <Binary className="w-2.5 h-2.5 text-emerald-500" />
-              <span className="text-[7px] uppercase font-black text-emerald-500 tracking-widest">Audio Hub Active</span>
+            <div className="flex items-center gap-1 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/20">
+              <Binary className="w-3 h-3 text-emerald-500" />
+              <span className="text-[10px] text-emerald-300">Audio guide enabled</span>
             </div>
           </div>
         </div>
@@ -63,7 +63,7 @@ export default function QuranIndexPage() {
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground w-4 h-4" />
           <Input 
             placeholder="Search by Surah name or number..." 
-            className="pl-10 glass-card h-14 border-white/5 focus-visible:ring-primary/50"
+            className="pl-10 soft-card h-14 focus-visible:ring-primary/50"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
           />
@@ -72,27 +72,27 @@ export default function QuranIndexPage() {
 
       {/* High-Density Stats */}
       <section className="grid grid-cols-1 md:grid-cols-3 gap-4">
-        <Card className="glass-card p-4 border-emerald-500/20 bg-emerald-500/5 text-center space-y-1">
+        <Card className="soft-card p-4 text-center space-y-2">
           <Binary className="w-5 h-5 text-emerald-400 mx-auto" />
-          <p className="text-[10px] uppercase font-bold text-muted-foreground tracking-widest">Canonical Qira'at</p>
-          <p className="text-xl font-headline font-black text-white">10 Authentic</p>
+          <p className="text-sm text-muted-foreground">Canonical Qira'at</p>
+          <p className="text-xl font-semibold text-white">10 authentic reciters</p>
         </Card>
-        <Card className="glass-card p-4 border-primary/20 bg-primary/5 text-center space-y-1">
+        <Card className="soft-card p-4 text-center space-y-2">
           <User className="w-5 h-5 text-primary mx-auto" />
-          <p className="text-[10px] uppercase font-bold text-muted-foreground tracking-widest">Audio Cluster</p>
-          <p className="text-xl font-headline font-black text-white">Scholarly Reciters</p>
+          <p className="text-sm text-muted-foreground">Audio support</p>
+          <p className="text-xl font-semibold text-white">Scholarly recitations</p>
         </Card>
-        <Card className="glass-card p-4 border-blue-500/20 bg-blue-500/5 text-center space-y-1">
+        <Card className="soft-card p-4 text-center space-y-2">
           <Globe className="w-5 h-5 text-blue-400 mx-auto" />
-          <p className="text-[10px] uppercase font-bold text-muted-foreground tracking-widest">Reach</p>
-          <p className="text-xl font-headline font-black text-white">Global Languages</p>
+          <p className="text-sm text-muted-foreground">Reach</p>
+          <p className="text-xl font-semibold text-white">Global translations</p>
         </Card>
       </section>
 
       {loading ? (
         <div className="h-[40vh] flex flex-col items-center justify-center gap-4">
           <Loader2 className="w-10 h-10 animate-spin text-primary opacity-20" />
-          <p className="text-[10px] uppercase tracking-[0.3em] text-muted-foreground">Syncing Revelation Nodes...</p>
+          <p className="text-sm text-muted-foreground">Loading chapter list…</p>
         </div>
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -116,12 +116,12 @@ export default function QuranIndexPage() {
             <Globe className="w-8 h-8 text-primary" />
           </div>
           <div className="space-y-1">
-            <h3 className="font-headline font-bold text-lg">Universal Audio Node</h3>
-            <p className="text-xs text-muted-foreground max-w-xs">Access recitations from our global scholarly audio cluster.</p>
+            <h3 className="text-lg font-semibold">Audio companion</h3>
+            <p className="text-xs text-muted-foreground max-w-xs">Listen to recitations and translations from across the Quran.</p>
           </div>
         </div>
-        <Badge variant="outline" className="text-[10px] uppercase tracking-widest py-2 px-6 border-white/10">
-          Infrastructure v3.5
+        <Badge variant="outline" className="text-[10px] py-2 px-6 border-white/10">
+          Version 3.5
         </Badge>
       </footer>
     </div>
@@ -131,28 +131,23 @@ export default function QuranIndexPage() {
 function SurahCard({ surah }: { surah: any }) {
   return (
     <Link href={`/quran/hafs/${surah.name_simple.toLowerCase()}`}>
-      <Card className="glass-card hover:border-primary/50 transition-all group overflow-hidden border-2 border-transparent active:scale-[0.98]">
-        <CardContent className="p-5 flex items-center justify-between">
+      <Card className="soft-card hover:border-primary/50 transition-all group overflow-hidden border-2 border-transparent active:scale-[0.98]">
+        <CardContent className="p-5 flex items-center justify-between gap-4">
           <div className="flex items-center gap-4">
-            <div className="w-12 h-12 rounded-xl bg-primary/5 flex items-center justify-center group-hover:bg-primary/20 transition-colors relative overflow-hidden">
-              <span className="text-[10px] font-bold text-primary relative z-10">{surah.id}</span>
-              <div className="absolute inset-0 border border-primary/10 rounded-xl" />
-              <div className="absolute -bottom-2 -right-2 opacity-5 group-hover:rotate-12 transition-transform">
-                <Sparkles className="w-8 h-8 text-primary" />
-              </div>
+            <div className="w-12 h-12 rounded-2xl bg-primary/10 flex items-center justify-center group-hover:bg-primary/15 transition-colors relative overflow-hidden">
+              <span className="text-sm font-semibold text-primary relative z-10">{surah.id}</span>
+              <div className="absolute inset-0 border border-primary/10 rounded-2xl" />
             </div>
-            <div className="space-y-0.5">
-              <h3 className="font-headline font-bold text-lg group-hover:text-primary transition-colors">{surah.name_simple}</h3>
-              <div className="flex flex-col gap-1">
-                <p className="text-[10px] text-muted-foreground uppercase tracking-tight font-medium">
-                  {surah.translated_name?.name || "The Chapter"} • {surah.verses_count} Verses
-                </p>
-              </div>
+            <div className="space-y-1">
+              <h3 className="text-lg font-semibold group-hover:text-primary transition-colors">{surah.name_simple}</h3>
+              <p className="text-sm text-muted-foreground">
+                {surah.translated_name?.name || "The Chapter"} • {surah.verses_count} verses
+              </p>
             </div>
           </div>
           <div className="text-right flex items-center gap-3">
             <span className="text-3xl font-serif text-literata text-white/90 drop-shadow-sm" dir="rtl">{surah.name_arabic}</span>
-            <ChevronRight className="w-4 h-4 text-muted-foreground/30 group-hover:text-primary group-hover:translate-x-1 transition-all" />
+            <ChevronRight className="w-4 h-4 text-muted-foreground/40 group-hover:text-primary group-hover:translate-x-1 transition-all" />
           </div>
         </CardContent>
       </Card>

@@ -45,7 +45,7 @@ export default function WuduPage() {
           <Droplets className="w-10 h-10 text-blue-400" />
         </div>
         <div className="space-y-1">
-          <h1 className="text-4xl font-headline font-bold text-white">Wudu Protocol</h1>
+          <h1 className="text-4xl font-headline font-bold text-white">Wudu Guide</h1>
           <p className="text-muted-foreground italic">The Prophetic method of ritual purification.</p>
         </div>
       </header>
@@ -54,11 +54,11 @@ export default function WuduPage() {
         <div className="flex items-center gap-3">
           <Layers className="w-5 h-5 text-blue-400" />
           <div className="space-y-0.5">
-            <p className="text-xs font-bold text-blue-400 uppercase tracking-tight">Purity Node Active</p>
-            <p className="text-[10px] text-muted-foreground">Indexed across 10,000+ authentic narration signals.</p>
+            <p className="text-xs font-semibold text-blue-400">Purity mode enabled</p>
+            <p className="text-[10px] text-muted-foreground">Supported by traditional narration sources.</p>
           </div>
         </div>
-        <Badge variant="outline" className="text-[9px] border-blue-500/30 text-blue-400">v3.5 High Density</Badge>
+        <Badge variant="outline" className="text-[9px] border-blue-500/30 text-blue-400">v3.5</Badge>
       </section>
 
       <div className="grid gap-4">
@@ -94,8 +94,8 @@ export default function WuduPage() {
                     <Info className="w-4 h-4 text-blue-400 mt-0.5" />
                     <p className="text-[10px] italic text-blue-200/70 leading-relaxed">{step.evidence}</p>
                   </div>
-                  <Button className="w-full h-10 bg-blue-600 hover:bg-blue-700 text-[10px] font-black uppercase tracking-widest" onClick={(e) => { e.stopPropagation(); setActiveStep(prev => Math.min(prev + 1, 7)); }}>
-                    {step.id === 7 ? "Complete Protocol" : "Next Step Node"}
+                  <Button className="w-full h-10 bg-blue-600 hover:bg-blue-700 text-sm font-semibold" onClick={(e) => { e.stopPropagation(); setActiveStep(prev => Math.min(prev + 1, 7)); }}>
+                    {step.id === 7 ? "Complete guide" : "Next step"}
                   </Button>
                 </div>
               )}
@@ -111,8 +111,8 @@ export default function WuduPage() {
       <footer className="text-center pt-8 opacity-40">
         <div className="flex items-center justify-center gap-2 mb-2">
           <Database className="w-3 h-3" />
-          <p className="text-[9px] uppercase tracking-[0.4em] font-black italic">
-            إسلاملي Universal Purity Node • Verified Sanad
+          <p className="text-[9px] italic">
+            Verified sanad with classical sources
           </p>
         </div>
       </footer>

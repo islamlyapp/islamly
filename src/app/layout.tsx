@@ -8,7 +8,7 @@ const literata = Literata({ subsets: ['latin'], variable: '--font-literata' });
 
 export const metadata: Metadata = {
   title: 'Islamly',
-  description: 'High-fidelity scholarly infrastructure for the Ummah',
+  description: 'Trusted Islamic knowledge rooted in the Quran and Sunnah',
   icons: {
     icon: '/favicon.ico',
     shortcut: '/favicon.ico',

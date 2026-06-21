@@ -41,7 +41,7 @@ export default function LibraryPage() {
           </div>
           <div className="flex flex-col items-end gap-1">
             <Badge variant="secondary" className="bg-primary/10 text-primary border-primary/20">
-              <Database className="w-3 h-3 mr-1" /> HQ Archive Active
+              <Database className="w-3 h-3 mr-1" /> Archive ready
             </Badge>
           </div>
         </div>
@@ -49,8 +49,8 @@ export default function LibraryPage() {
         <div className="relative">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground w-4 h-4" />
           <Input 
-            placeholder="Search by title, author, or specific scholarly topic..." 
-            className="pl-10 glass-card h-14 border-white/5 focus-visible:ring-primary/50"
+            placeholder="Search by title, author, or topic..." 
+            className="pl-10 soft-card h-14 focus-visible:ring-primary/50"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
           />
@@ -58,9 +58,9 @@ export default function LibraryPage() {
       </header>
 
       <Tabs defaultValue="books" className="w-full">
-        <TabsList className="bg-secondary/50 p-1 h-12 w-fit mb-6">
-          <TabsTrigger value="books" className="text-[10px] uppercase font-bold tracking-[0.2em] px-8">Classical Texts</TabsTrigger>
-          <TabsTrigger value="scholars" className="text-[10px] uppercase font-bold tracking-[0.2em] px-8">Major Scholars</TabsTrigger>
+<TabsList className="bg-secondary/50 p-1 h-12 w-fit mb-6 rounded-full">
+            <TabsTrigger value="books" className="text-[11px] font-semibold px-8">Classical texts</TabsTrigger>
+            <TabsTrigger value="scholars" className="text-[11px] font-semibold px-8">Major scholars</TabsTrigger>
         </TabsList>
 
         <TabsContent value="books" className="space-y-8 animate-in fade-in slide-in-from-bottom-2">
@@ -94,7 +94,7 @@ export default function LibraryPage() {
             {filteredBooks.length === 0 && (
               <div className="text-center py-32 text-muted-foreground space-y-4 opacity-40">
                 <Search className="w-16 h-16 mx-auto" />
-                <p className="italic text-lg font-headline uppercase tracking-widest">Archive Entry Not Found</p>
+                <p className="italic text-lg font-headline">No matching entries were found.</p>
               </div>
             )}
           </div>
@@ -133,10 +133,10 @@ export default function LibraryPage() {
           <div className="p-3 bg-primary/10 rounded-xl">
             <Shield className="w-6 h-6 text-primary" />
           </div>
-          <h3 className="font-headline font-bold text-xl uppercase tracking-widest">Verified Scholarly Archives</h3>
+          <h3 className="font-headline font-bold text-xl">Verified archives</h3>
         </div>
         <p className="text-sm text-muted-foreground leading-relaxed italic relative z-10 max-w-2xl">
-          The Islamly library indexes each text with high-fidelity metadata, ensuring every Mas'alah is verified against authorized scholarly editions. Our metadata cluster is synchronized across global coordinates.
+          The Islamly library indexes each text with precise metadata and verifies every Mas'alah against trusted scholarly editions. Our collection stays aligned and easy to explore.
         </p>
       </section>
     </div>

@@ -61,7 +61,7 @@ export default function CirclesPage() {
             <p className="text-muted-foreground italic">Interactive Halaqat moderated by students of knowledge.</p>
           </div>
           <Badge variant="secondary" className="bg-blue-500/10 text-blue-400 gap-1 border-blue-500/20">
-            <CircleDot className="w-3 h-3 animate-pulse" /> 42 Nodes Live
+            <CircleDot className="w-3 h-3 animate-pulse" /> 42 circles active
           </Badge>
         </div>
 
@@ -69,7 +69,7 @@ export default function CirclesPage() {
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground w-4 h-4" />
           <Input 
             placeholder="Search for a topic or circle..." 
-            className="pl-10 glass-card h-14"
+            className="pl-10 soft-card h-14"
           />
         </div>
       </header>
@@ -79,15 +79,15 @@ export default function CirclesPage() {
           <ShieldCheck className="w-8 h-8 text-primary" />
         </div>
         <div className="space-y-1 text-center sm:text-left">
-          <h3 className="font-headline font-bold text-sm text-primary uppercase tracking-widest">Moderation Infrastructure</h3>
+          <h3 className="font-headline font-bold text-sm text-primary">Community moderation</h3>
           <p className="text-xs text-muted-foreground leading-relaxed">
-            Every Islamly circle is governed by a strict scholarly framework. Any discussions deviating from the methodology of the Salaf are automatically flagged by our 1 billion node moderation layer.
+            Islamly circles are guided by a respectful scholarly framework. Discussions outside that guidance are reviewed carefully to keep the space safe and welcoming.
           </p>
         </div>
       </section>
 
       <div className="grid gap-4">
-        <h3 className="text-[10px] font-bold uppercase tracking-[0.3em] text-muted-foreground pl-1">Join a Scholarly Network</h3>
+        <h3 className="text-sm font-semibold text-muted-foreground pl-1">Find a study circle</h3>
         {activeCircles.map((circle) => {
           const isJoined = joinedCircles.includes(circle.id);
           const isJoining = joiningId === circle.id;
@@ -137,15 +137,15 @@ export default function CirclesPage() {
       <footer className="bg-secondary/20 p-8 rounded-3xl border border-white/5 text-center space-y-4">
         <Lock className="w-8 h-8 text-muted-foreground mx-auto opacity-20" />
         <div className="space-y-1">
-          <h4 className="font-headline font-bold text-sm text-foreground">Private Circle Node</h4>
-          <p className="text-xs text-muted-foreground italic">Authenticated students can initialize private study groups for focused research.</p>
+          <h4 className="font-headline font-bold text-sm text-foreground">Private circle</h4>
+          <p className="text-xs text-muted-foreground italic">Authenticated students can create private study groups for focused research.</p>
         </div>
         <Button 
           variant="outline" 
-          className="text-[10px] uppercase font-black tracking-widest border-white/10 hover:bg-white/5 px-8"
-          onClick={() => toast({ title: "Request Received", description: "Your private node request is in the scholarly queue." })}
+          className="text-sm font-semibold border-white/10 hover:bg-white/5 px-8"
+          onClick={() => toast({ title: "Request Received", description: "Your private circle request is in the queue." })}
         >
-          Request Private Node
+          Request private circle
         </Button>
       </footer>
     </div>

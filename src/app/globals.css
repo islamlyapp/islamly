@@ -5,27 +5,27 @@
 
 @layer base {
   :root {
-    --background: 0 30% 4%;
-    --foreground: 0 0% 98%;
-    --card: 0 30% 6%;
-    --card-foreground: 0 0% 98%;
-    --popover: 0 30% 6%;
-    --popover-foreground: 0 0% 98%;
+    --background: 220 18% 12%;
+    --foreground: 210 20% 96%;
+    --card: 220 20% 16%;
+    --card-foreground: 210 15% 96%;
+    --popover: 220 20% 16%;
+    --popover-foreground: 210 15% 96%;
     /* Updated Primary Crimson Red to match Logo accents (#AD1F37) */
     --primary: 350 56% 40%;
     --primary-foreground: 0 0% 100%;
-    --secondary: 0 10% 15%;
-    --secondary-foreground: 0 0% 98%;
-    --muted: 0 10% 15%;
-    --muted-foreground: 0 0% 65%;
+    --secondary: 210 16% 18%;
+    --secondary-foreground: 210 20% 96%;
+    --muted: 210 16% 25%;
+    --muted-foreground: 210 20% 75%;
     --accent: 320 60% 70%;
-    --accent-foreground: 0 18% 4%;
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 0 0% 98%;
-    --border: 0 10% 20%;
-    --input: 0 10% 20%;
+    --accent-foreground: 212 13% 12%;
+    --destructive: 0 62.8% 38%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 220 18% 18%;
+    --input: 220 18% 18%;
     --ring: 350 56% 40%;
-    --radius: 0.75rem;
+    --radius: 1rem;
   }
 
   .light {
@@ -37,7 +37,7 @@
     --popover-foreground: 212 13% 12%;
     --primary: 350 56% 40%;
     --primary-foreground: 0 0% 100%;
-    --secondary: 210 16% 90%;
+    --secondary: 210 16% 93%;
     --secondary-foreground: 212 13% 12%;
     --muted: 210 16% 94%;
     --muted-foreground: 215 12% 38%;
@@ -58,12 +58,11 @@
   }
   body {
     @apply bg-background text-foreground font-body antialiased selection:bg-primary/30;
-    /* Brand-matching gradient overlay */
-    background-image: radial-gradient(circle at 50% 0%, rgba(173, 31, 55, 0.15) 0%, transparent 50%);
+    background-image: radial-gradient(circle at top, rgba(173, 31, 55, 0.08), transparent 30%);
     touch-action: manipulation;
   }
   .light body {
-    background-image: radial-gradient(circle at 50% 0%, rgba(173, 31, 55, 0.08) 0%, transparent 35%);
+    background-image: radial-gradient(circle at top, rgba(173, 31, 55, 0.05), transparent 30%);
   }
   h1, h2, h3, h4, h5, h6 {
     @apply font-headline;
@@ -84,7 +83,23 @@
 }
 
 .glass-card {
-  @apply bg-card/60 backdrop-blur-md border border-white/5;
+  @apply bg-card/85 backdrop-blur-sm border border-white/10 shadow-lg shadow-black/5;
+}
+
+.soft-card {
+  @apply bg-card/95 border border-slate-800/40 shadow-lg shadow-black/5 rounded-3xl;
+}
+
+.soft-label {
+  @apply text-sm text-muted-foreground tracking-tight;
+}
+
+.soft-title {
+  @apply text-3xl font-semibold tracking-tight;
+}
+
+.soft-button {
+  @apply rounded-full border border-slate-600/40 bg-white/5 px-4 py-2 text-sm text-foreground hover:bg-white/10 transition;
 }
 
 .no-scrollbar::-webkit-scrollbar {

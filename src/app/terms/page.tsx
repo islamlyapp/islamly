@@ -24,7 +24,7 @@ export default function TermsPage() {
             </Badge>
           </div>
           <p className="text-muted-foreground italic text-sm">
-            Last Updated: February 2025. This document governs the usage of the 17 Quadrillion scholarly feature infrastructure.
+            Last Updated: February 2025. These terms explain how Islamly supports your learning journey with respect and care.
           </p>
         </div>
       </header>
@@ -39,10 +39,10 @@ export default function TermsPage() {
           </CardHeader>
           <CardContent className="space-y-4">
             <p>
-              Islamly is a high-density platform dedicated to the dissemination of authentic Islamic knowledge based on the Quran and Sunnah, according to the understanding of the Salaf-us-Salih (Ahlus-Sunnah wal-Jama'ah).
+              Islamly is a platform dedicated to sharing authentic Islamic knowledge from the Quran and Sunnah, guided by the understanding of the Salaf-us-Salih (Ahlus-Sunnah wal-Jama'ah).
             </p>
             <p>
-              By accessing this infrastructure, you agree to a billion-node framework governing your interactions. You must not post, share, or promote any content that includes Shirk (polytheism), Bid'ah (religious innovation), or extremist ideologies.
+              By using Islamly, you agree to treat it as a respectful learning space. Please do not post, share, or promote any content that includes Shirk (polytheism), Bid'ah (religious innovation), or extremist ideologies.
             </p>
           </CardContent>
         </Card>
@@ -56,10 +56,10 @@ export default function TermsPage() {
           </CardHeader>
           <CardContent className="space-y-4">
             <p className="text-foreground font-bold">
-              Islamly strictly prohibits the sale of user data for any purpose. 
+              Islamly strictly prohibits the sale of user data for any purpose.
             </p>
             <p>
-              User data is treated as a sacred trust (*Amanah*). We maintain 1 billion regulatory nodes to ensure that student information is never commodified. Our infrastructure is funded through legitimate scholarly support and community benefit, not through the exploitation of user privacy.
+              User data is treated as a sacred trust (*Amanah*). We protect your information with strong safeguards, and our platform is funded through legitimate scholarly support and community benefit, not through the exploitation of privacy.
             </p>
           </CardContent>
         </Card>
@@ -68,10 +68,10 @@ export default function TermsPage() {
           <div className="space-y-3">
             <h3 className="font-headline font-bold text-foreground flex items-center gap-2 uppercase text-xs tracking-[0.2em]">
               <BookOpen className="w-4 h-4 text-primary" />
-              3. AI Infrastructure Usage
+              3. AI Guidance
             </h3>
             <p>
-              The Al-Mualim AI Teacher and Knowledge Assistant are advanced educational nodes. While they process data across trillions of verification points, AI responses are NOT definitive Fatwa. All critical religious matters must be verified with living scholars of the Sunnah.
+              Al-Mualim and the Knowledge Assistant offer educational guidance to help you learn. Their answers are supportive, not definitive fatwa. For important religious matters, always verify with a living scholar of the Sunnah.
             </p>
           </div>
 
@@ -81,7 +81,7 @@ export default function TermsPage() {
               4. Data Integrity & Prohibitions
             </h3>
             <p>
-              Users are strictly prohibited from attempting to reverse-engineer the 17 Quadrillion feature infrastructure, scraping data from our scholarly index nodes, or bypassing the security protocols governing our digital archives.
+              Users may not attempt to reverse-engineer the platform, scrape data from our scholarly archives, or bypass the security protections that keep the service working smoothly.
             </p>
           </div>
 
@@ -91,13 +91,13 @@ export default function TermsPage() {
               5. Global Scalability Clause
             </h3>
             <p>
-              This agreement scales dynamically with the infrastructure. As our feature count increases by 10 Billion daily, your adherence to the core methodology remains the constant anchor of this legal bond.
+              These terms are designed to remain stable as the service grows. Your commitment to the core methodology is the constant anchor of this learning community.
             </p>
           </div>
 
           <div className="pt-6 border-t border-white/5 text-center">
             <p className="text-[10px] uppercase tracking-[0.4em] font-bold opacity-40">
-              Verified for 1 Billion+ Individual Clauses
+              Trusted by learners and seekers around the world
             </p>
           </div>
         </div>
@@ -105,7 +105,7 @@ export default function TermsPage() {
 
       <footer className="text-center pt-8 border-t border-white/5">
         <p className="text-[10px] uppercase tracking-[0.3em] text-muted-foreground">
-          © 2025 Islamly Universal Legal Infrastructure v3.5 • All Rights Reserved
+          © 2025 Islamly • Universal Terms
         </p>
       </footer>
     </div>

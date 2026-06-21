@@ -78,8 +78,8 @@ export default function MualimPage() {
         <div className="mx-auto w-20 h-20 bg-primary/20 rounded-full flex items-center justify-center mb-4 ring-8 ring-primary/5">
           <Mic className={cn("w-10 h-10 text-primary", isRecording && "animate-pulse")} />
         </div>
-        <h1 className="text-4xl font-headline font-bold">Al-Mualim AI Teacher</h1>
-        <p className="text-muted-foreground italic">Recite Quran, Hadith, or Mutoon for scholarly AI feedback.</p>
+        <h1 className="text-4xl font-headline font-bold">Al-Mualim Feedback Guide</h1>
+        <p className="text-muted-foreground italic">Recite Quran, Hadith, or Mutoon and receive supportive scholarly guidance.</p>
       </header>
 
       <section className="space-y-6">
@@ -177,7 +177,7 @@ export default function MualimPage() {
         {isAnalyzing && (
           <div className="flex flex-col items-center gap-3 py-10">
             <Loader2 className="w-10 h-10 animate-spin text-primary" />
-            <p className="text-sm font-headline text-muted-foreground uppercase tracking-widest">Al-Mualim is analyzing accuracy...</p>
+            <p className="text-sm font-headline text-muted-foreground uppercase tracking-widest">Reviewing your recitation...</p>
           </div>
         )}
 

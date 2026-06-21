@@ -79,15 +79,15 @@ export default function AskAiPage() {
       if (!modCheck.isCompliant) {
         toast({ 
           variant: "destructive", 
-          title: "Methodology Guard Active", 
-          description: "A correction has been applied to ensure scholarly alignment." 
+          title: "Scholarly review applied", 
+          description: "A correction was made to keep the answer aligned with our methodology." 
         });
       }
 
       setMessages(prev => [...prev, assistantMessage]);
     } catch (error) {
       console.error(error);
-      toast({ variant: "destructive", title: "Sync Error", description: "Scholarly node connection failed." });
+      toast({ variant: "destructive", title: "Connection error", description: "Unable to fetch the answer right now. Please try again." });
     } finally {
       setIsLoading(false);
     }
@@ -105,15 +105,15 @@ export default function AskAiPage() {
           </h1>
           <div className="flex flex-col items-end gap-1">
             <Badge variant="secondary" className="bg-primary/10 text-primary border-primary/20">
-              <Database className="w-3 h-3 mr-1" /> Verified Knowledge Node
+              <Database className="w-3 h-3 mr-1" /> Trusted Answer
             </Badge>
             <div className="flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-emerald-500/10 border border-emerald-500/20">
               <Lock className="w-2.5 h-2.5 text-emerald-500" />
-              <span className="text-[7px] uppercase font-black text-emerald-500 tracking-widest">AutoMod Pulse Active</span>
+              <span className="text-[7px] uppercase font-black text-emerald-500 tracking-widest">Scholarly review active</span>
             </div>
           </div>
         </div>
-        <p className="text-muted-foreground text-sm italic">Evidence-based answers, strictly governed by the AutoMod node.</p>
+        <p className="text-muted-foreground text-sm italic">Evidence-based answers reviewed for clarity and faithfulness.</p>
       </header>
 
       <Card className="flex-1 glass-card border-none flex flex-col overflow-hidden relative">
@@ -191,7 +191,7 @@ export default function AskAiPage() {
               </div>
               <div className="flex flex-col gap-2">
                 <div className="p-4 rounded-2xl bg-secondary/20 w-32 border border-white/5 h-10" />
-                <span className="text-[8px] uppercase font-black text-emerald-500 tracking-tighter">AutoMod is verifying node...</span>
+                <span className="text-[8px] uppercase font-black text-emerald-500 tracking-tighter">Reviewing your answer...</span>
               </div>
             </div>
           )}

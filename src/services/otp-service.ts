@@ -41,40 +41,40 @@ export async function sendOtpToEmail(email: string): Promise<boolean> {
     // 2. Dispatch Logic (Real vs Prototype)
     if (resend) {
       await resend.emails.send({
-        from: 'Islamly Infrastructure <verification@islamly.uk>',
+        from: 'Islamly <verification@islamly.uk>',
         to: email,
-        subject: `[${otp}] Your Islamly Access Code`,
+        subject: `Your Islamly access code: ${otp}`,
         html: `
-          <div style="font-family: sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; background-color: #0a0304; color: #ffffff; border-radius: 20px; border: 1px solid #222;">
-            <div style="text-align: center; margin-bottom: 30px;">
-              <h1 style="color: #ad1f37; font-size: 48px; margin: 0;">إسلاملي</h1>
-              <p style="text-transform: uppercase; letter-spacing: 4px; font-size: 10px; color: #888; margin-top: 10px;">Universal Scholarly Infrastructure</p>
+          <div style="font-family: sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; background-color: #0f172a; color: #e2e8f0; border-radius: 22px; border: 1px solid #1f2937;">
+            <div style="text-align: center; margin-bottom: 28px;">
+              <h1 style="color: #ad1f37; font-size: 44px; margin: 0;">إسلاملي</h1>
+              <p style="margin-top: 10px; font-size: 12px; color: #94a3b8;">Your secure access code for Islamly</p>
             </div>
             
-            <div style="background-color: #111; padding: 30px; border-radius: 15px; text-align: center; border: 1px solid #333;">
-              <h2 style="font-size: 18px; font-weight: bold; margin-bottom: 20px; color: #ad1f37;">FEATURE VERIFICATION REQUIRED</h2>
-              <p style="font-size: 14px; color: #ccc; line-height: 1.6;">
-                A request has been made to initialize or access a scholarly feature using this address. Use the code below to verify your identity.
+            <div style="background-color: #111827; padding: 28px; border-radius: 18px; text-align: center; border: 1px solid #334155;">
+              <h2 style="font-size: 20px; font-weight: 700; margin-bottom: 18px; color: #ad1f37;">Verify your sign in</h2>
+              <p style="font-size: 14px; color: #cbd5e1; line-height: 1.7;">
+                We received a request to sign in with this address. Enter the code below to continue.
               </p>
               
-              <div style="font-size: 42px; font-weight: bold; letter-spacing: 10px; color: #ffffff; margin: 30px 0; background: #000; padding: 20px; border-radius: 10px;">
+              <div style="font-size: 44px; font-weight: 700; letter-spacing: 8px; color: #ffffff; margin: 30px 0; background: #0f172a; padding: 22px; border-radius: 14px;">
                 ${otp}
               </div>
               
-              <p style="font-size: 11px; color: #666; margin-top: 20px;">
-                This code expires in 10 minutes. If you did not request this, please ignore this email.
+              <p style="font-size: 12px; color: #94a3b8; margin-top: 18px;">
+                This code is valid for 10 minutes. If you did not request it, no further action is needed.
               </p>
             </div>
             
-            <div style="margin-top: 30px; text-align: center; padding-top: 20px; border-top: 1px solid #222;">
-              <p style="font-size: 9px; color: #444; text-transform: uppercase; letter-spacing: 2px;">
-                © 2025 Islamly • Ahlus-Sunnah wal-Jama'ah • Protected by 1 Billion Privacy Features
+            <div style="margin-top: 30px; text-align: center; padding-top: 18px; border-top: 1px solid #1f2937;">
+              <p style="font-size: 11px; color: #64748b;">
+                © 2025 Islamly • Trusted by Ahlus-Sunnah wal-Jama'ah
               </p>
             </div>
           </div>
         `
       });
-      console.log(`[OTP Success] Real email dispatched to ${email}`);
+      console.log(`[OTP Success] Email sent to ${email}`);
     } else {
       /**
        * PROTOTYPE FALLBACK (If key is removed)

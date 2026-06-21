@@ -41,10 +41,10 @@ export function GoogleAd({ slot, format = "auto", className }: GoogleAdProps) {
   return (
     <div ref={containerRef} className={cn("my-8 w-full flex flex-col items-center gap-3", className)}>
       {/* Header Branding */}
-      <div className="flex items-center gap-3 opacity-60">
+      <div className="flex items-center gap-3 opacity-80">
         <div className="h-px w-6 bg-primary/40" />
-        <span className="text-[9px] uppercase tracking-[0.3em] text-primary font-bold">
-          Scholarly Sponsor
+        <span className="text-[11px] font-semibold text-primary">
+          Sponsored content
         </span>
         <div className="h-px w-6 bg-primary/40" />
       </div>
@@ -71,15 +71,15 @@ export function GoogleAd({ slot, format = "auto", className }: GoogleAdProps) {
         {/* Fallback visual for the prototype environment */}
         <div className="absolute inset-0 flex items-center justify-center pointer-events-none opacity-5 group-hover:opacity-10 transition-opacity">
           <div className="text-center">
-            <p className="text-[12px] font-headline font-bold uppercase tracking-[0.4em] text-primary">Sponsor Info</p>
-            <p className="text-[8px] uppercase mt-1 tracking-widest">Global Index Point</p>
+            <p className="text-[12px] font-semibold text-primary">Sponsor info</p>
+            <p className="text-[9px] mt-1 text-muted-foreground">Global support partner</p>
           </div>
         </div>
       </div>
       
       {/* Governance Note */}
-      <p className="text-[8px] text-muted-foreground/40 uppercase tracking-widest italic font-medium">
-        Governance: Protected by our privacy infrastructure
+      <p className="text-[10px] text-muted-foreground/70 italic">
+        Governance note: sponsored responsibly and protected by our privacy standards
       </p>
     </div>
   );
