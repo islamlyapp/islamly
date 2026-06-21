@@ -29,7 +29,7 @@ export default function CreditsPage() {
             </CardTitle>
           </CardHeader>
           <CardContent className="text-sm text-muted-foreground leading-relaxed">
-            The Islamly platform is strictly aligned with the methodology of the Salaf-us-Salih (Ahlus-Sunnah wal-Jama'ah). All content is curated to ensure the absence of Shirk, Bid'ah, and philosophical innovations.
+            The Islamly platform is strictly aligned with Salafi/Athari methodology. All content is curated to ensure the absence of Shirk, Bid'ah, and philosophical innovations.
           </CardContent>
         </Card>
 

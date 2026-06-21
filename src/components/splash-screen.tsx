@@ -67,7 +67,7 @@ export function SplashScreen() {
 
         <div className="flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 border border-white/10 text-xs text-slate-200">
           <ShieldCheck className="w-4 h-4 text-primary" />
-          Ahlus-Sunnah wal-Jama'ah
+          Salafi/Athari
         </div>
       </div>
 
@@ -95,7 +95,7 @@ export function SplashScreen() {
       </div>
 
       <div className="absolute bottom-10 text-center">
-        <p className="text-xs text-slate-400">Ahlus-Sunnah wal-Jama'ah • A thoughtful modern companion</p>
+        <p className="text-xs text-slate-400">Salafi/Athari methodology • A thoughtful modern companion</p>
       </div>
     </div>
   );

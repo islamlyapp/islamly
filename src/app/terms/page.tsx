@@ -39,7 +39,7 @@ export default function TermsPage() {
           </CardHeader>
           <CardContent className="space-y-4">
             <p>
-              Islamly is a platform dedicated to sharing authentic Islamic knowledge from the Quran and Sunnah, guided by the understanding of the Salaf-us-Salih (Ahlus-Sunnah wal-Jama'ah).
+              Islamly is a platform dedicated to sharing authentic Islamic knowledge from the Quran and Sunnah, guided by Salafi/Athari understanding.
             </p>
             <p>
               By using Islamly, you agree to treat it as a respectful learning space. Please do not post, share, or promote any content that includes Shirk (polytheism), Bid'ah (religious innovation), or extremist ideologies.

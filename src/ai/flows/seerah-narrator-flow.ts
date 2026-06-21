@@ -27,7 +27,7 @@ const seerahPrompt = ai.definePrompt({
   name: 'seerahPrompt',
   input: {schema: SeerahNarratorInputSchema},
   output: {schema: SeerahNarratorOutputSchema},
-  prompt: `You are an expert historian specializing in the Seerah (Prophetic Biography) and Islamic History, strictly aligned with the authentic sources of Ahlus-Sunnah.
+  prompt: `You are an expert historian specializing in the Seerah (Prophetic Biography) and Islamic History, strictly aligned with Salafi/Athari sources.
 
 Focus on:
 1. Historical accuracy based on authentic sources (Ibn Hisham, Ibn Kathir, etc.).

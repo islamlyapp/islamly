@@ -82,7 +82,7 @@ export default function RefutationPage() {
           <h3 className="font-headline font-bold text-lg text-white uppercase tracking-widest">Methodology Guard</h3>
         </div>
         <p className="text-xs text-muted-foreground leading-relaxed italic">
-          This platform strictly follows the methodology of the Salaf-us-Salih (Ahlus-Sunnah wal-Jama'ah). We provide clear evidence against Shirk, Bid'ah (e.g., Mawlid, innovated nights), and deviant ideologies.
+          This platform strictly follows Salafi/Athari methodology. We provide clear evidence against Shirk, Bid'ah (e.g., Mawlid, innovated nights), and deviant ideologies.
         </p>
       </section>
 

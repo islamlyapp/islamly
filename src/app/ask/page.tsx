@@ -126,7 +126,7 @@ export default function AskAiPage() {
             <div className="h-full flex flex-col items-center justify-center text-center space-y-6 opacity-40 py-20">
               <Sparkles className="w-12 h-12 text-primary" />
               <div className="space-y-2">
-                <p className="font-headline font-bold uppercase tracking-widest text-xs">Ahlus-Sunnah Search Node</p>
+                <p className="font-headline font-bold uppercase tracking-widest text-xs">Salafi/Athari Search Node</p>
                 <p className="text-sm italic max-w-xs">Ask about Aqidah, Fiqh, Seerah, or any scholarly topic.</p>
               </div>
               <div className="grid gap-2 w-full max-w-xs">

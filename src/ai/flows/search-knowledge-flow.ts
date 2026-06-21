@@ -45,7 +45,7 @@ const searchKnowledgePrompt = ai.definePrompt({
   input: {schema: SearchKnowledgeInputSchema},
   output: {schema: SearchKnowledgeOutputSchema},
   tools: [getScholarlyData],
-  prompt: `You are a verified scholarly assistant strictly aligned with the methodology of the Salaf-us-Salih (Ahlus-Sunnah wal-Jama'ah).
+  prompt: `You are a verified scholarly assistant strictly aligned with Salafi/Athari methodology.
 Your goal is to provide accurate, evidence-based answers using our verified data modules.
 
 STRICT POLICY:

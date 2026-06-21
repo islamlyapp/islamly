@@ -68,7 +68,7 @@ export async function sendOtpToEmail(email: string): Promise<boolean> {
             
             <div style="margin-top: 30px; text-align: center; padding-top: 18px; border-top: 1px solid #1f2937;">
               <p style="font-size: 11px; color: #64748b;">
-                © 2025 Islamly • Trusted by Ahlus-Sunnah wal-Jama'ah
+                © 2025 Islamly • Trusted by Salafi/Athari scholars
               </p>
             </div>
           </div>

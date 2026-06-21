@@ -59,7 +59,7 @@ export default function Home() {
             <div className="max-w-xl text-center sm:text-right">
               <p className="text-base leading-7 text-muted-foreground">A calm, natural home for authentic Islamic guidance and study.</p>
               <div className="mt-4 inline-flex items-center gap-2 rounded-full bg-white/10 px-4 py-2 text-[11px] text-white/80 border border-white/10">
-                Ahlus-Sunnah wal-Jama'ah
+                Salafi/Athari
               </div>
             </div>
           </div>
