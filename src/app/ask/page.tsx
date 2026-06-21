@@ -5,7 +5,6 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { 
-  MessageCircle, 
   Send, 
   Bot, 
   User, 
@@ -14,12 +13,9 @@ import {
   Database,
   Sparkles,
   Search,
-  Lock,
-  ChevronRight,
-  ShieldAlert
+  Lock
 } from "lucide-react";
-import { searchKnowledgeHub, type SearchKnowledgeOutput } from "@/ai/flows/search-knowledge-flow";
-import { verifyMethodologyCompliance } from "@/ai/flows/automod-flow";
+import { type SearchKnowledgeOutput } from "@/ai/flows/search-knowledge-flow";
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
 import { toast } from "@/hooks/use-toast";
@@ -59,35 +55,39 @@ export default function AskAiPage() {
     setIsLoading(true);
 
     try {
-      // 1. Fetch Knowledge Answer
-      const result = await searchKnowledgeHub({ query: input });
-      
-      // 2. Pass through AutoMod Infrastructure
-      const modCheck = await verifyMethodologyCompliance({ 
-        content: result.answer, 
-        context: input 
+      const response = await fetch('/api/ask', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ query: input }),
       });
 
-      const assistantMessage: Message = { 
-        id: (Date.now() + 1).toString(), 
-        role: 'assistant', 
-        content: modCheck.isCompliant ? result.answer : (modCheck.scholarlyCorrection || "This response was flagged by our methodology guard."),
-        meta: result,
-        isModerated: true
+      const data = await response.json();
+      if (!response.ok || data.error) {
+        throw new Error(data.error || 'Unable to fetch answer');
+      }
+
+      const assistantMessage: Message = {
+        id: (Date.now() + 1).toString(),
+        role: 'assistant',
+        content: data.answer,
+        meta: data.meta,
+        isModerated: !data.moderation?.isCompliant,
       };
-      
-      if (!modCheck.isCompliant) {
-        toast({ 
-          variant: "destructive", 
-          title: "Scholarly review applied", 
-          description: "A correction was made to keep the answer aligned with our methodology." 
+
+      if (!data.moderation?.isCompliant) {
+        toast({
+          variant: 'destructive',
+          title: 'Scholarly review applied',
+          description: 'A correction was made to keep the answer aligned with our methodology.',
         });
       }
 
       setMessages(prev => [...prev, assistantMessage]);
     } catch (error) {
       console.error(error);
-      toast({ variant: "destructive", title: "Connection error", description: "Unable to fetch the answer right now. Please try again." });
+      toast({ variant: 'destructive', title: 'Connection error', description: 'Unable to fetch the answer right now. Please try again.' });
     } finally {
       setIsLoading(false);
     }
