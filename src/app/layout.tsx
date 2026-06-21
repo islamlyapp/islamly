@@ -10,9 +10,9 @@ export const metadata: Metadata = {
   title: 'Islamly',
   description: 'Trusted Islamic knowledge rooted in the Quran and Sunnah',
   icons: {
-    icon: '/favicon.ico',
-    shortcut: '/favicon.ico',
-    apple: '/favicon.png',
+    icon: '/favicon.ico?v=2',
+    shortcut: '/favicon.ico?v=2',
+    apple: '/favicon.png?v=2',
   },
 };
 
@@ -24,9 +24,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
-        <link rel="icon" href="/favicon.ico" />
-        <link rel="shortcut icon" href="/favicon.ico" />
-        <link rel="apple-touch-icon" href="/favicon.png" />
+        <link rel="icon" href="/favicon.ico?v=2" />
+        <link rel="shortcut icon" href="/favicon.ico?v=2" />
+        <link rel="apple-touch-icon" href="/favicon.png?v=2" />
       </head>
       <body className={`${inter.variable} ${literata.variable}`}>
         <GlobalHeader />
