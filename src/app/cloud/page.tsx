@@ -39,7 +39,7 @@ export default function InfrastructurePage() {
         </div>
         <div className="space-y-1">
           <h1 className="text-5xl font-headline font-black text-white tracking-tight uppercase">Universal Cloud</h1>
-          <p className="text-muted-foreground text-lg italic">The 17 Quadrillion Scholarly Feature Network.</p>
+          <p className="text-muted-foreground text-lg italic">The 1 Octillion Scholarly Feature Network.</p>
         </div>
       </header>
 
