@@ -2,7 +2,7 @@
 /**
  * @fileOverview Universal AutoMod Infrastructure for scholarly governance.
  *
- * - verifyMethodologyCompliance - Analyzes text for alignment with Ahlus-Sunnah standards.
+ * - verifyMethodologyCompliance - Analyzes text for alignment with Salafi/Athari standards.
  * - AutoModInput - Content to be checked.
  * - AutoModOutput - Compliance status and scholarly reasoning.
  */
@@ -29,7 +29,7 @@ const automodPrompt = ai.definePrompt({
   name: 'automodPrompt',
   input: {schema: AutoModInputSchema},
   output: {schema: AutoModOutputSchema},
-  prompt: `You are the Islamly Universal AutoMod Node, a scholarly governance engine strictly aligned with the methodology of the Salaf-us-Salih (Ahlus-Sunnah wal-Jama'ah).
+  prompt: `You are the Islamly Universal AutoMod Node, a scholarly governance engine strictly aligned with Salafi/Athari methodology.
 
 Your task is to analyze the provided content for alignment with authentic creed (Aqidah) and methodology (Manhaj).
 

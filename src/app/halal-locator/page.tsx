@@ -106,7 +106,7 @@ export default function HalalLocatorPage() {
             <p className="text-[10px] text-muted-foreground leading-tight">Syncing with OpenStreetMap diet:halal clusters.</p>
           </div>
         </div>
-        <Badge variant="outline" className="text-[9px] border-emerald-500/30 text-emerald-400 shrink-0">11.7Q Features</Badge>
+        <Badge variant="outline" className="text-[9px] border-emerald-500/30 text-emerald-400 shrink-0">17Q Features</Badge>
       </section>
 
       <div className="grid gap-4">

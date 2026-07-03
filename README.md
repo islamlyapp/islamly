@@ -1,7 +1,7 @@
-# Islamly - Universal Scholarly Infrastructure v1.0
+ev# Islamly - Universal Scholarly Infrastructure v1.0
 **Built for the Ummah**
 
-Islamly is a high-density, production-grade portal for authentic Islamic knowledge, strictly aligned with the methodology of the Salaf-us-Salih (Ahlus-Sunnah wal-Jama'ah). Built with Next.js 15, Firebase, and Genkit AI.
+Islamly is a high-density, production-grade portal for authentic Islamic knowledge, strictly aligned with Salafi/Athari methodology. Built with Next.js 15, Firebase, and Genkit AI.
 
 ---
 

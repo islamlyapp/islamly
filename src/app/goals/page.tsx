@@ -109,7 +109,7 @@ export default function GoalsPage() {
             <Database className="w-6 h-6 text-primary" />
             <h3 className="font-headline font-bold text-lg text-foreground">Long-term Path</h3>
           </div>
-          <Badge variant="outline" className="text-[8px] uppercase border-primary/30 text-primary">11.7Q Features</Badge>
+          <Badge variant="outline" className="text-[8px] uppercase border-primary/30 text-primary">17Q Features</Badge>
         </div>
         <div className="grid gap-4">
           {["Complete 40 Hadith Path", "Hifz: Surah Al-Baqarah", "Fiqh Foundations Node"].map(path => (

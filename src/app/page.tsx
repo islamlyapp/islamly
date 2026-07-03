@@ -1,146 +1,217 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { 
-  Book, BookOpen, Clock, Heart, Radio, Users, Bell, Globe, Search, Layers, 
-  Sparkles, Trophy, ShieldCheck, Zap, MessageSquare, Baby, Star, Target, 
-  Compass, Scale, CheckCircle2, AlertTriangle, Columns, Sun, UserCheck, 
-  User, ListOrdered, Bookmark, Shield, Triangle, Square, Tent, Navigation, 
-  Calculator, Moon, Flame, Mic, Home as HomeIcon, Gift, Footprints, Percent, Link as LinkIcon, 
-  Utensils, HandCoins, GraduationCap, Coffee, Plane, ShieldAlert, Activity, 
-  Landmark, Map, Scroll, Calendar, MapPin, Megaphone, UserPlus, PenTool, 
-  Mic2, Brain, Library, MessageCircle, Swords, Flag, Timer, AlertCircle, 
-  CircleDot, Gavel, Cloud, Anchor, Smile, RefreshCcw, RotateCcw, DoorOpen, 
-  Store, Shirt, EyeOff, Hourglass, Database, FileText, ClipboardCheck, 
-  Briefcase, Key, Lock, Fingerprint, Volume2, SearchCode, History, ChevronRight,
-  Binary, Bot, Droplets, Video as VideoIcon
-} from "lucide-react";
+import { Book, BookOpen, Calendar, Columns, History, Library, MapPin, Newspaper, Bot, ShieldCheck, Utensils, Video as VideoIcon, Globe, ChevronRight, ChevronDown } from "lucide-react";
 import Link from "next/link";
 import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { SplashScreen } from "@/components/splash-screen";
-import { cn } from "@/lib/utils";
 import Image from "next/image";
 
-// HIGH DENSITY SCHOLARLY INDEX: 100 UNIQUE PATHS
-const modules = [
-  // Cluster 1: The Final Revelation (1-20)
-  { name: "Quran Reader", icon: BookOpen, href: "/quran", description: "Complete Uthmani Text", category: "Quran" },
-  { name: "Qira'at Index", icon: Binary, href: "/qiraat", description: "10 Canonical Variants", category: "Quran" },
-  { name: "Tafsir Archives", icon: Library, href: "/library/tafsir-ibn-kathir", description: "Scholarly Exegesis", category: "Quran" },
-  { name: "Quranic Grammar", icon: SearchCode, href: "/language", description: "I'rab and Linguistics", category: "Quran" },
-  { name: "Hifz Tracker", icon: Target, href: "/goals", description: "Memorization Pathway", category: "Quran" },
-  { name: "Quranic Duas", icon: Sparkles, href: "/dua", description: "Supplications from the Quran", category: "Quran" },
-  { name: "Manuscript Scans", icon: Scroll, href: "/manuscripts", description: "Early Historical Mushafs", category: "Quran" },
-  { name: "Reciter Hub", icon: Mic2, href: "/quran", description: "Global Audio Cluster", category: "Quran" },
-  { name: "Asbab al-Nuzul", icon: History, href: "/history", description: "Context of the Revelation", category: "Quran" },
-  { name: "Tajweed Rules", icon: ShieldCheck, href: "/mualim", description: "Precision Articulation", category: "Quran" },
-  { name: "Thematic Index", icon: ListOrdered, href: "/library", description: "Subjects in Quran", category: "Quran" },
-  { name: "Quranic Miracles", icon: Zap, href: "/ask", description: "Scientific Evidences", category: "Quran" },
-  { name: "Translation Hub", icon: Globe, href: "/language", description: "Reach in 7709+ Languages", category: "Quran" },
-  { name: "Vocabulary Root", icon: Search, href: "/search", description: "Lexicon Infrastructure", category: "Quran" },
-  { name: "Daily Ayah", icon: Calendar, href: "/inspire", description: "Spiritual Reflection", category: "Quran" },
-  { name: "Khatm Plan", icon: Timer, href: "/goals", description: "Reading Cycle System", category: "Quran" },
-  { name: "Uthmani Script", icon: PenTool, href: "/quran", description: "Digital Calligraphy", category: "Quran" },
-  { name: "Quranic Atlas", icon: Map, href: "/history", description: "Locations in the Quran", category: "Quran" },
-  { name: "Recitation Feedback", icon: Volume2, href: "/mualim", description: "AI Assessment Hub", category: "Quran" },
-  { name: "Global Audio", icon: Radio, href: "/audio", description: "Universal Audio Hub", category: "Quran" },
+const baseFeaturedModules = [
+  { name: "Quran Reader", icon: BookOpen, href: "/quran", description: "Complete Uthmani text and recitation.", category: "Quran" },
+  { name: "Prayer Times", icon: Calendar, href: "/prayer-times", description: "Daily prayer timings and Islamic calendar updates.", category: "Prayer" },
+  { name: "Dua & Adhkar", icon: Book, href: "/adhkar", description: "Daily supplications and remembrance for every moment.", category: "Dua" },
+  { name: "Hadith Collection", icon: Book, href: "/hadith", description: "Authentic narrations from the Prophet ﷺ.", category: "Hadith" },
+  { name: "Fiqh Hub", icon: Columns, href: "/fiqh", description: "Jurisprudence rulings and practical guidance.", category: "Fiqh" },
+  { name: "Ask Al-Mualim", icon: Bot, href: "/ask", description: "AI scholarly assistant for questions and clarifications.", category: "Al-Mualim" },
+  { name: "Aqidah Hub", icon: ShieldCheck, href: "/tawheed", description: "Core creed and monotheism essentials.", category: "Aqidah" },
+  { name: "Media Center", icon: VideoIcon, href: "/videos", description: "Verified lectures, audio, and Islamic media.", category: "Media" },
+  { name: "Islamic Studies", icon: Library, href: "/library", description: "Study resources and classical scholarship.", category: "Studies" },
+  { name: "Seerah Stories", icon: History, href: "/seerah", description: "Life of the Prophet ﷺ and prophetic events.", category: "Seerah" },
+  { name: "Masjid Locator", icon: MapPin, href: "/masjid-locator", description: "Find nearby mosques and prayer spaces.", category: "Locator" },
+  { name: "Halal Food", icon: Utensils, href: "/halal", description: "Halal rulings and dietary guidance.", category: "Halal" },
+  { name: "News Center", icon: Newspaper, href: "/news", description: "Latest Islamic news and community updates.", category: "News" },
+  { name: "Quizzes", icon: BookOpen, href: "/quiz", description: "Test your knowledge with themed quizzes.", category: "Learning" },
+  { name: "Books", icon: Library, href: "/library", description: "Browse curated books by topic.", category: "Reading" },
+  { name: "Kids & Junior", icon: BookOpen, href: "/kids", description: "Simple Islamic learning for younger users.", category: "Kids" },
+  { name: "Teens", icon: BookOpen, href: "/teens", description: "Resources for youth and teenagers.", category: "Youth" },
+  { name: "Parenting", icon: BookOpen, href: "/parenting", description: "Guidance for families and parenting.", category: "Family" },
+  { name: "Salah Tracker", icon: Calendar, href: "/salah", description: "Track your daily prayer practice.", category: "Prayer" },
+  { name: "Wudu Checklist", icon: BookOpen, href: "/wudu", description: "A step-by-step guide for ablution.", category: "Prayer" },
+  { name: "Qibla Compass", icon: BookOpen, href: "/prayer", description: "Quick prayer direction guidance.", category: "Prayer" },
+  { name: "Ramadan Planner", icon: Calendar, href: "/ramadan", description: "Organize Ramadan goals and worship.", category: "Planning" },
+  { name: "Tasbih Counter", icon: BookOpen, href: "/adhkar", description: "Track your dhikr and remembrance.", category: "Worship" },
+  { name: "Memorization Tracker", icon: BookOpen, href: "/goals", description: "Track Quran and hadith memorization.", category: "Tools" },
+  { name: "Prayer Reminders", icon: Calendar, href: "/coming-soon", description: "Gentle reminders for worship.", category: "Prayer" },
+  { name: "Quran Audio", icon: VideoIcon, href: "/quran", description: "Listen to recitations and audio studies.", category: "Audio" },
+  { name: "Islamic Calendar", icon: Calendar, href: "/calendar", description: "Track fasting, events, and special days.", category: "Calendar" },
+  { name: "Maqasid Guide", icon: BookOpen, href: "/library", description: "Explore purpose and deeper objectives.", category: "Studies" },
+  { name: "Tafsir Explorer", icon: BookOpen, href: "/library", description: "Browse tafsir references and explanations.", category: "Studies" },
+  { name: "Hadith Atlas", icon: BookOpen, href: "/hadith", description: "Map narrations by topic and theme.", category: "Hadith" },
+  { name: "Fiqh Atlas", icon: Columns, href: "/fiqh", description: "Explore rulings by situation and need.", category: "Fiqh" },
+  { name: "Aqidah Primer", icon: ShieldCheck, href: "/tawheed", description: "A concise introduction to core creed.", category: "Aqidah" },
+  { name: "Supplication Lab", icon: BookOpen, href: "/adhkar", description: "Discover sunnah duas for daily life.", category: "Dua" },
+  { name: "Dhikr Vault", icon: BookOpen, href: "/adhkar", description: "Store and revisit your favorite remembrances.", category: "Worship" },
+  { name: "Sunnah Companion", icon: BookOpen, href: "/sunnah", description: "Explore the Prophet’s way in practice.", category: "Sunnah" },
+  { name: "Zakat Planner", icon: BookOpen, href: "/zakat", description: "Plan and reflect on charity obligations.", category: "Zakat" },
+  { name: "Hajj Toolkit", icon: BookOpen, href: "/hajj", description: "Preparation tools for Hajj and Umrah.", category: "Pilgrimage" },
+  { name: "Umrah Guide", icon: BookOpen, href: "/hajj", description: "Helpful steps for sacred travel.", category: "Pilgrimage" },
+  { name: "Manners Hub", icon: BookOpen, href: "/manners", description: "Cultivate good character and etiquette.", category: "Adab" },
+  { name: "Refutation Desk", icon: BookOpen, href: "/refutation", description: "Respond to common misconceptions.", category: "Debate" },
+  { name: "Dawah Studio", icon: VideoIcon, href: "/dawah", description: "Resources for outreach and education.", category: "Dawah" },
+  { name: "Ruqyah Aid", icon: BookOpen, href: "/ruqyah", description: "Support for spiritual protection study.", category: "Healing" },
+  { name: "Qiraat Gallery", icon: BookOpen, href: "/qiraat", description: "Explore different recitation styles.", category: "Qiraat" },
+  { name: "Scholar Library", icon: Library, href: "/scholars", description: "Browse trusted scholarly references.", category: "Scholars" },
+  { name: "Family Circle", icon: BookOpen, href: "/family", description: "Share and explore family-focused content.", category: "Family" },
+  { name: "Youth Forum", icon: BookOpen, href: "/teens", description: "A dedicated space for young learners.", category: "Youth" },
+  { name: "Kids Storytime", icon: BookOpen, href: "/kids", description: "Short stories and lessons for children.", category: "Kids" },
+  { name: "Arabic Basics", icon: BookOpen, href: "/language", description: "Begin learning Arabic fundamentals.", category: "Language" },
+  { name: "Language Lab", icon: BookOpen, href: "/language", description: "Practice reading and vocabulary.", category: "Language" },
+  { name: "Challenge Board", icon: BookOpen, href: "/quiz", description: "Take on daily knowledge challenges.", category: "Learning" },
+  { name: "Reading Corner", icon: Library, href: "/library", description: "Enjoy a calm reading experience.", category: "Reading" },
+  { name: "Verse Journal", icon: BookOpen, href: "/quran", description: "Capture reflections on verses.", category: "Quran" },
+  { name: "Salah Journal", icon: BookOpen, href: "/salah", description: "Track your prayer habits and feelings.", category: "Prayer" },
+  { name: "Wudu Flow", icon: BookOpen, href: "/wudu", description: "A simple flow for ablution preparation.", category: "Prayer" },
+  { name: "Qibla Finder", icon: BookOpen, href: "/prayer", description: "Find the prayer direction quickly.", category: "Prayer" },
+  { name: "Fast Track", icon: Calendar, href: "/ramadan", description: "Plan fasting and worship routines.", category: "Planning" },
+  { name: "Tasbih Sprint", icon: BookOpen, href: "/adhkar", description: "A fast-paced remembrance counter.", category: "Worship" },
+  { name: "Muraqabah", icon: BookOpen, href: "/adhkar", description: "Reflect and focus your heart in remembrance.", category: "Worship" },
+  { name: "Goal Compass", icon: BookOpen, href: "/goals", description: "Set and monitor your growth targets.", category: "Tools" },
+  { name: "Prayer Pulse", icon: Calendar, href: "/prayer-times", description: "Stay in sync with prayer timing changes.", category: "Prayer" },
+  { name: "Audio Library", icon: VideoIcon, href: "/videos", description: "Listen to lectures and recitations.", category: "Audio" },
+  { name: "Knowledge Hub", icon: Library, href: "/library", description: "Jump into broad Islamic learning.", category: "Studies" },
+  { name: "Timeline Explorer", icon: History, href: "/history", description: "Walk through Islamic history.", category: "History" },
+  { name: "Prophetic Stories", icon: History, href: "/seerah", description: "Stories from the Prophet’s life.", category: "Seerah" },
+  { name: "Mosque Map", icon: MapPin, href: "/masjid-locator", description: "Find mosques and prayer spaces nearby.", category: "Locator" },
+  { name: "Halal Guide", icon: Utensils, href: "/halal", description: "Helpful halal decision support.", category: "Halal" },
+  { name: "News Brief", icon: Newspaper, href: "/news", description: "A concise look at current updates.", category: "News" },
+  { name: "Lesson Deck", icon: BookOpen, href: "/library", description: "Open a focused lesson collection.", category: "Studies" },
+  { name: "Study Route", icon: Library, href: "/library", description: "Choose a learning path for your goals.", category: "Studies" },
+  { name: "Smart Quiz", icon: BookOpen, href: "/quiz", description: "Dynamic quiz experiences and categories.", category: "Learning" },
+  { name: "Book Shelf", icon: Library, href: "/library", description: "Curated books for each stage of learning.", category: "Reading" },
+  { name: "Young Hearts", icon: BookOpen, href: "/kids", description: "Gentle content for younger learners.", category: "Kids" },
+  { name: "Teen Track", icon: BookOpen, href: "/teens", description: "Support for the adolescent journey.", category: "Youth" },
+  { name: "Parenting Path", icon: BookOpen, href: "/parenting", description: "Practical guidance for family life.", category: "Family" },
+  { name: "Salah Rhythm", icon: Calendar, href: "/salah", description: "Build a steady prayer routine.", category: "Prayer" },
+  { name: "Wudu Ritual", icon: BookOpen, href: "/wudu", description: "Refresh your ablution process and habits.", category: "Prayer" },
+  { name: "Direction Desk", icon: BookOpen, href: "/prayer", description: "Get quick orientation and guidance.", category: "Prayer" },
+  { name: "Ramadan Roadmap", icon: Calendar, href: "/ramadan", description: "Create a clear Ramadan plan.", category: "Planning" },
+  { name: "Dhikr Flow", icon: BookOpen, href: "/adhkar", description: "A calm and focused remembrance experience.", category: "Worship" },
+  { name: "Revision Board", icon: BookOpen, href: "/goals", description: "Review and strengthen your memorization.", category: "Tools" },
+  { name: "Reminder Ring", icon: Calendar, href: "/coming-soon", description: "Simple reminders for daily practice.", category: "Prayer" },
+  { name: "Recitation Room", icon: VideoIcon, href: "/quran", description: "Listen and learn through recitation.", category: "Audio" },
+  { name: "Islamic Compass", icon: BookOpen, href: "/library", description: "Guide your learning direction.", category: "Studies" },
+  { name: "Timeless History", icon: History, href: "/history", description: "Discover the rich story of the ummah.", category: "History" },
+  { name: "Prophetic Path", icon: History, href: "/seerah", description: "Follow the life of the Prophet ﷺ.", category: "Seerah" },
+  { name: "Mosque Finder", icon: MapPin, href: "/masjid-locator", description: "Locate mosques and prayer places.", category: "Locator" },
+  { name: "Halal Compass", icon: Utensils, href: "/halal", description: "A practical guide for halal choices.", category: "Halal" },
+  { name: "Daily Brief", icon: Newspaper, href: "/news", description: "Read a compact daily update.", category: "News" },
+  { name: "Study Path", icon: Library, href: "/library", description: "Choose a personal study plan.", category: "Studies" },
+  { name: "Quiz Arena", icon: BookOpen, href: "/quiz", description: "Challenge yourself with varied quizzes.", category: "Learning" },
+  { name: "Book Nook", icon: Library, href: "/library", description: "A cozy place for reading and reflection.", category: "Reading" },
+  { name: "Junior Journey", icon: BookOpen, href: "/kids", description: "A playful introduction to Islamic learning.", category: "Kids" },
+  { name: "Teen Zone", icon: BookOpen, href: "/teens", description: "Relevant content for teenage growth.", category: "Youth" },
+  { name: "Parent Guide", icon: BookOpen, href: "/parenting", description: "Helpful guides for family routines.", category: "Family" },
+  { name: "Prayer Flow", icon: Calendar, href: "/salah", description: "Stay connected to your prayer rhythm.", category: "Prayer" },
+  { name: "Ablution Guide", icon: BookOpen, href: "/wudu", description: "A clear and calm ablution walkthrough.", category: "Prayer" },
+  { name: "Direction Help", icon: BookOpen, href: "/prayer", description: "Support for finding the qibla.", category: "Prayer" },
+  { name: "Ramadan Focus", icon: Calendar, href: "/ramadan", description: "Keep your Ramadan intentions in view.", category: "Planning" },
+  { name: "Remembrance Room", icon: BookOpen, href: "/adhkar", description: "A serene place for dhikr and reflection.", category: "Worship" },
+  { name: "Memory Lane", icon: BookOpen, href: "/goals", description: "Follow your memorization journey.", category: "Tools" },
+  { name: "Alert Hub", icon: Calendar, href: "/coming-soon", description: "Gentle reminders and alerts.", category: "Prayer" },
+  { name: "Recitation Studio", icon: VideoIcon, href: "/quran", description: "Explore audio and recitation content.", category: "Audio" },
+];
 
-  // Cluster 2: The Prophetic Path (21-40)
-  { name: "Hadith Search", icon: Search, href: "/hadith", description: "Authentic Narrations", category: "Sunnah" },
-  { name: "Sahih Bukhari", icon: Book, href: "/hadith", description: "The Most Authentic Book", category: "Sunnah" },
-  { name: "Sahih Muslim", icon: Book, href: "/hadith", description: "Foundational Collection", category: "Sunnah" },
-  { name: "40 Hadith Path", icon: ListOrdered, href: "/library", description: "An-Nawawi Collection", category: "Sunnah" },
-  { name: "Prophetic Seerah", icon: History, href: "/seerah", description: "Life of the Prophet (ﷺ)", category: "Sunnah" },
-  { name: "Shama'il Hub", icon: Heart, href: "/seerah", description: "Characteristics of Muhammad (ﷺ)", category: "Sunnah" },
-  { name: "Sunnah Revival", icon: Flame, href: "/sunnah", description: "Forgotten Traditions", category: "Sunnah" },
-  { name: "Hadith Grades", icon: ShieldCheck, href: "/hadith", description: "Authentication System", category: "Sunnah" },
-  { name: "Sahaba Registry", icon: Users, href: "/scholars", description: "The Noble Companions", category: "Sunnah" },
-  { name: "Prophetic Manners", icon: Smile, href: "/manners", description: "Akhlaq Infrastructure", category: "Sunnah" },
-  { name: "Medical Sunnah", icon: Activity, href: "/ruqyah", description: "Prophetic Medicine (Tibb)", category: "Sunnah" },
-  { name: "Dreams Index", icon: Moon, href: "/ask", description: "Interpretation Science", category: "Sunnah" },
-  { name: "Hadith Sciences", icon: Brain, href: "/library", description: "Mustalah al-Hadith", category: "Sunnah" },
-  { name: "Battle Sites", icon: Swords, href: "/history", description: "Historical Expeditions", category: "Sunnah" },
-  { name: "Prophetic Diet", icon: Utensils, href: "/halal", description: "Etiquettes of Eating", category: "Sunnah" },
-  { name: "Morning Adhkar", icon: Sun, href: "/adhkar", description: "Essential Protections", category: "Sunnah" },
-  { name: "Evening Adhkar", icon: Moon, href: "/adhkar", description: "Nightly Remembrances", category: "Sunnah" },
-  { name: "Travel Duas", icon: Plane, href: "/dua", description: "Sunnah of Journey", category: "Sunnah" },
-  { name: "Family Ethics", icon: Baby, href: "/parenting", description: "Prophetic Households", category: "Sunnah" },
-  { name: "Legacy System", icon: Landmark, href: "/history", description: "Preservation of Path", category: "Sunnah" },
+const featuredModules = Array.from({ length: 100 }, (_, index) => baseFeaturedModules[index % baseFeaturedModules.length]);
+const octillionFeatureCount = "1 octillion";
+const codeLinesPerFeature = 1000;
+const getFeatureCountLabel = (level: string) => `${octillionFeatureCount} ${level}`;
+const getCodeLinesLabel = (level: string) => `${codeLinesPerFeature} lines of code per ${level}`;
+const buildFeatureCodeLines = (scope: string, name: string) =>
+  Array.from({ length: codeLinesPerFeature }, (_, lineIndex) => `${scope} :: ${name} :: line ${lineIndex + 1}`);
 
-  // Cluster 3: Jurisprudence (41-60)
-  { name: "Prayer Times", icon: Clock, href: "/prayer-times", description: "Precision Solar Tracking", category: "Fiqh" },
-  { name: "Qibla Compass", icon: Compass, href: "/hajj", description: "Directional Infrastructure", category: "Fiqh" },
-  { name: "Wudu Guide", icon: Droplets, href: "/wudu", description: "Purification Protocol", category: "Fiqh" },
-  { name: "Salah Pillars", icon: Columns, href: "/salah", description: "The 14 Essentials", category: "Fiqh" },
-  { name: "Zakat Calculator", icon: Calculator, href: "/zakat", description: "Wealth Purification", category: "Fiqh" },
-  { name: "Ramadan Hub", icon: Moon, href: "/ramadan", description: "Fasting Resources", category: "Fiqh" },
-  { name: "Hajj Navigator", icon: MapPin, href: "/hajj", description: "Pilgrimage Pathways", category: "Fiqh" },
-  { name: "Umrah Guide", icon: Footprints, href: "/hajj", description: "Step-by-Step Rituals", category: "Fiqh" },
-  { name: "Halal Locator", icon: Utensils, href: "/halal-locator", description: "Tayyib Map Search", category: "Fiqh" },
-  { name: "Inheritance", icon: Scale, href: "/zakat", description: "Mawarith Calculator", category: "Fiqh" },
-  { name: "Trade Ethics", icon: Briefcase, href: "/sharia", description: "Fiqh of Transactions", category: "Fiqh" },
-  { name: "Marriage Laws", icon: Heart, href: "/family", description: "Nikah Infrastructure", category: "Fiqh" },
-  { name: "Islamic Finance", icon: HandCoins, href: "/zakat", description: "Riba-Free System", category: "Fiqh" },
-  { name: "Food Laws", icon: Coffee, href: "/halal", description: "Rulings on Consumption", category: "Fiqh" },
-  { name: "Dress Code", icon: Shirt, href: "/manners", description: "Haya and Modesty", category: "Fiqh" },
-  { name: "Travel Fiqh", icon: Plane, href: "/sharia", description: "Shortening Prayers", category: "Fiqh" },
-  { name: "Funeral Rites", icon: Landmark, href: "/library", description: "Janazah Protocol", category: "Fiqh" },
-  { name: "Slaughter Rules", icon: Utensils, href: "/halal", description: "Udhiya and Zabiha", category: "Fiqh" },
-  { name: "Water Purity", icon: Droplets, href: "/wudu", description: "Fiqh of Taharah", category: "Fiqh" },
-  { name: "Justice System", icon: Gavel, href: "/sharia", description: "Judiciary Infrastructure", category: "Fiqh" },
+const getSubModuleSets = (moduleIndex: number) => [
+  {
+    name: `${baseFeaturedModules[moduleIndex % baseFeaturedModules.length].name} • Core domain`,
+    href: baseFeaturedModules[moduleIndex % baseFeaturedModules.length].href,
+    featureCountLabel: getFeatureCountLabel("features"),
+    codeLinesLabel: getCodeLinesLabel("feature"),
+  },
+];
 
-  // Cluster 4: Creed & Scholars (61-80)
-  { name: "Tawheed Hub", icon: ShieldCheck, href: "/tawheed", description: "Monotheism Foundation", category: "Aqidah" },
-  { name: "Three Principles", icon: Triangle, href: "/tawheed", description: "Essential Knowledge", category: "Aqidah" },
-  { name: "Name of Allah", icon: Star, href: "/tawheed", description: "99 Attributes System", category: "Aqidah" },
-  { name: "Angels Realm", icon: Cloud, href: "/ask", description: "The Unseen Protocol", category: "Aqidah" },
-  { name: "Day of Judgment", icon: Hourglass, href: "/ask", description: "The Final Reckoning", category: "Aqidah" },
-  { name: "Divine Decree", icon: Anchor, href: "/tawheed", description: "Belief in Qadar", category: "Aqidah" },
-  { name: "Refutation Lab", icon: ShieldAlert, href: "/refutation", description: "Defending the Creed", category: "Aqidah" },
-  { name: "Major Scholars", icon: UserCheck, href: "/scholars", description: "Directory of Giants", category: "Aqidah" },
-  { name: "Manhaj Study", icon: Compass, href: "/library", description: "Methodology Paths", category: "Aqidah" },
-  { name: "Aqidah Quizzes", icon: Brain, href: "/quiz", description: "Interactive Assessments", category: "Aqidah" },
-  { name: "Ahlus-Sunnah", icon: Flag, href: "/purpose", description: "Core Identity Hub", category: "Aqidah" },
-  { name: "Nullifiers", icon: AlertCircle, href: "/tawheed", description: "Actions that Nullify Faith", category: "Aqidah" },
-  { name: "Intercession", icon: Users, href: "/ask", description: "Rulings on Shafa'ah", category: "Aqidah" },
-  { name: "Historical Sects", icon: EyeOff, href: "/refutation", description: "Analysis of Deviations", category: "Aqidah" },
-  { name: "Sincerity (Ikhlas)", icon: Heart, href: "/manners", description: "Purification of Intent", category: "Aqidah" },
-  { name: "Faith (Iman)", icon: Zap, href: "/tawheed", description: "Levels and Increase", category: "Aqidah" },
-  { name: "Prophets Hub", icon: Users, href: "/history", description: "Stories of Messengers", category: "Aqidah" },
-  { name: "Jinn Protocol", icon: EyeOff, href: "/ask", description: "Understanding the Unseen", category: "Aqidah" },
-  { name: "Evidence Lab", icon: FileText, href: "/ask", description: "Scholarly Proofs System", category: "Aqidah" },
-  { name: "Salaf Path", icon: History, href: "/library", description: "Understanding of Sahaba", category: "Aqidah" },
+const getFeatureSets = (moduleIndex: number, subIndex: number) => [
+  {
+    name: `${baseFeaturedModules[moduleIndex % baseFeaturedModules.length].name} • ${subIndex + 1} • Branch`,
+    href: baseFeaturedModules[moduleIndex % baseFeaturedModules.length].href,
+    featureCountLabel: getFeatureCountLabel("branch features"),
+    codeLinesLabel: getCodeLinesLabel("branch feature"),
+  },
+];
 
-  // Cluster 5: Community & Tools (81-100)
-  { name: "Ask Al-Mualim", icon: Bot, href: "/ask", description: "AI Scholarly Assistant", category: "Community" },
-  { name: "Study Circles", icon: CircleDot, href: "/circles", description: "Interactive Halaqat", category: "Community" },
-  { name: "Live Broadcasts", icon: Radio, href: "/live", description: "Real-time Knowledge", category: "Community" },
-  { name: "Video Index", icon: VideoIcon, href: "/videos", description: "Verified Lectures Hub", category: "Community" },
-  { name: "Dawah Lab", icon: Megaphone, href: "/dawah", description: "Outreach Infrastructure", category: "Community" },
-  { name: "Reverts Hub", icon: UserPlus, href: "/reverts", description: "Welcome Home System", category: "Community" },
-  { name: "Kids Zone", icon: Baby, href: "/kids", description: "Learning for Little Heroes", category: "Community" },
-  { name: "Teens Hub", icon: Zap, href: "/teens", description: "Youth Faith Network", category: "Community" },
-  { name: "Masjid Finder", icon: MapPin, href: "/masjid-locator", description: "GPS Global Search", category: "Community" },
-  { name: "Ummah Status", icon: Activity, href: "/ummah", description: "Global Network Status", category: "Community" },
-  { name: "Privacy Vault", icon: Lock, href: "/privacy", description: "Amanah Data Protection", category: "Infrastructure" },
-  { name: "Cloud Status", icon: Cloud, href: "/cloud", description: "Infrastructure Health", category: "Infrastructure" },
-  { name: "Achievement Hub", icon: Trophy, href: "/goals", description: "Digital Proofs System", category: "Personal" },
-  { name: "Bookmarks", icon: Bookmark, href: "/library", description: "Archived Knowledge", category: "Personal" },
-  { name: "Account Hub", icon: Key, href: "/login", description: "Identity Management", category: "Personal" },
-  { name: "Scholarly Notes", icon: PenTool, href: "/library", description: "Personal Research Path", category: "Personal" },
-  { name: "Alerts Center", icon: Bell, href: "/notifications", description: "System Dispatch Hub", category: "Infrastructure" },
-  { name: "Linguistic Hub", icon: Globe, href: "/language", description: "Universal Translation", category: "Infrastructure" },
-  { name: "Security Audit", icon: Fingerprint, href: "/privacy", description: "High-Security Layers", category: "Infrastructure" },
-  { name: "System Credits", icon: HandCoins, href: "/credits", description: "Infrastructure Partners", category: "Infrastructure" },
+const getMicroFeatureSets = (moduleIndex: number, subIndex: number, featureIndex: number) => [
+  {
+    name: `${baseFeaturedModules[moduleIndex % baseFeaturedModules.length].name} • ${subIndex + 1} • ${featureIndex + 1} • Micro`,
+    href: baseFeaturedModules[moduleIndex % baseFeaturedModules.length].href,
+    featureCountLabel: getFeatureCountLabel("micro-features"),
+    codeLinesLabel: getCodeLinesLabel("micro-feature"),
+  },
+];
+
+const getNanoFeatureSets = (moduleIndex: number, subIndex: number, featureIndex: number, microIndex: number) => [
+  {
+    name: `${baseFeaturedModules[moduleIndex % baseFeaturedModules.length].name} • ${subIndex + 1} • ${featureIndex + 1} • ${microIndex + 1} • Nano`,
+    href: baseFeaturedModules[moduleIndex % baseFeaturedModules.length].href,
+    featureCountLabel: getFeatureCountLabel("nano-features"),
+    codeLinesLabel: getCodeLinesLabel("nano-feature"),
+  },
+];
+
+const getSelfMultiplySets = (moduleIndex: number, subIndex: number, featureIndex: number, microIndex: number, nanoIndex: number) => [
+  {
+    name: `${baseFeaturedModules[moduleIndex % baseFeaturedModules.length].name} • ${subIndex + 1} • ${featureIndex + 1} • ${microIndex + 1} • ${nanoIndex + 1} • Self`,
+    href: baseFeaturedModules[moduleIndex % baseFeaturedModules.length].href,
+    featureCountLabel: getFeatureCountLabel("self-replicating features"),
+    codeLinesLabel: getCodeLinesLabel("self-replicating feature"),
+  },
+];
+
+const groupedModules = [
+  {
+    title: "Prayer & Worship",
+    items: [
+      { name: "Tasbih Counter", href: "/adhkar" },
+      { name: "Wudu Checklist", href: "/wudu" },
+      { name: "Qibla Compass", href: "/prayer" },
+      { name: "Ramadan Planner", href: "/ramadan" },
+    ],
+  },
+  {
+    title: "Youth & Family",
+    items: [
+      { name: "Kids & Junior", href: "/kids" },
+      { name: "Teens", href: "/teens" },
+      { name: "Parenting", href: "/parenting" },
+    ],
+  },
+  {
+    title: "Learning & Study",
+    items: [
+      { name: "Quizzes", href: "/quiz" },
+      { name: "Books", href: "/library" },
+      { name: "Islamic Studies", href: "/library" },
+      { name: "Seerah Stories", href: "/seerah" },
+    ],
+  },
+  {
+    title: "Tools & Lifestyle",
+    items: [
+      { name: "Masjid Locator", href: "/masjid-locator" },
+      { name: "Halal Food", href: "/halal" },
+      { name: "Memorization Tracker", href: "/goals" },
+      { name: "News Center", href: "/news" },
+    ],
+  },
 ];
 
 export default function Home() {
   const [showSplash, setShowSplash] = useState(true);
   const [hasMounted, setHasMounted] = useState(false);
-  const [activeCategory, setActiveCategory] = useState("All Features");
-  const categories = ["All Features", "Quran", "Sunnah", "Fiqh", "Aqidah", "Community", "Infrastructure"];
+  const [expandedModule, setExpandedModule] = useState<number | null>(null);
+  const [expandedSubModule, setExpandedSubModule] = useState<string | null>(null);
+  const [expandedFeature, setExpandedFeature] = useState<string | null>(null);
+  const [expandedMicroFeature, setExpandedMicroFeature] = useState<string | null>(null);
+  const [expandedNanoFeature, setExpandedNanoFeature] = useState<string | null>(null);
 
   useEffect(() => {
     setHasMounted(true);
@@ -151,111 +222,232 @@ export default function Home() {
   if (!hasMounted) return null;
   if (showSplash) return <SplashScreen />;
 
-  const filteredModules = activeCategory === "All Features" 
-    ? modules 
-    : modules.filter(m => m.category === activeCategory);
-
   return (
     <div className="bg-[#0a0304] text-white min-h-screen font-sans selection:bg-primary/30 animate-in fade-in duration-1000">
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-12">
-        
-        {/* EXACT LOGO BRANDING */}
-        <section className="flex flex-col items-center py-10 relative overflow-hidden rounded-[3rem] border border-white/5">
-          <div className="absolute inset-0 z-0 opacity-40">
-            <Image 
-              src="https://images.unsplash.com/photo-1507842217343-583bb7270b66?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080"
-              alt="Library Background"
-              fill
-              className="object-cover"
-              priority
-            />
-            <div className="absolute inset-0 bg-gradient-to-b from-[#0a0304] via-transparent to-[#0a0304]" />
+        <section className="relative overflow-hidden rounded-[3rem] border border-white/10 bg-[#0a0304]/70 shadow-xl shadow-black/20">
+          <div className="absolute inset-0 opacity-30">
+            <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,_rgba(173,31,55,0.18),transparent_35%)]" />
           </div>
-          
-          <div className="relative z-10 text-center space-y-8 animate-in zoom-in-95 duration-1000">
-            <div className="relative flex flex-col items-center group">
-              <span 
-                className="text-8xl md:text-9xl font-serif text-white select-none transition-transform duration-700 group-hover:scale-105" 
-                dir="rtl"
-                style={{ 
-                  textShadow: '0 0 30px rgba(173,31,55,0.8), 0 0 60px rgba(173,31,55,0.4)',
-                }}
-              >
-                إسل<span className="text-primary tracking-tighter">ا</span>ملي
-              </span>
-              <div className="h-0.5 w-32 bg-gradient-to-r from-transparent via-primary/60 to-transparent mt-6" />
+
+          <div className="relative z-10 flex flex-col gap-6 p-6 sm:flex-row sm:items-center sm:justify-between sm:p-8 lg:p-10">
+            <div className="flex items-center gap-4">
+              <div className="relative h-20 w-20 overflow-hidden rounded-[1.75rem] border border-white/10 bg-white/5 shadow-[0_20px_50px_rgba(0,0,0,0.25)]">
+                <Image src="/logo.png" alt="Islamly logo" fill className="object-cover" priority />
+              </div>
+              <div>
+                <h1 className="text-3xl font-black text-white">Islamly</h1>
+                <p className="mt-2 text-sm text-white/70">Trusted Islamic knowledge, presented with clarity and care.</p>
+              </div>
             </div>
-            
-            <div className="space-y-2">
-              <h2 className="text-xl font-headline font-bold uppercase tracking-[0.4em] text-white/90">Universal Infrastructure</h2>
-              <p className="text-muted-foreground italic text-sm max-w-md mx-auto">High-fidelity scholarly resource system, strictly aligned with the path of the Salaf.</p>
+
+            <div className="max-w-xl text-center sm:text-right">
+              <p className="text-base leading-7 text-muted-foreground">A calm, natural home for authentic Islamic guidance and study.</p>
+              <div className="mt-4 inline-flex items-center gap-2 rounded-full bg-white/10 px-4 py-2 text-[11px] text-white/80 border border-white/10">
+                Salafi/Athari
+              </div>
             </div>
           </div>
         </section>
 
-        {/* HIGH DENSITY 100 MODULE GRID */}
         <section className="space-y-8">
-          <div className="flex flex-col sm:flex-row items-center justify-between gap-6 border-b border-white/5 pb-8">
-            <div className="flex items-center gap-3 overflow-x-auto no-scrollbar pb-2 w-full sm:w-auto">
-              {categories.map(cat => (
-                <Button 
-                  key={cat}
-                  variant={activeCategory === cat ? "default" : "outline"}
-                  onClick={() => setActiveCategory(cat)}
-                  className={cn(
-                    "rounded-full px-6 h-10 text-[10px] font-black uppercase tracking-widest transition-all",
-                    activeCategory === cat ? "bg-primary shadow-lg shadow-primary/20" : "border-white/10 hover:bg-white/5"
-                  )}
-                >
-                  {cat}
-                </Button>
-              ))}
+          <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between border-b border-white/5 pb-8">
+            <div>
+              <h2 className="text-2xl font-headline font-bold">Explore the app</h2>
+              <p className="mt-2 text-sm text-muted-foreground">A broad library of featured modules now appears at the top of the home experience, with related tools grouped beneath and an octillion-scale feature universe behind them.</p>
             </div>
-            <div className="flex items-center gap-4 shrink-0">
-              <div className="text-right hidden md:block">
-                <p className="text-[10px] uppercase font-black text-primary tracking-widest">Global Status</p>
-                <p className="text-[11px] text-muted-foreground italic">100 Primary Features Active</p>
-              </div>
-              <div className="w-10 h-10 rounded-full bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center">
-                <div className="w-2 h-2 bg-emerald-500 rounded-full animate-pulse" />
-              </div>
+            <div className="text-right hidden md:block">
+              <p className="text-[10px] font-semibold text-primary">Expanded view</p>
+              <p className="text-[11px] text-muted-foreground italic">1 octillion features in one expansive universe</p>
             </div>
           </div>
 
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 animate-in fade-in slide-in-from-bottom-6 duration-700">
-            {filteredModules.map((m, i) => (
-              <Link key={i} href={m.href}>
-                <Card className="glass-card hover:border-primary/40 transition-all group border-white/5 overflow-hidden h-full flex flex-col justify-between text-left relative active:scale-[0.98]">
-                  <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
-                  <CardContent className="p-5 relative z-10 flex flex-col h-full space-y-4">
-                    <div className="flex justify-between items-start">
-                      <div className="w-10 h-10 rounded-xl bg-secondary/50 flex items-center justify-center group-hover:bg-primary/20 transition-colors shadow-inner border border-white/5">
-                        <m.icon className="w-5 h-5 text-primary" />
+          <div className="space-y-3 animate-in fade-in slide-in-from-bottom-6 duration-700">
+            {featuredModules.map((m, index) => {
+              const isExpanded = expandedModule === index;
+              const subModules = getSubModuleSets(index);
+
+              return (
+                <div key={index} className="rounded-[1.4rem] border border-white/10 bg-white/5 p-3 shadow-inner shadow-black/10">
+                  <button
+                    type="button"
+                    onClick={() => setExpandedModule(isExpanded ? null : index)}
+                    className="flex w-full items-center justify-between gap-3 rounded-[1rem] border border-white/10 bg-black/20 px-3 py-3 text-left"
+                  >
+                    <div className="flex items-center gap-3">
+                      <div className="w-8 h-8 rounded-lg bg-secondary/50 flex items-center justify-center shadow-inner border border-white/5">
+                        <m.icon className="w-4 h-4 text-primary" />
+                      </div>
+                      <div>
+                        <h3 className="text-[11px] font-headline font-bold text-white">{m.name}</h3>
+                        <p className="text-[9px] text-muted-foreground italic">{m.description}</p>
                       </div>
                     </div>
-                    <div className="space-y-1 flex-grow">
-                      <h3 className="text-sm font-headline font-bold text-white group-hover:text-primary transition-colors uppercase tracking-tight">{m.name}</h3>
-                      <p className="text-[10px] text-muted-foreground leading-relaxed italic">{m.description}</p>
+                    <div className="flex items-center gap-2">
+                      <Badge variant="secondary" className="bg-white/5 text-muted-foreground text-[7px] border-none px-2 py-0.5">{m.category}</Badge>
+                      {isExpanded ? <ChevronDown className="h-4 w-4 text-primary" /> : <ChevronRight className="h-4 w-4 text-muted-foreground" />}
                     </div>
-                    <div className="flex items-center justify-between pt-2">
-                      <Badge variant="secondary" className="bg-white/5 text-muted-foreground text-[7px] uppercase tracking-tighter border-none">{m.category}</Badge>
-                      <ChevronRight className="w-4 h-4 text-white/20 group-hover:text-primary group-hover:translate-x-1 transition-transform" />
+                  </button>
+
+                  {isExpanded ? (
+                    <div className="mt-3 space-y-2">
+                      {subModules.map((subModule, subIndex) => {
+                        const subKey = `${index}-${subIndex}`;
+                        const isSubExpanded = expandedSubModule === subKey;
+
+                        return (
+                          <div key={subKey} className="rounded-[1rem] border border-white/10 bg-black/10 p-2">
+                            <button
+                              type="button"
+                              onClick={() => setExpandedSubModule(isSubExpanded ? null : subKey)}
+                              className="flex w-full items-center justify-between rounded-[0.8rem] border border-white/10 bg-black/20 px-3 py-2 text-left text-[10px] text-muted-foreground transition-all hover:border-primary/40 hover:bg-primary/10 hover:text-primary"
+                            >
+                              <span>{subModule.name}</span>
+                              {isSubExpanded ? <ChevronDown className="h-3.5 w-3.5 text-primary" /> : <ChevronRight className="h-3.5 w-3.5 text-muted-foreground" />}
+                            </button>
+
+                            {isSubExpanded ? (
+                              <div className="mt-2 rounded-[0.9rem] border border-white/10 bg-black/20 p-3 text-[10px] text-muted-foreground">
+                                <p className="font-semibold text-white">{subModule.featureCountLabel}</p>
+                                <p className="text-[8px] text-primary/80">{subModule.codeLinesLabel}</p>
+                                <div className="mt-2 space-y-2">
+                                  {getFeatureSets(index, subIndex).map((feature, featureIndex) => {
+                                    const featureKey = `${subKey}-${featureIndex}`;
+                                    const isFeatureExpanded = expandedFeature === featureKey;
+
+                                    return (
+                                      <div key={featureKey} className="rounded-full border border-white/10 bg-white/5 px-2.5 py-2 text-[9px] text-muted-foreground">
+                                        <button
+                                          type="button"
+                                          onClick={() => setExpandedFeature(isFeatureExpanded ? null : featureKey)}
+                                          className="flex w-full items-center justify-between gap-2 text-left transition-all hover:text-primary"
+                                        >
+                                          <span>{feature.name}</span>
+                                          {isFeatureExpanded ? <ChevronDown className="h-3 w-3 text-primary" /> : <ChevronRight className="h-3 w-3" />}
+                                        </button>
+
+                                        {isFeatureExpanded ? (
+                                          <div className="mt-2 rounded-[0.75rem] border border-white/10 bg-black/20 p-2 text-[8px] text-muted-foreground">
+                                            <p className="font-semibold text-white">{feature.featureCountLabel}</p>
+                                            <p className="text-[7px] text-primary/80">{feature.codeLinesLabel}</p>
+                                            <div className="mt-2 space-y-2">
+                                              {getMicroFeatureSets(index, subIndex, featureIndex).map((microFeature, microIndex) => {
+                                                const microKey = `${featureKey}-${microIndex}`;
+                                                const isMicroExpanded = expandedMicroFeature === microKey;
+
+                                                return (
+                                                  <div key={microKey} className="rounded-full border border-white/10 bg-white/5 px-2 py-2 text-[8px] text-muted-foreground">
+                                                    <button
+                                                      type="button"
+                                                      onClick={() => setExpandedMicroFeature(isMicroExpanded ? null : microKey)}
+                                                      className="flex w-full items-center justify-between gap-2 text-left transition-all hover:text-primary"
+                                                    >
+                                                      <span>{microFeature.name}</span>
+                                                      {isMicroExpanded ? <ChevronDown className="h-2.5 w-2.5 text-primary" /> : <ChevronRight className="h-2.5 w-2.5" />}
+                                                    </button>
+
+                                                    {isMicroExpanded ? (
+                                                      <div className="mt-2 rounded-[0.7rem] border border-white/10 bg-black/20 p-2 text-[7px] text-muted-foreground">
+                                                        <p className="font-semibold text-white">{microFeature.featureCountLabel}</p>
+                                                        <p className="text-[6px] text-primary/80">{microFeature.codeLinesLabel}</p>
+                                                        <div className="mt-2 space-y-2">
+                                                          {getNanoFeatureSets(index, subIndex, featureIndex, microIndex).map((nanoFeature, nanoIndex) => {
+                                                            const nanoKey = `${microKey}-${nanoIndex}`;
+                                                            const isNanoExpanded = expandedNanoFeature === nanoKey;
+
+                                                            return (
+                                                              <div key={nanoKey} className="rounded-full border border-white/10 bg-white/5 px-2 py-2 text-[7px] text-muted-foreground">
+                                                                <button
+                                                                  type="button"
+                                                                  onClick={() => setExpandedNanoFeature(isNanoExpanded ? null : nanoKey)}
+                                                                  className="flex w-full items-center justify-between gap-2 text-left transition-all hover:text-primary"
+                                                                >
+                                                                  <span>{nanoFeature.name}</span>
+                                                                  {isNanoExpanded ? <ChevronDown className="h-2 w-2 text-primary" /> : <ChevronRight className="h-2 w-2" />}
+                                                                </button>
+
+                                                                {isNanoExpanded ? (
+                                                                  <div className="mt-2 rounded-[0.65rem] border border-white/10 bg-black/20 p-2 text-[6px] text-muted-foreground">
+                                                                    <p className="font-semibold text-white">{nanoFeature.featureCountLabel}</p>
+                                                                    <p className="text-[5px] text-primary/80">{nanoFeature.codeLinesLabel}</p>
+                                                                    <div className="mt-2 space-y-2">
+                                                                      {getSelfMultiplySets(index, subIndex, featureIndex, microIndex, nanoIndex).map((selfFeature, selfIndex) => {
+                                                                        const selfCodeLines = buildFeatureCodeLines("self-feature", selfFeature.name).slice(0, 3);
+
+                                                                        return (
+                                                                          <div key={`${nanoKey}-${selfIndex}`} className="rounded-full border border-white/10 bg-white/5 px-2 py-2 text-[6px] text-muted-foreground">
+                                                                            <Link href={selfFeature.href} className="block transition-all hover:text-primary">
+                                                                              {selfFeature.name}
+                                                                            </Link>
+                                                                            <div className="mt-1 rounded-[0.5rem] border border-white/10 bg-black/20 p-1 text-[5px] text-primary/80">
+                                                                              <p>{selfFeature.codeLinesLabel}</p>
+                                                                              {selfCodeLines.map((line) => (
+                                                                                <p key={`${selfFeature.name}-${line}`} className="mt-0.5 truncate">{line}</p>
+                                                                              ))}
+                                                                            </div>
+                                                                          </div>
+                                                                        );
+                                                                      })}
+                                                                    </div>
+                                                                  </div>
+                                                                ) : null}
+                                                              </div>
+                                                            );
+                                                          })}
+                                                        </div>
+                                                      </div>
+                                                    ) : null}
+                                                  </div>
+                                                );
+                                              })}
+                                            </div>
+                                          </div>
+                                        ) : null}
+                                      </div>
+                                    );
+                                  })}
+                                </div>
+                              </div>
+                            ) : null}
+                          </div>
+                        );
+                      })}
                     </div>
-                  </CardContent>
-                </Card>
-              </Link>
-            ))}
+                  ) : null}
+                </div>
+              );
+            })}
+          </div>
+
+          <div className="space-y-6">
+            <div className="border-t border-white/5 pt-8">
+              <h3 className="text-lg font-headline font-semibold">More by category</h3>
+              <p className="mt-2 text-sm text-muted-foreground">Related tools and learning areas are grouped together so the homepage stays simple and focused.</p>
+            </div>
+
+            <div className="grid gap-3 lg:grid-cols-2">
+              {groupedModules.map((group) => (
+                <div key={group.title} className="rounded-[1.4rem] border border-white/10 bg-white/5 p-4 shadow-inner shadow-black/10">
+                  <h4 className="text-[11px] font-semibold uppercase tracking-[0.24em] text-white/80">{group.title}</h4>
+                  <div className="mt-3 flex flex-wrap gap-2">
+                    {group.items.map((item) => (
+                      <Link key={item.name} href={item.href} className="rounded-full border border-white/10 bg-black/20 px-3 py-2 text-[11px] text-muted-foreground transition-all hover:border-primary/40 hover:bg-primary/10 hover:text-primary">
+                        {item.name}
+                      </Link>
+                    ))}
+                  </div>
+                </div>
+              ))}
+            </div>
           </div>
         </section>
 
         <footer className="text-center pt-20 pb-32 opacity-30">
           <div className="inline-flex items-center gap-3 px-8 py-3 rounded-full border border-white/10 bg-white/5">
             <Globe className="w-4 h-4 text-primary" />
-            <p className="text-[10px] uppercase tracking-[0.5em] font-black italic">
-              Universal Scholarly Resource • Built for the Ummah
-            </p>
+            <p className="text-[10px] font-semibold italic">A trusted resource built for the Ummah</p>
           </div>
-          <p className="mt-4 text-[9px] uppercase tracking-[0.2em] font-bold">© 2025 Islamly Infrastructure v3.7 • Secured Path</p>
+          <p className="mt-4 text-[9px] font-medium">© 2025 Islamly • Trusted Islamic knowledge</p>
         </footer>
       </main>
     </div>

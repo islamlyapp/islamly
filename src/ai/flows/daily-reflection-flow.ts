@@ -23,7 +23,7 @@ const dailyReflectionPrompt = ai.definePrompt({
 Generate a unique, brief spiritual reflection for a student of knowledge.
 
 STRICT ADHERENCE:
-- The reflection must be based strictly on the Quran or authentic Hadith (Ahlus-Sunnah).
+- The reflection must be based strictly on the Quran or authentic Hadith in Salafi/Athari understanding.
 - Absolutely NO Sufi-influenced innovations (Bid'ah) or philosophical over-rationalization.
 - Focus on pure Tawhid (Monotheism) and the Sunnah.
 - Provide the Arabic text of the source if applicable.

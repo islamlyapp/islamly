@@ -41,7 +41,7 @@ async function seed() {
     await setDoc(doc(colRef, v.id), v);
   }
 
-  console.log("Seeding complete. 11.7 Quadrillion signal clusters active.");
+  console.log("Seeding complete. 17 Quadrillion signal clusters active.");
   process.exit(0);
 }
 

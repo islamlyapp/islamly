@@ -5,7 +5,6 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { 
-  MessageCircle, 
   Send, 
   Bot, 
   User, 
@@ -14,12 +13,9 @@ import {
   Database,
   Sparkles,
   Search,
-  Lock,
-  ChevronRight,
-  ShieldAlert
+  Lock
 } from "lucide-react";
-import { searchKnowledgeHub, type SearchKnowledgeOutput } from "@/ai/flows/search-knowledge-flow";
-import { verifyMethodologyCompliance } from "@/ai/flows/automod-flow";
+import { type SearchKnowledgeOutput } from "@/ai/flows/search-knowledge-flow";
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
 import { toast } from "@/hooks/use-toast";
@@ -59,35 +55,39 @@ export default function AskAiPage() {
     setIsLoading(true);
 
     try {
-      // 1. Fetch Knowledge Answer
-      const result = await searchKnowledgeHub({ query: input });
-      
-      // 2. Pass through AutoMod Infrastructure
-      const modCheck = await verifyMethodologyCompliance({ 
-        content: result.answer, 
-        context: input 
+      const response = await fetch('/api/ask', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ query: input }),
       });
 
-      const assistantMessage: Message = { 
-        id: (Date.now() + 1).toString(), 
-        role: 'assistant', 
-        content: modCheck.isCompliant ? result.answer : (modCheck.scholarlyCorrection || "This response was flagged by our methodology guard."),
-        meta: result,
-        isModerated: true
+      const data = await response.json();
+      if (!response.ok || data.error) {
+        throw new Error(data.error || 'Unable to fetch answer');
+      }
+
+      const assistantMessage: Message = {
+        id: (Date.now() + 1).toString(),
+        role: 'assistant',
+        content: data.answer,
+        meta: data.meta,
+        isModerated: !data.moderation?.isCompliant,
       };
-      
-      if (!modCheck.isCompliant) {
-        toast({ 
-          variant: "destructive", 
-          title: "Methodology Guard Active", 
-          description: "A correction has been applied to ensure scholarly alignment." 
+
+      if (!data.moderation?.isCompliant) {
+        toast({
+          variant: 'destructive',
+          title: 'Scholarly review applied',
+          description: 'A correction was made to keep the answer aligned with our methodology.',
         });
       }
 
       setMessages(prev => [...prev, assistantMessage]);
     } catch (error) {
       console.error(error);
-      toast({ variant: "destructive", title: "Sync Error", description: "Scholarly node connection failed." });
+      toast({ variant: 'destructive', title: 'Connection error', description: 'Unable to fetch the answer right now. Please try again.' });
     } finally {
       setIsLoading(false);
     }
@@ -105,15 +105,15 @@ export default function AskAiPage() {
           </h1>
           <div className="flex flex-col items-end gap-1">
             <Badge variant="secondary" className="bg-primary/10 text-primary border-primary/20">
-              <Database className="w-3 h-3 mr-1" /> Verified Knowledge Node
+              <Database className="w-3 h-3 mr-1" /> Trusted Answer
             </Badge>
             <div className="flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-emerald-500/10 border border-emerald-500/20">
               <Lock className="w-2.5 h-2.5 text-emerald-500" />
-              <span className="text-[7px] uppercase font-black text-emerald-500 tracking-widest">AutoMod Pulse Active</span>
+              <span className="text-[7px] uppercase font-black text-emerald-500 tracking-widest">Scholarly review active</span>
             </div>
           </div>
         </div>
-        <p className="text-muted-foreground text-sm italic">Evidence-based answers, strictly governed by the AutoMod node.</p>
+        <p className="text-muted-foreground text-sm italic">Evidence-based answers reviewed for clarity and faithfulness.</p>
       </header>
 
       <Card className="flex-1 glass-card border-none flex flex-col overflow-hidden relative">
@@ -126,7 +126,7 @@ export default function AskAiPage() {
             <div className="h-full flex flex-col items-center justify-center text-center space-y-6 opacity-40 py-20">
               <Sparkles className="w-12 h-12 text-primary" />
               <div className="space-y-2">
-                <p className="font-headline font-bold uppercase tracking-widest text-xs">Ahlus-Sunnah Search Node</p>
+                <p className="font-headline font-bold uppercase tracking-widest text-xs">Salafi/Athari Search Node</p>
                 <p className="text-sm italic max-w-xs">Ask about Aqidah, Fiqh, Seerah, or any scholarly topic.</p>
               </div>
               <div className="grid gap-2 w-full max-w-xs">
@@ -191,7 +191,7 @@ export default function AskAiPage() {
               </div>
               <div className="flex flex-col gap-2">
                 <div className="p-4 rounded-2xl bg-secondary/20 w-32 border border-white/5 h-10" />
-                <span className="text-[8px] uppercase font-black text-emerald-500 tracking-tighter">AutoMod is verifying node...</span>
+                <span className="text-[8px] uppercase font-black text-emerald-500 tracking-tighter">Reviewing your answer...</span>
               </div>
             </div>
           )}

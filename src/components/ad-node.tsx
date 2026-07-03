@@ -35,9 +35,9 @@ export function AdNode({ title, description, image, cta, type = "Promoted", clas
           <div className="flex justify-between items-start">
             <div className="flex items-center gap-2">
               <Megaphone className="w-3 h-3 text-primary" />
-              <span className="text-[9px] font-bold uppercase tracking-widest text-muted-foreground">{type} Node</span>
+              <span className="text-sm font-semibold text-muted-foreground">{type}</span>
             </div>
-            <Badge variant="outline" className="text-[8px] uppercase border-primary/20 text-primary">Scholarly Ad</Badge>
+            <Badge variant="outline" className="text-[9px] border-primary/20 text-primary">Sponsored</Badge>
           </div>
           <div className="space-y-1">
             <h4 className="font-headline font-bold text-sm text-foreground">{title}</h4>
@@ -45,11 +45,11 @@ export function AdNode({ title, description, image, cta, type = "Promoted", clas
               {description}
             </p>
           </div>
-          <div className="flex items-center justify-between pt-1">
-            <button className="text-[10px] text-primary font-bold uppercase flex items-center gap-1 hover:underline">
-              {cta} <ExternalLink className="w-2.5 h-2.5" />
+          <div className="flex items-center justify-between gap-2 pt-1">
+            <button className="text-sm text-primary font-semibold flex items-center gap-1 hover:underline">
+              {cta} <ExternalLink className="w-3 h-3" />
             </button>
-            <Info className="w-3 h-3 text-muted-foreground/30" />
+            <Info className="w-4 h-4 text-muted-foreground/50" />
           </div>
         </CardContent>
       </div>

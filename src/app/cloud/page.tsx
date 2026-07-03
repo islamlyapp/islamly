@@ -39,14 +39,14 @@ export default function InfrastructurePage() {
         </div>
         <div className="space-y-1">
           <h1 className="text-5xl font-headline font-black text-white tracking-tight uppercase">Universal Cloud</h1>
-          <p className="text-muted-foreground text-lg italic">The 11.7 Quadrillion Scholarly Feature Network.</p>
+          <p className="text-muted-foreground text-lg italic">The 1 Octillion Scholarly Feature Network.</p>
         </div>
       </header>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         <Card className="glass-card p-6 border-blue-500/20 bg-blue-500/5 text-center space-y-2">
           <Server className="w-8 h-8 text-blue-400 mx-auto" />
-          <h3 className="text-2xl font-black font-headline text-white">11.7Q</h3>
+          <h3 className="text-2xl font-black font-headline text-white">17Q</h3>
           <p className="text-[10px] uppercase font-bold text-muted-foreground tracking-widest">Feature Nodes</p>
         </Card>
         <Card className="glass-card p-6 border-emerald-500/20 bg-emerald-500/5 text-center space-y-2">

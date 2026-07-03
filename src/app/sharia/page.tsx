@@ -40,23 +40,23 @@ export default function ShariaPage() {
           <Gavel className="w-10 h-10 text-primary" />
         </div>
         <div className="space-y-1">
-          <h1 className="text-4xl font-headline font-bold text-white">Sharia Infrastructure</h1>
-          <p className="text-muted-foreground italic">The divine framework for justice and scholarly governance.</p>
+          <h1 className="text-4xl font-headline font-bold text-white">Sharia Guidance</h1>
+          <p className="text-muted-foreground italic">The divine framework for justice and thoughtful guidance.</p>
         </div>
       </header>
 
       <section className="bg-primary/5 border border-primary/20 p-6 rounded-3xl space-y-4">
         <div className="flex items-center gap-3">
           <ShieldCheck className="w-6 h-6 text-primary" />
-          <h3 className="font-headline font-bold text-lg text-white uppercase tracking-widest">Justice Node</h3>
+          <h3 className="font-headline font-bold text-lg text-white">Justice guidance</h3>
         </div>
         <p className="text-xs text-muted-foreground leading-relaxed">
-          The Sharia is not merely a set of rules, but a complete system designed to bring benefit (*Maslaha*) and prevent harm (*Mafsada*) across 11.7 Quadrillion life signals.
+          The Sharia is not merely a set of rules, but a complete system designed to bring benefit (*Maslaha*) and prevent harm (*Mafsada*) across many aspects of life.
         </p>
       </section>
 
       <div className="grid gap-4">
-        <h3 className="text-[10px] font-bold uppercase tracking-[0.3em] text-muted-foreground pl-1">Regulatory Knowledge Clusters</h3>
+        <h3 className="text-sm font-semibold text-muted-foreground pl-1">Key topics</h3>
         {shariaModules.map((item) => (
           <Card key={item.id} className="glass-card group hover:border-primary/50 transition-all cursor-pointer overflow-hidden border-2 border-transparent">
             <CardContent className="p-6 flex items-center justify-between">
@@ -84,9 +84,9 @@ export default function ShariaPage() {
       <section className="bg-amber-500/5 p-6 rounded-2xl border border-amber-500/20 flex gap-4">
         <Info className="w-6 h-6 text-amber-500 shrink-0" />
         <div className="space-y-1">
-          <h4 className="font-headline font-bold text-sm text-amber-500 uppercase tracking-widest">Amanah Disclaimer</h4>
+          <h4 className="font-headline font-bold text-sm text-amber-500">Amanah note</h4>
           <p className="text-xs text-muted-foreground leading-relaxed italic">
-            This infrastructure is for scholarly study and educational orientation. Complex legal applications require direct consultation with qualified judges (*Qadi*) or scholarly councils.
+            This page is for scholarly study and educational orientation. Complex legal issues should be discussed with a qualified judge (*Qadi*) or trusted scholars.
           </p>
         </div>
       </section>
@@ -94,8 +94,8 @@ export default function ShariaPage() {
       <footer className="text-center pt-8 opacity-40">
         <div className="flex items-center justify-center gap-2 mb-2">
           <Database className="w-3 h-3" />
-          <p className="text-[9px] uppercase tracking-[0.4em] font-black italic">
-            إسلاملي Universal Sharia Index v3.5
+          <p className="text-[9px] italic">
+            Sharia resources • updated guidance
           </p>
         </div>
       </footer>

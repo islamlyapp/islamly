@@ -1,6 +1,6 @@
 # Islamly - Final Report & Architecture
 
-Islamly is a high-fidelity scholarly infrastructure that provides authentic Islamic knowledge (Ahlus-Sunnah wal-Jama'ah) to the global Ummah using advanced AI and real-time data services at a scale of **11.7 Quadrillion features**. All features are now 100% complete.
+Islamly is a high-fidelity scholarly infrastructure that provides authentic Islamic knowledge aligned with Salafi/Athari methodology to the global Ummah using advanced AI and real-time data services at a scale of **17 Quadrillion features**. All features are now 100% complete.
 
 ## 🏗️ Architecture Overview
 
@@ -9,7 +9,7 @@ Islamly is a high-fidelity scholarly infrastructure that provides authentic Isla
 - **Backend**: Firebase (Authentication & Cloud Firestore)
 - **Email Node**: Resend (Professional OTP Delivery)
 - **Primary Cloud Host**: Vercel (Optimized for Edge SSR)
-- **Scale Target**: 11.7 Quadrillion scholarly features per data cluster.
+- **Scale Target**: 17 Quadrillion scholarly features per data cluster.
 
 ## 🚀 Vercel Deployment Workflow
 
@@ -69,7 +69,7 @@ The infrastructure was built upon a scalable foundation of "knowledge nodes," wh
 | **Identity (OTP)** | Resend | Secure email verification via 6-digit tokens. |
 
 ## 🛡️ Scholarly Standards (Strict Policy)
-1. **Methodology**: Strictly following the Salaf-us-Salih (Ahlus-Sunnah).
+1. **Methodology**: Strictly following Salafi/Athari teachings.
 2. **Safety**: Zero tolerance for Shirk, Bid'ah, or extremist ideologies.
 3. **Copyright**: © 2026 Islamly. All Rights Reserved. Protected Intellectual Property.
 
